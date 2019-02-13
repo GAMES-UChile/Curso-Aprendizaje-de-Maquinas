@@ -1,0 +1,362 @@
+%!TEX root = notas_de_clase.tex
+
+\section{Redes Neuronales}
+
+\subsection{Introducci\'on y Arquitectura}
+
+\subsubsection{Conceptos B\'asicos}
+
+Los modelos escenciales de redes neuronales se conocen como \textbf{feedforward neural networks}, o \textbf{multilayer perceptrons} (MLPs). Una red neuronal busca aproximar una funci\'on $f^*$. Una red feedforward define un mapping $\bm{y}=f(\bm{x}; \bm{\theta})$ y aprende los par\'ametros $\bm{\theta}$ que resultan en la mejor aproximaci\'on posible.
+
+Estos modelos se conocen como redes por el hecho de que t\'ipicamente son el resultado de componer varios tipos de funciones. Por ejemplo, si se tiene $f^{(1)}$, $f^{(2)}$ y $f^{(3)}$, y se conectan para formar $f(\bm{x}) = f^{(3)}(f^{(2)}(f^{(1)}(\bm{x})))$, se dice que $f^{(1)}$ es la primera \textbf{capa} de la red, $f^{(2)}$ la segunda, y $f^{(3)}$ la tercera. El largo de esta cadena define la \textbf{profundidad} de la red. El uso de redes neuronales con m\'ultiples capas se conoce como \textbf{deep learning}, aunque este t\'ermino se usa para problemas m\'as espec\'ificos de aprendizaje de m\'aquinas usando redes neuronales profundas (ver secci\'on 3.5).
+
+Durante el entrenamiento de una red neuronal se busca que $f(\bm{x}) \approx f^*(\bm{x})$, en donde la data de entrenamiento provee aproximaciones ruidosas de $f^*(\bm{x})$. Cada dato $\bm{x}$ viene acompa{\~{n}}ado de una etiqueta, $y \approx f^*(\bm{x})$. La data de entrenamiento indica qu\'e debe reproducir la red en su \'ultima capa, lo cual debe ser un valor cercano a $y$. El comportamiento del resto de las capas no se especifica directamente, por lo que el algoritmo de aprendizaje debe decidir c\'omo adaptar las capas para que el output producido por la red sea lo m\'as cercano posible a $y$, la etiqueta, para cada punto $\bm{x}$. Es por esto que estas capas intermedias se denominan \textbf{capas ocultas}.
+
+Estas redes se llaman \textit{neuronales} por su inspiraci\'on neurocient\'ifica. Cada capa oculta de la red es t\'ipicamente un vector. Se podr\'ia pensar que cada elemento de estos vectores tiene un rol similar al de una neurona, y en vez de pensar cada capa como una funci\'on que produce un mapping de vector a vector, podr\'ia considerarse que una capa consiste en muchas \textbf{unidades} que act\'uan en paralelo, cada una representando un mapping de vector a escalar. La elecci\'on de las funciones $f^{(i)}(\bm{x})$, tambi\'en conocidas como \textbf{funciones de activaci\'on}, en algunos casos tambi\'en han sido guiadas por observaciones de lo que hacen las neuronas biol\'ogicas.
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Ejemplo de una red neuronal de 1 capa: (\textit{izquierda}) Se muestra la red con inputs $x_1$ y $x_2$, que luego pasan a la capa oculta para producir el output $y$. (\textit{derecha}) Misma red con una representaci\'on vectorial de las capas. La matriz ${\bm{W}}$ describe el mapping de ${\bm{x}}$ a ${\bm{h}}$, y la matriz $w$ el mapping de ${\bm{h}}$ a $y$.}
+\centering
+\includegraphics[scale=.5]{img/F1NN1L.png}
+\end{figure}
+
+Como se puede apreciar de la figura, los coeficientes ${\bm{W}}$ y $w$ se usan para producir el output para la siguiente capa (tambi\'en denominados \textbf{pesos}), por lo que la primera operaci\'on de esta red ser\'a entregar $h_{1}$ y $h_{2}$ mediante la transformaci\'on ${\bm{W}^{T}}\bm{x} + \bm{b}^{(1)}$. Luego, esta red aplica $w^{T} \boldsymbol{h} + b^{(2)}$ para producir el output $y$. Los coeficientes $\bm{b}^{(1)}$ y  $b^{(2)}$ se conocen como t\'erminos de \textbf{bias}. La red neuronal busca recuperar los pesos y los \textit{bias}, los cuales se agrupar\'an bajo el t\'ermino $\bm{\theta}$.
+
+\subsubsection{Funci\'on de Costos, Unidades de Output y la Formulaci\'on como un Problema Probabil\'istico}
+
+Una de las principales diferencias entre los modelos lineales antes vistos y una red neuronal, es que el uso de ciertas funciones de activaci\'on hacen que la funci\'on de costos no sea convexa, por lo que el entrenamiento se realiza en base a descender por el gradiente sin garant\'ias de que se alcanzar\'a el \'optimo global, o si quiera una buena soluci\'on.
+
+En la mayor\'ia de los casos, el modelo param\'etrico define una distribuci\'on $p(y|\bm{x}; \bm{\theta})$, por lo que los par\'ametros del modelo se estimar\'an por m\'axima verosimilitud, as\'i, se optimizar\'a la log-verosimilitud negativa, es decir, la \textbf{funci\'on de costos} a usar ser\'a la \textbf{cross-entropy}:
+
+\begin{equation}
+J(\bm{\theta}) = -\E_{\bm{x},\bm{y}\sim \hat{p}_{\textrm{data}}}(\textrm{log}\; p_{\textrm{modelo}}(\bm{y}|\bm{x}))
+\end{equation}
+
+Es as\'i como entonces la elecci\'on de la \textbf{unidad de output} definir\'a la forma que toma la funci\'on de costos, pero no ser\'a necesario definir para cada problema una funci\'on distinta; en general siempre se resolver\'a el problema por m\'axima verosimilitud. La elecci\'on de unidad de output depender\'a del tipo de problema que se quiera resolver. Cuando se quiera retornar la media de una distribuci\'on Gaussiana condicional, $p(\bm{y}|\bm{x})) = \mathcal{N}(\bm{y}|\hat{\bm{y}};\bm{I}))$, la unidad de output deber\'a ser un modelo lineal, $\hat{\bm{y}} = \bm{W}^{T}\bm{h} + \bm{b}$, en donde $\bm{h}$ es el output de la red que proviene de todas las capas ocultas anteriores. En este caso, maximizar la log-verosimilitud es equivalente a minimizar el error cuadr\'atico medio, por lo que se usar\'a este tipo de output para un problema de regresi\'on.
+
+Cuando el problema a resolver es uno de clasificaci\'on binario, la unidad de output apropiada es la funci\'on sigmoidal. Como un problema de m\'axima verosimilitud, se define una distribuci\'on Bernoulli en $y$ condicional en $\bm{x}$. Una unidad de output sigmoidal se escribe como $\hat{{y}} = \sigma(\bm{w}^{T}\bm{h} + {b})$. Esto entrega como output $P(y=1|\bm{x})$, por lo que se podr\'a decidir a qu\'e clase pertenece $y$ basado en el output de la red, que es la probabilidad de que la observaci\'on sea de la clase 1.
+
+Para un problema de clasificaci\'on multiclase, la unidad de output apropiada es la generalizaci\'on de la funci\'on sigmoidal, la funci\'on softmax. El problema es predecir a cu\'al de $n$ clases pertenece $y$, por lo que se requiere producir un vector $\hat{\bm{y}}$, con $\hat{y_{i}} = P(y=i|\bm{x})$, por lo que se usar\'a una distribuci\'on multinoulli. Primero, una capa lineal predice las log-probabilidades no normalizadas, $\bm{z} = \bm{W}^{T}\bm{h} + \bm{b}$, y luego se aplica la funci\'on softmax para obtener los valores de $\hat{\bm{y}}$ antes descritos:
+
+\begin{equation}
+\textrm{log softmax}(\bm{z})_{i} = \textrm{log}\frac{\textrm{exp}(z_{i})}{\sum_{j=1}^{n}\textrm{exp}({z_{j}})} = z_{i} - \textrm{log}\sum_{j=1}^{n}\textrm{exp}({z_{j}})
+\end{equation}
+
+\subsubsection{Estructura Interna de la Red}
+
+Las capas escondidas proveen a la red neuronal la flexibilidad para aprender funciones extremadamente complejas, esto mediante el uso de activaciones no lineales. En varios casos estas funciones son incluso no diferenciables, lo que llevar\'ia a pensar de que no son v\'alidas para ser usadas en conjunto con algoritmos de descenso por el gradiente, pero en la pr\'actica tienen un desempe\~{n}o suficientemente bueno para ser usadas en tareas de aprendizaje de m\'aquinas. En general, las funciones de activaci\'on para las unidades escondidas toman como input un vector $\bm{x}$ para el cual obtienen una transformaci\'on af\'in $\bm{z} = \bm{W}^{T}\bm{x} + \bm{b}$, para luego aplicar una transformaci\'on no lineal $g(\bm{z})$. Las unidades escondidas m\'as comunes son las \textbf{rectified linear units} o \textbf{ReLUs}, $g(\bm{z}) = \textrm{max}(0, \bm{z})$, y sus generalizaciones como \textbf{leaky ReLU}, $g(\bm{z})_{i} = \textrm{max}(0, \bm{z}_{i}) + \alpha_{i}\textrm{min}(0, \bm{z}_{i})$, con $\alpha_{i}$ una constante peque\~{n}a como 0.01; la funci\'on sigmoidal $g(\bm{z}) = \sigma(\bm{z})$; y la tangente hiperb\'olica $g(\bm{z}) =  \textrm{tanh}(\bm{z}) = 2\sigma(2\bm{z}) - 1$. A diferencia de las funciones lineales por partes, las unidades sigmoidales se saturan en la mayor parte de su dominio (su gradiente se aproxima a 0) haciendo imposible el aprendizaje por el gradiente cuando esto ocurre, por lo que su uso como unidades escondidas se ha desalentado.
+
+\subsubsection{Dise\~{n}o de Arquitectura y Teorema de Aproximaci\'on Universal}
+
+La \textbf{arquitectura} de una red neuronal se refiere a la totalidad de su estructura: la cantidad de capas, la cantidad de unidades escondidas, la conexi\'on entre las unidades, etc. Bajo la estructura mostrada para una red feedforward, la primera capa y la segunda capa siguen la forma:
+
+\begin{equation}
+\begin{split}
+\bm{h}^{(1)} = g^{(1)}(\bm{W}^{(1) T}\bm{x} + \bm{b}^{(1)}) 
+\\
+\bm{h}^{(2)} = g^{(1)}(\bm{W}^{(2) T}\bm{h}^{(1)} + \bm{b}^{(2)})
+\end{split}
+\end{equation}
+
+En una arquitectura de este tipo, la principal consideraci\'on respecto del dise\~{n}o es la profundidad y ancho (cantidad de unidades por capa) de cada capa. Una red con solo 1 capa escondida puede ser suficiente para ajustar el set de entrenamiento. Redes m\'as profundas generalmente permiten disminuir el n\'umero de unidades por capa (y as\'i tener muchos menos par\'ametros en total), como as\'i tambi\'en poder generalizar al set de testeo, sin embargo esto hace que se vuelvan m\'as dif\'iciles de optimizar. La arquitectura ideal se debe encontrar por experimentaci\'on mediante el monitoreo del error en el set de validaci\'on.
+
+Una de las principales justificaciones para usar redes neuronales se debe al \textbf{Teorema de Aproximaci\'on Universal} (Horniket al., 1989; Cybenko, 1989), el cual muestra que una red feedforward con una capa de output lineal y al menos una capa escondida con funci\'on de activaci\'on sigmoidal (y otras similares) puede aproximar cualquier funci\'on Borel medible (cualquier funci\'on continua en un subconjunto cerrado y acotado de $\R^{n}$ es Borel medible) de un espacio dimensional finito a otro con cualquier nivel de error deseado distinto de 0, provisto de que hayan suficientes unidades escondidas. Una red neuronal tambi\'en puede aproximar cualquier mapping  de cualquier espacio dimensional finito y discreto a otro, y este teorema tambi\'en se ha probado para una amplia gama de funciones de activaci\'on, como para la m\'as com\'unmente usada ReLU (Leshno et al., 1993). La gran desventaja de este teorema es que a pesar que asegura que la red podr\'a representar cualquiera de estas funciones, esto no implica que necesariamente podr\'a \textit{aprender} esta funci\'on. Esto, debido a que el algoritmo de optimizaci\'on podr\'ia no encontrar los par\'ametros de la red que alcancen el nivel de error deseado. Tampoco habla de la cantidad de unidades que son necesarias para alcanzar este nivel de error, lo cual podr\'ia ser infactiblemente grande. Sin embargo, en muchos casos modelos m\'as profundos necesitar\'an menos unidades y podr\'an reducir el error de generalizaci\'on.
+
+\subsection{Entrenamiento de una Red Neuronal}
+
+\subsubsection{Forward Propagation y Back-Propagation}
+
+Al usar una red neuronal feedforward, la informaci\'on fluye a trav\'es de la red desde aceptar un input $\bm{x}$ hasta producir un output $\hat{\bm{y}}$. Esto se conoce como \textbf{forward propagation}. Durante el entrenamiento, \textit{forward propagation} contin\'ua hasta producir el costo escalar $J(\bm{\theta})$. El algoritmo de \textbf{back-propagation} permite que la informaci\'on del costo fluya en sentido inverso a trav\'es de la red para calcular el gradiente de manera eficiente. El gradiente se obtiene de esta forma debido a que, aunque obtener una expresi\'on anal\'itica para este es directo, evaluar la expresi\'on puede ser muy caro computacionalmente. Luego de obtener el gradiente, otro algoritmo como descenso estoc\'astico por el gradiente (ver secci\'on 4) realiza el aprendizaje usando este gradiente. En algoritmos de aprendizaje el gradiente que m\'as com\'unmente se requiere obtener es $\nabla_{\bm{\theta}}J(\bm{\theta})$, aunque el algoritmo de \textit{back-propagation} no se limita a esto y puede ser usando para otras tareas que involucren obtener derivadas.
+
+Sea $\bm{x} \in \R^{m}, \bm{y} \in \R^{n}, g:\R^{m} \rightarrow \R^{n}, f:\R^{n} \rightarrow \R, \bm{y} = g(\bm{x})$ y $z = f(\bm{y})$, la regla de la cadena indica que:
+
+\begin{equation}
+\frac{\partial z}{\partial x_{i}} = \sum_{j}\frac{\partial z}{\partial y_{j}}\frac{\partial y_{j}}{\partial x_{i}}
+\end{equation}
+
+O, de manera equivalente como vectores:
+
+\begin{equation}
+\nabla_{\bm{x}}z = (\frac{\partial \bm{y}}{\partial \bm{x}})^{T}\nabla_{\bm{y}}z
+\end{equation}
+
+en donde $\frac{\partial \bm{y}}{\partial \bm{x}}$ es la matriz Jacobiana de $g$, por lo que se puede ver que obtener el gradiente con respecto a la variable $\bm{x}$ al multiplicar la matriz Jacobiana por el gradiente con respecto a $\bm{y}$. El algoritmo de \textit{back-propagation} consiste en realizar este tipo de operaciones, calculando la regla de la cadena con un orden espec\'ifico de operaciones que lo hace altamente eficiente.
+
+Usualmente se aplicar\'a \textit{back-propagation} a \textbf{tensores} de dimensionalidad arbitraria, no solo vectores. Se denota entonces el gradiente de $z$ con respecto a un tensor $\textrm{\textbf{X}}$ como $\nabla_{\textrm{\textbf{X}}}z$. Sean $\textrm{\textbf{Y}} = g(\textrm{\textbf{X}})$ y $z = f(\textrm{\textbf{Y}})$, entonces la regla de la cadena se escribe como:
+
+\begin{equation}
+\nabla_{\textrm{\textbf{X}}}z = \sum_{j}(\nabla_{\textrm{\textbf{X}}}\textrm{Y}_{j})\frac{\partial z}{\partial \textrm{Y}_{j}}
+\end{equation}
+
+A continuaci\'on se presentan los algoritmos de \textit{forward propagation} y \textit{back-propagation} para una red MLP en donde se conectan todas las unidades de una capa con la siguiente (fully connected MLP).
+
+\begin{algorithm}[H] % H = forzar está posición
+\caption{Forward Propagation}\label{ML:Algorithm1}
+%\SetAlgoLined
+\textbf{Requerir}: Profundidad de la red, $l$ \\
+\textbf{Requerir}: $\bm{W}^{(i)}, i \in \{1,...,l\}$, pesos de la red \\
+\textbf{Requerir}: $\bm{b}^{(i)}, i \in \{1,...,l\}$, parámetros bias de la red \\
+\textbf{Requerir}: $\bm{x}$, el input \\
+\textbf{Requerir}: $\bm{y}$, el output target \\
+$\;\;\bm{h}^{(0)} = \bm{x}$\\
+$\;\; \textrm{for} \;k = 1,...,l$:\\
+$\;\;\;\;\;\;\bm{a}^{(k)} = \bm{b}^{(k)} + \bm{W}^{(k)}\bm{h}^{(k-1)}$\\
+$\;\;\;\;\;\;\bm{h}^{(k)} = f(\bm{a}^{(k)})$\\
+$\;\;\bm{\hat{y}} = \bm{h}^{(l)}$\\
+$\;\;J = L(\bm{\hat{y}},\bm{y})$
+\end{algorithm}
+
+\begin{algorithm}[H] % H = forzar está posición
+\caption{Back-Propagation}\label{ML:Algorithm2}
+%\SetAlgoLined
+Luego de completar forward propagation: \\
+$\bm{g} \leftarrow \nabla_{\bm{\hat{y}}} J = \nabla_{\bm{\hat{y}}} L(\bm{\hat{y}},\bm{y})$\\
+$\textrm{for} \;k = l,l-1,...,1:$\\
+$\;\;\;\;\nabla_{\bm{a}^{(k)}} J = \bm{g}\odot f'(\bm{a}^{(k)})$\\
+$\;\;\;\;\nabla_{\bm{b}^{(k)}} J = \bm{g}$\\
+$\;\;\;\;\nabla_{\bm{W}^{(k)}} J = \bm{g}\bm{h}^{(k-1)T}$\\
+$\;\;\;\;\bm{g} \leftarrow \nabla_{\bm{h}^{(k-1)}} J = \bm{W}^{(k)T}\bm{g}$
+\end{algorithm}
+
+Con este algoritmo se obtienen los gradientes con respecto a todos los par\'ametros hasta la primera capa, propagando el gradiente desde una capa a la anterior mediante la \'ultima actualizaci\'on del algoritmo para cada iteraci\'on.
+
+\subsection{Regularizaci\'on para una Red Neuronal}
+
+Las redes neuronales y algoritmos de deep learning se aplican a tareas extremadamente complicadas como lo son el procesamiento de im\'agenes, audio, y texto. El rol que juega la regularizaci\'on en un escenario como este no es solo controlar la complejidad del modelo buscando el modelo del tama{\~{n}}o  correcto con el correcto n\'umero de par\'ametros, como se ha visto para otros modelos de aprendizaje de m\'aquinas, si no que en la pr\'actica el modelo con el mejor ajuste ser\'a un modelo grande (profundo) que ha sido regularizado apropiadamente.
+
+\subsubsection{Regularizaci\'on $\bm{L}^{2}$}
+
+Una regularizaci\'on que se basa en limitar la capacidad del modelo es la ya conocida \textbf{regularizaci\'on} $\bm{L}^{2}$ (o \textbf{ridge regression}), mediante la cual se obtiene la funci\'on objetivo regularizada $\tilde{J}$:
+
+\begin{equation}
+\tilde{J}(\bm{\theta};\bm{X},\bm{y}) = J(\bm{\theta};\bm{X},\bm{y}) + \frac{\alpha}{2}||\bm{\theta}||^{2}_{2}
+\end{equation}
+
+en donde el hiperpar\'ametro $\alpha \in [0,\infty[\ $ indica que no hay regularizaci\'on cuando $\alpha = 0$, e indicando un mayor efecto regularizador a medida que $\alpha$ crece. Cabe destacar que t\'ipicamente en una regularizaci\'on por la norma solo se regularizan los \textit{pesos}, dejando los t\'erminos de \textit{bias} sin regularizar. Esto, ya que cada t\'ermino de \textit{bias} controla el comportamiento de solo 1 variable implicando que no se introduce mucha varianza (\textit{overfitting}) al dejarlos sin regularizar, y porque regularizar los \textit{bias} puede inducir un alto nivel de \textit{underfitting}.
+
+\subsubsection{Dropout}
+
+\textbf{Bagging} consiste en entrenar m\'ultiples modelos y evaluarlos en cada dato del set de testeo. Esto no es pr\'actico para redes neuronales, ya que un solo modelo puede ser muy caro de entrenar y evaluar. \textbf{Dropout} provee una aproximaci\'on barata (computacionalmente) para entrenar y evaluar \textit{bagged} ensambles de exponencialmente muchas redes neuronales. Dropout entrena los ensambles de posiblemente todas las subredes que se puedan formar al remover unidades (que no sean las de output) de un modelo de red neuronal (ver figura). Esto se puede realizar al multiplicar por 0 el output de alguna unidad para la mayor\'ia de los casos. Espec\'ificamente, para entrenar con dropout se usa un algoritmo por mini-batches (ver secci\'on 4) para que en cada iteraci\'on se entrene una subred aplicando una m\'ascara binaria a todas las capas de input y escondidas. Los hiperpar\'ametros de este m\'etodo de regularizaci\'on corresponden al dise{\~{n}}o de la m\'ascara binaria, especificando la probabilidad de que se incluya una unidad de input y la probabilidad de que se incluya una unidad escondida. T\'ipicamente se usan los valores 0.8 y 0.5, respectivamente, sin embargo estos deben ser ajustados para controlar el nivel de regularizaci\'on (mayor valor para las probabilidades implica menor efecto regularizador) para obtener un desempe{\~{n}}o \'optimo en el set de validaci\'on.
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Dropout entrena potencialemente todas las subredes que se puedan formar a partir de la red neuronal original (primer recuadro) al apagar el output que producen las distintas unidades}
+\centering
+\includegraphics[scale=.25]{img/Dropout.png}
+\end{figure}
+
+\subsubsection{Otros M\'etodos de Regularizaci\'on}
+Otras formas de regularizaci\'on tambi\'en buscan introducir alguna fuente de ruido (como en dropout) para que la red neuronal aprenda principalmente los par\'ametros m\'as importantes, y as\'i logrando un bajo error de generalizaci\'on. Una de estas t\'ecnicas es \textbf{dataset augmentation}, que consiste en generar nuevos datos de entrenamiento (inyectando ruido en el set de entrenamiento), creando datos $\bm{x}$ falsos para los cuales se pueda tener una etiqueta $y$ (por ejemplo, una imagen invertida de un gato sigue siendo un gato), o \textbf{entrenamiento adversarial}, en donde se perturban ejemplos para fortalecer a la red (por ejemplo, cambiar pixeles de una imagen que generen cambios imperceptibles para un humano pero que pueden afectar fuertemente la capacidad de predicci\'on de un modelo). Otra t\'ecnica es \textbf{noise injection} en los pesos (Jim et al., 1996; Graves, 2011), lo cual se puede interpretar como una implementaci\'on estoc\'astica de inferencia Bayesiana sobre los pesos, debido a que el aprendizaje considerar\'ia que los pesos son inciertos y, por lo tanto, representables mediante una distribuci\'on de probabilidad.
+
+Tambi\'en, por supuesto, \textbf{early stopping} es una t\'ecnica v\'alida para regularizar redes neuronales.
+
+\subsection{Algoritmos de Optimizaci\'on}
+
+Como ya se ha introducido, la optimizaci\'on en redes neuronales buscar\'a resolver un problema particular: encontrar los par\'ametros $\bm{\theta}$ que disminuyan significativamente $J(\bm{\theta})$ a trav\'es de alguna medida de desempe{\~{n}}o evaluada en la totalidad del set de entrenamiento, posiblemente minimizando mediante hiperpar\'ametros tambi\'en una funci\'on de costos regularizada $\tilde{J}(\bm{\theta})$ y evaluando en el set de validaci\'on, esperando tener buenos resultados en el set de testeo. Esto es, se busca minimizar la esperanza del error sobre la distribuci\'on generadora de los datos, $p_{\textrm{data}}$:
+
+\begin{equation}
+J^{*}(\bm{\theta}) = \E_{(\bm{x},y)\sim {p}_{\textrm{data}}}L(f(\bm{x};\bm{\theta}),y)
+\end{equation}
+
+Pero el problema anterior se resuelve mediante un problema sustituto, escribiendo la funci\'on de costos como un promedio sobre el set de entrenamiento:
+
+\begin{equation}
+J(\bm{\theta}) = \E_{(\bm{x},y)\sim \hat{p}_{\textrm{data}}}L(f(\bm{x};\bm{\theta}),y)
+\end{equation}
+
+\subsubsection{Descenso del Gradiente Estoc\'astico y por Batches}
+
+Los algoritmos de optimizaci\'on para aprendizaje de m\'aquinas t\'ipicamente actualizan los par\'ametros usando el un valor esperado del costo obtenido a trav\'es de un subset de los t\'erminos de la funci\'on de costos. La propiedad m\'as usada respecto de la funci\'on objetivo (1) es sobre el gradiente:
+
+\begin{equation}
+\nabla_{\bm{\theta}}J(\bm{\theta}) = -\E_{\bm{x},y\sim \hat{p}_{\textrm{data}}}\nabla_{\bm{\theta}}\textrm{log}\; p_{\textrm{modelo}}(y|\bm{x})
+\end{equation}
+
+Evaluar esta expresi\'on es muy caro computacionalmente ya que requiere evaluar cada ejemplo del set de entrenamiento, por lo que se puede optar por samplear un peque{\~{n}}o n\'umero de ejemplos para obtener este valor esperado, calculando el promedio usando solo estos ejemplos. Los algoritmos de optimizaci\'on que usan el set de entrenamiento completo para actualizar los par\'ametros en cada iteraci\'on se conocen como \textbf{m\'etodos de batch} o \textbf{determin\'isticos}. Los algoritmos que usan un solo ejemplo a la vez se conocen como \textbf{m\'etodos estoc\'asticos} u \textbf{online} (aunque el t\'ermino \textit{online} se suele usar para describir un entrenamiento con un flujo continuo de nuevos ejemplos). La mayor\'ia de los algoritmos usados son una categor\'ia intermedia, que son los \textbf{m\'etodos de minibatch} o \textbf{minibatch estoc\'astico}, los cuales usan una cantidad de ejemplos menor que la totalidad de los ejemplos, pero m\'as que un solo ejemplo a la vez. Una gu\'ia para decidir el n\'umero de batches es que usar batches m\'as grandes provee estimadores m\'as precisos del gradiente, pero se obtienen retornos menores a uno lineal al hacer esto.
+
+Una motivaci\'on importante para usar descenso del gradiente por mini-batches es que sigue el gradiente del verdadero error de generalizaci\'on (8) mientras no se repitan ejemplos. En la pr\'actica las implementaciones de descenso del gradiente por mini-batches desordenan el set de datos una vez y luego pasan por \'el m\'ultiples veces.
+
+\subsubsection{Algoritmos con Momentum}
+
+Mientras que el descenso por el gradiente estoc\'astico sigue siendo un algoritmo popular, el aprendizaje a veces puede ser lento. Los algoritmos que incorporan momentum fueron dise{\~{n}}ados para acelerar el apredizaje, especialmente en presencia de altas curvaturas, cuando se tienen gradientes peque{\~{n}}os pero consistentes o gradientes ruidosos. El algoritmo \textbf{descenso del gradiente estoc\'astico con momentum} acumula un decaimiento exponencial de media m\'ovil de los gradientes pasados y contin\'ua su movimiento en esta direcci\'on. Un hiperpar\'ametro $\alpha$ determina qu\'e tan r\'apido las contribuciones de gradientes pasados decaen exponencialmente. Se actualiza mediante:
+
+\begin{gather*}
+\bm{v} \longleftarrow \alpha\bm{v} - \epsilon\nabla_{\bm{\theta}}\Big(\frac{1}{m}\sum_{i=1}^{m}L(f(\bm{x}^{(i)};\bm{\theta}),y^{(i)})\Big)
+\\
+\theta \longleftarrow \theta + \bm{v}
+\end{gather*}
+
+Con $\epsilon$ el learning rate y $\bm{v}$ la velocidad o momentum.
+
+\subsubsection{Algoritmos con Learning Rates Adaptativos}
+
+En la pr\'actica el learning rate resulta ser uno de los hiperpar\'ametros m\'as dif\'iciles de ajustar debido a su importante efecto en el desempe{\~{n}}o del modelo. La funci\'on de costos suele ser altamente sensible (a crecer o decrecer) en algunas direcciones en el espacio de los par\'ametros e insensible en otras, por lo que hace sentido usar un learning rate distinto para cada par\'ametro y autom\'aticamente adaptar este par\'ametro durante el aprendizaje. El algoritmo \textbf{AdaGrad} adapta el learning rate de todos los par\'ametros al escalarlos de manera inversamente proporcional a la ra\'iz cuadrada de la suma de todos las ra\'ices cuadradas hist\'oricas del gradiente. Los par\'ametros con derivadas parciales m\'as grandes tienen un r\'apido decrecimiento en su learning rate, mientras que los par\'ametros con derivadas parciales peque{\~{n}}as decrecen en menor cantidad su learning rate. El efecto neto es mayor progreso en zonas m\'as planas del espacio de los par\'ametros. Se actualiza mediante:
+
+\begin{gather*}
+\delta = 10^{-7}; \bm{r} = 0
+\\
+\bm{g} \longleftarrow \frac{1}{m}\nabla_{\bm{\theta}}\sum_{i=1}^{m}L(f(\bm{x}^{(i)};\bm{\theta}),y^{(i)})
+\\
+\bm{r} \longleftarrow \bm{r} + \bm{g}\odot \bm{g}
+\\
+\bigtriangleup\bm{\theta} \longleftarrow -\frac{\epsilon}{\delta+\sqrt{\bm{r}}}\odot \bm{g}
+\\
+\bm{\theta} \longleftarrow \bm{\theta}+\bigtriangleup\bm{\theta}
+\end{gather*}
+
+Con $\delta$ una constante peque{\~{n}}a para estabilidad num\'erica (puede ser otra), $\bm{r}$ la variable de acumulaci\'on del gradiente, $\bm{g}$ el gradiente para el batch, y $\bigtriangleup\bm{\theta}$ la actualizaci\'on de los par\'ametros al final de una iteraci\'on.
+
+Otras generalizaciones populares son el algoritmo \textbf{RMSProp}, que modifica el algoritmo AdaGrad para tener un mejor desempe{\~{n}}o en funciones no convexas al cambiar la acumulaci\'on del gradiente por una media m\'ovil que decae exponencialmente, y el algoritmo \textbf{Adam}, que combina RMSProp con momentum (con algunas distinciones importantes).
+
+Hasta el momento no hay un algoritmo que tenga un desempe{\~{n}}o superior al de los dem\'as en distintos escenarios (Schaul et al., 2014), por lo que se recomienda usar el algoritmo de optimizaci\'on con el que el usuario se sienta m\'as c\'omodo al momento de ajustar los hiperpar\'ametros.
+
+\subsection{Deep Learning y Otros Tipos de Redes Neuronales}
+
+El t\'ermino \textbf{deep learning} se asocia a resolver problemas m\'as intuitivos (y f\'aciles) para los humanos que hasta hace solo algunos a{\~{n}}os eran extremadamente dif\'iciles para una m\'aquina, como lo son el reconocimiento de objetos en im\'agenes (visi\'on de computadores), la traducci\'on de texto desde un lenguaje a otro (machine translation), reconocimiento de voz, entre otros. Los problemas m\'as dif\'iciles para los humanos ya se han estado resolviendo hace mucho tiempo antes del deep learning, como divisar una estrategia ganadora en ajedrez (\url{https://en.wikipedia.org/wiki/Deep_Blue_versus_Garry_Kasparov}), aunque las redes neuronales profundas han seguido progresando en resolver este tipo de problemas (\url{https://deepmind.com/research/alphago/}). Las arquitecturas principales que han permitido resolver estos problemas en los \'ultimos a{\~{n}}os (sumado a los avances en poder de computaci\'on y cantidad de datos que existen hoy) se presentan en esta secci\'on: las \textbf{redes convolucionales} para procesamiento de im\'agenes, y las \textbf{redes recurrentes} para modelar series de tiempo (e.g., texto, audio). Tambi\'en se presentan otras arquitecturas que son tema activo de investigaci\'on en deep learning.: los \textbf{autoencoders} y las \textbf{redes generativas adversariales}.
+
+\subsubsection{Redes Neuronales Convolucionales}
+
+Las \textbf{redes neuronales convolucionales} (o \textbf{CNNs}) son un tipo de redes neuronales que fueron dise{\~{n}}adas para procesar datos con una tipolog\'ia tipo-\textit{grid}. Una serie de tiempo que tiene observaciones en intervalos regulares de tiempo se puede pensar como un \textit{grid} de 1 dimensi\'on. Las im\'agenes se pueden pensar como \textit{grids} de 2-D de pixeles. El nombre de esta arquitectura hace referencia a que usan una operaci\'on matem\'atica conocida como convoluci\'on.
+
+La operaci\'on de \textbf{convoluci\'on} se define como:
+
+\begin{equation}
+s(t) = (x * w)(t) = \int x(a)w(t-a)da
+\end{equation}
+
+En el contexto de CNNs, el primer argumento a convolucionar, $x$, es el \textbf{input}, y el segundo argumento, $w$, se conoce como el \textbf{kernel}. El output, $s(t)$ se conoce como \textbf{feature map}. En aplicaciones de aprendizaje de m\'aquinas, el input ser\'an un arreglo multidimensional de datos, y el kernel un arreglo multidimensional de par\'ametros que se buscar\'an aprender. Usualmente, al trabajar con datos en un computador el tiempo se considerar\'a discreto, por lo que resulta conveniente definir la operaci\'on de convoluci\'on discreta:
+
+\begin{equation}
+s(t) = (x * w)(t) = \sum_{a=-\infty}^{\infty} x(a)w(t-a)
+\end{equation}
+
+Se asumir\'a que las funciones son 0 en todo su dominio excepto en el set finito de puntos para el cual se guardan valores, permitiendo realizar estas sumatorias infinitas. Las librer\'ias de redes neuronales implementan la funci\'on \textbf{cross-correlation} y la llaman convoluci\'on. Para una imagen $I$ de 2 dimensiones y un kernel K de 2 dimensiones, esto es: 
+
+\begin{equation}
+S(i,j) = (I * K)(i,j) = \sum_{m}\sum_{n} I(i+m,j+n)K(m,n)
+\end{equation}
+
+Esto es equivalente a la operaci\'on de convoluci\'on discreta, con la diferencia de que no se puede cambiar el kernel relativo al input, $S(i,j) = (I * K)(i,j) = (K * I)(i,j)$, lo cual no es importante para implementaciones de redes neuronales. 
+
+La motivaci\'on por usar convoluciones surge de 3 importantes propiedades: interacciones \textit{sparse}, \textit{parameter sharing}, y representaciones equivariantes. \textbf{Interacciones sparse} se refiere a que hay menos conexiones que en una red \textit{fully connected}, esto mediante el uso de kernels de menor dimensionalidad que el input, lo cual implica una eficiencia en t\'erminos de memoria por tener que almacenar menos par\'ametros, y eficiencia computacional por realizar menos operaciones. \textbf{Parameter sharing} se refiere a usar los mismo par\'ametros para distintas funciones dentro del modelo. Esto implica usar los pesos aprendidos en m\'ultiples partes del input (como para reconocer bordes, por ejemplo). Que una funci\'on sea \textbf{equivariante} significa que si el input cambia, el output cambia de la misma forma. Esto permite que en im\'agenes la convoluci\'on cree un map 2-D de d\'onde ciertos atributos aparecen en el input.
+
+Una capa t\'ipica de una red convolucional consta de 3 etapas: primero, aplicar varias convoluciones para producir un set de activaciones lineales. Luego, aplicar una activaci\'on no lineal (\textbf{detector stage}). Finalmente, una funci\'on de \textit{pooling} para modificar a\'un m\'as el output de la capa (ver figura). Una funci\'on de \textbf{pooling} reemplaza el output de la red en alguna locaci\'on por estad\'isticos de los outputs cercanos. 
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Capa de una red convolucional}
+\centering
+\includegraphics[scale=.8]{img/CNN.png}
+\end{figure}
+
+\textbf{Max pooling} retorna el valor m\'aximo de un output en una vecindad rectangular. Las operaciones de pooling permiten que la red sea invariante a peque{\~{n}}as transformaciones en el input. Pooling tambi\'en es escencial para procesar inputs de tama{\~{n}}o variable (por ejemplo im\'agenes de distinto tama{\~{n}}o).
+
+Otras diferencias con respecto a la operaci\'on de convoluci\'on en el contexto de redes neuronales son, por ejemplo, el aplicar m\'ultiples convoluciones en paralelo. Esto permite extraer distintos tipos de atributos en vez de solo 1 al usar el mismo kernel (aunque permite reconocer cierto atributo en distintas locaciones). Por otro lado, el \textbf{stride} hace referencia a cada cu\'antos pixeles se quieren convolucionar en cada direcci\'on en el output. En la figura se muestra el ejemplo de una convoluci\'on con stride. Esta operaci\'on permite reducir nuevamente el costo computacional. Esto tambi\'en implica que el output disminuye su tama{\~{n}}o en cada capa. El uso de \textit{padding} puede revertir esto. \textbf{Padding} se refiere a agrandar el input con ceros para hacerlo m\'as amplio. Una convoluci\'on en la que no se usa \textbf{zero-padding} se conoce como \textbf{valid}. Una convoluci\'on que mantiene el tama{\~{n}}o desde el input al output se conoce como \textbf{same} (ver figura). En la pr\'actica, las capas de una red convolucional usan operaciones entre una convoluci\'on valid y same.
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Convoluci\'on con un stride igual a 2}
+\centering
+\includegraphics[scale=.8]{img/stride.png}
+\end{figure}
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Efecto de no usar zero-padding en una red convolucional (Arriba) y efecto de usar zero padding en una red convolucional (Abajo) en cuanto al tama{\~{n}}o de la red}
+\centering
+\includegraphics[scale=.15]{img/padding.png}
+\end{figure}
+
+\subsubsection{Redes Neuronales Recurrentes}
+
+Las \textbf{redes neuronales recurrentes} o \textbf{RNNs} son una familia modelos de redes neuronales especializados para procesar datos secuenciales, $\bm{x}^{(1)},...,\bm{x}^{(\tau)}$. Las RNNs tambi\'en comparten par\'ametros, pero en una forma muy distinta que las CNNs. En una RNN, cada miembro del output en una etapa es una funci\'on de cada miembro del output de la etapa anterior.
+
+Se denota por $\bm{h}^{(t)}$ al estado de un sistema din\'amico que involucra una recurrencia conducido por un input externo $\bm{x}^{(t)}$:
+
+\begin{equation}
+\bm{h}^{(t)} = f(\bm{h}^{(t-1)}; \bm{x}^{(t)}, \bm{\theta})
+\end{equation}
+
+La figura siguiente muestra una red recurrente que procesa un input $\bm{x}$ incorpor\'andolo al estado $\bm{h}$ que es traspasado a trav\'es del tiempo.
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Ejemplo de una red recurrente sin output}
+\centering
+\includegraphics[scale=.5]{img/RNN1.png}
+\end{figure}
+
+Las redes recurrentes se pueden construir de muchas formas distintas. Al igual que una red neuronal puede representar casi cualquier funci\'on, una red recurrente modela cualquier funci\'on que involucre una recurrencia. Se puede representar el estado de una red recurrente luego de $t$ pasos mediante una funci\'on $g^{(t)}$:
+
+\begin{equation}
+\bm{h}^{(t)} = g^{(t)}(\bm{x}^{(t)},\bm{x}^{(t-1)},...,\bm{x}^{(1)}) =  f(\bm{h}^{(t-1)}; \bm{x}^{(t)}, \bm{\theta})
+\end{equation}
+
+Existen varios tipos de RNNs que se han dise{\~{n}}ado para distintos fines. Algunos ejemplos de estas son:
+
+\begin{itemize}
+  \item Redes recurrentes que producen un output en cada instante de tiempo y tienen conexiones entre todas las unidades escondidas
+  \item Redes recurrentes que producen un output en cada instante de tiempo y tienen conexiones entre el output a la unidad escondida del siguiente instante
+  \item Redes recurrentes con conexiones entre las unidad escondidas, que procesan una secuencia entera antes de producir el output
+\end{itemize}
+
+La figura muestra un ejemplo de la arquitectura para el primer caso.
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Ejemplo de una red recurrente que produce un output en cada instante de tiempo, y que comparte el estado a trav\'es del tiempo}
+\centering
+\includegraphics[scale=.5]{img/RNN2.png}
+\end{figure}
+
+Esta red presentada puede ser usada para producir palabras en cada instante, y as\'i producir oraciones que hagan sentido en una conversaci\'on. Como ejemplo de entrenamiento de una red con esta arquitectura, en donde en la \'ultima capa se decide mediante una funci\'on softmax la palabra m\'as probable que deba seguir a la palabra anterior, se tienen las ecuaciones de \textit{forward propagation} para cada instante de tiempo:
+
+\begin{equation}
+\begin{array}{l}
+\bm{a}^{(t)} = \bm{b} + \bm{W}\bm{h}^{(t-1)}+\bm{U}\bm{x}^{(t-1)} \\
+\bm{h}^{(t)} = \textrm{tanh}(\bm{a}^{(t)}) \\
+\bm{o}^{(t)} = \bm{c} + \bm{V}\bm{h}^{(t)} \\
+\hat{\bm{y}}^{(t)} = \textrm{softmax}(\bm{o}^{(t)})
+\end{array}
+\end{equation}
+
+El algoritmo aplicado para obtener el gradiente en este tipo de arquitectura se conoce como \textbf{back-propagation through time}, y consiste en aplicar el algoritmo de \textit{back-propagation} generalizado para el grafo computacional \textit{unfolded} de la red, como los mostrados en las figuras de redes recurrentes.
+
+Las redes recurrentes sufren de no poder recordar largas dependencias a trav\'es del tiempo, debido a que las recurrencias implican multiplicar una matriz de pesos m\'ultiples veces a trav\'es de la red, provocando superficies planas o muy empinadas que resultan en que los algoritmos de aprendizaje por el gradiente tengan problemas de \textbf{vanishing gradients} o \textbf{exploding gradients}, respectivamente. Arquitecturas que han logrado superar esto son las que incluyen compuertas (funciones sigmoidales) que deciden autom\'aticamente qu\'e olvidar y qu\'e seguir propagando a trav\'es de la red. Estos son los modelos de \textbf{gated recurrent units} (\textbf{GRUs}) y \textbf{long-short term memory network} (\textbf{LSTM}).
+
+\subsubsection{Autoencoders}
+
+Un \textbf{autoencoder} es una red neuronal que busca replicar el input hacia el output, para lo cual tiene una capa interna, $\bm{h} = f(\bm{x})$, que codifica el input (genera una representaci\'on de este), el \textbf{encoder}, y una funci\'on que produce la reconstrucci\'on, $\bm{r} = g(\bm{h})$, el \textbf{decoder}. Un \textit{autoencoder} buscar\'a aprender los \textit{encoder} y \textit{decoder} tales que $g(f(\bm{x})) = \bm{x}$ para todo $\bm{x}$. Como el modelo est\'a forzado a aprender los atributos m\'as importantes para que pueda efectivamente reproducir el input en su output, este aprender\'a en general propiedades \'utiles de los datos de entrenamiento. Los \textit{autoencoders} modernos modelan mappings estoc\'asticos $p_{\textrm{encoder}}(\bm{h}|\bm{x})$ y $p_{\textrm{decoder}}(\bm{x}|\bm{h})$, en vez de funciones determin\'isticas. En la figura se muestra la arquitectura de un \textit{autoencoder}.
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Estructura de un \textit{autoencoder} t\'ipico}
+\centering
+\includegraphics[scale=.8]{img/autoencoder.png}
+\end{figure}
+
+Una manera de obtener atributos \'utiles de $\bm{x}$ es forzando a que el \textit{encoder} tenga una dimensionalidad menor que el input. Este tipo de \textit{autoencoders} se denominan \textbf{undercomplete}. El aprendizaje se describe mediante la optimizaci\'on de la funci\'on de p\'erdida, $L(\bm{x}, g(f(\bm{x})))$. Cuando el \textit{decoder} es lineal y la funci\'on de p\'erdida es el error cuadr\'atico medio, un \textit{undercomplete autoencoder} aprende a generar el mismo subespacio que el algoritmo \textbf{principal component analysis} (\textbf{PCA}), es decir, el \textit{autoencoder} que fue entrenado para reproducir los datos de entrenamiento mediante una reducci\'on de dimensionalidad y una reconstrucci\'on aprendi\'o como efecto colateral el subespacio principal. Es as\'i como entonces, \textit{autoencoders} con \textit{encoders} y \textit{decoders} no lineales pueden aprender representaciones no lineales m\'as poderosas que PCA.
+
+Un \textit{autoencoder} con dimensi\'on de su \textit{encoder} igual a la del input se conoce como \textbf{overcomplete}. Estos \textit{autoencoders}, al igual que los \textit{undercomplete}, pueden fallar en aprender una representaci\'on \'util del input si tienen mucha capacidad, por lo que ser\'a importante tambi\'en regularizar estas redes neuronales.
+
+Otras aplicaciones de los autoencoders, aparte de aprender una reducci\'on de dimensionalidad, es aprender representaciones \'utiles que sirvan para un posterior modelo de redes neuronales (o, m\'as general, de aprendizaje de m\'aquinas). Por ejemplo, en vez de usar \textbf{one-hot-vectors} para representar palabras (en donde se tiene un vector del largo de cierto vocabulario compuesto por ceros excepto para la palabra que se quiere representar, indicando un valor de 1 en esa posici\'on), se pueden usar \textbf{embeddings}, que son representaciones del input a un espacio de valores reales. A diferencia de los \textit{one-hot-vectors}, en un \textit{embedding} la distancia entre las representaciones del texto s\'i tiene un significado, y este tipo de representaciones podr\'ia entregar mejores resultados en la tarea en que se est\'e usando.
+
+\subsubsection{Redes Generativas Adversariales}
+
+Una \textbf{red generativa adversarial} (o \textbf{GAN}) se basa en un escenario de teor\'ia de juegos, en donde una \textbf{red generadora} debe competir con un adversario. La red generadora produce muestras $\bm{x} = g(\bm{z};\bm{\theta}^{(g)})$, mientras que una \textbf{red discriminadora} trata de distinguir entre muestras obtenidas de los datos de entrenamiento y muestras generadas por la red generadora. El discriminador retorna una probabilidad, $d(\bm{x};\bm{\theta}^{(d)})$, indicando al probabilidad de que $\bm{x}$ sea un dato real y no uno simulado.
+
+Para formluar el aprendizaje, se describe un juego de suma cero en donde una funci\'on $v(\bm{\theta}^{(g)},\bm{\theta}^{(d)})$ determina el pago del discriminador, y el generador recibe $-v(\bm{\theta}^{(g)},\bm{\theta}^{(d)})$ como pago. As\'i, durante el entrenamiento cada jugador intenta maximizar su propio pago, para que en convergencia se tenga
+
+\begin{equation}
+g^{*} = \textrm{arg} \textrm{min}_{g} \textrm{max}_{d} v(g,d)
+\end{equation}
+
+Esto motiva a que el discriminador aprenda a clasificar correctamente entre muestras reales y falsas y, simulat\'aneamente, el generador intenta enga{\~{n}}ar al clasificador para que crea que las muestras generadas son reales. En convergencia, las muestras del generador son indistinguibles de los datos reales. Una motivaci\'on del uso de GANs es que cuando $\textrm{max}_{d} v(g,d)$ es convexa en $\bm{\theta}^{(g)}$, el procedimiento asegura la convergencia.
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Im\'agenes generadas por una GAN entrenada con el set de datos LSUN. (Izquierda) Im\'agenes de dormitorios generadas por el modelo DCGAN (imagen de Radford et al., 2015). (Derecha) Im\'agenes de iglesias generadas por el modelo LAPGAN (imagen de Denton et al., 2015)}
+\centering
+\includegraphics[scale=.75]{img/gans.PNG}
+\end{figure}

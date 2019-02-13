@@ -1,0 +1,256 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,394); %set diagram left start at 0, and has height of 394
+
+\draw  (17,366) -- (319,366)(30.33,39) -- (30.33,380) (312,361) -- (319,366) -- (312,371) (25.33,46) -- (30.33,39) -- (35.33,46) (50.33,361) -- (50.33,371)(70.33,361) -- (70.33,371)(90.33,361) -- (90.33,371)(110.33,361) -- (110.33,371)(130.33,361) -- (130.33,371)(150.33,361) -- (150.33,371)(170.33,361) -- (170.33,371)(190.33,361) -- (190.33,371)(210.33,361) -- (210.33,371)(230.33,361) -- (230.33,371)(250.33,361) -- (250.33,371)(270.33,361) -- (270.33,371)(290.33,361) -- (290.33,371)(25.33,346) -- (35.33,346)(25.33,326) -- (35.33,326)(25.33,306) -- (35.33,306)(25.33,286) -- (35.33,286)(25.33,266) -- (35.33,266)(25.33,246) -- (35.33,246)(25.33,226) -- (35.33,226)(25.33,206) -- (35.33,206)(25.33,186) -- (35.33,186)(25.33,166) -- (35.33,166)(25.33,146) -- (35.33,146)(25.33,126) -- (35.33,126)(25.33,106) -- (35.33,106)(25.33,86) -- (35.33,86)(25.33,66) -- (35.33,66) ;
+\draw   (57.33021806853583,378) node[anchor=east, scale=0.75]{1} (77.33021806853583,378) node[anchor=east, scale=0.75]{2} (97.33021806853583,378) node[anchor=east, scale=0.75]{3} (117.33021806853583,378) node[anchor=east, scale=0.75]{4} (137.33021806853583,378) node[anchor=east, scale=0.75]{5} (157.33021806853583,378) node[anchor=east, scale=0.75]{6} (177.33021806853583,378) node[anchor=east, scale=0.75]{7} (197.33021806853583,378) node[anchor=east, scale=0.75]{8} (217.33021806853583,378) node[anchor=east, scale=0.75]{9} (237.33021806853583,378) node[anchor=east, scale=0.75]{10} (257.3302180685358,378) node[anchor=east, scale=0.75]{11} (277.3302180685358,378) node[anchor=east, scale=0.75]{12} (297.3302180685358,378) node[anchor=east, scale=0.75]{13} (27.330218068535828,346) node[anchor=east, scale=0.75]{1} (27.330218068535828,326) node[anchor=east, scale=0.75]{2} (27.330218068535828,306) node[anchor=east, scale=0.75]{3} (27.330218068535828,286) node[anchor=east, scale=0.75]{4} (27.330218068535828,266) node[anchor=east, scale=0.75]{5} (27.330218068535828,246) node[anchor=east, scale=0.75]{6} (27.330218068535828,226) node[anchor=east, scale=0.75]{7} (27.330218068535828,206) node[anchor=east, scale=0.75]{8} (27.330218068535828,186) node[anchor=east, scale=0.75]{9} (27.330218068535828,166) node[anchor=east, scale=0.75]{10} (27.330218068535828,146) node[anchor=east, scale=0.75]{11} (27.330218068535828,126) node[anchor=east, scale=0.75]{12} (27.330218068535828,106) node[anchor=east, scale=0.75]{13} (27.330218068535828,86) node[anchor=east, scale=0.75]{14} (27.330218068535828,66) node[anchor=east, scale=0.75]{15} ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (71.64, 133.76) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (88.51, 119.39) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (72.53, 152.92) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (107.16, 124.18) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (107.16, 141.42) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (72.53, 112.68) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (82.3, 99.27) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (88.51, 138.55) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (98.28, 105.02) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (98.64, 172.12) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (90.29, 156.75) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (101.84, 86.82) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (131.15, 108.85) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (120.49, 96.4) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (143.58, 93.52) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (148.02, 113.64) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (114.27, 106.94) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (152.46, 77.24) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (133.81, 82.03) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (161.34, 94.48) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (166.67, 112.68) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (129.37, 127.05) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (197.76, 90.65) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (169.34, 80.11) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (117.82, 78.19) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (190.65, 71.49) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (180.88, 87.77) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (124.04, 144.3) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (148.02, 137.59) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (158.68, 126.1) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw [rotate around= { 45: (115.21, 217.37)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (108.31,217.37) -- (122.11,217.37)(115.21,210.96) -- (115.21,223.78) ;
+\draw [rotate around= { 45: (193.15, 238.4)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (186.25,238.4) -- (200.05,238.4)(193.15,231.99) -- (193.15,244.81) ;
+\draw [rotate around= { 45: (203.99, 222.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (197.09,222.01) -- (210.89,222.01)(203.99,215.6) -- (203.99,228.42) ;
+\draw [rotate around= { 45: (229.62, 221.04)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (222.72,221.04) -- (236.52,221.04)(229.62,214.64) -- (229.62,227.45) ;
+\draw [rotate around= { 45: (134.99, 232.3)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (128.09,232.3) -- (141.89,232.3)(134.99,225.89) -- (134.99,238.71) ;
+\draw [rotate around= { 45: (232.58, 172.83)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (225.68,172.83) -- (239.48,172.83)(232.58,166.42) -- (232.58,179.24) ;
+\draw [rotate around= { 45: (152.73, 239.37)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (145.83,239.37) -- (159.63,239.37)(152.73,232.96) -- (152.73,245.77) ;
+\draw [rotate around= { 45: (230.48, 203.97)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (223.58,203.97) -- (237.38,203.97)(230.48,197.56) -- (230.48,210.38) ;
+\draw [rotate around= { 45: (144.85, 203.69)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (137.95,203.69) -- (151.75,203.69)(144.85,197.28) -- (144.85,210.09) ;
+\draw [rotate around= { 45: (166.54, 205.62)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (159.63,205.62) -- (173.44,205.62)(166.54,199.21) -- (166.54,212.02) ;
+\draw [rotate around= { 45: (214.84, 190.19)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (207.94,190.19) -- (221.74,190.19)(214.84,183.78) -- (214.84,196.59) ;
+\draw [rotate around= { 45: (265.98, 120.68)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (259.08,120.68) -- (272.88,120.68)(265.98,114.28) -- (265.98,127.09) ;
+\draw [rotate around= { 45: (175.33, 185.58)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (168.43,185.58) -- (182.23,185.58)(175.33,179.17) -- (175.33,191.99) ;
+\draw [rotate around= { 45: (150.76, 220.08)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (143.86,220.08) -- (157.66,220.08)(150.76,213.67) -- (150.76,226.49) ;
+\draw [rotate around= { 45: (171.46, 227.79)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (164.56,227.79) -- (178.36,227.79)(171.46,221.39) -- (171.46,234.2) ;
+\draw [rotate around= { 45: (213.85, 206.58)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (206.95,206.58) -- (220.75,206.58)(213.85,200.17) -- (213.85,212.99) ;
+\draw [rotate around= { 45: (193.15, 196.94)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (186.25,196.94) -- (200.05,196.94)(193.15,190.53) -- (193.15,203.34) ;
+\draw [rotate around= { 45: (212.64, 168.04)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (205.74,168.04) -- (219.54,168.04)(212.64,161.63) -- (212.64,174.45) ;
+\draw [rotate around= { 45: (157.28, 192.54)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (150.38,192.54) -- (164.18,192.54)(157.28,186.14) -- (157.28,198.95) ;
+\draw [rotate around= { 45: (252.3, 139.08)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (245.4,139.08) -- (259.2,139.08)(252.3,132.67) -- (252.3,145.48) ;
+\draw [rotate around= { 45: (272.01, 143.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (265.11,143.01) -- (278.91,143.01)(272.01,136.6) -- (272.01,149.41) ;
+\draw [rotate around= { 45: (190.58, 175.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (183.68,175.01) -- (197.48,175.01)(190.58,168.6) -- (190.58,181.41) ;
+\draw [rotate around= { 45: (248.31, 155.29)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (241.41,155.29) -- (255.21,155.29)(248.31,148.88) -- (248.31,161.7) ;
+\draw [rotate around= { 45: (225.69, 149.79)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (218.79,149.79) -- (232.59,149.79)(225.69,143.38) -- (225.69,156.2) ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (185.58, 118.75) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (185.58, 118.75) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (214.66, 76.28) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (218.3, 98.12) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (190.43, 102.98) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (109.66, 159.87) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw [rotate around= { 45: (110.68, 237.78)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (103.78,237.78) -- (117.58,237.78)(110.68,231.38) -- (110.68,244.19) ;
+\draw [rotate around= { 45: (189.45, 214.73)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (182.55,214.73) -- (196.35,214.73)(189.45,208.32) -- (189.45,221.13) ;
+\draw [rotate around= { 45: (182.01, 267.46)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (175.11,267.46) -- (188.91,267.46)(182.01,261.05) -- (182.01,273.86) ;
+\draw [rotate around= { 45: (127.72, 251.72)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (120.82,251.72) -- (134.62,251.72)(127.72,245.31) -- (127.72,258.13) ;
+\draw [rotate around= { 45: (127.81, 206.1)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (120.91,206.1) -- (134.71,206.1)(127.81,199.69) -- (127.81,212.51) ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (136.98, 67.5) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw [rotate around= { 45: (147.48, 257.97)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (140.58,257.97) -- (154.38,257.97)(147.48,251.56) -- (147.48,264.38) ;
+\draw [rotate around= { 45: (163.98, 268.68)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (157.08,268.68) -- (170.88,268.68)(163.98,262.28) -- (163.98,275.09) ;
+\draw [rotate around= { 45: (197.28, 253.54)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (190.38,253.54) -- (204.18,253.54)(197.28,247.14) -- (197.28,259.95) ;
+\draw [rotate around= { 45: (144.3, 280.08)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (137.4,280.08) -- (151.2,280.08)(144.3,273.67) -- (144.3,286.48) ;
+\draw [rotate around= { 45: (177.01, 250.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (170.11,250.01) -- (183.91,250.01)(177.01,243.6) -- (177.01,256.41) ;
+\draw [rotate around= { 45: (107.31, 258.29)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (100.41,258.29) -- (114.21,258.29)(107.31,251.88) -- (107.31,264.7) ;
+\draw [rotate around= { 45: (122.01, 274.46)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (115.11,274.46) -- (128.91,274.46)(122.01,268.05) -- (122.01,280.86) ;
+\draw [rotate around= { 45: (217.81, 239.1)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (210.91,239.1) -- (224.71,239.1)(217.81,232.69) -- (217.81,245.51) ;
+\draw  (344,366) -- (646,366)(357.33,39) -- (357.33,380) (639,361) -- (646,366) -- (639,371) (352.33,46) -- (357.33,39) -- (362.33,46) (377.33,361) -- (377.33,371)(397.33,361) -- (397.33,371)(417.33,361) -- (417.33,371)(437.33,361) -- (437.33,371)(457.33,361) -- (457.33,371)(477.33,361) -- (477.33,371)(497.33,361) -- (497.33,371)(517.33,361) -- (517.33,371)(537.33,361) -- (537.33,371)(557.33,361) -- (557.33,371)(577.33,361) -- (577.33,371)(597.33,361) -- (597.33,371)(617.33,361) -- (617.33,371)(352.33,346) -- (362.33,346)(352.33,326) -- (362.33,326)(352.33,306) -- (362.33,306)(352.33,286) -- (362.33,286)(352.33,266) -- (362.33,266)(352.33,246) -- (362.33,246)(352.33,226) -- (362.33,226)(352.33,206) -- (362.33,206)(352.33,186) -- (362.33,186)(352.33,166) -- (362.33,166)(352.33,146) -- (362.33,146)(352.33,126) -- (362.33,126)(352.33,106) -- (362.33,106)(352.33,86) -- (362.33,86)(352.33,66) -- (362.33,66) ;
+\draw   (384.3302180685358,378) node[anchor=east, scale=0.75]{1} (404.3302180685358,378) node[anchor=east, scale=0.75]{2} (424.3302180685358,378) node[anchor=east, scale=0.75]{3} (444.3302180685358,378) node[anchor=east, scale=0.75]{4} (464.3302180685358,378) node[anchor=east, scale=0.75]{5} (484.3302180685358,378) node[anchor=east, scale=0.75]{6} (504.3302180685358,378) node[anchor=east, scale=0.75]{7} (524.3302180685358,378) node[anchor=east, scale=0.75]{8} (544.3302180685358,378) node[anchor=east, scale=0.75]{9} (564.3302180685358,378) node[anchor=east, scale=0.75]{10} (584.3302180685358,378) node[anchor=east, scale=0.75]{11} (604.3302180685358,378) node[anchor=east, scale=0.75]{12} (624.3302180685358,378) node[anchor=east, scale=0.75]{13} (354.3302180685358,346) node[anchor=east, scale=0.75]{1} (354.3302180685358,326) node[anchor=east, scale=0.75]{2} (354.3302180685358,306) node[anchor=east, scale=0.75]{3} (354.3302180685358,286) node[anchor=east, scale=0.75]{4} (354.3302180685358,266) node[anchor=east, scale=0.75]{5} (354.3302180685358,246) node[anchor=east, scale=0.75]{6} (354.3302180685358,226) node[anchor=east, scale=0.75]{7} (354.3302180685358,206) node[anchor=east, scale=0.75]{8} (354.3302180685358,186) node[anchor=east, scale=0.75]{9} (354.3302180685358,166) node[anchor=east, scale=0.75]{10} (354.3302180685358,146) node[anchor=east, scale=0.75]{11} (354.3302180685358,126) node[anchor=east, scale=0.75]{12} (354.3302180685358,106) node[anchor=east, scale=0.75]{13} (354.3302180685358,86) node[anchor=east, scale=0.75]{14} (354.3302180685358,66) node[anchor=east, scale=0.75]{15} ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (398.64, 133.76) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (415.51, 119.39) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (399.53, 152.92) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (434.16, 124.18) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (434.16, 141.42) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (399.53, 112.68) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (409.3, 99.27) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (415.51, 138.55) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (425.28, 105.02) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (380.64, 141.12) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (417.29, 156.75) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (428.84, 86.82) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (458.15, 108.85) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (447.49, 96.4) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (470.58, 93.52) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (475.02, 113.64) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (441.27, 106.94) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (479.46, 77.24) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (460.81, 82.03) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (488.34, 94.48) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (493.67, 112.68) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (456.37, 127.05) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (524.76, 90.65) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (496.34, 80.11) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (444.82, 78.19) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (517.65, 71.49) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (507.88, 87.77) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (451.04, 144.3) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (475.02, 137.59) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (485.68, 126.1) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw [rotate around= { 45: (442.21, 217.37)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (435.31,217.37) -- (449.11,217.37)(442.21,210.96) -- (442.21,223.78) ;
+\draw [rotate around= { 45: (520.15, 238.4)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (513.25,238.4) -- (527.05,238.4)(520.15,231.99) -- (520.15,244.81) ;
+\draw [rotate around= { 45: (530.99, 222.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (524.09,222.01) -- (537.89,222.01)(530.99,215.6) -- (530.99,228.42) ;
+\draw [rotate around= { 45: (556.62, 221.04)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (549.72,221.04) -- (563.52,221.04)(556.62,214.64) -- (556.62,227.45) ;
+\draw [rotate around= { 45: (461.99, 232.3)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (455.09,232.3) -- (468.89,232.3)(461.99,225.89) -- (461.99,238.71) ;
+\draw [rotate around= { 45: (559.58, 172.83)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (552.68,172.83) -- (566.48,172.83)(559.58,166.42) -- (559.58,179.24) ;
+\draw [rotate around= { 45: (479.73, 239.37)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (472.83,239.37) -- (486.63,239.37)(479.73,232.96) -- (479.73,245.77) ;
+\draw [rotate around= { 45: (557.48, 203.97)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (550.58,203.97) -- (564.38,203.97)(557.48,197.56) -- (557.48,210.38) ;
+\draw [rotate around= { 45: (471.85, 203.69)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (464.95,203.69) -- (478.75,203.69)(471.85,197.28) -- (471.85,210.09) ;
+\draw [rotate around= { 45: (493.54, 205.62)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (486.63,205.62) -- (500.44,205.62)(493.54,199.21) -- (493.54,212.02) ;
+\draw [rotate around= { 45: (541.84, 190.19)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (534.94,190.19) -- (548.74,190.19)(541.84,183.78) -- (541.84,196.59) ;
+\draw [rotate around= { 45: (592.98, 120.68)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (586.08,120.68) -- (599.88,120.68)(592.98,114.28) -- (592.98,127.09) ;
+\draw [rotate around= { 45: (502.33, 185.58)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (495.43,185.58) -- (509.23,185.58)(502.33,179.17) -- (502.33,191.99) ;
+\draw [rotate around= { 45: (477.76, 220.08)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (470.86,220.08) -- (484.66,220.08)(477.76,213.67) -- (477.76,226.49) ;
+\draw [rotate around= { 45: (498.46, 227.79)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (491.56,227.79) -- (505.36,227.79)(498.46,221.39) -- (498.46,234.2) ;
+\draw [rotate around= { 45: (540.85, 206.58)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (533.95,206.58) -- (547.75,206.58)(540.85,200.17) -- (540.85,212.99) ;
+\draw [rotate around= { 45: (520.15, 196.94)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (513.25,196.94) -- (527.05,196.94)(520.15,190.53) -- (520.15,203.34) ;
+\draw [rotate around= { 45: (539.64, 168.04)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (532.74,168.04) -- (546.54,168.04)(539.64,161.63) -- (539.64,174.45) ;
+\draw [rotate around= { 45: (484.28, 192.54)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (477.38,192.54) -- (491.18,192.54)(484.28,186.14) -- (484.28,198.95) ;
+\draw [rotate around= { 45: (579.3, 139.08)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (572.4,139.08) -- (586.2,139.08)(579.3,132.67) -- (579.3,145.48) ;
+\draw [rotate around= { 45: (599.01, 143.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (592.11,143.01) -- (605.91,143.01)(599.01,136.6) -- (599.01,149.41) ;
+\draw [rotate around= { 45: (517.58, 175.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (510.68,175.01) -- (524.48,175.01)(517.58,168.6) -- (517.58,181.41) ;
+\draw [rotate around= { 45: (575.31, 155.29)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (568.41,155.29) -- (582.21,155.29)(575.31,148.88) -- (575.31,161.7) ;
+\draw [rotate around= { 45: (552.69, 149.79)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (545.79,149.79) -- (559.59,149.79)(552.69,143.38) -- (552.69,156.2) ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (512.58, 118.75) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (512.58, 118.75) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (541.66, 76.28) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (545.3, 98.12) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (517.43, 102.98) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (436.66, 159.87) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw [rotate around= { 45: (437.68, 237.78)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (430.78,237.78) -- (444.58,237.78)(437.68,231.38) -- (437.68,244.19) ;
+\draw [rotate around= { 45: (516.45, 214.73)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (509.55,214.73) -- (523.35,214.73)(516.45,208.32) -- (516.45,221.13) ;
+\draw [rotate around= { 45: (509.01, 267.46)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (502.11,267.46) -- (515.91,267.46)(509.01,261.05) -- (509.01,273.86) ;
+\draw [rotate around= { 45: (454.72, 251.72)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (447.82,251.72) -- (461.62,251.72)(454.72,245.31) -- (454.72,258.13) ;
+\draw [rotate around= { 45: (454.81, 206.1)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (447.91,206.1) -- (461.71,206.1)(454.81,199.69) -- (454.81,212.51) ;
+\draw  [fill={rgb, 255:red, 25; green, 59; blue, 221 }  ,fill opacity=1 ]  (463.98, 67.5) circle [x radius= 4.78, y radius= 4.78]  ;
+\draw [rotate around= { 45: (474.48, 257.97)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (467.58,257.97) -- (481.38,257.97)(474.48,251.56) -- (474.48,264.38) ;
+\draw [rotate around= { 45: (490.98, 268.68)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (484.08,268.68) -- (497.88,268.68)(490.98,262.28) -- (490.98,275.09) ;
+\draw [rotate around= { 45: (524.28, 253.54)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (517.38,253.54) -- (531.18,253.54)(524.28,247.14) -- (524.28,259.95) ;
+\draw [rotate around= { 45: (471.3, 280.08)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (464.4,280.08) -- (478.2,280.08)(471.3,273.67) -- (471.3,286.48) ;
+\draw [rotate around= { 45: (504.01, 250.01)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (497.11,250.01) -- (510.91,250.01)(504.01,243.6) -- (504.01,256.41) ;
+\draw [rotate around= { 45: (434.31, 258.29)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (427.41,258.29) -- (441.21,258.29)(434.31,251.88) -- (434.31,264.7) ;
+\draw [rotate around= { 45: (449.01, 274.46)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (442.11,274.46) -- (455.91,274.46)(449.01,268.05) -- (449.01,280.86) ;
+\draw [rotate around= { 45: (544.81, 239.1)
+    }] [color={rgb, 255:red, 228; green, 21; blue, 21 }  ,draw opacity=1 ][fill={rgb, 255:red, 230; green, 15; blue, 15 }  ,fill opacity=1 ][line width=3]  (537.91,239.1) -- (551.71,239.1)(544.81,232.69) -- (544.81,245.51) ;
+\draw [line width=3]    (135.93,108.85) -- (170,220) ;
+
+
+\draw [line width=1.5]  [dash pattern={on 1.69pt off 2.76pt}]  (23.53,204.58) -- (323.53,104.58)(24.47,207.42) -- (324.47,107.42) ;
+
+
+\draw [line width=3]    (458.15,104.07) -- (445,115) -- (515,205) -- (500,220) ;
+
+
+\draw [line width=1.5]  [dash pattern={on 1.69pt off 2.76pt}]  (359.13,253.77) -- (614.13,73.77)(360.87,256.23) -- (615.87,76.23) ;
+
+
+
+
+
+\draw   (132.08,105.01) -- (139.77,112.7)(139.77,105.01) -- (132.08,112.7) ;
+\draw   (140.12,131.21) -- (147.81,138.91)(147.81,131.21) -- (140.12,138.91) ;
+\draw   (142.23,138.12) -- (149.93,145.81)(149.93,138.12) -- (142.23,145.81) ;
+\draw   (161.33,200.41) -- (169.02,208.1)(169.02,200.41) -- (161.33,208.1) ;
+\draw   (161.97,202.49) -- (169.66,210.18)(169.66,202.49) -- (161.97,210.18) ;
+\draw   (156.73,185.4) -- (164.42,193.1)(164.42,185.4) -- (156.73,193.1) ;
+\draw   (148.72,159.3) -- (156.42,166.99)(156.42,159.3) -- (148.72,166.99) ;
+\end{tikzpicture}

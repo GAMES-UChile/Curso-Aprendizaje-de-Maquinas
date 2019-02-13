@@ -1,0 +1,188 @@
+%!TEX root = notas_de_clase.tex
+
+\section{Regresión No Lineal}
+%El problema de regresión buscar encontrar la relación entre dos variables: entrada y salida, estímulo y respuesta, instancia y etiqueta, etc. El caso más simple, y que sirve de ilustración para modelos más expresivos es el de regresión lineal, donde dicha relación está restringida a ser lineal. 
+El concepto de regresión lineal puede ser extendido para modelar relaciones no lineales entre variables de entrada y salida. Esto manteniendo los supuestos generales del modelo y la simpleza de la  solución de las ecuaciones que se desprenden. Para lograr esto se utiliza una familia de transformaciones no lineales.\\
+
+Considere el conjunto de entrenamiento
+
+\begin{equation}
+	\{(x_i,y_i)\}_{i=1}^N,\quad (x_i, y_i)\in\R^M\times\R^1,\forall i=1,\ldots,N
+	\label{eq:training_set_nl}
+\end{equation}
+
+Adicionalmente considere la función a valores vectoriales 
+\begin{align}
+  \Phi \colon \R^M &\to \R^D \nonumber\\
+  x &\mapsto \Phi(x)=[\phi_1(x),\ldots,\phi_D(x)]
+\end{align}
+donde $\{ \phi_i \}_{j=1}^D$ son funciones escalares. \\
+
+\noindent\textbf{Observaciones:}\\
+
+\noindent 1) Nos referiremos a $\Phi(x)$ como \emph{características} y a $x$ simplementes como \emph{datos crudos}. \\
+
+\noindent 2) La función $\Phi:x\mapsto\Phi(x)$ puede depender de parámentros, sin embargo, por ahora eso no es importante. \\
+
+Usando el vector de características como entrada a un modelo lineal, podemos definir el siguiente modelo de regresión: 
+
+\begin{equation}
+    y = \Phi(x)\theta + \epsilon
+\end{equation}
+El cual puede ser escrito de forma vectorial de acuerdo a 
+\begin{align}
+    Y &= \Phi(X)\theta + \bepsilon\\
+    Y &= [y_1,\ldots,y_N]^T \nonumber\\
+    \Phi(X) &= \left[ \begin{matrix} \phi_1(x_1)& \ldots & \phi_D(x_1)\\
+    \vdots & \ddots & \vdots \\
+    \phi_1(x_N) & \ldots & \phi_D(x_N)\\
+    \end{matrix} \right]
+\end{align}
+
+El ajuste, i.e., determinación de parámetros $\theta$ es entonces realizado mediante la minimización del siguiente funcional:
+\begin{align}
+    J &= \frac{1}{2} \sum_{i=1}^N(y_i - \Phi(x_i)\theta)^2\\
+    &= \frac{1}{2} (Y-\Phi(X)\theta)^T(Y-\Phi(X)\theta)\\
+    &= \frac{1}{2}Y^TY - \theta^T\Phi(X)^TY + \frac{1}{2}\theta^T\Phi(X)^T\Phi(X)\theta\\
+\end{align}
+El cual puede ser encontrado derivando $J$, es decir,
+
+\begin{align}
+    \frac{dJ}{d\theta} &= \Phi(X)^T\Phi(X)\theta - \Phi(X)^TY = 0\\
+    \theta_{ML}&=\underset{\theta}{\argmin} J (\Phi(X)^T\Phi(X))^{-1}\Phi(X)^TY
+\end{align}
+
+
+De forma homologa al caso lineal, el caso regularizado es
+
+\begin{equation}
+    J_r = \frac{1}{2} \sum_{i=1}^N(y_i - \Phi(x_i)\theta)^2 + \rho\left \| \theta \right \|^2
+\end{equation}
+
+y su solución es
+
+\begin{equation}
+    \theta = (\Phi(X)^T\Phi(X)+\rho\mathbb{I})^{-1}\Phi(X)^TY
+\end{equation}
+
+\noindent\textbf{Observaciones:}
+
+\noindent 1) Es importante notar que el modelo de regresión no lineal es \textbf{lineal en los parámetros}, no así en los datos.
+
+\noindent 2) Como se mencionó anteriormente el modelo de regresión lineal es una generalización del caso lineal, esto es claro si se considera lo siguiente
+
+\begin{align}
+    \phi_0(x) &= 1, \phi_1(x) = x \nonumber\\
+    \Phi &= [\phi_0, \phi_1] \nonumber\\
+    \theta &= [\theta_0, \theta_1]^T \nonumber\\
+    Y &= \Phi(X)\theta + \epsilon \nonumber
+\end{align}
+
+\noindent 3) La solución del caso no lineal $\theta_{nl} = (\Phi(X)^T\Phi(X))^{-1}\Phi(X)^TY$ es similar a la solución del caso lineal. Esto puede ser explicado por el hecho que hacer regresión no lineal con datos $\{(x_i,y_i)\}_{i=1}^N$ de $\R$ a $\R$, puede ser visto como una regresión lineal con datos $\{(\Phi(x_i),y_i)\}_{i=1}^N$ de $\R^D$ a $\R$.
+
+
+\subsection{Bases de funciones}
+
+La selección de la base de funciones es fundamental para el desempeño del método, si la familia de funciones no captura el comportamiento no lineal de los datos es muy improbable que el ajuste de la curva sea bueno. En general la elección de la base de funciones debe ser evaluada caso a caso.\\
+
+A continuación se dan algunos ejemplos de bases de funciones que son usualmente utilizadas por su flexibilidad y/o simpleza.
+
+\begin{itemize}
+    \item{\textbf{Bases Polinomiales:}}
+    La base es $\Phi=\{\phi_i\}_{i=0}^D$, donde $\phi_i(x)=x^i$, de esta forma
+    
+    \begin{equation}
+        \Phi(X) = \left[ \begin{matrix} 1 & x_1 & x_1^2 & \ldots & x_1^D\\
+        \vdots & \vdots & \vdots & \ddots & \vdots \\
+        1 & x_N & x_N^2 & \ldots & x_N^D\\
+        \end{matrix} \right]
+    \end{equation}
+    
+    \item{\textbf{Bases Sinusoidales:}}
+    La base es $\Phi=\{\phi_i\}_{i=0}^D$, donde 
+    $\phi_i(x)=\cos(i\frac{2\pi}{2T}x)$, a medida que aumente $i$ mayor es la oscilación de la función, $T$ controla el periodo.
+    
+    \begin{equation}
+        \Phi(X) = \left[ \begin{matrix}
+        1 & \cos(i\frac{2\pi}{2T}x_1) & \ldots & \cos(D\frac{2\pi}{2T}x_1)\\
+        \vdots & \vdots  & \ddots & \vdots \\
+        1 & \cos(1\frac{2\pi}{2T}x_N) & \ldots & \cos(D\frac{2\pi}{2T}x_N)\\
+        \end{matrix} \right]
+    \end{equation}
+    
+    \item{\textbf{Escalones}}
+    La siguiente base de funciones está compuesta funciones escalón que valen 1 dentro de un conjunto especifico y 0 en cualquier otro punto. Sean $c_1,c_2, \ldots,c_D$ una colección de valores crecientes, se define lo siguiente
+    
+    \begin{align}
+        C_0(x) &= I_{(-\infty,c_1)}(x)\\
+        C_i(x) &= I_{[c_i,c_{i+1})}(x), \quad \forall i=1,\ldots,D-1\\
+        C_D(x) &= I_{[c_D,+\infty)}(x)\\
+        I_A(x) &= \left\{\begin{matrix}
+        1,\quad x\in A\\
+        0,\quad x\notin A
+        \end{matrix}\right.
+    \end{align}
+    
+    De esta forma la base de funciones $\Phi=\{\phi_i\}_{i=0}^D$ queda definida por
+    
+    \begin{align}
+        \phi_i(x) &= C_i(x),\quad \forall i=0,\ldots,D\\
+        \Phi(X) &= \left[ \begin{matrix}
+        1 & C_0(x_1) & \ldots & C_D(x_1)\\
+        \vdots & \vdots  & \ddots & \vdots \\
+        1 & C_0(x_N) & \ldots & C_D(x_N)\\
+        \end{matrix} \right]
+    \end{align}
+    
+    
+    \item{\textbf{Polinomios por partes (Splines)}:}
+    
+    Una opción más flexible a hacer un ajuste polinomial en el dominio de los datos, es utilizar polinomios truncados definidos en intervalos, por ejemplo se puede ajustar
+    
+    \begin{equation}
+        y = \left\{\begin{matrix}
+        \beta_{01}+\beta_{11}x+\beta_{21}x^2+\beta_{31}x^3+\epsilon,\quad x < c\\
+        \beta_{02}+\beta_{12}x+\beta_{22}x^2+\beta_{32}x^3+\epsilon,\quad x \geq c
+        \end{matrix}\right.
+    \end{equation}
+    
+    El problema con el modelo es que en el punto $c$ no existe ninguna restricción de continuidad. Para arreglar se considera la siguiente construcción.
+    
+    Se considera $\xi_1,\ldots,\xi_K$ una secuencia de puntos crecientes que serán los puntos en que cambia el régimen del polinomio, estos puntos se conocen como nudos. Ahora se define el polinomio truncado de grado $D$ con un nudo en $\xi_k$
+    
+    \begin{equation}
+        (x-\xi_k)_+^D = \left\{\begin{matrix}
+        0,\quad x < \xi_k\\
+        (x-\xi_k)^D,\quad x \geq \xi_k
+        \end{matrix}\right.
+    \end{equation}
+    
+    Con esto polinomio truncado de grado $D$ y con $K$ nudos queda definido por
+    
+    \begin{equation}
+        y = \beta_0 + \sum_{d=1}^D\beta_dx^d+\sum_{k=1}^K(x-\xi_k)_+^D
+    \end{equation}
+    
+    \begin{equation}
+        \Phi(X) = \left[ \begin{matrix} 1 & x_1 & x_1^2 & \ldots & x_1^D & \ldots & (x_1-\xi_1)_+^D & \ldots & (x_1-\xi_K)_+^D \\
+        \vdots & \vdots & \vdots & \ddots & \vdots & \ddots & \vdots & \ddots & \vdots\\
+        1 & x_N & x_N^2 & \ldots & x_N^D & \ldots & (x_N-\xi_1)_+^D & \ldots & (x_N-\xi_K)_+^D \\
+        \end{matrix} \right]
+    \end{equation}
+    
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
