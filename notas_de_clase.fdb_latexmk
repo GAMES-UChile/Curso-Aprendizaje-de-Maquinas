@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1550087792 "notas_de_clase.tex" "notas_de_clase.pdf" "notas_de_clase" 1550087793
+["pdflatex"] 1550088411 "notas_de_clase.tex" "notas_de_clase.pdf" "notas_de_clase" 1550088413
   "/usr/local/texlive/2018/texmf-dist/fonts/map/fontname/texfonts.map" 1511824771 3332 103109f5612ad95229751940c61aada0 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy5.tfm" 1480098698 1120 1e8878807317373affa7f7bba4cf2f6a ""
   "/usr/local/texlive/2018/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1480098698 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
@@ -176,13 +176,13 @@
   "img/stride.png" 1542154546 18162 0adbd1c40ad2f1855575dc468b04f31c ""
   "img/svmejemlos.png" 1542154546 155391 25cc0eb8b625ebcadd8158ef2cf2a7df ""
   "img/xor.png" 1542154546 37067 7b597c7484b589be5e16faf564e563ad ""
-  "notas_de_clase.aux" 1550087793 20382 d3a97473fd9d6aeeb8147ca62d65ec7a ""
+  "notas_de_clase.aux" 1550088413 20382 d3a97473fd9d6aeeb8147ca62d65ec7a ""
   "notas_de_clase.tex" 1550087283 899 4e91cd76aac87b7549a80433fd5a967a ""
-  "notas_de_clase.toc" 1550087793 7664 0538a86a6e320c767399eb9a04684639 ""
+  "notas_de_clase.toc" 1550088413 7664 0538a86a6e320c767399eb9a04684639 ""
   "utils/portada.tex" 1550087076 1100 e0c4c6e36568d93153c44dcdb554f2fb ""
   "utils/preambulo.tex" 1550086542 1210 2a52987b08010388fba1a4bae946c560 ""
   (generated)
-  "notas_de_clase.pdf"
-  "notas_de_clase.aux"
   "notas_de_clase.toc"
+  "notas_de_clase.pdf"
   "notas_de_clase.log"
+  "notas_de_clase.aux"
