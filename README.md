@@ -1,2 +1,1 @@
-# apunte-ma5203
-
+# Notas de clase: Aprendizaje de Máquinas
