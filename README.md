@@ -9,8 +9,8 @@ El elemento principal de este repositorio es el [apunte][pdf] que contiene las n
 Además de diseminar de forma actualizada las notas de clase, este repositorio también tiene el objetivo de entregar ejemplos e implementaciones de la teoría presentada en el curso. Por esta razón, el código para hacer todas las figuras del apunte está disponible y puede ser revisado [aquí][notebook].
 
 Felipe Tobar  
-Universidad de Chile. 
-[www.dim.uchile.cl/~ftobar][personal-website]. 
+Universidad de Chile  
+[www.dim.uchile.cl/~ftobar][personal-website]  
 email: ftobar AATT dim DOOTT uchile.cl 
 
 [pdf]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/notas_de_clase.pdf
