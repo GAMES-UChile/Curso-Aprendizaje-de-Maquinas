@@ -22,5 +22,5 @@
 *.out
 *.synctex.gz
 *.fdb_latexmk
-*.pdf
 *.fls
+*.pdf
