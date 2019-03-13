@@ -24,3 +24,4 @@
 *.fdb_latexmk
 *.fls
 *.pdf
+*.ipynb_checkpoints
