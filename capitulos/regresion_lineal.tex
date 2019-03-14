@@ -2,7 +2,7 @@
 
 \section{Regresión Lineal}
 
-El problema de regresión buscar determinar la relación entre una variable denominada \emph{dependiente} (salida, respuesta o etiqueta) y una variable denominada \emph{independiente} (entrada, estímulo o instancia). Intuitivamente, un modelo de regresión permite entender cómo cambia la variable dependiente cuando la variable independiente es modificada. Esta relación entre ambas variables es representada por una función, consecuentemente, el problema de regresión es equivalente a encontrar una función. De esta forma, en base a (i) el espacio de posible funciones donde se busque dichas relación (por ejemplo el espacio de todos los polinomios de grado menor o igual a 5), y a (ii) el criterio de búsqueda que se aplique, se obtendrán distintos métodos de regresión. 
+El problema de regresión busca determinar la relación entre una variable denominada \emph{dependiente} (salida, respuesta o etiqueta) y una variable denominada \emph{independiente} (entrada, estímulo o instancia). Intuitivamente, un modelo de regresión permite entender cómo cambia la variable dependiente cuando la variable independiente es modificada. Esta relación entre ambas variables es representada por una función, consecuentemente, el problema de regresión es equivalente a encontrar una función. De esta forma, en base a (i) el espacio de posible funciones donde se busque dichas relación (por ejemplo el espacio de todos los polinomios de grado menor o igual a 5), y a (ii) el criterio de búsqueda que se aplique, se obtendrán distintos métodos de regresión. 
 
 El modelo básico de regresión, y que sirve de base para modelos más expresivos, es el de regresión lineal. En cuyo caso el espacio de funciones donde se busca la relación entre las variables dependientes e independientes es el de las funciones lineales afines. 
 
@@ -19,7 +19,7 @@ la regresión lineal busca encontrar un modelo lineal, es decir,
 \end{align}
 que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, esto en base a las las observaciones descritas en la ecuación~\eqref{eq:training_set}.
 \\
-\todo[inline, color=red!40]{Pendiente: ¿por qué lineal? por fácil y por optimalidad bajo supuesto de gaussianidad}
+\todo[inline, color=blue!20]{Discusión: ¿por qué lineal? por fácil y por optimalidad bajo supuesto de gaussianidad}
 
 
 \subsection{Mínimos cuadrados} % (fold)
@@ -62,9 +62,6 @@ y el parámetro $\theta$ de mínimos cuadrados puede ser encontrado aplicando la
 \end{align}
 donde $\tX$ y $Y$ son las matrices de datos definidas por
 
-
-
-
 \begin{equation}
   \tX = \left[ \begin{matrix}\tx_1^\top \\\vdots \\ \tx_N^\top \end{matrix}\right]\in\R^{N\times (M+1)} ,\quad
   Y = \left[ \begin{matrix}y_1 \\\vdots \\y_N \end{matrix}\right] \in\R^{N}
@@ -84,7 +81,7 @@ La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ecuación~\eqref{e
 
 En la práctica, es usual que tengamos más observaciones que parámetros, cuando consideramos un modelo lineal (o lineal generalizado, como veremos a continuación). Sin embargo, es posible que las observaciones sean \emph{redundantes}, es decir, no exactamente iguales (y por ende linealmente independientes) pero suficientemente parecidas para que la inversa de Moore-Penrose esté \emph{cercana} a ser no invertible. Esto puede resultar en problemas de inestabilidad numérica al  calcular la inversa de $\tX^\top\tX$. Una forma de evitar este problema penalizar soluciones que son \emph{cercanas a ser no invertibles} o \emph{irregulares}, de forma similar que se penalizan funciones que no representan bien los datos, en el sentido del error cuadrático. Este procedimiento se refiere a \emph{regularizar} la solución.
 \\
-\todo[inline, color=red!40]{Pendiente: Discutir interpretación geométrica del criterio de mínimos cuadrados  con la siguiente figura}
+\todo[inline, color=blue!20]{Discusión: Discutir interpretación geométrica del criterio de mínimos cuadrados  con la siguiente figura}
 
 \begin{figure}[ht]
 	\centering
@@ -119,48 +116,48 @@ De la última expresión, es posible ver que el requerimiento de que las observa
 
 En el caso de la regularización de Tikhonov, se entiende por soluciones regulares las que están definidas por parámetros que tienen una norma pequeña, tal como lo sugiere la ecuación \eqref{eq:reg_least_squares}. Sin embargo, es posible aplicar otros criterios de regularidad, por ejemplo, una solución regular puede ser una en la cual la mayoría de los de parámetros son idénticamente nulos, esto es conocido como una solución \textbf{rala} o \textbf{\emph{sparse}}. Usando por costo de regularización el número de parámetros no nulos (definido por la ``norma'' $l_0$) en la definición del costo en la ecuación \eqref{eq:reg_least_squares}, es posible determinar cuáles son las soluciones que utilizan menos variables independientes para representar la variable dependiente. Desafortunadamente, resolver encontrar la solución usando la ``norma'' $l_0$ es muy difícil, sin embargo, bajo ciertas condiciones la consideración de la norma $l_1$ puede llevar a la misma solución.
 \\
-\todo[inline, color=red!40]{Referencias pendiente: Compressed sensing, sparse feature selection}
-
-
-
+\todo[inline, color=blue!20]{Discusión: Referencias, Compressed sensing, sparse feature selection}
 
 \subsubsection{Máxima verosimilitud} % (fold)
 \label{ssub:max_ver}
 
-Ahora tomaremos un enfoque distinto, en el cual no buscaremos el modelo que menor discrepancia tiene con los datos, sino que vamos a elegir el modelo que \emph{más probablemente} haya generado los datos. La diferencia fundamental en este caso es que necesitamos diseñar un modelo que generó exactamente los datos, lo cual requiere modelar el ruido de las observaciones. 
+Ahora tomaremos un enfoque distinto, en el cual no buscaremos el modelo \emph{aproximado} que tiene menor discrepancia con los datos. Por el contrario, nos enfocamos en modelos que han generado \emph{exactamente} los datos observados. Debido a la naturaleza de los datos, para este fin es necesario considerar modelos estocásticos, por lo que el mejor modelo estará dado por el que \emph{más probablemente} haya generado los datos. Específicamente, consideraremos un modelo compuesto por dos partes: la primera es determinística y paramétrica (al igual que los modelos anteriores) y una parte aleatoria la cual permitirá modelar exactamente las observaciones. 
 
-Consideremos el siguiente modelo
+En efecto, consideremos el siguiente modelo
 \begin{equation}
-	y = \theta^\top\tx + \epsilon,\quad \epsilon\sim\cN(0,\sigma_\epsilon^2) \ \text{i.i.d.} 
+	y = \theta^\top\tx + \epsilon,\quad \epsilon\sim\cN(0,\sigma_\epsilon^2) \ \text{i.i.d.},
 	\label{eq:lin_gauss}
 \end{equation}
-el cual representa la variable dependiente $y$ mediante una parte determinística que depende linealmente de $\tx$ y una parte aleatoria. El modelo probabilístico en la ecuación~\eqref{eq:lin_gauss} puede expresarse en forma distribucional como 
+donde la parte determinística ha sido elegida lineal en $\tx$ y la parte aleatoria es gaussiana. El modelo probabilístico en la ecuación~\eqref{eq:lin_gauss} puede expresarse en forma distribucional como 
 \begin{equation}
 	y|\tx \sim p(y|\tx,\theta) = \cN(y;\theta^\top\tx,\sigma_\epsilon^2).
 \end{equation}
-Adicionalmente, como las observaciones son \emph{condicionalmente independiente dado el modelo}, la probabilidad de todo el conjunto de entrenamiento $T=\{(x_i,y_i)\}_{i=1}^N$ es factorizable y dada por
+
+A diferencia del criterio de mínimos cuadradros, donde el entrenamiento del modelo (ajuste del parámetro $\theta$) se hacía en base a la función de pérdida cuadrática para un parámetro dado, en este caso el criterio de entrenamiento (en función de un conjunto de observaciones) es la \textbf{probabilidad de los datos} bajo el supuesto de un modelo dado o, equivalentemente, la \textbf{verosimilitud del modelo} dado los datos. Para aclarar este criterio, y antes de considerar optimización alguna, veamos que la verosimilitud del modelo lineal y gaussiano descrito arriba está dado, para un conjunto de observaciones $T=\{(x_i,y_i)\}_{i=1}^N$, por 
 \begin{equation}
-	p(Y|\tX,\theta) = p(y_1,\ldots,y_N|\tx_1,\ldots,\tx_N,\theta)= \prod_{i=1}^Np(y_i|\tx_i,\theta) = \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2).
-\end{equation}
+	l(\theta) \deq p(Y|\tX,\theta) = p(y_1,\ldots,y_N|\tx_1,\ldots,\tx_N,\theta)= \prod_{i=1}^Np(y_i|\tx_i,\theta) = \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2), \label{eq:verosimilitud}
+\end{equation} 
+donde la factorización de la probabilidad de los datos es posible dado que las observaciones son \textbf{condicionalmente independiente dado el modelo}.
 
-El ajuste del modelo entonces puede hacerse mediante la maximización (con respecto a $\theta$) de la probabilidad que dicho modelo haya generado los datos de entrenamiento en la ecuación~\eqref{eq:training_set}. Es decir: 
-
+El ajuste del modelo entonces puede entonces realizarse mediante la maximización (con respecto a $\theta$) de la función de verosimilitud $l(\theta)$ en la ecuación~\eqref{eq:verosimilitud}. Es decir: 
 \begin{equation}
-	\theta^\star = \argmax p(y_1,\ldots,y_N|\tx_1,\ldots,\tx_N,\theta)
+	\theta^{\text{MV}}= \argmax l(\theta),
 \end{equation}
-en el caso de arriba, las observaciones son condicionalmente independientes, y su distribución está dada por la ecuación~\eqref{eq:lin_gauss}. Consecuentemente:
+donde en superíndince ``MV'' denota ``máxima verosimilitud''. 
 
+Para el caso lineal y gaussiano presentado en la ecuación~\eqref{eq:lin_gauss}, donde recordemos que las observaciones son condicionalmente independientes dado el modelo, el estimador $\theta^{\text{MV}}$ está dado por:
 \begin{align}
-	\theta^\star 	&= \argmax \prod_{i=1}^Np(y_i|\tx_i,\theta)\\
-					&= \argmax \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2) \\
-					&= \argmax \prod_{i=1}^N \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \exp\left({\frac{-1}{2\sigma_\epsilon^2}(y_i-\theta^\top\tx_i)^2}\right) \\
-					&= \argmin \sum_{i=1}^N (y_i-\theta^\top\tx_i)^2
+	\theta^{\text{MV}} 	&= \argmax \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2) \\
+						&= \argmax \prod_{i=1}^N \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \exp\left({\frac{-1}{2\sigma_\epsilon^2}(y_i-\theta^\top\tx_i)^2}\right) \nonumber\\
+						&= \argmin \sum_{i=1}^N (y_i-\theta^\top\tx_i)^2 \nonumber
 \end{align}
-La misma solución exacta que mínimos cuadrados, la diferencia es que también podemos maximizar con respecto a la varianza del ruido.
+Nótese que es posible identificar esta última expresión con la el costo cuadrático en la ecuación \eqref{eq:lin_least_squares2}, es decir, el estimador de máxima verosimilitud es el minimizante del mismo costo que el estimador de mínimos cuadrados. Consecuentemente, tenemos que ambos estimadores son iguales y de acuerdo a la ecuación \eqref{eq:sol_mse} dados por 
+\begin{equation}
+	\theta^{\text{MV}} = \theta^{\text{MC}} = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y 
+\end{equation}
+\\
+\todo[inline, color=blue!20]{Discusión: A pesar de la equivalencia en el óptimo del parámetro, MV también permite optimizar la varianza del ruido}
 
-% subsubsection máxima_verosimilitud (end)
-
-\centerline{--------------------------------- clase 27/3/18 ---------------------------------}
 
 \subsubsection{Regresión Bayesiana} % (fold)
 \label{ssub:map}
