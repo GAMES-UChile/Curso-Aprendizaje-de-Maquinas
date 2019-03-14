@@ -18,9 +18,8 @@ la regresión lineal busca encontrar un modelo lineal, es decir,
  \label{eq:reg_lin_fn} 
 \end{align}
 que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, esto en base a las las observaciones descritas en la ecuación~\eqref{eq:training_set}.
-
-\vspace{1em}
-\noindent\red{\bf Pendiente: ¿por qué lineal? por fácil y por optimalidad bajo supuesto de gaussianidad}
+\\
+\todo[inline, color=red!40]{Pendiente: ¿por qué lineal? por fácil y por optimalidad bajo supuesto de gaussianidad}
 
 
 \subsection{Mínimos cuadrados} % (fold)
@@ -84,9 +83,8 @@ La Figura \ref{fig:reg_lin_1} muestra un ejemplo de regresión lineal para obser
 La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ecuación~\eqref{eq:sol_mse} es conocida como la pseudo-inversa de Moore-Penrose \cite[p.~7]{benisrael_greville_2006}. Observe que una condición necesaria para que esta pseudo-inversa esté bien definida es que la cantidad de observaciones ($N$) sea mayor o igual que las dimensiones ($M+1$). Esto es porque la matriz $\tX^\top\tX$ es de tamaño $(M+1)\times(M+1)$ y su rango es $\min \{N, M+1\}$, consecuentente, para que $\tX^\top\tX$ tenga rango completo (y por ende sea invertible) se debe cumplir al menos que $N\geq M+1$. Para encontrar una condición necesaria y suficiente para la existencia de la solución de mínimos cuadrados en la ecuación \eqref{eq:sol_mse}, además de el número de observaciones $N\geq M+1$ se requiere que éstas no sean colineales, pues de esta forma los términos que componen la pseudo-inversa son efectivamente linealmente independiente y ésta tiene rango completo. 
 
 En la práctica, es usual que tengamos más observaciones que parámetros, cuando consideramos un modelo lineal (o lineal generalizado, como veremos a continuación). Sin embargo, es posible que las observaciones sean \emph{redundantes}, es decir, no exactamente iguales (y por ende linealmente independientes) pero suficientemente parecidas para que la inversa de Moore-Penrose esté \emph{cercana} a ser no invertible. Esto puede resultar en problemas de inestabilidad numérica al  calcular la inversa de $\tX^\top\tX$. Una forma de evitar este problema penalizar soluciones que son \emph{cercanas a ser no invertibles} o \emph{irregulares}, de forma similar que se penalizan funciones que no representan bien los datos, en el sentido del error cuadrático. Este procedimiento se refiere a \emph{regularizar} la solución.
-
-\vspace{1em}
-\noindent\red{\bf Pendiente: Discutir interpretación geométrica del criterio de mínimos cuadrados  con la siguiente figura}
+\\
+\todo[inline, color=red!40]{Pendiente: Discutir interpretación geométrica del criterio de mínimos cuadrados  con la siguiente figura}
 
 \begin{figure}[ht]
 	\centering
@@ -120,9 +118,9 @@ Una ventaja de la regularización de Tikhonov es que su solución, al igual que 
 De la última expresión, es posible ver que el requerimiento de que las observaciones disponibles sean (i) más que la dimensión $M+1$ y que además (ii) éstas sean colineales ya no es necesario para que la solución esté bien definida. De hecho, la matriz $\tX^\top\tX$ puede efectivamente estar cercana a ser no invertible, sin embargo, es posible \emph{regularizar} la solución forzando que la matriz $\left(\tX^\top\tX +\rho \eye\right)$ sea efectivamente \emph{regular} aumentando el valor de $\rho$. 
 
 En el caso de la regularización de Tikhonov, se entiende por soluciones regulares las que están definidas por parámetros que tienen una norma pequeña, tal como lo sugiere la ecuación \eqref{eq:reg_least_squares}. Sin embargo, es posible aplicar otros criterios de regularidad, por ejemplo, una solución regular puede ser una en la cual la mayoría de los de parámetros son idénticamente nulos, esto es conocido como una solución \textbf{rala} o \textbf{\emph{sparse}}. Usando por costo de regularización el número de parámetros no nulos (definido por la ``norma'' $l_0$) en la definición del costo en la ecuación \eqref{eq:reg_least_squares}, es posible determinar cuáles son las soluciones que utilizan menos variables independientes para representar la variable dependiente. Desafortunadamente, resolver encontrar la solución usando la ``norma'' $l_0$ es muy difícil, sin embargo, bajo ciertas condiciones la consideración de la norma $l_1$ puede llevar a la misma solución.
+\\
+\todo[inline, color=red!40]{Referencias pendiente: Compressed sensing, sparse feature selection}
 
-\vspace{1em}
-\noindent\red{\bf Referencias pendiente: Compressed sensing, sparse feature selection}
 
 
 
