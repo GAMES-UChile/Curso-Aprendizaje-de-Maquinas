@@ -207,11 +207,12 @@ Donde $\mathbf{m}=m(X)$ y $\mathbf{K}_y=K_{\theta}(X,X) + \sigma_n^2 \eye$, la m
 De izquierda a derecha, el primer término tiene el rol de penalizar por la complejidad del modelo, y vemos que depende solo del kernel y las entradas; el segundo término cuantifica que tan bien se ajusta el modelo a los datos, y es la única componente que depende de las observaciones $Y$ (ruidosas) de la función, el último término es una constante de normalización.\\
 
 
-
-\begin{wrapfigure}{r}{0.42\textwidth}
-\includegraphics[width=0.42\textwidth]{img/cap6_gp_nll_partes}
-\caption{Log verosimilitud marginal negativa (NLL) en función del \textit{lengthscale} ($\ell$) para señal sintetica, se mantienen constantes los otros parámetros del $\gp$.}\label{fig:gp_4}
-\end{wrapfigure} 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{img/cap6_gp_nll_partes}
+	\caption{Log verosimilitud marginal negativa (NLL) en función del \textit{lengthscale} ($\ell$) para señal sintetica, se mantienen constantes los otros parámetros del $\gp$.}\label{fig:gp_4}
+	\label{fig:nll_por partes}
+\end{figure}
 
 Siguiendo con los ejemplos anteriores, para el mismo conjunto de observaciones ruidosas, se calculan las tres componentes de la $NLL$, utilizando un kernel SE, para este caso, se dejan fijo tanto la varianza de la señal como la varianza del ruido y se varia el \textit{lengthscale} $\ell$ del kernel, en la Fig.\ref{fig:gp_4}.
 
@@ -313,7 +314,7 @@ En la Fig.\ref{fig:gp_7} se muestra el kernel periódico, a la izquierda se ve e
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/gp_samples_P.pdf}
+	\includegraphics[width=0.9\textwidth]{img/cap6_gp_muestras_P.pdf}
 	\caption{Kernel periódico, en la izquierda se muestra la covarianza en función de su argumento $\tau=x-x'$, a la derecha de un $\gp$ usando un kernel periódico.}
 	\label{fig:gp_7}
 \end{figure}
