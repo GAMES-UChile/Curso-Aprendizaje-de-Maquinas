@@ -138,21 +138,12 @@ El algoritmo está dado por:
 
 \underline{\textbf{Ejemplo:}} En la figura \ref{fig:kmeans} se observa un ejemplo de clustering utilizando kmeans. Como se puede notar, los clusters creados por kmeans son circulares, puesto que se utiliza distancia euclediana hace el centro del cluster.
 
-\begin{figure*}[ht]
-    \centering
-    \begin{subfigure}[t]{0.5\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{img/real_clusters.pdf}
-        \caption{}
-    \end{subfigure}%
-    \begin{subfigure}[t]{0.5\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{img/kmeans.pdf}
-        \caption{}
-    \end{subfigure}
-    \caption{(a) Datos reales con sus etiquetas correctas. (b) Clusters encontrados por k-means.}
-    \label{fig:kmeans}
-\end{figure*}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/cap7_k_medias}
+  \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por k-means.}
+  \label{fig:kmeans}
+\end{figure}
 
 \subsection{Gaussian Mixture Model}
 
@@ -193,21 +184,13 @@ Esto se resume como:
 
 \underline{\textbf{Ejemplo:}} La figura \ref{fig:gmm} muestra un ejemplo de clustering utilizando GMM. En este caso, se puede observar directamente como GMM es una generalización de kmeans, en donde ahora los clusters tienen forma de gaussiana anisotrópica.
 
-\begin{figure*}[ht]
-    \centering
-    \begin{subfigure}[t]{0.5\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{img/real_clusters.pdf}
-        \caption{}
-    \end{subfigure}%
-    \begin{subfigure}[t]{0.5\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{img/gmm.pdf}
-        \caption{}
-    \end{subfigure}
-    \caption{(a) Datos reales con sus etiquetas correctas. (b) Clusters encontrados por GMM.}
-    \label{fig:gmm}
-\end{figure*}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/cap7_gmm}
+  \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por GMM.}
+  \label{fig:gmm}
+\end{figure}
+
 
 \subsection{Density-based spatial clustering of applications with noise (DBSCAN)}
 
@@ -230,7 +213,7 @@ Notemos que con lo anterior, se desprende que todo cluster debe tener al menos u
 El algoritmo para encontrar los clusters es el siguiente:
 
 
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
   \caption{Pseudo código de DBSCAN
     \label{DBSCAN}}
   \begin{algorithmic}[1]
@@ -250,7 +233,7 @@ El algoritmo para encontrar los clusters es el siguiente:
 \end{algorithm}
 
 
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
   \caption{Función para expandir cluster.
     \label{alg:expandirCluster}}
   \begin{algorithmic}[1]
@@ -273,8 +256,7 @@ El algoritmo para encontrar los clusters es el siguiente:
 \end{algorithm}
 
 
-
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
   \caption{Retorna los puntos de la vecindad de búsqueda para un punto.
     \label{alg:regionDeConsulta}}
   \begin{algorithmic}[1]
@@ -286,19 +268,11 @@ El algoritmo para encontrar los clusters es el siguiente:
 \end{algorithm}
 
 
-\underline{\textbf{Ejemplo:}} La figura \ref{fig:dbscan} muestra un ejemplo de clustering utilizando DBSCAN. La figura \ref{fig:dbscan}(b) muestra en negro los puntos que son clasificados como ruido o \emph{outliers} por el algoritmo. Por otro lado, los puntos núcleos son graficados como un punto grande, mientras que los puntos borde se grafican con un marcador pequeño.
-\begin{figure*}[ht]
-    \centering
-    \begin{subfigure}[t]{0.5\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{img/real_clusters.pdf}
-        \caption{}
-    \end{subfigure}%
-    \begin{subfigure}[t]{0.5\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{img/dbscan.pdf}
-        \caption{}
-    \end{subfigure}
-    \caption{(a) Datos reales con sus etiquetas correctas. (b) Clusters encontrados por DBSCAN.}
-    \label{fig:dbscan}
-\end{figure*}
+\underline{\textbf{Ejemplo:}} La figura \ref{fig:dbscan} muestra un ejemplo de clustering utilizando DBSCAN. La figura \ref{fig:dbscan}(derecha) muestra en negro los puntos que son clasificados como ruido o \emph{outliers} por el algoritmo. Por otro lado, los puntos núcleos son graficados como un punto grande, mientras que los puntos borde se grafican con un marcador pequeño.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/cap7_dbscan}
+  \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por DBSCAN.}
+  \label{fig:dbscan}
+\end{figure}
