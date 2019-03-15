@@ -75,7 +75,7 @@ Como sabemos, las funciones definidas por el $\gp$ son vectores infinito dimensi
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/gp_prior_samples.pdf}
+	\includegraphics[width=0.9\textwidth]{img/cap6_gp_prior_muestras}
 	\caption{Muestras de un prior $\gp$ con kernel SE, para distintos \textit{lenghtscales} ($\ell$) y función media $m(\cdot)=0$, la parte sombreada corresponde al intervalo de confianza del $95\%$. Se puede ver que a mayor $\ell$ las funciones se van volviendo más suaves.}
 	\label{fig:gp_1}
 \end{figure}
@@ -121,7 +121,7 @@ Esto se muestra en la Fig.\ref{fig:gp_2}, donde podemos ver que la media de la p
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/gp_posterior_noiseless.pdf}
+	\includegraphics[width=0.9\textwidth]{img/cap6_gp_posterior_no_ruido}
 	\caption{Regresión con $\gp$ para señal sintetica usando el 15$\%$ de los datos muestreados de forma no uniforme, utilizand un $\gp$ de media nula y kernel SE.} 
 	\label{fig:gp_2}
 \end{figure}
@@ -165,7 +165,7 @@ Si tomamos el mismo ejemplo anterior, pero añadimos el ruido al modelo, obtenem
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/gp_posterior_noisy.pdf}
+	\includegraphics[width=0.9\textwidth]{img/cap6_gp_posterior_ruido}
 	\caption{Regresión con $\gp$ para señal sintetica usando el 15$\%$ de los datos muestreados de forma no uniforme y contaminados con ruido Gaussiano, utilizando un $\gp$ de media nula y kernel SE.}
 	\label{fig:gp_3}
 \end{figure}
@@ -209,7 +209,7 @@ De izquierda a derecha, el primer término tiene el rol de penalizar por la comp
 
 
 \begin{wrapfigure}{r}{0.42\textwidth}
-\includegraphics[width=0.42\textwidth]{img/gp_nll_divided.pdf}
+\includegraphics[width=0.42\textwidth]{img/cap6_gp_nll_partes}
 \caption{Log verosimilitud marginal negativa (NLL) en función del \textit{lengthscale} ($\ell$) para señal sintetica, se mantienen constantes los otros parámetros del $\gp$.}\label{fig:gp_4}
 \end{wrapfigure} 
 
@@ -243,7 +243,7 @@ Entrenado & 0.2067 & 18.7267 & 0.9956 & $\mathbf{17.6945}$\\
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/gp_trained.pdf}
+	\includegraphics[width=0.9\textwidth]{img/cap6_gp_entrenado}
 	\caption{Regresión con $\gp$ para señal sintetica usando el 15$\%$ de los datos muestreados de forma no uniforme y contaminados con ruido Gaussiano, utilizando un $\gp$ de media nula y kernel SE; Modelo optimizado utilizando L-BFGS.}
 	\label{fig:gp_5}
 \end{figure}
@@ -291,7 +291,7 @@ Este kernel viene dado por la Ec.(\ref{eq:gp_kernel_rq}), este puede ser interpr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/gp_samples_RQ.pdf}
+	\includegraphics[width=0.9\textwidth]{img/cap6_gp_muestras_RQ}
 	\caption{Kernel \textit{Rational Quadratic}, en la izquierda se muestra la covarianza en función de su argumento $\tau=x-x'$, a la derecha de un $\gp$ usando un kernel RQ.}
 	\label{fig:gp_6}
 \end{figure}
@@ -338,7 +338,7 @@ A continuación veremos un número de extensiones que se le pueden hacer a un $\
 \subsubsection{$\gp$ de clasificación}
 
 \begin{wrapfigure}{r}{0.38\textwidth}
-\includegraphics[width=0.38\textwidth]{img/gp_classifi.pdf}
+\includegraphics[width=0.38\textwidth]{img/cap6_gp_classificacion}
 \caption{$\gp$ de clasificación utilizando datos sintéticos. Este clasificador entrega una densidad de probabilidad en vez de una sola función de decisión.}\label{fig:gp_8}
 \end{wrapfigure} 
 
