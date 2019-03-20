@@ -88,7 +88,7 @@ La Figura \ref{fig:reg_lin_1} muestra un ejemplo de regresión lineal para obser
 	\label{fig:reg_lin_1}
 \end{figure}
 
-La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ecuación~\eqref{eq:sol_mse} es conocida como la pseudo-inversa de Moore-Penrose \cite[p.~7]{benisrael_greville_2006}. Observe que una condición necesaria para que esta pseudo-inversa esté bien definida es que la cantidad de observaciones ($N$) sea mayor o igual que las dimensiones ($M+1$). Esto es porque la matriz $\tX^\top\tX$ es de tamaño $(M+1)\times(M+1)$ y su rango es $\min \{N, M+1\}$, consecuentente, para que $\tX^\top\tX$ tenga rango completo (y por ende sea invertible) se debe cumplir al menos que $N\geq M+1$. Para encontrar una condición necesaria y suficiente para la existencia de la solución de mínimos cuadrados en la ecuación \eqref{eq:sol_mse}, además de el número de observaciones $N\geq M+1$ se requiere que éstas no sean colineales, pues de esta forma los términos que componen la pseudo-inversa son efectivamente linealmente independiente y ésta tiene rango completo. 
+La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ecuación~\eqref{eq:sol_mse} es conocida como la pseudo-inversa de Moore-Penrose \cite[p.~7]{benisrael_greville_2006}. Observe que una condición necesaria para que esta pseudo-inversa esté bien definida es que la cantidad de observaciones ($N$) sea mayor o igual que las dimensiones ($M+1$). Esto es porque la matriz $\tX^\top\tX$ es de tamaño $(M+1)\times(M+1)$ y su rango es $\min \{N, M+1\}$, consecuentente, para que $\tX^\top\tX$ tenga rango completo (y por ende sea invertible) se debe cumplir al menos que $N\geq M+1$. Para encontrar una condición necesaria y suficiente para la existencia de la solución de mínimos cuadrados en la ecuación \eqref{eq:sol_mse}, además de el número de observaciones $N\geq M+1$ se requiere que éstas no sean colineales, pues de esta forma los términos que componen la pseudo-inversa son efectivamente linealmente independiente y ésta tiene rango completo. Es claro que para el caso de variables continuas es muy poco probable que dos observaciones sean perfectamente colinearles, sin embargo, en el caso de variables categóricas donde las observaciones son asignadas a un número finito de símbolos es probable que dos o más valores para la variable dependiente sean exactamente iguales. 
 
 En la práctica, es usual que tengamos más observaciones que parámetros, cuando consideramos un modelo lineal (o lineal generalizado, como veremos a continuación). Sin embargo, es posible que las observaciones sean \emph{redundantes}, es decir, no exactamente iguales (y por ende linealmente independientes) pero suficientemente parecidas para que la inversa de Moore-Penrose esté \emph{cercana} a ser no invertible. Esto puede resultar en problemas de inestabilidad numérica al  calcular la inversa de $\tX^\top\tX$. Una forma de evitar este problema penalizar soluciones que son \emph{cercanas a ser no invertibles} o \emph{irregulares}, de forma similar que se penalizan funciones que no representan bien los datos, en el sentido del error cuadrático. Este procedimiento se refiere a \emph{regularizar} la solución.
 
@@ -143,9 +143,7 @@ En el caso de la regularización de Tikhonov, se entiende por soluciones regular
 5) cuando $\rho$ es suficientemente grande, lasso puede fijar parámetros exactamente cero, consecuentemente realizando \emph{selección de variables}\\
 6) formulación con restricciones\\
 7) interpretación geométrica\\
-8) ¿cómo elegir $\rho$?\\
-9) cross validation
-	
+8) ¿cómo elegir $\rho$? y validación cruzada
 \end{mdframed}
 
 \subsubsection{Máxima verosimilitud} % (fold)
