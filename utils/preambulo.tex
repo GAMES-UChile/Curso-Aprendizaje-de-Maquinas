@@ -37,7 +37,25 @@
 \usepackage{wrapfig}
 \usepackage{subcaption} % para_unsupervised_chapter
 
+%formatting
+\definecolor{my_blue}{HTML}{C2D5FF}
+\definecolor{my_red}{HTML}{FFC2C2}
+\usepackage[framemethod=TikZ]{mdframed}
+\mdfdefinestyle{discusion}{%
+    %linecolor=black,
+    %outerlinewidth=0pt,
+    roundcorner=0pt,
+    innertopmargin=\baselineskip,
+    innerbottommargin=\baselineskip,
+    innerrightmargin=20pt,
+    innerleftmargin=20pt,
+    backgroundcolor=my_blue}
 \colorlet{Green}{green!90}
+
+\mdfdefinestyle{pendiente}{%
+    style = discusion, 
+    backgroundcolor=my_red}
+
 
 \RequirePackage{url}
 
