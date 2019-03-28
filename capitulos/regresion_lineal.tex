@@ -267,14 +267,14 @@ Luego, si queremos obtener la posterior de $q$ con un prior Beta,
 \end{align}
 \textbf{\underline{Aplicación:}}
 
-Se sabe que el $1\%$ de las mujeres tienen cancer de mamas, y se tienen un test para detectar si una mujer lo presenta o no. Si la paciente tiene cancer (C), el test dará postitivo (PT) con una probabilidad del $80\%$ y negativo (NT) con $20\%$, en cambio cuando la paciente está sana (NC), hay un $9.6\%$ de probabilidad que el test salga erroneo y si detecte cancer.
+Se sabe que el $1\%$ de las mujeres tienen cancer de mamas, y se tiene un test para detectar si una mujer lo presenta o no. Si la paciente tiene cancer (C), el test dará postitivo (PT) con una probabilidad del $80\%$ y negativo (NT) con $20\%$, en cambio cuando la paciente está sana (NC), hay un $9.6\%$ de probabilidad que el test salga erroneo y si detecte cancer (PT).
 
 Una paciente se realiza el test y este sale positivo, nos gustaría obtener la probabilidad de que en realidad tenga cancer dado este resultado.
 
 \begin{align}
 	p(C|PT) & =\frac{p(PT|C)p(C)}{p(PT)} \\
 			& = \frac{p(PT|C)p(C)}{p(PT|C)p(C)+p(PT|NC)p(NC)} \\
-			& = \frac{0.8 \cdot 0.001}{0.8 \cdot 0.01 + 0.096 \cdot 0.99}\\
+			& = \frac{0.8 \cdot 0.01}{0.8 \cdot 0.01 + 0.096 \cdot 0.99}\\
 			& = 0.0776
 \end{align}
 
@@ -285,8 +285,8 @@ De esta misma forma podemos completar todos los casos.
 \begin{tabular}{c|cc}
 \toprule
    & C ($1\%$) &  NC($99\%$) \\\hline
-PT & $0.8$ & $0.096$\\
-NT & $0.2$ & $0.904$ \\
+PT($10.3\%$) & $7.7\%$ & $92.3\%$\\
+NT($89.6$\%) & $0.2\%$ & $99.8\%$ \\
 \bottomrule
 \end{tabular}
 \captionof{figure}{Resumen de las probabilidades para el caso del test de cancer.}
