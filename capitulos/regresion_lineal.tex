@@ -139,7 +139,7 @@ En el caso de la regularización de Tikhonov, se entiende por soluciones regular
 1) Referencias, Compressed sensing, sparse feature selection\\
 2) ¿es justo comprar MC y RR en términos de MSE?\\
 3) Elegir el coeficiente de regularización es crítico\\
-4) Notar que la regularización mueve las estiamciones de los parámetros a cero, en particular RR manda a todos \emph{igualmente} a cero, sin fijar ninguno exactamente en cero. \\
+4) Notar que la regularización mueve las estimaciones de los parámetros a cero, en particular RR manda a todos \emph{igualmente} a cero, sin fijar ninguno exactamente en cero. \\
 5) cuando $\rho$ es suficientemente grande, lasso puede fijar parámetros exactamente cero, consecuentemente realizando \emph{selección de variables}\\
 6) formulación con restricciones\\
 7) interpretación geométrica\\
@@ -183,15 +183,15 @@ Nótese que es posible identificar esta última expresión con la el costo cuadr
 \begin{equation}
 	\theta^{\text{MV}} = \theta^{\text{MC}} = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y 
 \end{equation}
-\\
-\todo[inline, color=blue!20]{Discusión: A pesar de la equivalencia en el óptimo del parámetro, MV también permite optimizar la varianza del ruido}
 
 
-\subsubsection{Regresión Bayesiana} % (fold)
+\begin{mdframed}[style=discusion, frametitle={\center Discusión: A pesar de la equivalencia en el óptimo del parámetro, MV también permite optimizar la varianza del ruido}]
+\end{mdframed}
+
+\subsubsection{Regresión via inferencia bayesiana} % (fold)
 \label{ssub:map}
-\noindent\textbf{Repaso probabilidades - pending}\\
 
-\noindent\textbf{Tres pasos de inferencia Bayesiana}
+\noindent\textbf{Tres pasos de inferencia bayesiana}
 \begin{itemize}
 	\item Definir un modelo conjunto para todas las cantidades involucradas, observaciones, valores futuros, parametros, etc
 	\item Ajustar el modelo a la luz de observaciones
