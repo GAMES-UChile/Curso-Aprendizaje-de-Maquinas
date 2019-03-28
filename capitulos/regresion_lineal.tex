@@ -96,7 +96,7 @@ En la práctica, es usual que tengamos más observaciones que parámetros, cuand
 1) Aproximación en $L^2$\\
 2) Minimizar varianza del error, $x$ es variable aleatoria, $y=f(x)$ es determinista\\
 3) Tanto $x$ como $y$ son variables aleatorias. Esperanza condicional.\\
-4) Ejemplo: $X,Y$ conjuntamente gaussianos (definir MVN, contraejemplo, estimador óptimo)
+4) Ejemplo: $X,Y$ conjuntamente gaussianos (definir MVN, contraejemplo, estimador óptimo). Analizar expresiones de la media y varianza posterior: interpretar.
 
 	
 \end{mdframed}
@@ -336,7 +336,23 @@ consecuentemente, la esperanza está dada por
 
 % subsection predicciones (end)
 
-\subsection{Inference beyond supervised learning} % (fold)
-\label{sub:inference_beyond_supervised_learning}
+\subsection{Ejercicios} % (fold)
+\label{sub:ejercicios_regresion_lineal}
 
-% subsection inference_beyond_supervised_learning (end)
+i) Considere el caso en que sus observaciones (entrada $x$, salida $y$) solo consisten en 
+\begin{equation}
+D = \{(1,a),(2,b)\}.
+\end{equation}
+Usando la expresión para la solución óptima de mínimos cuadrados de la ecuación \eqref{eq:sol_mse}, encuentre los parámetros del modelo lineal dado por 
+\begin{equation}
+	y = \theta_1 x +\theta_0 
+\end{equation}
+e interprete esta solución para distintos valores de $a$ y $b$.
+
+ii) ¿Cuál es la estimador muestral de la covarianza entre $x$ e $y$ para las observaciones disponibles? 
+
+ii) Interprete la correlación entre $x$ e $y$ 
+
+
+
+
