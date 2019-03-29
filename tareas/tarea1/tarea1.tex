@@ -1,0 +1,127 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,includeheadfoot, top=0.5cm, bottom=3.0cm, right=1.5cm, left=1.5cm]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\renewcommand{\figurename}{Fig.}
+\usepackage{lmodern}% http://ctan.org/pkg/lm
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{subfig}
+\usepackage{listings} %Codigo
+\usepackage{selinput}                   % Compatibilidad con acentos
+\newcommand{\bR}{\ensuremath{\mathbb{R}}}
+\newcommand{\bN}{\ensuremath{\mathbb{N}}}
+\newcommand{\bZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\bP}{\ensuremath{\mathbb{P}}}
+\newcommand{\bE}{\ensuremath{\mathbb{E}}}
+\newcommand{\bD}{\ensuremath{\mathbb{D}}}
+\newcommand{\bV}{\ensuremath{\mathbb{V}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\m}{\ensuremath{\mathbf{m}}}
+\newboolean{pauta}
+\setboolean{pauta}{false}
+%\usepackage{tkz-graph}
+%\usetikzlibrary{arrows}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
+\lstset{language=C, tabsize=4,framexleftmargin=5mm,breaklines=true}
+
+\begin{document}
+
+% ·············· ENCABEZADO - PIE DE PAGINA ············
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{MA5204: Aprendizaje de Máquinas 2019}}
+\rfoot{Page \thepage}
+%Encabezado
+
+% =============== Inicio Documento ===============
+%\rm
+\headheight = 14pt
+\begin{center}
+\large {\textbf{Tarea 1}}\\
+\end{center}
+\textbf{Profesor:} Felipe Tobar\\ 
+\textbf{Auxiliares:} Mauricio Araneda, Alejandro Cuevas, Mauricio Romero \\
+\textbf{Consultas:} Mauricio Araneda \\
+\textbf{Fecha entrega:} 10/3/2019 \\
+
+\noindent\textbf{Formato entrega:} Informe en formato PDF, con una extensión máxima de 3 páginas (puede usar un formato de doble columna), presentando y analizando sus resultados, y detallando la metodología utilizada. Adicionalmente debe entregar el jupyter notebook (o el código que haya generado) con la resolución de la tarea.
+
+\vspace{5mm}
+
+\noindent\textbf{P1. Máxima Verosimilitud} \textbf{(2.0 puntos, tomado de MacKay p.309)}
+\vspace{5 mm}
+
+Siete científicos con habilidades experimentales salvajemente dispares reportan distintas estimaciones de un parámetro $\mu$
+
+\begin{table}[H]
+\centering
+\begin{tabular}{llllllll}
+Científico & A       & B    & C     & D     & E     & F     & G      \\ \hline
+Estimación & -27.020 & 3.57 & 8.191 & 9.898 & 9.603 & 9.945 & 10.056
+\end{tabular}
+\end{table}
+
+Discuta cómo encontrar el parámetro óptimo y cuán confiable es cada científico. Para
+este fin asuma que la estimación de cada científico puede ser considerada como una muestra de distribuciones normales de igual media ($\mu$) pero distintas varianzas ($\sigma_{1}^2 , \dots , \sigma_{7}^2 )$. Observe de los datos que las estimaciones de los científicos A y B son poco confiables y que el parámetro buscado debería estar entre 9 y 10 ¿es posible abordar este problema usando máxima verosimilitud?
+
+
+\vspace{5 mm}
+\noindent\textbf{P2. Regresión Lineal} \textbf{(3.5 puntos)}
+\vspace{5 mm}
+
+En el archivo \textbf{datos/szege\_clima.csv} se encuentra un \emph{dump} (subconjunto del  elementos del dataset original) de datos climáticos de la ciudad de Szege, la tercera ciudad más grande de Hungría. El archivo consiste de dos columnas, la primera $X$ corresponde a la proporcion de humedad ambiental, la segunda $Y$ corresponde a la sensación térmica. Mayor detalle sobre los datos utilizados puede encontrarse en:
+
+\vspace{1em}
+\centerline{\url{https://www.kaggle.com/budincsevity/szeged-weather}}
+\vspace{1em}
+
+Para este conjunto de datos se pide implementar una regresión lineal regularizada en Python donde $X$ será el regresor y $Y$ la variable a estimar. Esto usando solo operaciones álgebra lineal.
+Para esto deberá:
+\begin{itemize}
+	\item[(0)] Instalar la última versión de Anaconda y lanzar Jyputer Notebook.
+	\item[(a)] (0.5 puntos) Cargar los datos desde el archivo \textbf{datos/szege\_clima.csv} y graficarlos.
+	\item[(b)] (0.5 puntos) Crear y ajustar su modelo de regresión lineal regularizada, implementando regularización \emph{ridge}, pruebe con distintos valores del factor $\rho$ (partiendo de $\rho=0$).
+	\item[(c)] (0.5 puntos) Crear y ajustar su modelo de regresión lineal regularizada, implementando regularización \emph{lasso}.
+	\item[(d)] (0.5 puntos) Generar una predicción para 10 puntos de forma uniforme en el intervalo [0, 1] para ambos modelos.
+	\item[(e)] (1.5 puntos) Grafique y discuta los resultados. A modo de guía en la discusión puede considerar las siguientes preguntas (no se limite únicamente a éstas):
+	    \begin{itemize}
+	        \item ¿En qué afecta que las regresiones estén regularizadas sobre este conjunto de datos?
+	        \item ¿Qué pros y contra otorga cada regularización? ¿Cuál es preferible en este contexto?
+	        \item ¿Qué modelo tiene mejor desempeño en sus predicciones? ¿Cuál tiene el menor error asociado?
+	    \end{itemize}
+\end{itemize}
+
+
+ \textbf{No} se permite el uso de paquetes predefinidos para regresión lineal. Estos pueden ser considerados para contrastar los propios resultados pero no para resolver la pregunta. E.g., \texttt{numpy.polyfit},  \texttt{scipy.stats.linregress}, \texttt{sklearn.linear\_model.LinearRegression}
+
+\vspace{5 mm}
+\noindent\textbf{P3. Proyecto curso} \textbf{(0.5 puntos)}
+\vspace{5 mm}
+
+Discuta brevemente su idea de proyecto para el curso (50-100 palabras). El proyecto puede ser aplicado o más teórico, motivado por problemas existentes de sus proyectos/memorias/tesis, emprendimientos, o bien puede inspirarse con los proyectos de años anteriores en:
+
+\vspace{1em}
+\centerline{\url{http://games.cmm.uchile.cl/courses/MA5203/}}
+\vspace{1em}
+
+
+\vspace{2em}
+
+\noindent\textbf{BONUS:}
+Valide (o rechace) su respuesta a P1 de forma numérica usando Jupyter Notebook. Explicite sus supuestos e interprete sus resultados. Hint: Grafique la verosimilitud.
+
+
+
+\end{document}
+
