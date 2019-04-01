@@ -53,7 +53,7 @@
 \textbf{Profesor:} Felipe Tobar\\ 
 \textbf{Auxiliares:} Mauricio Araneda, Alejandro Cuevas, Mauricio Romero \\
 \textbf{Consultas:} Mauricio Araneda \\
-\textbf{Fecha entrega:} 10/3/2019 \\
+\textbf{Fecha entrega:} 11/4/2019 \\
 
 \noindent\textbf{Formato entrega:} Informe en formato PDF, con una extensión máxima de 3 páginas (puede usar un formato de doble columna), presentando y analizando sus resultados, y detallando la metodología utilizada. Adicionalmente debe entregar el jupyter notebook (o el código que haya generado) con la resolución de la tarea.
 
@@ -82,7 +82,7 @@ Valide (o rechace) su respuesta mediante simulaciones. Explicite sus supuestos e
 \noindent\textbf{P2. Regresión Lineal} \textbf{(3.5 puntos)}
 \vspace{5 mm}
 
-En el archivo \textbf{datos/szege\_clima.csv} se encuentra un \emph{dump} (subconjunto del  elementos del dataset original) de datos climáticos de la ciudad de Szege, la tercera ciudad más grande de Hungría. El archivo consiste de dos columnas, la primera $X$ corresponde a la proporcion de humedad ambiental, la segunda $Y$ corresponde a la sensación térmica. Mayor detalle sobre los datos utilizados puede encontrarse en:
+En el archivo \textbf{datos/szege\_clima.csv} se encuentra un \emph{dump} (subconjunto del  elementos del dataset original) de datos climáticos de la ciudad de Szege, la tercera ciudad más grande de Hungría. El archivo consiste en dos columnas, la primera $X$ corresponde a la proporcion de humedad ambiental, la segunda $Y$ corresponde a la sensación térmica. Mayor detalle sobre los datos utilizados puede encontrarse en:
 
 \vspace{1em}
 \centerline{\url{https://www.kaggle.com/budincsevity/szeged-weather}}
@@ -93,13 +93,13 @@ Para esto deberá:
 \begin{itemize}
 	\item[(0)] Instalar la última versión de Anaconda y lanzar Jyputer Notebook.
 	\item[(a)] (0.5 puntos) Cargar los datos desde el archivo \textbf{datos/szege\_clima.csv} y graficarlos.
-	\item[(b)] (0.5 puntos) Crear y ajustar su modelo de regresión lineal regularizada, implementando regularización \emph{ridge}, pruebe con distintos valores del factor $\rho$ (partiendo de $\rho=0$).
-	\item[(c)] (0.5 puntos) Crear y ajustar su modelo de regresión lineal regularizada, implementando regularización \emph{lasso}.
-	\item[(d)] (0.5 puntos) Generar una predicción para 10 puntos de forma uniforme en el intervalo [0, 1] para ambos modelos.
-	\item[(e)] (1.5 puntos) Grafique y discuta los resultados. A modo de guía en la discusión puede considerar las siguientes preguntas (no se limite únicamente a éstas):
+	\item[(b)] (1.0 puntos) Crear y ajustar su modelo de regresión lineal regularizada, implementando regularización \emph{ridge}, pruebe con distintos valores del factor $\rho$ (partiendo de $\rho=0$). Se recomienda crear la función $reg\_lineal(X,Y,\rho)$ que devuelva los parámetros $\theta$.
+	\item[(d)] (0.5 puntos) Grafique el valor de los coeficientes para distintos valores de $\rho$.
+	\item[(e)] (0.5 puntos) Grafique el error cuadrático medio y varianza para distintos valores de $\rho$.
+	\item[(f)] (1.0 puntos) Grafique y discuta los resultados, puede ayudarle graficar distintas curvas regularizadas sobre el dataset. A modo de guía en la discusión puede considerar las siguientes preguntas (no se limite únicamente a éstas):
 	    \begin{itemize}
-	        \item ¿En qué afecta que las regresiones estén regularizadas sobre este conjunto de datos?
-	        \item ¿Qué pros y contra otorga cada regularización? ¿Cuál es preferible en este contexto?
+	        \item ¿En qué afecta que la regresión esté regularizada sobre este conjunto de datos?
+	        \item ¿Qué pros y contras otorga la regularización? ¿Cuál es preferible en este contexto?
 	        \item ¿Qué modelo tiene mejor desempeño en sus predicciones? ¿Cuál tiene el menor error asociado?
 	    \end{itemize}
 \end{itemize}
@@ -111,10 +111,11 @@ Para esto deberá:
 \noindent\textbf{P3. Proyecto curso} \textbf{(0.5 puntos)}
 \vspace{5 mm}
 
-Discuta brevemente su idea de proyecto para el curso (50-100 palabras). El proyecto puede ser aplicado o más teórico, motivado por problemas existentes de sus proyectos/memorias/tesis, emprendimientos, o bien puede inspirarse con los proyectos de años anteriores en:
+Discuta brevemente su idea de proyecto para el curso (50-100 palabras). El proyecto puede ser aplicado o más teórico, motivado por problemas existentes de sus proyectos/memorias/tesis, emprendimientos, o bien puede inspirarse en los siguientes sitios:
 
 \vspace{1em}
 \centerline{\url{http://games.cmm.uchile.cl/courses/MA5203/}}
+\centerline{\url{https://www.kaggle.com/competitions}}
 \vspace{1em}
 
 
@@ -125,4 +126,5 @@ Discuta brevemente su idea de proyecto para el curso (50-100 palabras). El proye
 
 
 \end{document}
+
 
