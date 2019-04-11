@@ -224,7 +224,7 @@ Ya tenemos una noción de que es entrenar un $\gp$, queremos minimizar la $NLL$ 
 \noindent{\textbf{¿Cómo se entrena?}}
 
 Como contamos con una expresión cerrada para la NLL, podemos utilizar métodos clásicos de optimización, una opción es calcular el gradiente de esta función objetivo y aplicar algún método basado en gradiente, como L-BFGS; otra es utilizar el método de Powell que no requiere que la función sea diferenciable, por lo que no utiliza gradiente.\\
-\\
+
 
 Siguiendo ejemplos anteriores, usando la misma señal sintética y las mismas observaciones ruidosas de la Fig.\ref{fig:gp_3}, ahora optimizamos nuestro $\gp$ utilizando L-BFGS, lo que nos entrega como resultado el mostrado en la Tabla.\ref{tab:gp_1} donde comparamos los parámetros del $\gp$ sin entrenar usado en la Fig.\ref{fig:gp_3}, podemos ver que no difiere mucho en cuanto a las varianzas, pues como es una señal sintética poseíamos control sobre la varianza del ruido, el valor obtenido luego de optimizar es cercano al valor real (0.2), vemos que el \textit{lengthscale} óptimo es concordante con lo analizado en la Fig.\ref{fig:gp_4}.
 

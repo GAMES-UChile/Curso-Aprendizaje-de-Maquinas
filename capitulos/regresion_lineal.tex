@@ -124,11 +124,11 @@ donde $||\cdot||_p$ denota la norma $\ell_p$, es decir, $||\theta||_p=\left(\sum
 
 Una ventaja de la regularización de Tikhonov es que su solución, al igual que el caso de mínimos cuadrados no regularizados, puede ser encontrada en forma exacta. En efecto, para $p=2$ tenemos que el término de regularización puede ser expresado como $||\theta||_2 = \theta^\top\theta$, con lo que el minimizante del costo cuadrático regularizado está dado por: 
 \begin{align}
-\nabla_\theta J_\rho=0 &\Leftrightarrow \sum_{i=1}^N(\theta^\top \tx_i - y_i)\tx_i^\top + \rho\theta^\top=0  							&&\text{def. $J$}\\  
-&\Leftrightarrow \sum_{i=1}^Ny_i\tx_i^\top = \sum_{i=1}^N\theta^\top \tx_i\tx_i^\top + \rho\theta^\top					&&\text{ordenar}\\
-&\Leftrightarrow \theta^\top = \sum_{i=1}^Ny_i\tx_i^\top \left(\sum_{i=1}^N \tx_i\tx_i^\top + \rho \eye\right)^{-1}	&&\text{despejar $\theta^\top$}\\
-&\Leftrightarrow \theta =  \left(\sum_{i=1}^N \tx_i\tx_i^\top +\rho \eye\right)^{-1} \sum_{i=1}^N \tx_i y_i 		&&\text{transponer}\\
-&\Leftrightarrow \theta = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y 											&&\text{def. $\tX$ y $Y$}
+\nabla_\theta J_\rho=0 &\Leftrightarrow \sum_{i=1}^N(\theta^\top \tx_i - y_i)\tx_i^\top + \rho\theta^\top=0  							&&\text{def. $J$}\nonumber\\  
+&\Leftrightarrow \sum_{i=1}^Ny_i\tx_i^\top = \sum_{i=1}^N\theta^\top \tx_i\tx_i^\top + \rho\theta^\top					&&\text{ordenar}\nonumber\\
+&\Leftrightarrow \theta^\top = \sum_{i=1}^Ny_i\tx_i^\top \left(\sum_{i=1}^N \tx_i\tx_i^\top + \rho \eye\right)^{-1}	&&\text{despejar $\theta^\top$}\nonumber\\
+&\Leftrightarrow \theta =  \left(\sum_{i=1}^N \tx_i\tx_i^\top +\rho \eye\right)^{-1} \sum_{i=1}^N \tx_i y_i 		&&\text{transponer}\nonumber\\
+&\Leftrightarrow \theta = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y 											&&\text{def. $\tX$ y $Y$} \label{eq:least_sq_soln}
 \end{align}
 
 De la última expresión, es posible ver que el requerimiento de que las observaciones disponibles sean (i) más que la dimensión $M+1$ y que además (ii) éstas sean colineales ya no es necesario para que la solución esté bien definida. De hecho, la matriz $\tX^\top\tX$ puede efectivamente estar cercana a ser no invertible, sin embargo, es posible \emph{regularizar} la solución forzando que la matriz $\left(\tX^\top\tX +\rho \eye\right)$ sea efectivamente \emph{regular} aumentando el valor de $\rho$. 
@@ -146,7 +146,7 @@ En el caso de la regularización de Tikhonov, se entiende por soluciones regular
 8) ¿cómo elegir $\rho$? y validación cruzada: subajuste, sobreajuste
 \end{mdframed}
 
-\subsubsection{Máxima verosimilitud} % (fold)
+\subsection{Máxima verosimilitud} % (fold)
 \label{ssub:max_ver}
 
 Ahora tomaremos un enfoque distinto, en el cual no buscaremos el modelo \emph{aproximado} que tiene menor discrepancia con los datos. Por el contrario, nos enfocamos en modelos que han generado \emph{exactamente} los datos observados. Debido a la naturaleza de los datos, para este fin es necesario considerar modelos estocásticos, por lo que el mejor modelo estará dado por el que \emph{más probablemente} haya generado los datos. Específicamente, consideraremos un modelo compuesto por dos partes: la primera es determinística y paramétrica (al igual que los modelos anteriores) y una parte aleatoria la cual permitirá modelar exactamente las observaciones. 
@@ -209,8 +209,8 @@ Usando la condición de primer orden en esta expresión, tenemos que
 
 Con lo cual se obtiene, sin sorpresa alguna, la misma expresión de la varianza que al usar mínimos cuadrados. La lección de este desarrollo es que, si bien tan con mínimos cuadrados o bien con máxima verosimilitud llegamos a las mismas soluciones tanto para el parámetro de la función lineal o cálculos de las varianzas, la varianza es una cantidad \emph{inherente} del modelo probabilístico y por ende puede ser calculada junto con el resto de los parámetros. 
 
-\subsubsection{Regresión via inferencia bayesiana} % (fold)
-\label{ssub:map}
+\subsection{Regresión via inferencia bayesiana} % (fold)
+\label{sub:inferencia_bayes}
 
 En lugar de maximizar la probabilidad de que los datos hayan sido generado por el modelo propuesto para encontrar una estimación puntual del parámetro que estamos buscando, podemos calcular la distribución condicional sobre parámetros condicional a las observaciones disponibles, es decir, $p(\theta|T)$. Este criterio es conceptualmente distinto al de mínimos cuadrados o máxima verosimilitud, pues ya no nos enfocamos en encontrar el parámetro \emph{más probable} o de \emph{menor costo} sino que encontramos una distribución de probabilidad sobre el valor del parámetro que genero los datos observados. Esta distribución es conocida como \emph{distribución posterior del modelo dado los datos} y mediante el teorema de Bayes puede expresarse como
 
@@ -218,7 +218,7 @@ En lugar de maximizar la probabilidad de que los datos hayan sido generado por e
 	p(\theta|T)=\frac{p(T|\theta)p(\theta)}{p(T)}
 	\label{eq:posterior}
 \end{equation}
-donde $p(\theta)$ es la \emph{distribución a prior} del parámetro y encapsula todos nuestros supuestos, creencias y sesgo sobre el espacio de parámetros (modelos) a considerar. Finalmente, observe que la expresión de la distribución posterior tiene por denominador la \emph{distribución marginal de los datos} $p(T)$ que actúa como constante no normalización para el numerador, pues solo el numerador es función del parámetro $\theta$. Esta constante de normalización puede ser calculada mediante el uso de la ley de probabilidades totales, o bien imponiendo la restricción de que la expresión en la ecuación \eqref{eq:posterior} debe integrar uno:
+donde $p(\theta)$ es la \emph{distribución a priori} del parámetro y encapsula todos nuestros supuestos, creencias y sesgo sobre el espacio de parámetros (modelos) a considerar. Finalmente, observe que la expresión de la distribución posterior tiene por denominador la \emph{distribución marginal de los datos} $p(T)$ que actúa como constante no normalización para el numerador, pues solo el numerador es función del parámetro $\theta$. Esta constante de normalización puede ser calculada mediante el uso de la ley de probabilidades totales, o bien imponiendo la restricción de que la expresión en la ecuación \eqref{eq:posterior} debe integrar uno:
 \begin{equation}
 	p(T) = \int p(T|\theta)p(\theta)d\theta.
 \end{equation}
@@ -227,7 +227,7 @@ En base a la forma explícita de $p(T|\theta)p(\theta)$, calcular esta integral 
 La distribución posterior es entonces una \emph{mezcla} entre la distribución posterior (que representa la creencia en la variable antes de ver datos) y la verosimilitud (que representa la probabilidad de los datos condicional al modelo). Cuando la distribución a priori y a posteriori son de la misma familia, diremos que  la distribución a priori es conjugadas con la función de verosimilitud. Ejemplos de priors conjugados son las distribuciones gaussianas, por ejemplo, si consideramos $p(\theta,\tX) = \cN(0,\sigma_\theta^2)$ y una verosimilitud gaussiana (i.e., modelo linear con ruido gaussiano), tenemos
 
 \begin{align}
-	p(\theta|T)	&\propto p(Y|\theta,\tX)p(\theta,\tX)\\
+	p(\theta|T)	&\propto p(Y|\theta,\tX)p(\theta,\tX)\label{eq:gaussian_post}\\
 				&= \cN(Y;\theta^\top\tX,\eye\sigma_\epsilon^2)\cN(\theta;0,\sigma_\theta^2)\nonumber\\
 				&=\cN(\theta; \mu,\Sigma)\nonumber
 \end{align}
@@ -245,37 +245,167 @@ Con este enfoque, el cual llamaremos \emph{inferencia bayesiana}, el ajuste de m
 \end{itemize}
 
 
-\doublebox{
-\begin{minipage}{\linewidth}
-\textbf{\underline{Ejemplo:}}
+% subsubsection máximo_a_posteriori (end)
 
-Otro caso de priors conjugados es la distribución binomial, que consiste en la probabilidad de obtener $s$ aciertos en $n$ intentos, cada uno independientes y equiprobables con probabilidad desconocida $q$.
+\subsubsection{Maximo a posteriori} % (fold)
+\label{sub:map}
 
+Antes de explorar en mayor detalle el cálculo de la distribución posterior o cómo elegir la distribución a priori, nos detendremos para revisar otra estimación puntual. Además de la solución que se obtiene mediante la maximización de la verosimilitud (referida como estimador de máxima verosimilitud), también podemos encontrar una solución mediante la maximización de la distribución posterior. Es decir, en vez de considerar toda la distribución posterior sobre el parámetro de interés, soplo consideraremos la moda de esta distribución---nótese que para el caso de la distribución normal, este (único) máximo también equivale a la media y mediana.
+
+Para el caso del modelo lineal y gaussiano que hemos considerado hasta ahora, podemos calcular este estimador mediante el supuesto de que la distribución a prior es también normal de media cero y varianza $\sigma_\theta^2$. El cálculo del estimador \emph{máximo a posteriori}, denotado por $\theta_\text{MAP}^\star $, está dado por 
+
+\begin{align}
+	\theta_\text{MAP}^\star 	&= \argmax p(Y|\theta,\tX)p(\theta,\tX)\nonumber\\
+								&= \argmax \prod_{i=1}^Np(y_i|\tx_i,\theta)p(\theta,\tX)\nonumber\\
+								&= \argmax \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2)\cN(\theta;0,\sigma_\theta^2) \nonumber\\
+								&= \argmax \prod_{i=1}^N \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \exp\left({\frac{-1}{2\sigma_\epsilon^2}(y_i-\theta^\top\tx_i)^2}\right)
+											\frac{1}{(\sqrt{2\pi}\sigma_\theta)^{M+1}} \exp\left({\frac{-||\theta||^2}{2\sigma_\theta^2}}\right) \nonumber\\
+								&= \argmax  \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \frac{1}{(\sqrt{2\pi}\sigma_\theta)^{M+1}}
+											\exp\left( \sum_{i=1}^N{\frac{-1}{2\sigma_\epsilon^2}(y_i-\theta^\top\tx_i)^2} -{\frac{||\theta||^2}{2\sigma_\theta^2}}\right) \nonumber\\
+								&= \argmin \sum_{i=1}^N{(y_i-\theta^\top\tx_i)^2} +{\frac{\sigma_\epsilon^2}{\sigma_\theta^2}||\theta||^2}
+\end{align}
+
+Observemos que esta expresión es equivalente al costo cuadrático regularizado de la ecuación \eqref{eq:reg_least_squares} con orden $p=2$, es decir, la solución \emph{máximo a posteriori} del modelo lineal y Gaussiano con prior Gaussianos es la misma que la de mínimos cuadrados regularizados cuando la regularización también tiene costo cuadrático. 
+
+
+\subsection{Predicciones} % (fold)
+\label{sub:predicciones}
+En el caso de las estimaciones puntuales como la de máxima verosimilitud (mínimos cuadrados) o bien máximo a posteriori (mínimos cuadrados regularizados), la predicción puede ser calculada simplemente reemplazando el valor estimado para el parámetro en el modelo. Es decir, si hemos calculado el parámetro mediante máxima verosimilitud (denotado como $\theta_{\text{MV}}$) entonces el modelo lineal es simplemente 
+\begin{align}
+	 y &= \theta_{\text{MV}}^\top \tilde{x} + \epsilon\\
+	 \epsilon &\sim \cN(0,\sigma^2)
+\end{align}
+
+Con lo que la distribución del valor de la variable dependiente $y_\star$ que corresponde al valor $x_\star$ de la variable independiente, está simplemente dado por 
+
+\begin{align}
+	 y_\star \sim  \cN(\theta_{\text{MV}}^\top \tilde{x}_\star,\sigma^2) 
+\end{align}
+donde si consideramos la esperanza como estimación puntual, ésta coincide con la estimación del modelo determinístico y está dada por 
+\begin{align}
+	 \hat{y}_\star  = \theta_{\text{MV}}^\top \tilde{x}_\star
+\end{align}
+
+A diferencia de las estimaciones puntuales, cuando realizamos una estimación bayesiana del parámetro $\theta$, es decir, disponemos de su distribución posterior, la distribución sobre valores de $y_\star$ debe tomar en cuenta todos los posibles valores de $\theta$. En efecto, denotando el conjunto de datos como $\datos=\{(x_i,y_i)\}_{i=1}^N$, la distribución de la variable dependiente $y_\star$ dada una nueva entrada $x_\star$ está dada por la distribución condicional del $y$ condicional al conjunto de observaciones $\datos$, lo cual se puede calcular integrando con respecto a la posterior del parámetro, es decir, 
+\begin{equation}
+ 	p(y|x,\datos) = \int p(y|x, \theta)p(\theta|\datos) \td\theta.
+ \end{equation} 
+Como se vio en la ecuación \eqref{eq:gaussian_post}, bajo el supuesto del modelo lineal y gaussiano la posterior sobre $\theta$ también es Gaussiana. Consecuentemente, la integral en la última ecuación puede calcularse de forma analítica y es también gaussiana. 
+
+Finalmente, veamos que la estimación puntual de $y_\star$ usando el enfoque bayesiano también coincide con la estimación puntual usando máxima verosimilitud (o mínimos cuadrados) cuando el modelo es lineal y gaussiano. En efecto, asumiendo la notación para posterior $\cN(\theta;\mu_\theta, \sigma_\theta^2)$, esta estimación puntual está dada por la siguiente esperanza
+\begin{align}
+	\E\left[y|x_\star,\datos\right] 
+	&= \int y p(y|x_\star,\datos) \td y \\
+	&= \int y p(y|x_\star, \theta)p(\theta|\datos) \td \theta \td y \nonumber\\
+	&= \int y \cN(y;\theta^\top x_\star ,\sigma_e^2)\cN(\theta;\mu_\theta, \sigma_\theta^2) \td\theta \td y \nonumber\\
+	&= \int \theta^\top x_\star \cN(\theta;\mu_\theta, \sigma_\theta^2) \td \theta \nonumber\\
+	&= \left(\int \theta \cN(\theta;\mu_\theta, \sigma_\theta^2) \td \theta\right)^\top x_\star \nonumber\\
+	&= \mu_\theta^\top x \nonumber
+\end{align}
+
+\subsection{Priors conjugados}
+
+Como vimos en la Sección \ref{sub:inferencia_bayes}, la distribución posterior está dada directamente por el prior, verosimilitud y constante de normalización mediante
+
+\begin{equation}
+	p(\theta|\datos) = \frac{p(\theta|\datos)p(\theta)}{p(\datos)}\propto p(\theta|\datos)p(\theta)
+\end{equation}
+donde recordemos que $\datos$ denota el conjunto de observaciones y la expresión de la derecha (proporcional a la distribución posterior) es considerada debido a que la constante de normalización es difícil de calcular en general. Como la constante de normalización no depende del parámetro $\theta$, podemos interpretar que solo la función de verosimilitud modifica la elección de la distribución a priori para generar la distribución posterior, por esto estamos interesados en formas de elegir la distribución a priori, tal que al multiplicarla por la verosimilitud, el resultado (la posterior) sigue teniendo la misma \emph{forma}. Cuando este es el caso, diremos que el prior elegido es \emph{conjugado} con la función de verosimilitud. Permanecer en la misma familia, desde prior a posterior, tiene ventajas como interpretación de los nuevos parámetros y cálculo directo de la constante de normalización.
+
+A continuación vemos dos ejemplo de priors conjugados para dos modelos distintos. 
+
+
+\subsubsection{Modelo gaussiano}
+
+Consideremos un conjunto de observaciones\footnote{Observe que en esta sección no estamos solo enfocados en el problema de regresión, sino que cualquiera que requiera inferencia paramétrica bayesiana.} $\datos=\{x_i\}_{i=1}^N\subset\R$ generados independiente e idénticamente distribuidos (iid) por la distribución $\cN(\mu_0,\sigma_0^2)$. Como hemos visto anteriormente, la verosimilitud de los estimadores de la media y varianza respectivamente dados por $\mu$ y $\sigma^2$ están dados por 
+
+\begin{equation}
+	l(\mu, \sigma^2 | \datos) = \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right).
+ \end{equation}
+
+ A continuación veremos el prior gaussiano para $\mu$ y Gamma-inverso para $\sigma^2$ son conjugados con la verosimilitud en la ecuación anterior. 
+
+ Veamos en primer lugar que eligiendo el prior $p(\mu) = \cN(m_\mu,\sigma_\mu^2)$, tenemos 
+
+ \begin{align}
+ 	p(\mu|\datos) &\propto \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right) \frac{1}{\sqrt{2\pi\sigma_\mu^2}}\exp\left(-\frac{1}{2\sigma_\mu^2}(\mu-m_\mu)^2\right)\\
+ 	&\propto \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^N(x_i-\mu)^2-\frac{1}{2\sigma_\mu^2}(\mu-m_\mu)^2\right)\nonumber
+ \end{align} 
+ donde la segunda linea es proporcional a la primera pues se han removido todas las contantes (pues no dependen de $\mu$). Notemos que la expresión final es proporcional a una gaussiana en $\mu$, por lo tanto, la constante de normalización es conocida y la distribución posterior es gaussiana.
+
+ Ahora procedemos con la varianza y un prior Gamma-inverso definido como 
+
+ \begin{equation}
+ 	p(\sigma^2)= \text{inv-}\Gamma(\sigma^2;\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)
+ \end{equation}
+ con lo que la posterior toma la forma 
+
+ \begin{align}
+ 	p(\sigma^2|\datos) &\propto \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right) \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)\\
+ 	&\propto  \frac{1}{(\sigma^2)^{N/2+\alpha+1}}\exp\left(-\frac{1}{\sigma^2}\left(\frac{1}{2}\sum_{i=1}^N(x_i-\mu)^2 +\beta\right) \right)\nonumber
+ \end{align} 
+ donde nuevamente la proporcionalidad ha sido mantenida debido a la remoción de las constantes. Esta última expresión es proporcional a una distribución Gamma inversa. 
+
+
+
+
+
+
+
+
+\subsubsection{Modelo binomial}
+
+Consideremos el evento de obtener ``$s$ aciertos en $n$ intentos''. Por ejemplo anotar $s$ goles con $n$ intentos de penales, u obtener $s$ veces un número par al lanzar un dado $n$ veces. La probabilidad de obtener entonces los ``$s$ aciertos en $n$ intentos'' puede ser modelada mediante una distribución binomial, la cual asume que cada acierto es independiente y  equiprobable con probabilidad $q$. La distribución binomial está dada por
 \begin{equation}
 	p(n, s) = \binom{n}{s} q^s (1-q)^{n-s}
 \end{equation}
+y su único parámetro es la probabilidad marginal $q$.
 
-Donde su prior conjugado es la distribución Beta con parámetros ($\alpha, \beta$)
+El prior conjugado para este modelo es la distribución Beta, con parámetros ($\alpha, \beta$), denotada por 
 
 \begin{equation}
-	p(q) = \frac{q^{\alpha-1}(1-q)^{\beta-1}}{\mathcal{B}(\alpha, \beta)}
+	p(q) = \text{Beta}(q;\alpha,\beta) = \frac{q^{\alpha-1}(1-q)^{\beta-1}}{\mathcal{B}(\alpha, \beta)},
+	\label{eq:distribucion_beta}
+\end{equation}
+donde $\mathcal{B}(x,y) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$ es la función Beta que actúa como contante de normalización.
+
+
+Luego, si consideramos las observaciones $\datos = \{(n_i,s_i)\}_{i=1}^N$ correspondientes a $N$ juegos, donde el $i$-ésimo juego consistió en $n_i$ intentos y $s_i$ aciertos, la distribución posterior de $q$ (con un prior $\text{Beta}(q;\alpha,\beta)$) está dada por
+\begin{align}
+	p(q|\datos) & 	\propto \prod_{i=1}^N  p(n_i,s_i|q)p(q)  \\
+			 & \propto  \prod_{i=1}^N\binom{n_i}{s_i}q^{s_i}(1-q)^{n_i-s_i}q^{\alpha-1}(1-q)^{\beta-1} \nonumber\\
+			 & \propto  q^{\ssum s_i + \alpha - 1}(1-q)^{\ssum (n_i-s_i) + \beta-1} \nonumber
+\end{align}
+donde nuevamente los símbolos de proporcionalidad se han mantenido debido a la remoción de constantes y se ha usado la notación compacta $\ssum s_i = \ssum_{i=1}^N s_i$. Notemos que la última expresión es proporcional a la definición de distribución Beta en la ecuación \eqref{eq:distribucion_beta}, por lo que ajustando la constante de proporcionalidad tenemos: 
+
+\begin{equation}
+	p(q|\datos) = \text{Beta}(q;\ssum s_i + \alpha - 1,\ssum (n_i-s_i) + \beta-1)
 \end{equation}
 
-Donde $\mathcal{B}(x,y)$ es la función Beta que actua como factor normalizador.
 
 
-Luego, si queremos obtener la posterior de $q$ con un prior Beta,
 
-\begin{align}
-	p(q|n,s) & = \frac{p(n.s|q)p(q)}{p(n,s)} \\
-			 & = \frac{\binom{n}{s}q^s(1-q)^{n-s}q^{\alpha-1}(1-q)^{\beta-1}}{p(n,s)} \\
-			 & = \textcolor{blue}{
-			 \underbrace{\frac{\binom{n}{s}}{p(n,s)}
-			 }}
-			 q^s(1-q)^{n-s}q^{\alpha-1}(1-q)^{\beta-1}\\
-			 & = \textcolor{blue}{\mathcal{B}(s+\alpha, \beta + n - s)} q^{s + \alpha-1} (1-q)^{n-s+\beta-1} && \text{Es una distribución Beta}
-\end{align}
-\textbf{\underline{Aplicación:}}
+\subsection{Máxima verosimilitud y divergencia de Kullback-Liebler}
+
+\begin{mdframed}[style=pendiente, frametitle={\center Discusión}]
+1) Definir información y entropía\\
+2) Presentar KL-divergence como distancia entre distribuciones\\
+3) Interpretar \\
+4) Conectar min KL y max verosimilitud
+	
+\end{mdframed}
+
+
+
+
+
+
+
+% subsection predicciones (end)
+
+\subsection{Ejercicios} % (fold)
+\label{sub:ejercicios_regresion_lineal}
+
 
 Se sabe que el $1\%$ de las mujeres tienen cancer de mamas, y se tiene un test para detectar si una mujer lo presenta o no. Si la paciente tiene cancer (C), el test dará postitivo (PT) con una probabilidad del $80\%$ y negativo (NT) con $20\%$, en cambio cuando la paciente está sana (NC), hay un $9.6\%$ de probabilidad que el test salga erroneo y si detecte cancer (PT).
 
@@ -290,7 +420,7 @@ Una paciente se realiza el test y este sale positivo, nos gustaría obtener la p
 
 De esta misma forma podemos completar todos los casos.
 \\
-% \begin{table}%[H]
+{
 \centering
 \begin{tabular}{c|cc}
 \toprule
@@ -299,55 +429,10 @@ PT($10.3\%$) & $7.7\%$ & $92.3\%$\\
 NT($89.6$\%) & $0.2\%$ & $99.8\%$ \\
 \bottomrule
 \end{tabular}
-\captionof{figure}{Resumen de las probabilidades para el caso del test de cancer.}
-\label{table:cancer}
-% \end{table}
-
-\end{minipage}}
+}
 
 
-% subsubsection máximo_a_posteriori (end)
 
-\subsection{Maximo a posteriori} % (fold)
-\label{sub:map}
-
-¿Cuál es el equivalente a regularizar en es sentido probabilístico? La respuesta está en asignar más probabilidad \emph{a priori} antes de ver datos en vez de penalizar y encontrar (una) moda de la distribución posterior, es decir 
-
-
-\begin{align}
-	\theta_\text{MAP}^\star 	&= \argmax p(Y|\theta,\tX)p(\theta,\tX)\\
-								&= \argmax \prod_{i=1}^Np(y_i|\tx_i,\theta)p(\theta,\tX)\\
-								&= \argmax \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2)\cN(\theta;0,\sigma_\theta^2) \\
-								&= \argmax \prod_{i=1}^N \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \exp\left({\frac{-1}{2\sigma_\epsilon^2}(y_i-\theta^\top\tx_i)^2}\right)
-											\frac{1}{(\sqrt{2\pi}\sigma_\theta)^{M+1}} \exp\left({\frac{-||\theta||^2}{2\sigma_\theta^2}}\right) \\
-								&= \argmax  \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \frac{1}{(\sqrt{2\pi}\sigma_\theta)^{M+1}}
-											\exp\left( \sum_{i=1}^N{\frac{-1}{2\sigma_\epsilon^2}(y_i-\theta^\top\tx_i)^2} -{\frac{||\theta||^2}{2\sigma_\theta^2}}\right) \\
-								&= \argmin \sum_{i=1}^N{(y_i-\theta^\top\tx_i)^2} +{\frac{\sigma_\epsilon^2}{\sigma_\theta^2}||\theta||^2}\quad {\tt (:|)}
-\end{align}
-
-\subsection{Predicciones} % (fold)
-\label{sub:predicciones}
-Una vez que el modelo está ajustado, ya sea con estimaciones paramétricas puntiales o distribucionales, ¿cómo hacemos predicciones? En el caso puntual, la predicción es simplemente evaluar el modelo en el parámetro encontrado $\theta$ y la entrada $x$. En el caso de la estimación bayesiana del parámetro, la predicción toma en cuenta todos los posibles valores del parámetro. En efecto, la distribución de la variable dependiente $y$ para una nueva entrada $x$ está dada por la distribución condicional del $y$ dado todos los datos de entrenamiento, es decir, 
-
-\begin{equation}
- 	p(y|x,\{(x_i,y_i)\}_{i=1}^N) = \int p(y|x, \theta)p(\theta|\{(x_i,y_i)\}_{i=1}^N) d\theta
- \end{equation} 
-
-consecuentemente, la esperanza está dada por
-
-\begin{align}
-	\E{y|x,\{(x_i,y_i)\}_{i=1}^N} 
-	&= \int y p(y|x,\{(x_i,y_i)\}_{i=1}^N) dy\\
-	&= \int y p(y|x, \theta)p(\theta|\{(x_i,y_i)\}_{i=1}^N) d\theta dy\\
-	&= \int y \cN(y;\theta^\top xp,\sigma_e^2)\cN(\theta;\mu_\theta, \sigma_\theta^2) d\theta dy\\
-	&= \int \theta^\top x\cN(\theta;\mu_\theta, \sigma_\theta^2) d\theta \\
-	&= \mu_\theta^\top x
-\end{align}
-
-% subsection predicciones (end)
-
-\subsection{Ejercicios} % (fold)
-\label{sub:ejercicios_regresion_lineal}
 
 i) Considere el caso en que sus observaciones (entrada $x$, salida $y$) solo consisten en 
 \begin{equation}
