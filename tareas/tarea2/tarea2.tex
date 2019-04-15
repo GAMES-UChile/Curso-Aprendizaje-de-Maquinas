@@ -1,0 +1,132 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,includeheadfoot, top=0.5cm, bottom=3.0cm, right=1.5cm, left=1.5cm]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\renewcommand{\figurename}{Fig.}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{subfig}
+\usepackage{listings} %Codigo
+\usepackage{selinput}                   % Compatibilidad con acentos
+\newcommand{\bR}{\ensuremath{\mathbb{R}}}
+\newcommand{\bN}{\ensuremath{\mathbb{N}}}
+\newcommand{\bZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\bP}{\ensuremath{\mathbb{P}}}
+\newcommand{\bE}{\ensuremath{\mathbb{E}}}
+\newcommand{\bD}{\ensuremath{\mathbb{D}}}
+\newcommand{\bV}{\ensuremath{\mathbb{V}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\m}{\ensuremath{\mathbf{m}}}
+\newboolean{pauta}
+\setboolean{pauta}{false}
+%\usepackage{tkz-graph}
+%\usetikzlibrary{arrows}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
+\lstset{language=C, tabsize=4,framexleftmargin=5mm,breaklines=true}
+
+\begin{document}
+
+% ·············· ENCABEZADO - PIE DE PAGINA ············
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{MA5204: Aprendizaje de Máquinas 2019}}
+\rfoot{Page \thepage}
+%Encabezado
+
+% =============== Inicio Documento ===============
+%\rm
+%\headheight = 35.02448pt
+\begin{center}
+\large {\textbf{Tarea 2}}\\
+\end{center}
+\textbf{Profesor:} Felipe Tobar\\ 
+\textbf{Auxiliares:} Mauricio Araneda, Alejandro Cuevas, Mauricio Romero \\
+\textbf{Consultas:} Alejandro Cuevas \\
+\textbf{Fecha entrega:} 26/4/2019 \\
+
+\textbf{Formato entrega:} Entregue un informe en formato PDF con una extensión de a lo más \textbf{3} páginas presentando y analizando sus resultados, detalle la metodología utilizada y adicionalmente debe entregar un jupyter notebook con los códigos que creó para resolver la tarea.
+\vspace{5mm}
+
+
+\vspace{5 mm}
+\noindent\textbf{P1. Regresión No Lineal}
+\vspace{5 mm}
+
+Se tienen los datos de la cantidad de pasajeros de una aerolínea medidos de forma mensual. Los datos son de la forma $\{(x_i,y_i)\}_{i=1}^N$ donde $x_i$ representa un mes, $y_i$ la cantidad de pasajeros transportados en el mes correspondiente. Los datos los puede encontrar en:
+
+\url{https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/datos/datosT2.txt}\\
+
+El objetivo de esta tarea es modelar la cantidad de pasajeros ($y$) respecto al instante de tiempo ($x$), para este fin, se asumirá el siguiente modelo:
+
+$$y = f_\theta(x)+\eta $$
+
+Donde $\theta$ corresponde a los parámetros de la función $f$, y $\eta \sim \mathcal{N}(0,\sigma_{\eta}^2)$ corresponde a ruido gaussiano.
+Luego, los parametros a ajustar se denotan:
+
+$$ \theta' = [\theta, \sigma_{\eta}^2]$$
+
+Para las parte que siguen, considere 75\% de los datos (los primeros 9 años) para entrenamiento de su modelo y el 25\% restante para validar sus resultados, para esto deberá:
+
+\begin{itemize}
+	\item[(i)] Cargue los datos \textbf{datosT2.txt} y grafíquelos de forma que se pueda distinguir entre el conjunto de entrenamiento y test.
+	
+	\item[(ii)] Modele $f_\theta$ como un polinomio, es decir: 
+
+	$$f_\theta(x)=\theta_0+\theta_1x+\theta_2x^2+\ldots$$
+	
+	Considere un prior Gaussiano sobre los parámetros $\theta'$ y encuentre dichos parámetros usando el método \textit{máximo a posteriori}.
+	
+	En base a los resultados obtenidos indique y discuta cual es el grado del polinomio que es más probable que haya generado los datos.
+	
+	\noindent \textbf{HINT:} Considere polinomios entre grado 1 y 4.
+	
+	\item[(iii)]  Como podrá observar el modelo polinomial no es capaz de capturar las componentes periódicas observadas, para resolver esto, denote el polinomio encontrado en la parte anterior como $f^{pol}$ y modele la señal como $f^{pol}$ más una componente sinusoidal modulada por una exponencial, es decir:
+	
+	$$ y = f_\theta(x) = f^{pol} + \theta_1\sin(\theta_2x + \theta_3)e^{\theta_4x}+\eta,\quad \eta \sim \mathcal{N}(0,\sigma_\eta^2)$$
+	
+	Solo ajuste los parámetros $(\theta_{1:4})$ y el ruido $\sigma_{\eta}^2$ del modelo mediante máxima verosimilitud, es decir, mantenga sin modificar la componente polinomial $f_{pol}$ del inciso anterior.
+
+	Note que este modelo \textbf{no} es lineal en los parámetros por lo cual la solución no puede ser escrita de forma exacta. Para ello construya la función de verosimilitud y optimícela usando el método BFGS. Recuerde que no es necesario calcular analíticamente el gradiente de la función a optimizar dependiendo de la implementación de BFGS utilice.
+    
+    Discuta la capacidad del modelo para predecir el conjunto de evaluación e interprete los parámetros del modelo.
+	
+	\noindent \textbf{HINT:} Utilice 0.01 como condición inicial para $\theta_4$.
+	
+	\item[(iv)] Como podrá notar, la 'forma de onda' de los datos no es puramente sinusoidal, por esta razón, denote la función encontrada en la parte anterior como $f^{pol-sin}$ y agregue una segunda componente senoidal modulada por una exponencial, es decir:
+	
+		$$ y = f_\theta(x) = f^{pol-sin} + \theta_5\sin(\theta_6x + \theta_7)e^{\theta_8x}+\eta,\quad \eta \sim \mathcal{N}(0,\sigma_\eta^2)$$
+		
+	Recuerde los parámetros de $f^{pol-sin}$ son fijos y encuentre los nuevos parámetros $\theta_{5:8}$ y $\sigma_{\eta}^2$ usando máxima verosimilitud y BFGS. Evalúe su solución en la prediciendo el 25\% restante de los datos.
+	
+	\noindent \textbf{HINT:} Utilice 0.01 como condición inicial para $\theta_8$.
+	
+	Presente sus resultados y discuta el método en que los obtuvo, en particular, explique el rol de cada una de las componentes del modelo final, es decir el modelo que considera la parte polinomial y ambas componentes sinusoidales. Además, comente sobre los distintos estimados de la varianza del ruido $\sigma_{\eta}^2$ en cada etapa.
+	
+	¿Habría sido posible entrenar el modelo final de una vez? Evalúe los modelos ajustados en función de su verosimilitud y del error de predicción en el conjunto de test.
+\end{itemize}
+
+
+\vspace{5 mm}
+\noindent\textbf{P2. Proyecto curso}
+\vspace{5 mm}
+
+\begin{itemize}
+	\item[(i)] Forme grupos de a lo más \textbf{3} personas (Si es de postgrado, máximo 1). Como grupo elijan una propuesta de proyecto y descríbalo.
+	\item[(ii)] Sobre el proyecto que piensa realizar, muestre y describa los datos que piensa utilizar.
+\end{itemize}
+
+
+
+
+\end{document}
+
