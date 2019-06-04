@@ -1,41 +1,65 @@
-%!TEX root = notas_de_clase.tex
+%!TEX root = ../notas_de_clase.tex
 
 \section{Aprendizaje No Supervisado}
 
 \subsection{Reducción de dimensionalidad}
-\subsubsection{Principal Component Analysis (PCA)}
-Formalmente, consideremos una matriz de datos $\hat{X}$:
+\subsubsection{Análisis de componentes principales (ACP)}
 
-$$
-\hat{X}=\begin{bmatrix}
-        \hat{x}_{11}    & \dots & \hat{x}_{1m}  \\
-        \vdots          & \ddots& \vdots        \\
-        \hat{x}_{n1}    & \dots & \hat{x}_{nm}
-        \end{bmatrix},
-$$
+Consideremos un conjunto de observaciones de $\{\x_i\}_{i=1}^n\subset\R^N$, donde denotamos $\x_i=[x_{i1},x_{i2},\ldots,x_{iN}]^\top$. Podemos entender que el elemento $x_{ij}$ corresponde al valor del atributo $j$ para la observación $i$. 
 
-\noindent donde cada columna representa una variable de proceso distinta (característica) y cada fila un instante de tiempo, observación o ejemplo. De este modo se tienen $m$ características, y $n$ ejemplos. Es altamente recomendable que los datos de PCA estén normalizados, de modo que la normalización estará dada por:
+\begin{mdframed}[style=pendiente, frametitle={\center ejemplos}]
+dar un ejemplo como el de nutrición, series de tiempo, geo-algo
+\end{mdframed}
 
-\begin{equation*}
-\hat{x}_{ij} = \frac{x_{ij}-\mu_j}{\sigma_{j}}
-\end{equation*}
+Notemos que cada observación puede descomponerse en la base canónica $\{\e_i\}_{i=1}^N$ de $\R^N$ de la forma 
+\begin{equation}
+	\x_i = x_{i1}\e_1 +  x_{i2}\e_2 + \cdots + x_{iN}\e_N 		
+\end{equation}
+Notemos que es posible representar cada vector $\x_i$ mediante una cantidad $N'<N$ de términos truncando la representación anterior, es decir,  
+\begin{equation}
+	\x_i \approx \sum_{j=1}^{N'} x_{i\sigma(j)}\e_{\sigma(j)}
+\end{equation}
+donde $\sigma:\{1,2,\ldots,N\}\mapsto\{1,2,\ldots,N\}$ es una permutación. Dicha aproximación de las observaciones $\{\x_i\}_{i=1}^n$ es una versión de baja dimensión, entonces, naturalmente nos podemos hacer la siguiente pregunta: dado una dimensión $N'<N$  ¿es efectivamente un subconjunto de los vectores canónicos la mejor base para descomponer as observaciones?  ¿cómo encontramos la \emph{mejor} base?
 
-La dirección de mayor variabilidad está dada por los vectores propios de la \emph{matriz de covarianza empírica}:
+La respuesta a la primera pregunta es, en la mayoría de los casos, negativa. Esto es porque los elementos de la base canónica, por sí solos, conllevan poca información estructural que puede ser encontrada en los vectores observados. En particular, consideremos el caso en donde solo se dispone de dos observaciones $\{\x_1, \x_2\}$, si $N'=2$, entonces una descomposición que garantiza error nulo es simplemente elegir $\x_1$ y $\x_2$ como bases de la nueva descomposición, donde los coeficientes estarían dados por $[1,\ 0]^\top$ y $[0,\ 1]^\top$. 
 
+Para encontrar la \emph{mejor} base, lo primero que se requiere es definir qué se entiende por \emph{mejor}. Nos enfocaremos en determinar una base cuyos componentes \textbf{ordenados} $\cvector_1,\cvector_2,\ldots$ capturan las $N'$ direcciones (ortogonales) de máxima variabilidad de nuestros datos. Es decir, el primer elemento de la nueva base estará dado por 
+\begin{equation}
+	\cvector_1 = \argmax_{||\cvector_1||=1} {\langle\cvector_1,\x\rangle} \label{eq:PCA_max}
+\end{equation}
+Este criterio es conocido como \textbf{análisis de componentes principales (ACP)}. Notemos que la restricción $||\cvector_1||=1$ es porque recordemos que estamos la dirección de máxima varianza y  la expresión anterior (cuadrática en $\cvector_1$) no es maximizable en $\cvector_1$. Por esta razón, sin pérdida de generalidad podemos fijar la norma de $\cvector_1$ en 1 y buscar una base \emph{ortonormal}. 
+
+Asumiremos además que nuestros datos están estandarizados, es decir, tienen un vector de medias nulo y varianzas marginales unitarias. Esto es para reducir los sesgos por variables que pueden ser introducidos en la maximización de la expresión anterior: Si una dimensión tiene una varianza marginal mayor que el resto, ésta será más importante en la determinación de la dirección de máxima varianza solo por su magnitud y no por la relación entre variables. 
+
+Como en general no contamos con la distribución de las observaciones $p(\x)$, podemos considerar una aproximación muestral de la varianza en la ecuación \eqref{eq:PCA_max} y resolver 
 \begin{align}
-\Sigma & = \frac{1}{n-1}\hat{X}^T\hat{X}= V\Lambda V^T
+	\cvector_1 = \argmax_{||\cvector_1||=1} \sum_{i=1}^N \langle\cvector_1,\x\rangle^2.\label{eq:PCA_max2}
 \end{align}
 
-donde $V$ es la matriz donde cada columna es un vector propio y $\Lambda$ es la matriz de valores propios. Un mayor valor para un valor propio indica mayor variabilidad para el vector propio asociado. Finalmente, los datos proyectados se pueden escribir como:
-
+Podemos ahora usar la siguiente notación
+$$
+X=[\x_1,\x_2,\ldots,,\x_n]=\begin{bmatrix}
+        {x}_{11}    & \dots & {x}_{n1}  \\
+        \cdots          & \ddots& \cdots        \\
+        {x}_{1N}    & \dots & {x}_{nN}
+        \end{bmatrix},
+$$
+y reescribir la ecuación \eqref{eq:PCA_max2} como 
+\begin{align}
+	\cvector_1 = \argmax_{||\cvector_1||=1} ||\cvector_1^\top X||^2 
+			= \argmax_{||\cvector_1||=1} \cvector_1^\top XX^\top \cvector_1
+			= \argmax_{\cvector_1} \frac{\cvector_1^\top XX^\top \cvector_1}{\cvector_1^\top \cvector_1}. 
+			\label{eq:PCA_max3}
+\end{align}
+donde la última igualdad incorpora la normalización de $\cvector_1$ la cual permite formular el problema de optimización irrestricto. La expresión de la derecha se llama cuociente de Rayleigh para la matriz simétrica $XX^\top$, donde sabemos que la maximización de este cuociente está dado por el vector propio de la matriz $XX^\top$ asociado al mayor valor propio. Observe que $XX^\top$ es la matriz de correlación muestreal del conjunto de observaciones $\{\x_i\}_{i=1}^n$, consecuentemente, la proyección de una observación $\x_i$ en la dirección de máxima varianza, o bien la \emph{primera componente principal}, está dada por 
 \begin{equation}
-    X_{\text{proy}} = \hat{X}V
+	\x_i^{(1)} = \langle \x_i, \cvector_1 \rangle
 \end{equation}
-Notemos que la transformación PCA es una rotación lineal de los datos.
+donde $\cvector_1$ es el vector propio asociado al mayor valor propio de la matriz de covarianza muestreal $XX^\top$.
 
-Como observación, PCA encuentra una nueva base ortogonal tal que las componentes maximicen la variabilidad, esto implica que se pierde la intepretabilidad de las nuevas características generadas. A pesar de esto, utilizando las primeras 2 o 3 componentes PCA se pueden visualizar datos de alta dimensionabilidad.
+El cálculo de las siguientes componentes se realiza de forma iterativa sobre los residuos del conjunto de observaciones con respecto a las componentes anteriores. De esta forma, ACP encuentra una nueva base ortonormal tal que las componentes maximicen la variabilidad donde en algunos casos se puede perder intepretabilidad de las nuevas características generadas, pues son combinaciones lineales de las características originales de los datos. A pesar de esto, utilizando las primeras 2 o 3 componentes PCA se pueden visualizar datos de alta dimensionabilidad de forma ilustrativa.
 
-Como se dijo anteriormente, es recomendable que las variables estén normalizadas, esto tiene justificación principalmente en evitar que las variables se vean afectadas por efectos de la escala. Por ejemplo, si tenemos dos variables temperatura en un rango de $0^\circ$C a $100^\circ$C, mientras que otra variable es la altura que va de $0$m a $10$m, notamos que claramente la variable temperatura aportará mayor variabilidad al sistema.
+
 \subsubsection{Kernel PCA}
 El método Kernel PCA es similar a PCA, pero esta vez se utiliza el truco del kernel para proyectar los datos. En ese sentido, en vez de calcular la matriz de covarianza empírica, se utiliza la matriz de Gram.
 
@@ -101,6 +125,8 @@ y evaluando en $\mu = \bar{x}$
 & \frac{1}{2\sigma^2} \text{Tr}(\mathbb{E}[z_iz_i^T]W^T W) \Bigg\}
 \end{align}
 
+
+
 \section{Clustering}
 
 \subsection{k-means}
@@ -145,15 +171,30 @@ El algoritmo está dado por:
   \label{fig:kmeans}
 \end{figure}
 
-\subsection{Gaussian Mixture Model}
 
-La mezcla de gaussianas (GMM por su sigla en inglés) es un caso general de k-means, en donde no solo ajustamos los centros (vector de medias $\mu_k$) si no también el modelo considera matrices de covarianza $\Sigma_k$. En ese sentido, se puede interpretar k-means como el caso particular en que $\Sigma_k = I$ y asignación directa (\emph{hard labeling)}.
+
+\subsection{Modelo de mezcla de gaussianas}
+
+La mezcla de gaussianas (GMM, por su sigla en inglés) es un caso general de k-means, en donde los clusters pueden tener una forma anisotrópica modelada por una Gaussiana con covarianza no necesariamente proporcional a la identidad. Además, si bien su solución puede ser muy similar a K-means los supuestos subyacentes al modelo CMM son diferentes y obedecen a un enfoque de modelo generativo. 
+
+Recordemos que una distribución de mezcla de gaussianas dada por 
+\begin{align}
+p(\x) = \sum_{k=1}^K \pi_k \mathcal{N}(\xi| \mu_k,\Sigma_k)
+\end{align}
+es un modelo para distribuciones, que sirve para aproximar distribuciones mediante la consideración de varias componentes $K\in\N$. Nos referiremos a los parámetros de este modelo como 
+
+\begin{itemize}
+	\item $\pi_k:$ coeficiente de mezcla del cluster  $k$
+	\item $\mu_k:$ media del cluster  $k$
+	\item $\Sigma_k:$ matriz de covarianza del cluster  $k$
+\end{itemize}
+
+
+solo ajustamos los centros (vector de medias $\mu_k$) si no también el modelo considera matrices de covarianza $\Sigma_k$. En ese sentido, se puede interpretar k-means como el caso particular en que $\Sigma_k = I$ y asignación directa (\emph{hard labeling)}.
 
 En el modelo de GMM se tiene que la probabilidad de una muestra, dado nuestro modelo de mezcla de gaussianas es:
 
-\begin{align}
-p(x_i|\theta) = \sum_{k=1} \pi_k \mathcal{N}(x_i| \mu_k,\Sigma_k)
-\end{align}
+
 donde:
 
 \begin{align}
