@@ -222,7 +222,7 @@ Como generar muestras: ancestral sampling
 \end{mdframed}
 
 
-\subsection{Posterior} 
+\subsubsection{Posterior} 
 \label{sub:GMM_posterior}
 
 Veamos ahora la forma que toma la distribución posterior de la variable latente $z$, usando el teorema de Bayes, tenemos 
@@ -232,7 +232,7 @@ Veamos ahora la forma que toma la distribución posterior de la variable latente
 \end{align}
 esta cantidad también se llama \emph{responsabilidad} de la componente $k$ por la observación $\x$.
 
-\subsection{Máxima verosimilitud} 
+\subsubsection{Máxima verosimilitud} 
 \label{sub:GMM_ml}
 
 Recordemos que los parámetros del modelo de mezcla de gaussianas son los coeficientes de mezcla, las medias y varianzas de cada componente. Si disponemos de un conjunto de observaciones $\{\x_n\}_{n=1}^N$, entonces podemos encontrar dichos parámetros mediante máxima verosimilitud. Observe que la log-verosimilitud está dada por 
@@ -247,7 +247,7 @@ Observemos que hay una serie de complicaciones relacionados a la búsqueda de es
 \end{mdframed}
 
 
-\subsection{Entrenamiento} 
+\subsubsection{Entrenamiento} 
 \label{sub:GMM_train}
 
 Veamos las condiciones de primer orden para encontrar los parámetros, es decir, igualando el gradiente (con respecto a cada uno de los parámetros) de la log-verosimilitud igual a cero. Denotando $\gamma(z_{nk}) = p(z_{nk}=1|\x_n)$, obtenemos
@@ -278,7 +278,7 @@ Veamos las condiciones de primer orden para encontrar los parámetros, es decir,
 
 
 
-\subsection{Expectation-Maximisation} 
+\subsubsection{Expectation-Maximisation} 
 \label{sub:GMM_EM}
 
 En el caso general, donde tenemos \emph{observables} $\x$, variables latentes $\z$ y parámetros $\theta$, y un modelo descrito por una distribución marginal que puede ser expresada mediante 
