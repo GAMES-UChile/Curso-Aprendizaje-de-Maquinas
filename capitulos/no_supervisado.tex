@@ -288,7 +288,13 @@ En el caso general, donde tenemos \emph{observables} $\x$, variables latentes $\
 \end{equation}
 donde tenemos logaritmos de sumas, lo cual es complicado de optimizar, incluso cuando la distribución conjunta $p(\x,\z|\theta)$ está en la familia exponencial.  
 
-Asumamos por un momento que tenemos valores para la variable latente $\z$,  
+Asumamos por un momento que tenemos valores para la variable latente $\z$, si este fuese el caso, podríamos buscar los parámetros mediante la optimización de la log-verosimilitud completa, $\log p(\x, \z |\theta)$, la cual como en GMM puede tener una forma más simple de optimizar debido a que no hay una suma dentro del logaritmo. 
+
+En la práctica, sin embargo, no tenemos acceso al valor de las variables latentes $\z_n$ sino que únicamente podemos acceder a una estimación de éstas mediante la distribución posterior $p(\z|\x,	\theta)$. Entonces, estrictamente hablado, la cantidad que nos gustaría maximizar $\log p(\x, \z |\theta)$ es aleatoria, por lo que podemos maximizar su esperanza con respecto a las observaciones (etapa de Maximización). Luego, con los valores obtenidos para los parámetros podemos recalcular la distribución posterior $p(\z|\x,\theta)$ (etapa de Esperanza) y seguir este proceso iterativamente. La motivación de este procedimiento, llamado \emph{Expectation-Maximisation}, es que en primer lugar, con la cantidad $p(\z|\x,\theta)$ fija, el cálculo de los nuevos parámetros mediante máxima verosimilitud indiscutiblemente aumenta la verosimilitud, luego éstos mejores parámetros dan consecuentemente una mejor estimación de la distribución posterior $p(\z|\x,\theta)$, con lo cual la actualización de los parámetros usando esta mejorada aproximación de la posterior debe ser incluso mejor. 
+
+\begin{mdframed}[style=pendiente, frametitle={\center discusión}]
+Bayesian GMM: ¿cómo elegir la cantidad de Gaussianas?
+\end{mdframed}
 
 
 
