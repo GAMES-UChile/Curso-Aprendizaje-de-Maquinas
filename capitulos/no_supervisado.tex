@@ -181,7 +181,7 @@ Recordemos que una distribución de mezcla de gaussianas dada por
 \begin{align}
 p(\x) = \sum_{k=1}^K \pi_k \mathcal{N}(\xi| \mu_k,\Sigma_k)
 \end{align}
-es un modelo para distribuciones, que sirve para aproximar distribuciones mediante la consideración de varias componentes $K\in\N$. Nos referiremos a los parámetros de este modelo como 
+es un modelo para aproximar distribuciones mediante la consideración de varias componentes $K\in\N$. Nos referiremos a los parámetros de este modelo como 
 
 \begin{itemize}
 	\item $\pi_k:$ coeficiente de mezcla del cluster  $k$
@@ -189,39 +189,83 @@ es un modelo para distribuciones, que sirve para aproximar distribuciones median
 	\item $\Sigma_k:$ matriz de covarianza del cluster  $k$
 \end{itemize}
 
+En el caso de clustering, es necesario además saber de qué componente fue generada cada muestra. Con el mismo criterio que $K$-means, podemos asignar una variable latente, denotada $\z = [z_1,z_2,\ldots,z_K]^\top\in\{0,1\}^K$, que describe la asignación de cada muestra a cada cluster, es decir, $z_{k}=1$ si la observación $x_n$ pertenece al cluster $k$, y $z_{k}=0$ si no. 
 
-solo ajustamos los centros (vector de medias $\mu_k$) si no también el modelo considera matrices de covarianza $\Sigma_k$. En ese sentido, se puede interpretar k-means como el caso particular en que $\Sigma_k = I$ y asignación directa (\emph{hard labeling)}.
+Podemos denotar la distribución marginal del cluster $k$, es decir, de que una observación sea generada por la $k$-ésima componente como 
+\begin{equation}
+ 	p(z_k=1) = \pi_k \label{eq:GMM_marg1}
+\end{equation} 
+con lo que la distribución marginal del vector $\z$ puede expresarse como 
+\begin{equation}
+	p(\z) = \prod_{k=1}^K \pi_k^{z_k} \label{eq:GMM_marg2}
+\end{equation}
+pues recordemos que $\sum_{k=1}^K {z_k} =1$ y $\sum_{k=1}^K {\pi_k}=1$. 
 
-En el modelo de GMM se tiene que la probabilidad de una muestra, dado nuestro modelo de mezcla de gaussianas es:
+Adicionalmente, podemos describir la distribución condicional de $\x$, dado que su componente es la $k$-ésima, i.e., $z_k=1$, como 
+\begin{equation}
+	p(\x|z_{k}=1) = \cN(\x|\mu_k,\Sigma_k) \label{eq:GMM_cond1}
+\end{equation}
+y consecuente su distribución condicional como 
+\begin{equation}
+	p(\x|\z) = \left(\cN(\x|\mu_k,\Sigma_k)\right)^{z_k} \label{eq:GMM_cond2}
+\end{equation}
+Multiplicando las ecuaciones \eqref{eq:GMM_marg2} y \eqref{eq:GMM_cond2}, podemos obtener la distribución conjunta de $\x$ y $\z$, donde luego sumando  c.r.a. $k$, recuperamos la distribución marginal de $\x$ de suma de gaussianas mediante el uso de la variable latente $\z$. Respectivamente: 
+\begin{align}
+	p(\x,\z) &= \left(\pi_k\cN(\x|\mu_k,\Sigma_k)\right)^{z_k}\\
+	p(\x) 	&= \sum_{k=1}^K p(\x,\z) = \sum_{k=1}^K \pi_k \cN(\x|\mu_k,\Sigma_k)
+\end{align}
+
+\begin{mdframed}[style=pendiente, frametitle={\center discusión}]
+¿Por qué la conjunta es \emph{mejor} que la marginal?\\
+Como generar muestras: ancestral sampling
+
+\end{mdframed}
 
 
-donde:
+\subsubsection{Posterior} 
+\label{sub:GMM_posterior}
+
+Veamos ahora la forma que toma la distribución posterior de la variable latente $z$, usando el teorema de Bayes, tenemos 
 
 \begin{align}
-\mathcal{N}(x_i| \mu_k,\Sigma_k) = \frac{1}{(2\pi)^{D/2}|\Sigma|^{1/2}}\exp \left[ -\frac{1}{2}(x_i-\mu_k)^T \Sigma_k^{-1}(x_i-\mu_k) \right]
+	p(z_k=1|\x) = \frac{p(\x|z_k=1)p(z_k=1)}{p(\x)} = \frac{\pi_k \cN(\x|\mu_k,\Sigma_k)}{\sum_{k=1}^K \pi_k \cN(\x|\mu_k,\Sigma_k)} \label{eq:GMM_post1}
 \end{align}
-y $\pi_k$ son los pesos de las mezclas. La forma de encontrar los parámetros es la misma que en k-means, solo que esta vez en el paso de maximización, se debe estimar $\mu_k$, $\Sigma_k$ y $\pi_k$.
+esta cantidad también se llama \emph{responsabilidad} de la componente $k$ por la observación $\x$.
 
-Esto se resume como:
+\subsubsection{Máxima verosimilitud} 
+\label{sub:GMM_ml}
 
-\begin{itemize}
-    \item \textbf{E-step:} Evaluamos las probabilidades posteriores:
-    
+Recordemos que los parámetros del modelo de mezcla de gaussianas son los coeficientes de mezcla, las medias y varianzas de cada componente. Si disponemos de un conjunto de observaciones $\{\x_n\}_{n=1}^N$, entonces podemos encontrar dichos parámetros mediante máxima verosimilitud. Observe que la log-verosimilitud está dada por 
+
+\begin{equation}
+	\log p(\x_1,\x_2,\ldots,\x_N) = \sum_{n=1}^N \log p(\x_n) = \sum_{n=1}^N \log \sum_{k=1}^K  \pi_k\cN(\x_n|\mu_k,\Sigma_k) \label{eq:GMM_like}	
+\end{equation}
+Observemos que hay una serie de complicaciones relacionados a la búsqueda de estos parámetros mediante la maximización de las ecuación \eqref{eq:GMM_like}. Primero, están las soluciones dadas por singularidades cuando una muestra es exactamente igual a una de las medias, en cuyo caso un término de la log-verosimilitud es proporcional a $1/\sigma_k$, con lo que la maximización te $\sigma_k$ resulta en una log-verosimilitud infinita. En segundo lugar tenemos las redundancias de soluciones: para cada máximo local (o solución en general) de la log-verosimilitd existen $K!$ soluciones equivalente con la misma verosimilitud dadas por las permutaciones de las etiquetas de los clusters. Finalmente, optimizar la log-verosimilitud de la mezcla de gaussianas es desafiante porque la sumatoria aparece \emph{dentro} del logaritmo, consecuentemente,  el logaritmo no actúa directamente en la gaussiana reduciendo el funcional de optimización a una solución en forma cerrada. Por esta razón, es necesario considerar basados en gradiente.
+
+\begin{mdframed}[style=pendiente, frametitle={\center discusión}]
+¿Por qué no hay \emph{singularidades} en el caso de una gaussiana?
+\end{mdframed}
+
+
+\subsubsection{Entrenamiento} 
+\label{sub:GMM_train}
+
+Veamos las condiciones de primer orden para encontrar los parámetros, es decir, igualando el gradiente (con respecto a cada uno de los parámetros) de la log-verosimilitud igual a cero. Denotando $\gamma(z_{nk}) = p(z_{nk}=1|\x_n)$, obtenemos
+
+ 
     \begin{align}
-    r_{ik} = \frac{\pi_k \mathcal{N}(x_i| \mu_k,\Sigma_k)}{\sum_{k'=1}^K \pi_{k'}\mathcal{N}(x_i| \mu_{k'},\Sigma_{k'})}
+    \mu_k & = \frac{1}{R_k}\sum_{n=1}^N \gamma(z_{nk})\x_i\\
+    \Sigma_k & = \frac{1}{R_k} \sum_{n=1}^N \gamma(z_{nk})(\x_n - \mu_k)(\x_n - \mu_k)^\top\\
+    \pi_k & = \frac{R_k}{R},
     \end{align}
-    \item \textbf{M-step:} Se re-estiman los parámetros, usando:
-    \begin{align}
-    \mu_k^{new} & = \frac{1}{R_k}\sum_{i=1}^N r_{ik}x_i\\
-    \Sigma_k^{new} & = \frac{1}{R_k} \sum_{i=1}^N r_{ik}(x_i - \mu_k^{new})(x_i - \mu_k^{new})^T\\
-    \pi_k^{new} & = \frac{R_k}{R}
-    \end{align}
-    Donde
+    donde
     \begin{align*}
-    R_k = \sum_{i=1}^N r_{ik} \qquad \text{y} \qquad R = \sum_{k=1}^K R_k.
+    R_k = \sum_{i=n}^N \gamma(z_{nk}) \qquad \text{y} \qquad R = \sum_{k=1}^K R_k.
     \end{align*}
-    El criterio de detención es evaluar la función de verosimilitud hasta que converja.
-\end{itemize}
+
+  Observe que esto no constituye una solución en forma cerrada para los parámetros, pues la posterior $\gamma(z_{nk})$ depende de todos los parámetros de acuerdo a la ecuación \eqref{eq:GMM_post1}. Sin embargo, podemos considerar un procedimiento iterativo en donde calculamos las posteriores $\gamma(z_{nk})$ (llamado paso E), para luego calcular los parámetros óptimos de acuerdo a las ecuaciones anteriores (llamado paso M). 
+
+
 
 \underline{\textbf{Ejemplo:}} La figura \ref{fig:gmm} muestra un ejemplo de clustering utilizando GMM. En este caso, se puede observar directamente como GMM es una generalización de kmeans, en donde ahora los clusters tienen forma de gaussiana anisotrópica.
 
@@ -231,6 +275,28 @@ Esto se resume como:
   \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por GMM.}
   \label{fig:gmm}
 \end{figure}
+
+
+
+\subsubsection{Expectation-Maximisation} 
+\label{sub:GMM_EM}
+
+En el caso general, donde tenemos \emph{observables} $\x$, variables latentes $\z$ y parámetros $\theta$, y un modelo descrito por una distribución marginal que puede ser expresada mediante 
+
+\begin{equation}
+	\log p(\x|\theta) = \log \int p(\x,\z|\theta)d\z
+\end{equation}
+donde tenemos logaritmos de sumas, lo cual es complicado de optimizar, incluso cuando la distribución conjunta $p(\x,\z|\theta)$ está en la familia exponencial.  
+
+Asumamos por un momento que tenemos valores para la variable latente $\z$, si este fuese el caso, podríamos buscar los parámetros mediante la optimización de la log-verosimilitud completa, $\log p(\x, \z |\theta)$, la cual como en GMM puede tener una forma más simple de optimizar debido a que no hay una suma dentro del logaritmo. 
+
+En la práctica, sin embargo, no tenemos acceso al valor de las variables latentes $\z_n$ sino que únicamente podemos acceder a una estimación de éstas mediante la distribución posterior $p(\z|\x,	\theta)$. Entonces, estrictamente hablado, la cantidad que nos gustaría maximizar $\log p(\x, \z |\theta)$ es aleatoria, por lo que podemos maximizar su esperanza con respecto a las observaciones (etapa de Maximización). Luego, con los valores obtenidos para los parámetros podemos recalcular la distribución posterior $p(\z|\x,\theta)$ (etapa de Esperanza) y seguir este proceso iterativamente. La motivación de este procedimiento, llamado \emph{Expectation-Maximisation}, es que en primer lugar, con la cantidad $p(\z|\x,\theta)$ fija, el cálculo de los nuevos parámetros mediante máxima verosimilitud indiscutiblemente aumenta la verosimilitud, luego éstos mejores parámetros dan consecuentemente una mejor estimación de la distribución posterior $p(\z|\x,\theta)$, con lo cual la actualización de los parámetros usando esta mejorada aproximación de la posterior debe ser incluso mejor. 
+
+\begin{mdframed}[style=pendiente, frametitle={\center discusión}]
+Bayesian GMM: ¿cómo elegir la cantidad de Gaussianas?
+\end{mdframed}
+
+
 
 
 \subsection{Density-based spatial clustering of applications with noise (DBSCAN)}
