@@ -1,0 +1,112 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,includeheadfoot, top=0.5cm, bottom=3.0cm, right=1.5cm, left=1.5cm]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\renewcommand{\figurename}{Fig.}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{subfig}
+\usepackage{listings} %Codigo
+\usepackage{selinput}                   % Compatibilidad con acentos
+\newcommand{\bR}{\ensuremath{\mathbb{R}}}
+\newcommand{\bN}{\ensuremath{\mathbb{N}}}
+\newcommand{\bZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\bP}{\ensuremath{\mathbb{P}}}
+\newcommand{\bE}{\ensuremath{\mathbb{E}}}
+\newcommand{\bD}{\ensuremath{\mathbb{D}}}
+\newcommand{\bV}{\ensuremath{\mathbb{V}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\m}{\ensuremath{\mathbf{m}}}
+\newboolean{pauta}
+\setboolean{pauta}{false}
+%\usepackage{tkz-graph}
+%\usetikzlibrary{arrows}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
+\lstset{language=C, tabsize=4,framexleftmargin=5mm,breaklines=true}
+
+\begin{document}
+
+% ·············· ENCABEZADO - PIE DE PAGINA ············
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{MA5203: Aprendizaje de Máquinas Probabilístico 2019}}
+\rfoot{Page \thepage}
+%Encabezado
+
+% =============== Inicio Documento ===============
+%\rm
+%\headheight = 35.02448pt
+\begin{center}
+\large {\textbf{Tarea 4: Redes Neuronales}}\\
+\end{center}
+\textbf{Profesor:} Felipe Tobar\\ 
+\textbf{Auxiliares:} Mauricio Araneda, Alejandro Cuevas y Mauricio Romero \\
+\textbf{Consultas:} Todo el cuerpo docente.\\
+\textbf{Fecha entrega:} 23/6/2019 \\
+\textbf{Formato entrega:} Entregue un informe en formato PDF con una extensión de a lo más 2 páginas presentando y analizando sus resultados, detalle la metodología utilizada y adicionalmente debe entregar un jupyter notebook con los códigos que creó para resolver la tarea.
+
+\begin{center}
+    \textit{Esta es una de las 2 versiones de la tarea4, deben elegir solo una de las versiones (SVM o redes).}
+\end{center}
+
+\noindent\textbf{P1. Clasificación con redes neuronales}
+\vspace{5 mm}
+
+Se pretende realizar la tarea de clasificación sobre el dataset MNIST, usando Redes neuronales como clasificador, para esto:
+    
+\begin{enumerate}
+
+\item[a)](1 pts.) Cargue los datos (Vea el demo para cargarlos) y sepárelos de forma aleatoria en conjuntos de entrenamiento $5/7$, validación $1/7$ y prueba $1/7$ (si carga con pytorch el conjunto de prueba ya esta definido).
+
+Normalice los datos de forma que el valor de cada pixel se encuentre en el rango $[0, 1]$ en vez de $[0, 255]$, para esto divida todo el dataset por $255$. 
+    
+\textit{En caso de cargar los datos con Pytorch:} Transforme sus datos de tal forma que cada imagen de $28 \times 28$ sea un vector de tamaño $784$.
+
+\textbf{Observación:} Le puede ser util train\_test\_split de sklearn.
+
+\item[b)](3 pts.) Investigue al menos 3 algoritmos de optimización utilizados para el entrenamiento de redes neuronales y compárelos con gradiente descendente vainilla en términos algorítmicos, hiperparámetros, etc. Seleccione un algoritmo para utilizarlo en su tarea y fundamente su elección.
+
+\item[c)](3 pts.) Construya una clase MLP que le permita agregar capas y regularizadores en el constructor. Es decir, al instanciar la clase debe poder ingresar número de capas, neuronas por capas y opciones extras como regularización o dropout.
+
+\item[d)](5 pts.) Entrene y pruebe las siguientes arquitecturas:
+\begin{enumerate}
+    \item[1.] MLP 1 capa.
+    \item[2.] MLP 2 capas.
+    \item[3.] MLP 1 capa con regularización L2.
+    \item[4.] MLP 1 capa con reg. dropout en capa oculta.
+\end{enumerate}
+
+Comente lo que sucede durante el entrenamiento con la función de costo, muestre como cambia en función de las épocas y analice el resultado de clasificación en base a la matriz de confusión.
+
+¿Qué puede decir sobre la regularización en cada caso? ¿Cómo afecta el número de parámetros de los modelos bajo estudio?
+
+Utilizando el conjunto de validación guarde$^{\star}$ el mejor modelo obtenido durante el entrenamiento y compare las métricas de desempeño en el conjunto de test, en base al mejor modelo en cada caso.
+
+\textbf{Observaciones}: En cuanto a los demás parámetros de red, tales como función de activación, cantidad de neuronas por cada y tazas de aprendizaje se recomienda:
+
+\begin{itemize}
+    \item Utilice alrededor de $100$ neuronas por capa.
+    \item Entrene un número cercano a $20$ épocas.
+    \item Se recomienda utilizar funciones de activación ReLu.
+    \item Dada esa función de activación, se romienda una tasa de aprendizaje del orden de $lr=2\cdot 10^{-4}$. (Tomar en cuenta que con otra función de activación puede variar el orden de magnitud de la tasa a usar)
+    \item Se recomienda un tamaño de batch $batch_{size}=100$.
+    \item La regularización L2 se puede agregar en el optimizador a través del argumento \textit{weight\_decay}. 
+    \item $\star$ Para guardar y cargar modelos en Pytorch revise \url{https://pytorch.org/tutorials/beginner/saving_loading_models.html} .
+\end{itemize}
+
+
+\end{enumerate}
+
+
+\end{document}
+
