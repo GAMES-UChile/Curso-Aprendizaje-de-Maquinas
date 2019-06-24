@@ -8,6 +8,11 @@ El elemento principal de este repositorio es el [apunte][pdf] que contiene las n
 
 Además de diseminar de forma actualizada las notas de clase, este repositorio también tiene el objetivo de entregar ejemplos e implementaciones de la teoría presentada en el curso. Por esta razón, el código para hacer todas las figuras del apunte está disponible y puede ser revisado [aquí][notebook].
 
+Temporal: Curso informática médica
+[primera parte]
+[segunda parte]
+
+
 Felipe Tobar  
 Universidad de Chile  
 [www.dim.uchile.cl/~ftobar][personal-website]  
@@ -16,3 +21,5 @@ email: ftobar AATT dim DOOTT uchile.cl
 [pdf]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/notas_de_clase.pdf
 [notebook]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/Figuras.ipynb
 [personal-website]: http://www.dim.uchile.cl/~ftobar/
+[segunda-parte] https://docs.google.com/presentation/d/1i51Ap76HKAYT3zrdqi7eZXPSrKJw4czfuBj79Lgmhd0/edit?usp=sharing 
+[primera-parte] https://www.dropbox.com/sh/3r0575lqycjwzxf/AAC9GCuFdi3odP3FA6apHSRVa?dl=0 
