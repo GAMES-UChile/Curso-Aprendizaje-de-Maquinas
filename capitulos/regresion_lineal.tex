@@ -2,32 +2,32 @@
 
 \section{Regresión Lineal} 
 
-El problema de regresión busca determinar la relación entre una variable denominada \emph{dependiente} (salida, respuesta o etiqueta) y una variable denominada \emph{independiente} (entrada, estímulo o instancia). Intuitivamente, un modelo de regresión permite entender cómo cambia la variable dependiente cuando la variable independiente es modificada. Esta relación entre ambas variables es representada por una función, consecuentemente, el problema de regresión es equivalente a encontrar una función. De esta forma, en base a (i) el espacio de posible funciones donde se busque dicha relación (por ejemplo el espacio de todos los polinomios de grado menor o igual a 5), y a (ii) el criterio de búsqueda que se aplique, se obtendrán distintos métodos de regresión. 
+El problema de regresión busca determinar la relación entre una variable \emph{independiente} (entrada, estímulo o instancia; usualmente denotada por $x$) y una variable \emph{independiente} (salida, respuesta o etiqueta; usualmente denotada $y$). Intuitivamente, un modelo de regresión permite entender cómo cambia la variable dependiente cuando la variable independiente es modificada. Esta relación entre ambas variables es representada por una función, consecuentemente, el problema de regresión es equivalente a encontrar una función. De esta forma, en base a (i) el espacio de posible funciones donde se busque dicha relación (por ejemplo el espacio de todos los polinomios de grado menor o igual a 5), y a (ii) el criterio de búsqueda que se aplique, podemos obtener distintas soluciones para el problema de regresión. 
 
-El modelo básico de regresión, y que sirve de base para modelos más expresivos, es el de regresión lineal. En este caso el espacio de funciones donde se busca la relación entre las variables dependientes e independientes es el de las funciones lineales afines. 
-
-Específicamente, para un conjunto de observaciones de entradas ($x$) y salidas ($y$) de la forma
+El escenario básico de regresión, y que sirve de base para casos más complejos, es el de regresión lineal. En este caso, el espacio de funciones donde se busca la relación entre las variables dependientes e independientes es el de las funciones lineales afines. Específicamente, para un conjunto de observaciones de $N\in\N$ entradas $\{x_i\}_{i=1}^N$ y salidas $\{y_i\}_{i=1}^N$ de la forma
 \begin{equation}
 	\{(x_i,y_i)\}_{i=1}^N\subset \R^M \times \R,
 	\label{eq:training_set}
 \end{equation}
-la regresión lineal busca encontrar un modelo lineal, es decir,  
+la regresión lineal busca encontrar un modelo lineal, es decir, una función $f(\cdot)$ definida por 
 \begin{align}
   f \colon \R^M &\to \R\nonumber\\
   x &\mapsto f(x)=a^\top x + b,\quad a\in\R^M,b\in\R,
  \label{eq:reg_lin_fn} 
 \end{align}
-que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, esto en base a las las observaciones descritas en la ecuación~\eqref{eq:training_set}. Antes de proceder a definir un criterio de \emph{mejor representación}, veremos algunas de las razones que justifican el estudio de los modelos lineales. 
+que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, en base a las las observaciones descritas en la ecuación~\eqref{eq:training_set}. Antes de proceder a definir un criterio de \emph{mejor representación}, el siguiente recuadro analiza la elección de modelos lineales. 
 
 \begin{mdframed}[style=discusion, frametitle={\center ¿Por qué consideramos el caso lineal en particular?}]
 
-	Existen distintas razones para estudiar los modelos lineales. En primer lugar, con el criterio de mínimos cuadrados que veremos a continuación, la solución del problema de regresión considerando un modelo lineal es única posible de calcular de forma explícita (o, como diremos alternativamente, \emph{tiene forma cerrada}). Esto, además de permitirnos calcular dicha solución, nos permite interpretar sus propiedades y en qué casos dicha solución tiene sentido. En segundo lugar, los resultados que obtendremos a continuación requieren linealidad solo en los parámetros y no necesariamente en la variable independiente, por esta razón, el estudio del modelo lineal también incluye modelos no lineales del tipo
+	Existen distintas razones para estudiar los modelos lineales. En primer lugar, con el criterio de mínimos cuadrados que veremos a continuación, el modelo lineal es el único que admite resolución de forma explícita (o, como diremos alternativamente, \emph{tiene forma cerrada}). Esto, además de permitirnos calcular dicha solución, nos permite interpretar sus propiedades y en qué casos dicha solución tiene sentido. En segundo lugar, los resultados que obtendremos a continuación requieren linealidad solo en los parámetros---ver ecuación~\eqref{eq:reg_lin_fn}---y no necesariamente en la variable independiente $x$. Por esta razón, el estudio del modelo lineal también incluye modelos no lineales del tipo
 \begin{align}
   f \colon \R^M & \to \R\nonumber\\
   x &\mapsto f(x)=\theta^\top \phi(x) \quad \theta\in\R^{M'}
  \label{eq:reg_no_lin_fn} 
 \end{align}
-donde $\phi \colon \R^M \to \R^{M'}$ es una función no lineal que no tiene parámetros libres. Consecuentemente, cuando los parámetros a determinar en el problema de regresión afectan de forma no lineal a la variable dependiente, el análisis presentado a continuación no es válido y en general la solución óptima de mínimos cuadrados no existe en forma cerrada. 
+donde $\phi \colon \R^M \to \R^{M'}$ es una función no lineal sin parámetros libres. Es decir, estrictamente hablando deberíamos referirnos a los modelos lineales como \emph{lineales en los parámetros} y no necesariamente en la entrada. 
+
+Finalmente, cuando los parámetros a determinar en el problema de regresión afectan de forma no lineal la relación entre las variables dependiente e independiente, el análisis presentado a continuación no es válido y en general la solución óptima de mínimos cuadrados no tiene forma cerrada. 
 
 \end{mdframed}
 
@@ -35,23 +35,23 @@ donde $\phi \colon \R^M \to \R^{M'}$ es una función no lineal que no tiene par�
 
 \subsection{Mínimos cuadrados} % (fold)
 \label{ssub:min_cuad}
-En el contexto recién presentado, aflora naturalmente la siguiente pregunta: \emph{¿cuál es la mejor representación de los datos?} o, equivalentemente, \emph{¿cómo cuantificar la bondad de un modelo de regresión lineal?} Una práctica ampliamente utilizada es elegir la función $f(\cdot)$ en la eq.~\eqref{eq:reg_lin_fn} siguiendo el criterio de \textbf{mínimos cuadrados}. Es decir, elegir la función $f(\cdot)$ que minimiza la suma del cuadrado de las diferencias entre las observaciones y las predicciones calculadas por la función es mínima denotada por el costo
+En el contexto recién presentado, aflora naturalmente la siguiente pregunta: \emph{¿qué es una buena función $f(\cdot)$?} o, equivalentemente, \emph{¿cómo cuantificar la bondad de un modelo de regresión lineal?} Una práctica ampliamente utilizada es elegir la función $f(\cdot)$ en la ecuación \eqref{eq:reg_lin_fn} de acuerdo al criterio de \textbf{mínimos cuadrados}. Es decir, elegir la función $f(\cdot)$ que minimiza la suma de los cuadrados de las diferencias entre las observaciones $y$ y las predicciones calculadas por la función $f(x)$ de acuerdo al siguiente costo:
 \begin{equation}
-	J = \frac{1}{2}\sum_{i=1}^N(y_i-f(x_i))^2.
+	J(\{(x_i,y_i)\}_{i=1}^N,f) = \frac{1}{2}\sum_{i=1}^N(y_i-f(x_i))^2,
 	\label{eq:least_squares_cost}
 \end{equation}
-Es decir, la (o las) funciones que satisfacen el criterio de mínimos cuadrados están dadas por\footnote{La constante $\frac{1}{2}$ que multiplica al costo cuadrático no afecta la solución y está ahí por simplicidad de notación cuando se calculen las derivadas de esta expresión.} 
+donde hemos sido enfáticos en que el costo depende del conjunto de entrenamiento $\{(x_i,y_i)\}_{i=1}^N$ y la función $f$, sin embargo, cuando estas cantidades son claras, nos referiremos al costo simplemente como $J$. Además, denotamos la (o las) funciones que satisfacen el criterio de mínimos cuadrados mediante\footnote{La constante $\frac{1}{2}$ que multiplica al costo cuadrático no afecta la solución y está ahí por simplicidad de notación cuando se calculen las derivadas de esta expresión.} 
 \begin{equation}
-	f^\star = \argmin_{f} J.
+	f^\star = \argmin_{f\text{ es lineal}} J.
 \end{equation}
-En el caso lineal, resolver este problema de optimización es equivalente a encontrar los parámetros $a$ y $b$ en la ec.~\eqref{eq:reg_lin_fn}. Es decir: 
+Debido a la forma lineal de $f(\cdot)$, resolver este problema de optimización es equivalente a encontrar los parámetros $a$ y $b$ en la ecuación ~\eqref{eq:reg_lin_fn}. Es decir: 
 \begin{equation}
 	a^\star,b^\star = \argmin_{a,b} \frac{1}{2}\sum_{i=1}^N(y_i-a^
-	\top x_i + b)^2
+	\top x_i + b)^2.
 	\label{eq:lin_least_squares}
 \end{equation}
 
-Observe que la ecuación anterior es cuadrática en $a$ y $b$, por lo cual tiene un único mínimo que puede ser encontrado explícitamente. Para esto, como la función $f$ en la ecuación~\eqref{eq:reg_lin_fn} no es lineal sino que \emph{afín}, hacemos el siguiente cambio de variable:
+Observemos que el costo en la  ecuación \eqref{eq:lin_least_squares} es cuadrático en $a$ y $b$, por lo el problema de optimización tiene un único mínimo que puede ser encontrado explícitamente. Para esto, como la función $f$ en la ecuación~\eqref{eq:reg_lin_fn} no es lineal sino que \emph{afín}, hacemos el siguiente cambio de variable:
 \begin{equation}
   \left[ \begin{matrix}x \\  1\end{matrix}\right] \mapsto \tx\in\R^{M+1},\quad
   \left[ \begin{matrix}a \\  b\end{matrix}\right]\mapsto \theta\in\R^{M+1},
@@ -60,7 +60,7 @@ Observe que la ecuación anterior es cuadrática en $a$ y $b$, por lo cual tiene
 con lo cual el funcional cuadrático a minimizar se convierte en
 \begin{equation}
 	J = \frac{1}{2}\sum_{i=1}^N(y_i-\theta^
-	\top \tx_i)^2
+	\top \tx_i)^2,
 	\label{eq:lin_least_squares2}
 \end{equation} 
 y el parámetro $\theta$ de mínimos cuadrados puede ser encontrado aplicando las condiciones de primer orden de la siguiente forma:
@@ -69,17 +69,17 @@ y el parámetro $\theta$ de mínimos cuadrados puede ser encontrado aplicando la
 &\Leftrightarrow \sum_{i=1}^Ny_i\tx_i^\top = \sum_{i=1}^N\theta^\top \tx_i\tx_i^\top					&&\text{ordenar}\nonumber\\
 &\Leftrightarrow \theta^\top = \sum_{i=1}^Ny_i\tx_i^\top \left(\sum_{i=1}^N \tx_i\tx_i^\top\right)^{-1}	&&\text{despejar $\theta^\top$}\nonumber\\
 &\Leftrightarrow \theta =  \left(\sum_{i=1}^N \tx_i\tx_i^\top\right)^{-1} \sum_{i=1}^N \tx_i y_i 		&&\text{transponer}\nonumber\\
-&\Leftrightarrow \theta = \left(\tX^\top\tX \right)^{-1} \tX^\top Y 											&&\text{def. $\tX$ y $Y$} \label{eq:sol_mse}
+&\Leftrightarrow \theta = \left(\tX^\top\tX \right)^{-1} \tX^\top Y, 											&&\text{def. $\tX$ y $Y$} \label{eq:sol_mse}
 \end{align}
 donde $\tX$ y $Y$ son las matrices de datos definidas por
 
 \begin{equation}
   \tX = \left[ \begin{matrix}\tx_1^\top \\\vdots \\ \tx_N^\top \end{matrix}\right]\in\R^{N\times (M+1)} ,\quad
-  Y = \left[ \begin{matrix}y_1 \\\vdots \\y_N \end{matrix}\right] \in\R^{N}
+  Y = \left[ \begin{matrix}y_1 \\\vdots \\y_N \end{matrix}\right] \in\R^{N}.
  \label{eq:matrices_X} 
 \end{equation}
 
-La Figura \ref{fig:reg_lin_1} muestra un ejemplo de regresión lineal para observaciones de chirridos por segundo en función de la temperatura. 
+Con los parámetros del modelo regresión lineal encontrados con el criterio de mínimos cuadrados, es posible implementar la solución y comprarla visualmente con los datos. La Figura \ref{fig:reg_lin_1} muestra esta visualización de la regresión lineal para observaciones correspondientes a chirridos de grillos por segundo en función de la temperatura \cite{insects}. 
 
 \begin{figure}[H]
 	\centering
