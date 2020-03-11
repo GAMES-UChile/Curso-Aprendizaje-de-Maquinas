@@ -26,3 +26,6 @@
 *.pdf
 *.ipynb_checkpoints
 *.DS_Store
+*.nav
+*.run.xml
+*.snm
