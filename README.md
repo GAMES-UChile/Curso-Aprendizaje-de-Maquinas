@@ -8,7 +8,11 @@ El elemento principal de este repositorio es el [apunte][pdf] que contiene las n
 
 Además de diseminar de forma actualizada las notas de clase, este repositorio también tiene el objetivo de entregar ejemplos e implementaciones de la teoría presentada en el curso. Por esta razón, el código para hacer todas las figuras del apunte está disponible y puede ser revisado [aquí][notebook].
 
-Temporal: [Intro al curso][slidesAI]
+## Presentaciones, demos y tareas. 
+
+En general, usamos la pizarra para todas las clases en base al material en el apunte. Sin embargo, algunas veces recurrimos a otros recursos como por ejemplo las presentaciones de las clases introductorias en la carpeta [otras presentaciones][otras-p] o bien ejemplos usando los Jupyter notebooks de la carpeta [demos][demos-JN]. Además, todas las tareas del curso, pueden ser encontradas en la carpeta [tareas][tareas-f]
+
+
 
 
 
@@ -19,6 +23,9 @@ Universidad de Chile
 email: ftobar AATT dim DOOTT uchile.cl 
 
 [pdf]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/notas_de_clase.pdf
-[notebook]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/Figuras.ipynb
+[notebook]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/img/Figuras.ipynb
 [personal-website]: http://www.dim.uchile.cl/~ftobar/
-[slidesAI]:https://docs.google.com/presentation/d/1Xq2Umh2n4IfXr4l-DGO6ohXOnRsmI0teiPPLqgb2QO0/edit?usp=sharing
+[otras-p]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/tree/master/otras%20presentaciones
+[demos-JN]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/tree/master/demos
+[tareas-f]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/tree/master/tareas
+
