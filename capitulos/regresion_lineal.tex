@@ -88,31 +88,82 @@ Con los parámetros del modelo regresión lineal encontrados con el criterio de 
 	\label{fig:reg_lin_1}
 \end{figure}
 
-La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ecuación~\eqref{eq:sol_mse} es conocida como la pseudo-inversa de Moore-Penrose \cite[p.~7]{benisrael_greville_2006}. Observe que una condición necesaria para que esta pseudo-inversa esté bien definida es que la cantidad de observaciones ($N$) sea mayor o igual que las dimensiones ($M+1$). Esto es porque la matriz $\tX^\top\tX$ es de tamaño $(M+1)\times(M+1)$ y su rango es $\min \{N, M+1\}$, consecuentente, para que $\tX^\top\tX$ tenga rango completo (y por ende sea invertible) se debe cumplir al menos que $N\geq M+1$. Para encontrar una condición necesaria y suficiente para la existencia de la solución de mínimos cuadrados en la ecuación \eqref{eq:sol_mse}, además de el número de observaciones $N\geq M+1$ se requiere que éstas no sean colineales, pues de esta forma los términos que componen la pseudo-inversa son efectivamente linealmente independiente y ésta tiene rango completo. Es claro que para el caso de variables continuas es muy poco probable que dos observaciones sean perfectamente colinearles, sin embargo, en el caso de variables categóricas donde las observaciones son asignadas a un número finito de símbolos es probable que dos o más valores para la variable dependiente sean exactamente iguales. 
+La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ecuación~\eqref{eq:sol_mse} es conocida como la pseudo-inversa de Moore-Penrose \cite[p.~7]{benisrael_greville_2006}. Observe que una condición \textbf{necesaria} para que esta pseudo-inversa esté bien definida es que la cantidad de observaciones ($N$) sea mayor o igual que la cantidad de dimensiones ($M+1$). Esto es porque la matriz $\tX^\top\tX$ es de tamaño $(M+1)\times(M+1)$ y su rango es $\min \{N, M+1\}$, consecuentemente, para que $\tX^\top\tX$ tenga rango completo (y por ende sea invertible), se debe cumplir al menos que $N\geq M+1$. Adicionalmente, una condición \textbf{necesaria y suficiente}  para la existencia de la solución de mínimos cuadrados en la ecuación \eqref{eq:sol_mse}, requiere que las $N\geq M+1$ observaciones\footnote{Recordemos que nos referimos a las observaciones aumentadas $\tilde{x}$} sean linealmente independientes, pues de esta forma los términos que componen la pseudo-inversa son efectivamente linealmente independiente y ésta tiene rango completo. Es claro que para el caso de variables continuas es muy poco probable que dos observaciones sean perfectamente colinearles, sin embargo, en el caso de variables categóricas donde las observaciones son asignadas a un número finito de símbolos es probable que dos o más valores para la variable dependiente sean exactamente iguales. 
 
-En la práctica, es usual que tengamos más observaciones que parámetros, cuando consideramos un modelo lineal (o lineal generalizado, como veremos a continuación). Sin embargo, es posible que las observaciones sean \emph{redundantes}, es decir, no exactamente iguales (y por ende linealmente independientes) pero suficientemente parecidas para que la inversa de Moore-Penrose esté \emph{cercana} a ser no invertible. Esto puede resultar en problemas de inestabilidad numérica al  calcular la inversa de $\tX^\top\tX$. Una forma de evitar este problema penalizar soluciones que son \emph{cercanas a ser no invertibles} o \emph{irregulares}, de forma similar que se penalizan funciones que no representan bien los datos, en el sentido del error cuadrático. Este procedimiento se refiere a \emph{regularizar} la solución.
+En la práctica, es usual que tengamos más observaciones que parámetros al considerar un modelo lineal y que estas sean linealmente independientes. Sin embargo, es posible que las observaciones sean tal que la inversión de la matriz  $\tX^\top\tX$ sea numéricamente  inestable. Esto ocurre fundamentalmente en dos casos ilustrados en el siguiente recuadro.  
 
-\begin{mdframed}[style=pendiente, frametitle={\center ¿Por qué usamos el criterio de mínimos cuadrados?}]
-1) Aproximación en $L^2$\\
-2) Minimizar varianza del error, $x$ es variable aleatoria, $y=f(x)$ es determinista\\
-3) Tanto $x$ como $y$ son variables aleatorias. Esperanza condicional.\\
-4) Ejemplo: $X,Y$ conjuntamente gaussianos (definir MVN, contraejemplo, estimador óptimo). Analizar expresiones de la media y varianza posterior: interpretar.
+\begin{mdframed}[style=discusion, frametitle={\center ¿Matriz cuasi-singular o incorrectamente escalada?}]
+
+Al tratar de invertir una matriz de forma computacional, probablemente hemos obtenido un mensaje de la forma \emph{Matrix is singular, close to singular or badly scaled}. Veremos dos ejemplos para entender de dónde viene esta advertencia. 
+
+\noindent\textbf{Caso 1:} Consideremos la matriz 
+\begin{equation}
+	A = \left[ \begin{matrix}10^{50} & 1 \\  10^{50}  & 2\end{matrix}\right]
+\end{equation}
+dicha matriz es claramente invertible y su inversa puede ser calculada mediante
+\begin{equation}
+	A^{-1} = \frac{1}{10^{50} \cdot 2 - 10^{50}\cdot 1}\left[ \begin{matrix}2 & -1 \\  -10^{50}  & 10^{50}\end{matrix}\right]
+	=\left[ \begin{matrix}2\cdot10^{-50} & -10^{-50} \\  -1  & 1\end{matrix}\right],
+\end{equation}
+donde cuyos elementos difieren en 50 órdenes de magnitud. Sin embargo, la representación usual que consideramos cuando programamos es la de punto flotante de precisión simple, la cual considera el menor valor (de magnitud mayor que cero) de $2^{-127}\approx 10^{-38}$. Consecuentemente, los valores más pequeños que este límite serán aproximados por el elemento más cercano, es decir, cero. Utilizando la inversa aproximada, denotada $\tilde{A}^{-1}$, resulta en errores como el siguiente:
+\begin{equation}
+	A\tilde{A}^{-1} = \left[ \begin{matrix}10^{50} & 1 \\  10^{50}  & 2\end{matrix}\right] \left[ \begin{matrix} 0 & 0 \\  -1  & 1\end{matrix}\right] = \left[ \begin{matrix} -1 & 1 \\  -2  & 2\end{matrix}\right]
+\end{equation}
+
+\noindent\textbf{Caso 2:} Consideremos
+\begin{equation}
+	A = \left[ \begin{matrix} a  & a \\  b  & b + \epsilon\end{matrix}\right]
+\end{equation}
+la cual también es invertible para $a,\epsilon>0$, pues su determinante está dado por
+\begin{equation}
+	\det{A} = a(b+\epsilon) - ab = a\epsilon>0,
+\end{equation}
+sin embargo, si $\epsilon\ll1$ entonces el cálculo de la inversa puede sufrir inestabilidades numéricas como en el caso anterior. Sin embargo, observe para un $\eta>0$ suficientemente grande, la matriz $A+\eta I$ puede tener un determinante arbitrariamente grande (ver Sección \ref{ssub:min_cuad_reg}).
 \end{mdframed}
 
+Finalmente, es importante reflexionar por qué consideramos mínimos cuadrados como la métrica de error relacionada al problema de regresión. Existen varias razones por que lo hacemos, tanto técnicas como conceptuales, como también diversas desventajas de este criterio que es importante identificar. 
 
-\begin{figure}[ht]
+Desde del punto de vista técnico, el costo convexo de un modelo lineal (en los parámetros) define un problema de optimización que también es convexo y por ende tiene una solución única. Además, en el caso particular del costo cuadrático, este óptimo puede ser determinado de forma explícita lo cual es fuertemente deseado, pues el costo relacionado de encontrar la solución está dado únicamente por la inversión de una matriz y no mediante, e.g., búsqueda iterativa.
+
+Adicionalmente, desde un punto de vista conceptual, otra justificación para usar la medida del  error cuadrático es que éste representa la varianza muestral, es decir, asumiendo que $x$ e $y$ en la formulación del problema de regresión son variables aleatorias, entonces el error cuadrático  (relacionado con la función $f$) definido por
+\begin{equation}
+	\sum_{i=1}^N (y_i-f(x_i))^2,
+\end{equation}
+es la varianza muestral de la variable aleatoria $y-f(x)$, lo cual es el \emph{error} de estimación. De igual forma, la varianza de la suma de múltiples variables aleatorias (pensemos en errores acumulados, los cuales son independientes) corresponde a la suma de las varianzas de dichas VAs. Esto ocurre precisamente cuando usamos el exponente 2, y no si usáramos 1.95 o 2.05. 
+
+Podemos además justificar el uso del error cuadrático con una motivación geométrica. Observemos que el problema de regresión (lineal) requiere encontrar una solución aproximada de un sistema lineal sobredeterminado dado por 
+\begin{equation}
+	\tX \theta = Y
+\end{equation}
+donde la cantidad de incógnitas ($M+1$) es ampliamente superada por el número de ecuaciones ($N$). Como esta solución, desde el punto de vista de un sistema lineal, no existe, uno puede proceder a encontrar la solución para $\theta$ que reporta \emph{la menor discrepancia} entre ambos lados de la ecuación anterior. En este sentido, podemos identificar el espacio formado por todos los posibles valores que toma la combinación lineal $\tX \theta$ para distintos valores de $\theta$, es decir, el \emph{span} de todas las columnas de $\tX$ (los datos). Luego, podemos identificar el elemento de dicho espacio que está más cerca de $Y$. Esto está ilustrado en la Figura \ref{fig:projection}, donde la métrica natural para medir la magnitud del vector error $\tX \theta- Y$ es precisamente la norma Euclidiana (o la suma de los cuadrados de los elementos). Además, sabemos que el error $\tX \theta- Y$ debe ser ortogonal a todo el espacio generado por los datos (de entrada), consecuentemente, ocupando el producto interno tenemos que 
+\begin{equation}
+	(\tX \theta- Y)^\top \tX = 0,
+\end{equation}
+lo cual nos lleva directamente a la solución de mínimos cuadrados. 
+
+\begin{figure}[t]
 	\centering
 	\includegraphics[width=0.5\textwidth]{img/projection.pdf}\\
 	\caption{Interpretación geométrica de la regresión lineal y mínimos cuadrados}
 	\label{fig:projection}
 \end{figure}
 
+
+\begin{mdframed}[style=pendiente, frametitle={\center Desventajas de mínimos cuadrados}]
+1) Outliers
+2) mostrar otras métricas
+\end{mdframed}
+
+
+
 % subsubsection Mínimos cuadrados (end)
 
 \subsubsection{Mínimos cuadrados regularizados} % (fold)
 \label{ssub:min_cuad_reg}
 
-El criterio para encontrar los parámetros del modelo de regresión lineal puede, además de considerar el ajuste de la función a las observaciones, incluir ciertas penalizaciones sobre los modelos o soluciones a elegir. Estas penalizaciones pueden ser codificadas directamente en la función de costo, consecuentemente, ésta tiene ahora consta de un término que penaliza el ajuste de los datos y otro término que penaliza soluciones que se alejan de lo deseado. Un criterio estándar de penalización es la norma de los parámetros, es decir, 
+Perseguir ciegamente la solución de mínimos cuadrados, puede resultar, como vimos en la sección anterior en situaciones donde la inversa de Moore-Penrose sea \emph{cercana} a singular, especialmente en los casos que las observaciones son parecidas o redundantes. En este sentido, debemos considerar un criterio que no simplemente persiga un ajuste a los datos, sino que también promueva ciertas propiedades de la solución, por ejemplo, que solo considere soluciones \emph{regulares}, en el sentido que no son el resultado de la inversión de una matriz no cercana a \emph{singular}, en otras palabras, buscamos \emph{regularizar} la solución de mínimos cuadrados.
+
+Las penalizaciones a considerar en la búsqueda de soluciones pueden ser codificadas directamente en la función de costo. Por ejemplo, ésta puede incluir un término que penaliza el ajuste de los datos y otro término que penaliza soluciones que se alejan de lo deseado. Un criterio estándar de penalización es el basado en la norma de los parámetros, es decir, 
 \begin{equation}
 	J_\rho = \frac{1}{2}\sum_{i=1}^N(y_i-\theta^
 	\top \tx_i)^2 + \frac{\rho}{p}||\theta||_p^p,\ p\in\R_+,
