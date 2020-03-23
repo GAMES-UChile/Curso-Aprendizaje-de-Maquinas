@@ -38,8 +38,17 @@
 \usepackage{subcaption} % para_unsupervised_chapter
 
 %formatting
-\definecolor{my_blue}{HTML}{C2D5FF}
-\definecolor{my_red}{HTML}{FFC2C2}
+
+
+\ifx\byn\undefined
+    \definecolor{my_blue}{HTML}{C2D5FF}
+    \definecolor{my_red}{HTML}{FFC2C2}
+\else
+    \definecolor{my_blue}{HTML}{FFFFFF}
+    \definecolor{my_red}{HTML}{FFFFFF}
+\fi
+
+
 \usepackage[framemethod=TikZ]{mdframed}
 \mdfdefinestyle{discusion}{%
     %linecolor=black,
@@ -50,6 +59,7 @@
     innerrightmargin=20pt,
     innerleftmargin=20pt,
     backgroundcolor=my_blue}
+    
 \colorlet{Green}{green!90}
 
 \mdfdefinestyle{pendiente}{%
