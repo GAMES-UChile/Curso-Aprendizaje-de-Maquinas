@@ -2,11 +2,11 @@
 
 \section{Regresión Lineal} 
 
-El problema de regresión busca determinar la relación entre una variable \emph{independiente} (entrada, estímulo o instancia; usualmente denotada por $x$) y una variable \emph{independiente} (salida, respuesta o etiqueta; usualmente denotada $y$). Intuitivamente, un modelo de regresión permite entender cómo cambia la variable dependiente cuando la variable independiente es modificada. Esta relación entre ambas variables es representada por una función, consecuentemente, el problema de regresión es equivalente a encontrar una función. De esta forma, en base a (i) el espacio de posible funciones donde se busque dicha relación (por ejemplo el espacio de todos los polinomios de grado menor o igual a 5), y a (ii) el criterio de búsqueda que se aplique, podemos obtener distintas soluciones para el problema de regresión. 
+El problema de regresión busca determinar la relación entre una variable \emph{independiente} (entrada, estímulo o característica; usualmente denotada por $x$) y una variable \emph{independiente} (salida, respuesta o etiqueta; usualmente denotada $y$). Intuitivamente, un modelo de regresión permite entender cómo cambia la variable dependiente cuando la variable independiente es modificada. Esta relación entre ambas variables es representada por una función, consecuentemente, el problema de regresión es equivalente a encontrar una función definida desde el espacio de la entrada $x$ al de la salida $y$. De esta forma, en base a (i) el espacio de posible funciones donde se busque dicha relación, e.g., los polinomios de grado menor o igual a 5, y a (ii) el criterio de búsqueda que se aplique, e.g., mínimos cuadrados, podemos obtener distintas soluciones para el problema de regresión. 
 
-El escenario básico de regresión, y que sirve de base para casos más complejos, es el de regresión lineal. En este caso, el espacio de funciones donde se busca la relación entre las variables dependientes e independientes es el de las funciones lineales afines. Específicamente, para un conjunto de observaciones de $N\in\N$ entradas $\{x_i\}_{i=1}^N$ y salidas $\{y_i\}_{i=1}^N$ de la forma
+El escenario básico de regresión, y que sirve de base para casos más complejos, es el de regresión lineal. En este caso, el espacio de funciones donde se busca la relación entre las variables dependientes e independientes es el de las funciones lineales afines. Específicamente, para un conjunto de entrenamiento $D$ que contiene $N\in\N$ observaciones de entrada y salida, respectivamente $\{x_i\}_{i=1}^N$ y $\{y_i\}_{i=1}^N$, de la forma
 \begin{equation}
-	\{(x_i,y_i)\}_{i=1}^N\subset \R^M \times \R,
+	D=\{(x_i,y_i)\}_{i=1}^N\subset \R^M \times \R,
 	\label{eq:training_set}
 \end{equation}
 la regresión lineal busca encontrar un modelo lineal, es decir, una función $f(\cdot)$ definida por 
@@ -15,43 +15,39 @@ la regresión lineal busca encontrar un modelo lineal, es decir, una función $f
   x &\mapsto f(x)=a^\top x + b,\quad a\in\R^M,b\in\R,
  \label{eq:reg_lin_fn} 
 \end{align}
-que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, en base a las las observaciones descritas en la ecuación~\eqref{eq:training_set}. Antes de proceder a definir un criterio de \emph{mejor representación}, el siguiente recuadro analiza la elección de modelos lineales. 
+que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, en base a las las observaciones contenidas en el conjunto $D$ en la ec.~\eqref{eq:training_set}. Antes de proceder a definir un criterio de \emph{mejor representación}, el siguiente recuadro justifica la elección de modelos lineales. 
 
 \begin{mdframed}[style=discusion, frametitle={\center ¿Por qué consideramos el caso lineal en particular?}]
-
-	Existen distintas razones para estudiar los modelos lineales. En primer lugar, con el criterio de mínimos cuadrados que veremos a continuación, el modelo lineal es el único que admite resolución de forma explícita (o, como diremos alternativamente, \emph{tiene forma cerrada}). Esto, además de permitirnos calcular dicha solución, nos permite interpretar sus propiedades y en qué casos dicha solución tiene sentido. En segundo lugar, los resultados que obtendremos a continuación requieren linealidad solo en los parámetros---ver ecuación~\eqref{eq:reg_lin_fn}---y no necesariamente en la variable independiente $x$. Por esta razón, el estudio del modelo lineal también incluye modelos no lineales del tipo
+	Existen distintas razones para estudiar los modelos lineales. En primer lugar, con el criterio de mínimos cuadrados que veremos a continuación, el modelo lineal es el único que admite resolución de forma explícita (o, como diremos alternativamente, \emph{tiene forma cerrada}). Además de calcular dicha solución, la existencia de su forma cerrada nos permite interpretar las propiedades de dicha solución y en qué casos ésta tiene sentido. En segundo lugar, los resultados que obtendremos a continuación requieren linealidad solo en los parámetros---ver ec.~\eqref{eq:reg_lin_fn}---y no necesariamente en la variable independiente $x$. Por esta razón, el estudio del modelo lineal también incluye modelos no lineales del tipo
 \begin{align}
   f \colon \R^M & \to \R\nonumber\\
-  x &\mapsto f(x)=\theta^\top \phi(x) \quad \theta\in\R^{M'}
+  x &\mapsto f(x)=\theta^\top \phi(x), \quad \theta\in\R^{M'},
  \label{eq:reg_no_lin_fn} 
 \end{align}
-donde $\phi \colon \R^M \to \R^{M'}$ es una función no lineal sin parámetros libres. Es decir, estrictamente hablando deberíamos referirnos a los modelos lineales como \emph{lineales en los parámetros} y no necesariamente en la entrada. 
+donde $\phi \colon \R^M \to \R^{M'}$ es una función no lineal sin parámetros libres. Es decir, estrictamente hablando deberíamos referirnos a los modelos lineales como \emph{lineales en los parámetros} y no necesariamente \emph{lineales en la entrada}. 
 
 Finalmente, cuando los parámetros a determinar en el problema de regresión afectan de forma no lineal la relación entre las variables dependiente e independiente, el análisis presentado a continuación no es válido y en general la solución óptima de mínimos cuadrados no tiene forma cerrada. 
-
 \end{mdframed}
-
-
 
 \subsection{Mínimos cuadrados} % (fold)
 \label{ssub:min_cuad}
-En el contexto recién presentado, aflora naturalmente la siguiente pregunta: \emph{¿qué es una buena función $f(\cdot)$?} o, equivalentemente, \emph{¿cómo cuantificar la bondad de un modelo de regresión lineal?} Una práctica ampliamente utilizada es elegir la función $f(\cdot)$ en la ecuación \eqref{eq:reg_lin_fn} de acuerdo al criterio de \textbf{mínimos cuadrados}. Es decir, elegir la función $f(\cdot)$ que minimiza la suma de los cuadrados de las diferencias entre las observaciones $y$ y las predicciones calculadas por la función $f(x)$ de acuerdo al siguiente costo:
+En el contexto recién presentado, aflora naturalmente la siguiente pregunta: \emph{¿qué es una buena función $f(\cdot)$?} o, equivalentemente, \emph{¿cómo cuantificar la bondad de un modelo de regresión lineal?} Una práctica ampliamente utilizada es elegir la función $f(\cdot)$ en la ec.~\eqref{eq:reg_lin_fn} de acuerdo al criterio de \textbf{mínimos cuadrados}. Es decir, elegir la función $f(\cdot)$ que minimiza la suma de los cuadrados de las diferencias entre las observaciones $\{y_i\}_{i=1}^N$ y las predicciones calculadas por la función $\{f(x_i)\}_{i=1}^N$ de acuerdo al siguiente costo:
 \begin{equation}
-	J(\{(x_i,y_i)\}_{i=1}^N,f) = \frac{1}{2}\sum_{i=1}^N(y_i-f(x_i))^2,
+	J(D,f) = \frac{1}{2}\sum_{i=1}^N(y_i-f(x_i))^2,
 	\label{eq:least_squares_cost}
 \end{equation}
-donde hemos sido enfáticos en que el costo depende del conjunto de entrenamiento $\{(x_i,y_i)\}_{i=1}^N$ y la función $f$, sin embargo, cuando estas cantidades son claras, nos referiremos al costo simplemente como $J$. Además, denotamos la (o las) funciones que satisfacen el criterio de mínimos cuadrados mediante\footnote{La constante $\frac{1}{2}$ que multiplica al costo cuadrático no afecta la solución y está ahí por simplicidad de notación cuando se calculen las derivadas de esta expresión.} 
+donde hemos sido enfáticos en que el costo depende del conjunto de entrenamiento $D=\{(x_i,y_i)\}_{i=1}^N$ y la función $f$, sin embargo, cuando estas cantidades son claras, nos referiremos al costo simplemente como $J$. Además, denotamos la (o las) funciones que satisfacen el criterio de mínimos cuadrados mediante
 \begin{equation}
 	f^\star = \argmin_{f\text{ es lineal}} J.
 \end{equation}
-Debido a la forma lineal de $f(\cdot)$, resolver este problema de optimización es equivalente a encontrar los parámetros $a$ y $b$ en la ecuación ~\eqref{eq:reg_lin_fn}. Es decir: 
+Debido a la forma lineal de $f(\cdot)$, resolver este problema de optimización es equivalente a encontrar los parámetros $a$ y $b$ en la ec.~\eqref{eq:reg_lin_fn}. Es decir: 
 \begin{equation}
 	a^\star,b^\star = \argmin_{a,b} \frac{1}{2}\sum_{i=1}^N(y_i-a^
 	\top x_i + b)^2.
 	\label{eq:lin_least_squares}
 \end{equation}
 
-Observemos que el costo en la  ecuación \eqref{eq:lin_least_squares} es cuadrático en $a$ y $b$, por lo el problema de optimización tiene un único mínimo que puede ser encontrado explícitamente. Para esto, como la función $f$ en la ecuación~\eqref{eq:reg_lin_fn} no es lineal sino que \emph{afín}, hacemos el siguiente cambio de variable:
+Observemos que el costo en la  ec.~\eqref{eq:lin_least_squares} es cuadrático en $a$ y $b$, por lo qur  el problema de optimización tiene un único mínimo que puede ser encontrado explícitamente. Para esto, como la función $f$ en la ec.~\eqref{eq:reg_lin_fn} no es lineal sino que \emph{afín}, hacemos el siguiente cambio de variable:
 \begin{equation}
   \left[ \begin{matrix}x \\  1\end{matrix}\right] \mapsto \tx\in\R^{M+1},\quad
   \left[ \begin{matrix}a \\  b\end{matrix}\right]\mapsto \theta\in\R^{M+1},
@@ -79,22 +75,22 @@ donde $\tX$ y $Y$ son las matrices de datos definidas por
  \label{eq:matrices_X} 
 \end{equation}
 
-Con los parámetros del modelo regresión lineal encontrados con el criterio de mínimos cuadrados, es posible implementar la solución y comprarla visualmente con los datos. La Figura \ref{fig:reg_lin_1} muestra esta visualización de la regresión lineal para observaciones correspondientes a chirridos de grillos por segundo en función de la temperatura \cite{insects}. 
+Con los parámetros del modelo regresión lineal encontrados con el criterio de mínimos cuadrados, es posible implementar la solución y comprarla visualmente con los datos. La Fig.~\ref{fig:reg_lin_1} muestra esta la regresión lineal correspondiente a chirridos de grillos por segundo en función de la temperatura \cite{insects}. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\textwidth]{img/cap1_chirridos.pdf}\\
-	\caption{Ejemplo de regresión lineal.}
+	\caption{Ejemplo de regresión lineal usando mínimos cuadrados sobre la base de datos de chirridos versus temperatura.}
 	\label{fig:reg_lin_1}
 \end{figure}
 
-La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ecuación~\eqref{eq:sol_mse} es conocida como la pseudo-inversa de Moore-Penrose \cite[p.~7]{benisrael_greville_2006}. Observe que una condición \textbf{necesaria} para que esta pseudo-inversa esté bien definida es que la cantidad de observaciones ($N$) sea mayor o igual que la cantidad de dimensiones ($M+1$). Esto es porque la matriz $\tX^\top\tX$ es de tamaño $(M+1)\times(M+1)$ y su rango es $\min \{N, M+1\}$, consecuentemente, para que $\tX^\top\tX$ tenga rango completo (y por ende sea invertible), se debe cumplir al menos que $N\geq M+1$. Adicionalmente, una condición \textbf{necesaria y suficiente}  para la existencia de la solución de mínimos cuadrados en la ecuación \eqref{eq:sol_mse}, requiere que las $N\geq M+1$ observaciones\footnote{Recordemos que nos referimos a las observaciones aumentadas $\tilde{x}$} sean linealmente independientes, pues de esta forma los términos que componen la pseudo-inversa son efectivamente linealmente independiente y ésta tiene rango completo. Es claro que para el caso de variables continuas es muy poco probable que dos observaciones sean perfectamente colinearles, sin embargo, en el caso de variables categóricas donde las observaciones son asignadas a un número finito de símbolos es probable que dos o más valores para la variable dependiente sean exactamente iguales. 
+La expresión $\left(\tX^\top\tX \right)^{-1} \tX^\top$ en la ec.~\eqref{eq:sol_mse} es conocida como la pseudo-inversa de Moore-Penrose \cite[p.~7]{benisrael_greville_2006}. Observemos que una condición \textbf{necesaria} para que esta pseudo-inversa esté bien definida es que la cantidad de observaciones ($N$) sea mayor o igual que la cantidad de dimensiones ($M+1$). Esto es porque la matriz $\tX^\top\tX$ es de tamaño $(M+1)\times(M+1)$ y su rango es $\min \{N, M+1\}$, consecuentemente, para que $\tX^\top\tX$ tenga rango completo (y por ende sea invertible), se debe cumplir al menos que $N\geq M+1$. Adicionalmente, una condición \textbf{necesaria y suficiente}  para la existencia de la solución de mínimos cuadrados en la ec.~\eqref{eq:sol_mse}, requiere que las $N\geq M+1$ observaciones\footnote{Recordemos que nos referimos a las observaciones aumentadas $\tilde{x}$} sean linealmente independientes, pues de esta forma los términos que componen la pseudo-inversa son efectivamente linealmente independientes y ésta tiene rango completo. Es claro que para el caso de variables continuas es muy poco usual que dos observaciones sean perfectamente colineales, sin embargo, en el caso de variables categóricas donde las observaciones son asignadas a un número finito de símbolos es probable que dos o más valores para la variable dependiente sean exactamente iguales. 
 
-En la práctica, es usual que tengamos más observaciones que parámetros al considerar un modelo lineal y que estas sean linealmente independientes. Sin embargo, es posible que las observaciones sean tal que la inversión de la matriz  $\tX^\top\tX$ sea numéricamente  inestable. Esto ocurre fundamentalmente en dos casos ilustrados en el siguiente recuadro.  
+En la práctica, generalmente tendremos más observaciones que parámetros al considerar un modelo lineal y éstas serán linealmente independientes. Sin embargo, es posible que las observaciones sean tal que la inversión de la matriz  $\tX^\top\tX$ sea numéricamente  inestable. Esto ocurre fundamentalmente en dos casos ilustrados en el siguiente recuadro.  
 
 \begin{mdframed}[style=discusion, frametitle={\center ¿Matriz cuasi-singular o incorrectamente escalada?}]
 
-Al tratar de invertir una matriz de forma computacional, probablemente hemos obtenido un mensaje de la forma \emph{Matrix is singular, close to singular or badly scaled}. Veremos dos ejemplos para entender de dónde viene esta advertencia. 
+Al tratar de invertir una matriz de forma computacional, probablemente hemos obtenido un mensaje de la forma \texttt{matrix is singular, close to singular or badly scaled}. Veremos dos ejemplos para entender de dónde viene esta advertencia. 
 
 \noindent\textbf{Caso 1:} Consideremos la matriz 
 \begin{equation}
@@ -118,24 +114,22 @@ la cual también es invertible para $a,\epsilon>0$, pues su determinante está d
 \begin{equation}
 	\det{A} = a(b+\epsilon) - ab = a\epsilon>0,
 \end{equation}
-sin embargo, si $\epsilon\ll1$ entonces el cálculo de la inversa puede sufrir inestabilidades numéricas como en el caso anterior. Sin embargo, observe para un $\eta>0$ suficientemente grande, la matriz $A+\eta I$ puede tener un determinante arbitrariamente grande (ver Sección \ref{ssub:min_cuad_reg}).
+sin embargo, si $\epsilon\ll1$ entonces el cálculo de la inversa puede sufrir inestabilidades numéricas como en el caso anterior. Sin embargo, observe para un $\eta>0$ suficientemente grande, la matriz $A+\eta I$ puede tener un determinante arbitrariamente grande (ver Sección \ref{sub:min_cuad_reg}).
 \end{mdframed}
 
-Adicionalmente, es importante reflexionar por qué consideramos mínimos cuadrados como la métrica de error relacionada al problema de regresión. Existen varias razones por que lo hacemos, tanto técnicas como conceptuales, como también diversas desventajas de este criterio que es importante identificar. 
+Es relevante reflexionar por qué consideramos mínimos cuadrados como la métrica de error relacionada al problema de regresión. Existen varias razones por que lo hacemos, tanto técnicas como conceptuales, como también diversas desventajas de este criterio que es importante identificar.  Desde del punto de vista técnico, el costo convexo de un modelo lineal (en los parámetros) define un problema de optimización que también es convexo y por ende tiene una solución única. Además, en el caso particular del costo cuadrático, este óptimo puede ser determinado de forma explícita (lo cual es fuertemente deseado), pues está dado únicamente por la inversión de una matriz y no mediante, e.g., una búsqueda iterativa.
 
-Desde del punto de vista técnico, el costo convexo de un modelo lineal (en los parámetros) define un problema de optimización que también es convexo y por ende tiene una solución única. Además, en el caso particular del costo cuadrático, este óptimo puede ser determinado de forma explícita (lo cual es fuertemente deseado), pues está dado únicamente por la inversión de una matriz y no mediante, e.g., una búsqueda iterativa.
-
-Adicionalmente, desde un punto de vista conceptual, otra justificación para usar la medida del  error cuadrático es que éste representa la varianza muestral. Es decir, si considerásemos  $x$ e $y$ en la formulación del problema de regresión como variables aleatorias (VAs), entonces el error cuadrático (relacionado con la función $f$) definido por
+Desde un punto de vista conceptual, otra justificación para usar la medida del  error cuadrático es que éste representa la varianza muestral. Es decir, si considerásemos que $x_i$ e $y_i$ son observaciones iid de variables aleatorias (VAs) $x$ e $y$ respectivamente, entonces el error cuadrático (relacionado con la función $f$) definido por
 \begin{equation}
 	e= \sum_{i=1}^N (y_i-f(x_i))^2,
 \end{equation}
-es la varianza muestral de la variable aleatoria $y-f(x)$, lo que corresponde al \emph{error} de estimación. De igual forma, la varianza de la suma de múltiples variables aleatorias (pensemos en errores acumulados, los cuales son independientes) corresponde a la suma de las varianzas de dichas VAs. Esto ocurre precisamente cuando usamos el exponente igual a 2, y no si usáramos 1.95 o 2.05. 
+es la varianza muestral de la variable aleatoria $y-f(x)$, definida como el \emph{error} de estimación. De igual forma, la varianza de la suma de múltiples variables aleatorias (pensemos en errores acumulados, los cuales son independientes) corresponde a la suma de las varianzas de dichas VAs. Esto ocurre precisamente cuando usamos el exponente igual a 2, y no si usáramos 1.95 o 2.05. 
 
-Podemos además justificar el uso del error cuadrático con una motivación geométrica. Observemos que el problema de regresión (lineal) requiere encontrar una solución aproximada de un sistema lineal sobredeterminado dado por 
+Podemos además justificar el uso del error cuadrático con una motivación geométrica. Recordemos que el problema de regresión (lineal) requiere encontrar una solución aproximada de un sistema lineal sobredeterminado definido por 
 \begin{equation}
-	\tX \theta = Y,
+	\tX \theta = Y,\label{eq:sist_lineal_sobredet}
 \end{equation}
-donde la cantidad de incógnitas ($M+1$) es ampliamente superada por el número de ecuaciones ($N$). Como esta solución, desde el punto de vista de un sistema lineal, no existe, uno puede proceder a encontrar la solución para $\theta$ que reporta \emph{la menor discrepancia} entre ambos lados de la ecuación anterior. En este sentido, podemos identificar el espacio formado por todos los posibles valores que toma la combinación lineal $\tX \theta$ para distintos valores de $\theta\in\R^{M+1}$, es decir, el \emph{span} de todas las columnas de $\tX$ (los datos) definido como el \emph{espacio de las columnas de} $\tX$ o, simplemente, $\text{span}(\tX)$. Luego, podemos identificar el elemento de dicho espacio que está más cerca de $Y$  como la proyección del propio $Y$ en $\text{span}(\tX)$. Esto está ilustrado en la Figura \ref{fig:projection}, donde la condición para identificar dicha proyección es  precisamente que el vector error $\tX \theta- Y$ sea ortogonal a todo el espacio generado por los datos (de entrada) $\text{span}(\tX)$, consecuentemente, ocupando el producto interno tenemos que 
+donde la cantidad de incógnitas ($M+1$) es ampliamente superada por el número de ecuaciones ($N$). Como esta solución, desde el punto de vista de un sistema lineal, no existe, uno puede proceder a encontrar la solución para $\theta$ que reporta \emph{la menor discrepancia} entre ambos lados de la ec.~\eqref{eq:sist_lineal_sobredet}. En este sentido, podemos identificar el espacio formado por todos los posibles valores que toma la combinación lineal $\tX \theta$ para distintos valores de $\theta\in\R^{M+1}$, es decir, el \emph{span} de todas las columnas de $\tX$ (los datos) definido como el \emph{espacio de las columnas de} $\tX$ o, simplemente, $\text{span}(\tX)$. Luego, podemos identificar el elemento de dicho espacio que está más cerca de $Y$  como la proyección del propio $Y$ en $\text{span}(\tX)$. Esto está ilustrado en la Fig.~\ref{fig:projection}, donde la condición para identificar dicha proyección es  precisamente que el vector error $\tX \theta- Y$ sea ortogonal al espacio  $\text{span}(\tX)$ generado por los datos (de entrada), consecuentemente, ocupando el producto interno tenemos que 
 \begin{equation}
 	(\tX \theta- Y)^\top \tX = 0,
 \end{equation}
@@ -148,7 +142,7 @@ lo cual nos lleva directamente a la solución de mínimos cuadrados.
 	\label{fig:projection}
 \end{figure}
 
-Finalmente, notemos que el criterio de  mínimos cuadrados también tiene desventajas. Implícitamente, el criterio de mínimos cuadrados está intrínsecamente relacionado con un supuesto de gaussianidad de los datos---esto será evidente cuando conectemos veamos el criterio de máxima verosimilitud---consecuentemente, el criterio de mínimos cuadrados produce estimaciones razonables cuando la relación entre $x$  e $y$ es simétrica y sin \emph{largas desviaciones}. Por el contrario, cuando existen datos  que se alejan mucho de dicha la tendencia buscada, el criterio de la suma de cuadrados puede  desviarse considerablemente de la solución buscada, esto se debe precisamente a la contribución cuadrática del error, donde, coloquialmente, una muestra \emph{muy alejada} pesa tanto o más que varias muestras \emph{ligeramente alejadas}. La Figura \ref{fig:reg_lin_2} ilustra este fenómeno para el mismo ejemplo de los chirridos en la Figura \ref{fig:reg_lin_1}, donde se ha introducido un \emph{outlier}, es decir, una observación que está inusualmente alejada de los datos y se ha recalculado el resultado de la regresión lineal mediante el criterio de mínimos cuadrados. Se puede ver cómo se deteriora la estimación solo con la introducción de un nuevo dato. 
+Finalmente, notemos que el criterio de  mínimos cuadrados (MC) también tiene desventajas. Implícitamente, MC está intrínsecamente relacionado con un supuesto de gaussianidad de los datos---esto será evidente cuando estudiemos el criterio de máxima verosimilitud---consecuentemente, el uso de MC produce estimaciones razonables cuando la relación entre $x$  e $y$ es simétrica y sin \emph{grandes desviaciones}. Por el contrario, cuando existen datos  que se alejan mucho de dicha la tendencia buscada, las estimaciones encontradas mediante MC pueden desviarse considerablemente de la solución buscada, esto se debe precisamente a la contribución cuadrática del error, donde, coloquialmente, una muestra \emph{muy alejada} pesa tanto o más que varias muestras \emph{ligeramente alejadas}. La Fig.~\ref{fig:reg_lin_2} ilustra este fenómeno para el mismo ejemplo de los chirridos en la Fig.~\ref{fig:reg_lin_1}, donde se ha introducido un \emph{outlier}, es decir, una observación que está inusualmente alejada de los datos y se ha recalculado el resultado de la regresión lineal mediante el criterio de MC. Se puede ver cómo se deteriora la estimación solo con la introducción de un nuevo dato. 
 
 
 
@@ -159,7 +153,7 @@ Finalmente, notemos que el criterio de  mínimos cuadrados también tiene desven
 	\label{fig:reg_lin_2}
 \end{figure}
 
-Le lección que queda de este ejemplo es que debemos considerar una métrica \emph{ad hoc} al problema que estamos considerando, por ejemplo, si es muy probable que existan outliers, no debemos penalizar cuadráticamente los errores. De igual forma, interrogantes que es importante analizar en el momento de  elegir una métrica de error pueden tener que ver con si es irrelevante que el error de regresión sea i) cero o muy pequeño, o también ii) grande o extremadamente grande. La Figura \ref{fig:reg_lin_err} presenta cuatro métricas de error (como función del propio error), donde podemos interpretar sus propiedades. 
+La lección que queda de este ejemplo es que debemos considerar una métrica \emph{ad hoc} al problema que estamos considerando, por ejemplo, si es muy probable que existan outliers, no debemos penalizar cuadráticamente los errores. De igual forma, al elegir una métrica de error debemos verificar cuán relevante es que el error de regresión sea i) nulo vs muy pequeño, o bien ii) grande vs extremadamente grande. La Fig.~\ref{fig:reg_lin_err} presenta cuatro métricas de error (como función del propio error), donde podemos interpretar sus propiedades. 
 
 \begin{figure}[H]
 	\centering
@@ -168,20 +162,19 @@ Le lección que queda de este ejemplo es que debemos considerar una métrica \em
 	\label{fig:reg_lin_err}  
 \end{figure}
 
-% subsubsection Mínimos cuadrados (end)
 
-\subsubsection{Mínimos cuadrados regularizados} % (fold)
-\label{ssub:min_cuad_reg}
+\subsubsection{Regularización: ajuste versus generalización} % (fold)
+\label{sub:min_cuad_reg}
 
-Perseguir ciegamente la solución de mínimos cuadrados puede resultar, como vimos en la sección anterior, en situaciones donde la inversa de Moore-Penrose sea \emph{cercana} a singular, especialmente en los casos que las observaciones son parecidas o redundantes. En este sentido, debemos considerar un criterio que no simplemente busque un ajuste a los datos, sino que también promueva ciertas propiedades de la solución, por ejemplo, suavidad, bajas magnitudes de los parámetros o incluso pocos parámetros. Nos referiremos a estas soluciones como \emph{regulares}, en otras palabras, buscamos \emph{regularizar} la solución de mínimos cuadrados.
+Perseguir ciegamente la solución de mínimos cuadrados puede resultar, como discutimos en la sección anterior, en situaciones donde la inversa de Moore-Penrose sea \emph{cercana} a singular, especialmente en los casos que las observaciones son parecidas o redundantes. En este sentido, debemos considerar un criterio que no simplemente busque un ajuste a los datos, sino que también promueva ciertas propiedades de la solución, por ejemplo, suavidad, bajas magnitudes de los parámetros o incluso pocos parámetros. Nos referiremos a estas soluciones como \emph{regulares}, y el objetivo de esttet apartado será \emph{regularizar} la solución de mínimos cuadrados.
 
-Las penalizaciones a considerar en el problema de regresión pueden ser codificadas directamente en la función de costo. Por ejemplo, ésta puede incluir un término que penaliza el ajuste de los datos y otro término que penaliza soluciones que se alejan de lo deseado. Un criterio estándar de penalización es el basado en la norma de los parámetros, es decir, 
+Las penalizaciones a considerar en el problema de regresión pueden ser codificadas directamente en la función de costo. Por ejemplo, ésta puede incluir un término que promueve el ajuste de los datos y otro término que sanciona soluciones que se alejan de lo deseado. Un criterio estándar de penalización es el basado en la norma de los parámetros, es decir, 
 \begin{equation}
 	J_\rho = \frac{1}{2}\sum_{i=1}^N(y_i-\theta^
 	\top \tx_i)^2 + \frac{\rho}{p}||\theta||_p^p,\ p\in\R_+,
 	\label{eq:reg_least_squares}
 \end{equation} 
-donde $||\cdot||_p$ denota la norma $\ell_p$, es decir, $||\theta||_p=\left(\sum_{j=1}^N|\theta_j|^p\right)^\frac{1}{p}$ y el parámetro $\rho\geq0$ tiene el rol de balancear la importancia entre ajuste (primer término) y regularidad de la solución (segundo término). Distintos valores de $p$ inducen distintos propiedades sobre las soluciones, siendo las más usadas las correspondientes a $p=1$, conocido como \textbf{Lasso} \cite{tibshirani_1996}, y $p=2$ conocido como \textbf{regularización de Tikhonov} \cite{tikhonov_arsenin_1977} o bien \textbf{\emph{Ridge Regression}} \cite{hoerl_kennard_1970}.  
+donde $||\cdot||_p$ denota la norma $\ell_p$, es decir, $||\theta||_p=\left(\sum_{j=1}^N|\theta_j|^p\right)^\frac{1}{p}$ y el parámetro $\rho\geq0$ tiene el rol de balancear la importancia entre ajuste (primer término) y regularidad de la solución (segundo término). Distintos valores de $p$ inducen distintos propiedades sobre las soluciones, siendo las más usadas las correspondientes a $p=1$, conocido como \textbf{LASSO}\footnote{\emph{Least Absolute Shrinkage and Selection Operator.}} \cite{tibshirani_1996}, y $p=2$ conocido como \textbf{regularización de Tikhonov} \cite{tikhonov_arsenin_1977} o bien \textbf{\emph{Ridge Regression}} \cite{hoerl_kennard_1970}.  
 
 Una ventaja de la regularización de Tikhonov es que su solución, al igual que el caso de mínimos cuadrados no regularizados, puede ser encontrada en forma exacta. En efecto, para $p=2$ el término de regularización puede ser expresado como $||\theta||_2 = \theta^\top\theta$, con lo que el minimizante del costo cuadrático regularizado está dado por: 
 \begin{align}
@@ -192,17 +185,16 @@ Una ventaja de la regularización de Tikhonov es que su solución, al igual que 
 &\Leftrightarrow \theta = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y.								&&\text{def. $\tX$ y $Y$} \label{eq:least_sq_soln}
 \end{align}
 
-De la última expresión, es posible ver que el requerimiento de que las observaciones disponibles sean (i) más que la dimensión $M+1$ y que además (ii) éstas sean colineales ya no es necesario para que la solución esté bien definida. De hecho, la matriz $\tX^\top\tX$ puede efectivamente estar cercana a ser no invertible, sin embargo, es posible \emph{regularizar} la solución forzando que la matriz $\left(\tX^\top\tX +\rho \eye\right)$ sea efectivamente \emph{regular} aumentando el valor de $\rho$. 
-
-En el caso de la regularización de Tikhonov, se entiende por soluciones regulares las que están definidas por parámetros que tienen una norma pequeña, tal como lo sugiere la ecuación \eqref{eq:reg_least_squares}. Sin embargo, es posible aplicar otros criterios de regularidad, por ejemplo, una solución regular puede ser una en la cual la mayoría de los de parámetros son idénticamente nulos, esto es conocido como una solución \textbf{rala} o \textbf{\emph{sparse}}. Usando por costo de regularización el número de parámetros no nulos (definido por la ``norma'' $l_0$) en la definición del costo en la ecuación \eqref{eq:reg_least_squares}, es posible determinar cuáles son las soluciones que utilizan menos variables independientes para representar la variable dependiente. Desafortunadamente, resolver encontrar la solución usando la ``norma'' $l_0$ es muy difícil, sin embargo, bajo ciertas condiciones la consideración de la norma $l_1$ puede llevar a la misma solución.
+De la última expresión, es posible ver que el requerimiento de que las observaciones disponibles sean (i) más que la dimensión $M+1$ y que además (ii) éstas sean colineales ya no es necesario para que la solución esté bien definida. De hecho, la matriz $\tX^\top\tX$ puede efectivamente estar cercana a ser no invertible, sin embargo, es posible \emph{regularizar} la solución forzando que la matriz $\left(\tX^\top\tX +\rho \eye\right)$ sea arbitrariamente lejana de las matrices singulares (o tenga un determinante arbitrariamente grande) aumentando el valor de $\rho$. 
 
 
 
-Es relevante entender por qué una disminución en la norma de los parámetros, puede ayudar a ajustar \emph{mejores} modelos. A primera impresión, un podría pensar que el concepto de MCR en ningún caso puede reportar mejores modelos que el criterio de MC, pues es una variante restringida del problema original y consecuentemente solo puede \emph{en el mejor de los casos} alcanzar la solución óptima. Esto es cierto si por \emph{mejor modelo} solo consideramos el ECM, sin embargo, solo enfocarse en esta métrica no siempre es el mejor opción. Para ilustrar este concepto, tomemos las siguientes consideraciones: asumamos que efectivamente los datos pueden tienen la forma
+
+Es relevante entender por qué una disminución en la norma de los parámetros, puede ayudar a ajustar \emph{mejores} modelos. A primera impresión, un podría pensar que el criterio de mínimos cuadrados regularizados (MCR) en ningún caso puede reportar mejores modelos que su contraparte MC, pues MCR es una variante restringida del problema original y consecuentemente solo puede \emph{en el mejor de los casos} alcanzar la solución óptima. Esto es cierto si por \emph{mejor modelo} solo consideramos el error cuadrático medio (ECM), sin embargo, solo enfocarse en esta métrica no siempre es el mejor opción. Para ilustrar este concepto, tomemos las siguientes consideraciones: asumamos que efectivamente los datos cumplen la relación
 \begin{equation}
 	y_i = \underbrace{\theta^\top\tx_i}_{f_i} + \epsilon_i,	
  \end{equation}
- donde $\epsilon_i$ son observaciones iid de una variable aleatoria de varianza $\sigma^2$, $\theta$ es un parámetro fijo, los $\tx_i$ son determinísticos y $f_i= \theta^\top\tx_i$ se refiere a la  \emph{parte determinista} del modelo. Además, consideremos una estimación del parámetro $\theta$ construida en base a un conjunto de entrenamiento $D=\{(\tx_i,y_i)\}_{i=1}^N$, denotada $\hat\theta=\hat\theta_D$. Con estas consideraciones, para un nuevo par $(\tx_\star,y_\star)$, podemos escribir el \emph{costo (cuadrático) esperado} asociado al la estimación $\hat f_\star = \hat\theta^\top \tx_\star$ mediante el \emph{trade-off} del sesgo y la varianza \cite{ISLbook}
+ donde $\epsilon_i$ son observaciones iid de una variable aleatoria de varianza $\sigma^2$, $\theta$ es un parámetro fijo, los $\tx_i$ son fijos y $f_i= \theta^\top\tx_i$ se refiere a la  \emph{parte determinista} del modelo. Además, consideremos una estimación del parámetro $\theta$ construida en base a un conjunto de entrenamiento $D=\{(\tx_i,y_i)\}_{i=1}^N$, denotada $\hat\theta=\hat\theta_D$. Con estas consideraciones, para un nuevo par $(\tx_\star,y_\star)$, podemos escribir el \emph{costo (cuadrático) esperado} asociado a la \textbf{predicción} $\hat f_\star = \hat\theta^\top \tx_\star$ mediante el \emph{trade-off} entre sesgo y la varianza \cite{ISLbook} dado por
 \begin{equation}
  	\E{(y_\star - \hat f_\star)^2} = \text{Sesgo}(\hat f_\star)^2 + \text{Varianza}(\hat f_\star) + \sigma^2,\label{eq:expected_sq_loss}
  \end{equation} 
@@ -213,62 +205,63 @@ Es relevante entender por qué una disminución en la norma de los parámetros, 
  	\item $\sigma^2$ es es la varianza de \emph{ruido} $\epsilon$ y es la parte irreducible del costo, en el sentido que no puede ser controlada por la elección de $\hat\theta$.
  \end{itemize}
 
-Eligiendo $\hat f_\star = \theta_{MC}^\top\tx_\star$ tenemos que 
+Podemos evaluar el sesgo y la varianza para el estimador de mínimos cuadrados, denotado $\hat\theta_{MC}$, eligiendo $\hat f_\star = \hat\theta_{MC}^\top\tx_\star$. En efecto,  
 \begin{align}
 	\text{Sesgo}(\hat f_\star) &= \E(\theta_{MC}^\top\tx_\star) - \theta^\top\tx_\star=0\\
-	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX)^{-1}	\tx_\star,
+	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX)^{-1}	\tx_\star
 \end{align}
-es decir, el modelo de regresión lineal ajustado mediante mínimos cuadrados reporta un estimador insesgado pero con una varianza que depende de los datos en el conjunto de entrenamiento, la varianza del ruido $\sigma^2$ y la propia entrada $\tx_\star$. Si bien no es posible determinar cuánto es esta varianza sin tomar supuestos estadísticos sobre los $\tx_i$'s, podemos intuir que cuando los  datos son pocos o redundantes/colineales, entonces recordemos que la matriz $\tX^\top\tX$ puede ser cercana a singular, lo cual resultará en alta varianza en la última ecuación. De hecho, si asumiéramos que los $\tx_i\sim\cN(0,1)$, tendríamos que $\text{Varianza}(\hat f_\star) = \sigma^2 M/N$, es decir, la varianza es inversamente proporcional a la razón entre la dimensión de las entradas ($M$) y la cantidad de muestras ($N$).
-
-Al penalizar la norma cuadrada del parámetro $\theta$, la regresión de Ridge sacrifica la característica insesgada del estimador, pero en retorno construye un estimador que tiene menos varianza. Esto puede entenderse como el balance entre: i) confiar únicamente en los datos, los cuales pueden ser pocos o muy ruidoso y consecuentemente insuficientes para determinar un modelo apropiado, y ii) introducir un \emph{sesgo} al modelo (por ejemplo, parámetros pequeños) con la finalidad de robustecer el modelo encontrado en función de los datos disponibles. Esta noción de ajustar a los datos de entrenamiento o generalizar puede ser ilustrada simplemente con el siguiente ejemplo: Consideremos datos generados donde la dimensión de entrada es $M=100$ y contamos con $N=1000$ muestras (pares de entrada y salida), por ejemplo, como ha sido generado en el siguiente script.
-\begin{lstlisting}[language=Python]
-	n_samples, n_features = 1000, 100
-	rng = np.random.RandomState(0)
-
-	X = rng.randn(n_samples, n_features)
-	theta = rng.randn(n_features,1)
-	y = X@theta + 10*rng.randn(n_samples, 1)
-\end{lstlisting}
- En vez de utilizar todas las muestras de entrenamiento, utilicemos solo $N'=15$ muestras para entrenar usando los criterios de MC, y RR con $\rho\in\{40,80\}$. Repitiendo este proceso 400 veces, podemos analizar cómo se comportan los distintos métodos en cuanto a la magnitud de los parámetros encontrado, el error dentro de muestra (con respecto a los datos de entrenamiento) y el error fuera de muestra (con respecto a los datos no usados para entrenar). La Figura \ref{fig:MCvsRR_Synth} muestra dichos histogramas, desde donde podemos ver que a mayor $\rho$ (recordemos que MM es equivalente a RR con $\rho=0$), tenemos parámetros con menor magnitud como es de esperar. Adicionalmente, notemos que el modelo no regularizado se comporta mejor en evaluación dentro de muestra, sin embargo, sus papeles se invierten cuando se trata de evaluación fuera de muestra: el incluir un sesgo en el ajuste de modelos puede ayudar a generalizar y no sobreajustar cuando se tienen pocos datos. 
-
- \begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{img/cap1_bias-variance.pdf}\\
-	\caption{Mínimos cuadrados versus RR ($\rho\in\{40,80\}$): determinación de parámetros usando solo 15 muestras para un parámetro de dimensión $M=100$. De derecha a izquierda podemos ver magnitud de los parámetros encontrado, error dentro de muestra y error fuera de muestra.}
-	\label{fig:MCvsRR_Synth}  
-\end{figure}
+Es decir, el modelo de regresión lineal ajustado mediante MC reporta un estimador insesgado (sesgo nulo) pero con una varianza que depende de los datos en el conjunto de entrenamiento $D$, la varianza del ruido $\sigma^2$ y la propia entrada $\tx_\star$. Si bien no es posible determinar cuánto es esta varianza sin tomar supuestos estadísticos sobre los $\tx_i$'s, recordemos que la matriz $\tX^\top\tX$ puede ser cercana a singular cuando los datos son pocos, redundantes o colineales, lo cual resultará en alta varianza para la predicción $\hat f_\star$. De hecho, si asumiéramos que $\tx_i\sim\cN(0,1)$ iid, tendríamos que $\text{Varianza}(\hat f_\star) = \sigma^2 M/N$, es decir, la varianza es inversamente proporcional a la razón entre la dimensión de las entradas ($M$) y la cantidad de muestras ($N$).
 
 \begin{mdframed}[style=discusion, frametitle={\center Evaluaciones \emph{dentro de muestra} y \emph{fuera de muestra}}]
  Notemos que la expresión en la ec.~\eqref{eq:expected_sq_loss} es una medida de error \emph{fuera de muestra}, pues evalúa un estimador $\hat\theta$, construido en base a un conjunto $D$, en un nuevo dato $(\tx_\star,y_\star)$ que no está originalmente contenido en $D$. No debemos confundir esta expresión con el error cuadrático medio, en la ec.~\eqref{eq:least_squares_cost}, el cual representa un error \emph{dentro de muestra}. La  evaluación de ambos tipos de  costos es clave para diseñar modelos y estimadores que puedan \emph{generalizar} a datos no vistos. 
 \end{mdframed}
 
+Al penalizar la norma cuadrada del parámetro $\theta$, la regresión de Ridge sacrifica la propiedad insesgada del estimador, pero en retorno construye un estimador que tiene menos varianza que el de MC. Esto puede entenderse como el balance entre: i) confiar únicamente en los datos, los cuales pueden ser pocos o muy ruidoso y consecuentemente insuficientes para determinar un modelo apropiado, y ii) introducir un \emph{sesgo} al modelo (por ejemplo, parámetros pequeños) con la finalidad de robustecer el modelo encontrado en función de los datos disponibles. Esta noción de (sobre-)ajustar a los datos de entrenamiento versus generalizar a  nuevos  puede ser ilustrada con el siguiente ejemplo: Consideremos $N=1000$ datos relacionados linealmente (pares de entrada y salida) donde la dimensión de entrada es $M=100$ generados por el siguiente script.
+\begin{lstlisting}[language=Python]
+##generacion de datos relacionados linealmente 
+n_samples, n_features = 1000, 100
+rng = np.random.RandomState(0)
+X = rng.randn(n_samples, n_features)
+theta = rng.randn(n_features,1)
+y = X@theta + 10*rng.randn(n_samples, 1)
+\end{lstlisting}
+ En vez de utilizar todas las muestras de entrenamiento, utilicemos solo $N'=15$ muestras para entrenar usando los criterios de MC, y regresión de Ridge (RR) con $\rho\in\{40,80\}$. Repitiendo este proceso 400 veces, podemos analizar cómo se comportan los distintos métodos en cuanto a la magnitud de los parámetros encontrados, el error dentro de muestra (con respecto a los datos de entrenamiento) y el error fuera de muestra (con respecto a los datos no usados para entrenar). La Fig.~\ref{fig:MCvsRR_Synth} muestra dichos histogramas, desde donde podemos ver que a mayor $\rho$ (recordemos que MC es equivalente a RR con $\rho=0$), los parámetros encontrados tienen menor magnitud. Adicionalmente, notemos que el modelo no regularizado (MC) se comporta mejor en evaluación dentro de muestra, sin embargo, sus papeles se invierten cuando se trata de evaluación fuera de muestra: el incluir un sesgo en el ajuste de modelos (RR) puede ayudar a generalizar y no sobreajustar cuando se tienen pocos datos. 
 
-Para entender cómo el regularizador atrae a la solución irrestricta hacia cero, consideremos el siguiente problema de regresión lineal con restricciones:
+ \begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/cap1_bias-variance.pdf}\\
+	\caption{Mínimos cuadrados versus regresión de Ridge ($\rho\in\{40,80\}$): determinación de parámetros usando solo 15 muestras para un parámetro de dimensión $M=100$. De derecha a izquierda podemos ver magnitud de los parámetros encontrados, error dentro de muestra y error fuera de muestra. Experimento repetido 400 veces.}
+	\label{fig:MCvsRR_Synth}  
+\end{figure}
 
+
+
+\subsubsection{Formulación con restricciones y selección de variables} % (fold)
+\label{sub:restricciones}
+
+Para ilustrar cómo el proceso de regularización es equivalente a restringir los parámetros a cumplir con una condición específica, e.g., tener una magnitud dada, consideremos el siguiente problema de regresión lineal con restricciones:
 \begin{align}
-	\min &\frac{1}{2}\sum_{i=1}^N (y_i-\theta^\top\tx_i)^2\label{eq:MC_restriccion}\\
+	\min_\theta &\frac{1}{2}\sum_{i=1}^N (y_i-\theta^\top\tx_i)^2\label{eq:MC_restriccion}\\
 	\text{s.a.} &\ ||\theta||_p^p = \tau,\nonumber
 \end{align}
-donde $\tau\geq0$.
-
-Sabemos que este problema puede ser resuelto en su forma dual mediante la formulación del Lagrangiano dado por 
+donde asumiremos que $\tau\geq0$ es una constante conocida. Sabemos que este problema puede ser resuelto en su forma dual mediante la formulación del Lagrangiano dado por 
 \begin{equation}
 	L = \frac{1}{2}\sum_{i=1}^N (y_i-\theta^\top\tx_i)^2 - \lambda (||\theta||_p^p - \tau),
 \end{equation}
-donde $\lambda\geq0$ es conocido como el \emph{multiplicador de Lagrange}. Luego, las condiciones necesarias para encontrar la solución del problema con restricciones en la ec.~\eqref{eq:MC_restriccion} están dadas por: 
+donde $\lambda\geq0$ es conocido como el \emph{multiplicador de Lagrange}. Luego, las condiciones de primer orden necesarias para encontrar la solución del problema con restricciones en la ec.~\eqref{eq:MC_restriccion} están dadas por: 
 \begin{align}
 	\frac{\partial L}{\partial \theta} = 0 &\quad\Rightarrow\quad  \frac{\partial }{\partial \theta}\left( \frac{1}{2}\sum_{i=1}^N (y_i-\theta^\top\tx_i)^2 - \lambda ||\theta||_p^p \right) = 0\label{eq:dual_MCR1}\\
-	\frac{\partial L}{\partial \lambda} = 0 &\quad\Rightarrow\quad ||\theta||_p^p = \tau \label{eq:dual_MCR2}
+	\frac{\partial L}{\partial \lambda} = 0 &\quad\Rightarrow\quad ||\theta||_p^p = \tau, \label{eq:dual_MCR2}
 \end{align}
 lo cual recupera la forma del problema de minimización de mínimos cuadrados regularizados. Enfatizamos esta relación en el siguiente recuadro. 
 
 
 \begin{mdframed}[style=discusion, frametitle={\center Mínimos cuadrados regularizados: optimización con restricciones}]
-Observemos que el problema de mínimos cuadrados regularizados, determinado por el costo en la ec.~\eqref{eq:reg_least_squares}, es equivalente al dual de un problema de optimización con restricciones en las ecs.~\eqref{eq:dual_MCR1}-\eqref{eq:dual_MCR2} para un $\lambda$ dado tal que $\lambda =-{\rho}/{p}$. Consecuentemente, como el valor óptimo de $\lambda$ depende del valor de la restricción $\tau$, podemos aseverar que \textbf{para cualquier $\rho\geq0$, existe un $\tau\geq0$ tal que la minimización de \eqref{eq:reg_least_squares} es equivalente a la de \eqref{eq:MC_restriccion}.} Consecuentemente,  podemos interpretar el problema de MCR como el de MC sujeto a una restricción para (en este caso la norma) del parámetro. 
+Observemos que el problema de mínimos cuadrados regularizados, determinado por el costo en la ec.~\eqref{eq:reg_least_squares}, es equivalente al dual de un problema de optimización con restricciones en las ecs.~\eqref{eq:dual_MCR1}-\eqref{eq:dual_MCR2} para un $\lambda$ dado tal que $\lambda =-{\rho}/{p}$. Consecuentemente, como el valor óptimo de $\lambda$ depende del nivel de la restricción $\tau$, podemos aseverar que \textbf{para cualquier $\rho\geq0$, existe un $\tau\geq0$ tal que la minimización de \eqref{eq:reg_least_squares} es equivalente a la de \eqref{eq:MC_restriccion}.} Consecuentemente,  podemos interpretar el problema de MCR como el de MC sujeto a una restricción para (en este caso la norma) del parámetro. 
 	
 \end{mdframed}
 
-Considerando la interpretación del punto de vista de restricciones sobre la norma del parámetro $\theta$, es relevante ver las curvas de nivel del término de regularización para distintos $p\geq0$. La Figura \ref{fig:reg_lin_reg} ilustra las curvas de nivel correspondientes al costo cuadrático y al  término de regularización en la eq.~\eqref{eq:reg_least_squares} para órdenes $p\in\{0.5,1,2\}$. 
+Con la interpretación del problema de optimización con restricciones sobre la norma del parámetro $\theta$, podemos entender distintos regularizadores (distintos $p\geq0$) mediante sus curvas de nivel. La Fig.~\ref{fig:reg_lin_reg} ilustra las curvas correspondientes al costo cuadrático (izquierda) y al término de regularización en la eq.~\eqref{eq:reg_least_squares} para órdenes $p\in\{0.5,1,2\}$. 
 
 \begin{figure}[H]
 	\centering
@@ -277,9 +270,9 @@ Considerando la interpretación del punto de vista de restricciones sobre la nor
 	\label{fig:reg_lin_reg}  
 \end{figure}
 
-La formulación en base a restricciones de los MCR es clave para entender la propiedad de \emph{selección de características} de MCR. Al estimar el parámetro $\theta$, estamos verificando cuán importante es cada (coordenada de la) entrada o en la jerga de reconocimiento de patrones, cada \emph{característica}. Indirectamente estamos también implícitamente descubriendo cuáles son las características que importan y cuales no, a esto nos referimos como selección de características. Distintas normas para el término de regularización, como las ilustradas en la Figura \ref{fig:reg_lin_reg}, inducen distintas propiedades para la solución del problema de MCR. En particular, RR atrae \emph{homogéneamente} el parámetro hacia el origen, lo cual resulta  en estimaciones de menor varianza como vimos en el apartado anterior. LASSO y el caso $p\leq1$ en general presenta una propiedad adicional, donde la forma de la curva de nivel permite que usualmente la solución del problema se concentre el las puntas de dicho diamante, llevando el parámetro correspondiente para algunas de las características directamente a cero. Por esto decimos que LASSO (y $p\leq1$ en general) tiene la propiedad de selección de variables y entrega modelos ralos con respecto a MC tradicional. 
+La formulación en base a restricciones es clave para entender la propiedad de \emph{selección de características} de los MCR. Al estimar el parámetro $\theta$, estamos verificando cuán importante es cada (coordenada de la) entrada o en la jerga de reconocimiento de patrones, cada \emph{característica}. Indirectamente estamos también implícitamente descubriendo cuáles son las características que importan y cuales no, a esto nos referimos como selección de características. Distintas normas para el término de regularización, como las ilustradas en la Fig.~\ref{fig:reg_lin_reg}, inducen distintas propiedades para la solución del problema de MCR. En particular, RR atrae \emph{homogéneamente} el parámetro hacia el origen, lo cual resulta  en estimaciones de menor varianza como vimos en el apartado anterior. LASSO ($p=1$) y el caso $p\leq1$ en general presenta una propiedad adicional, donde la forma de la curva de nivel permite que usualmente la solución del problema se concentre el las puntas del \emph{diamante} (ver Fig.~\ref{fig:reg_lin_reg}, $p=1$), llevando algunas coordenadas del parámetro $\theta$ directamente a cero. Por esto decimos que LASSO (y $p\leq1$ en general) tiene la propiedad de selección de variables y entrega modelos ralos con respecto a MC tradicional. 
 
-Para ilustrar esta propiedad, consideremos el \emph{Breast Cancer Wisconsin Data Set}\footnote{\url{https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)}}, el cual tiene $N=569$ muestras y la dimensión de la entrada es 30. Los valores para la variable de salida ($y$) son solo dos, pues este es un problema de clasificación, sin embargo, nosotros ajustaremos un modelo de regresión lineal usando MC, RR y LASSO para luego evaluar los pesos encontrados; usaremos un 66\% de los datos para entrenar y el 33\% restante para calcular puntajes fuera de muestra. La Figura \ref{fig:MC_RR_LASSO_breastcancer} presenta los parámetros encontrados para cada uno de los métodos, donde podemos ver la propiedad de selección de variables de LASSO; adicionalmente, la Tabla \ref{tab:breastMC_RR_LASSO} muestra los puntajes de cada método, tanto dentro como fuera de muestras: en la línea de la discusión anterior, los modelos regularizados presentan mejor generalización y usan menos parámetros. 
+Para ilustrar la propiedad de selección de características, consideremos el \emph{Breast Cancer Wisconsin Data Set}\footnote{\url{https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)}}, el cual tiene $N=569$ muestras y un dimensión de entrada de $M=30$. Los valores para la variable de salida ($y$) son solo dos, pues este es un problema de clasificación (\emph{cáncer} vs \emph{no-cáncer}), sin embargo, nosotros ajustaremos un modelo de regresión lineal usando MC, RR y LASSO para luego evaluar los pesos encontrados. Usaremos 2/3 de los datos para entrenar y el 1/3 restante para calcular puntajes fuera de muestra. La Fig.~\ref{fig:MC_RR_LASSO_breastcancer} presenta los parámetros encontrados para cada uno de los métodos, donde podemos ver la propiedad de selección de variables de LASSO; adicionalmente, la Tabla \ref{tab:breastMC_RR_LASSO} muestra los puntajes de cada método, tanto dentro como fuera de muestras: en la línea de la discusión anterior, los modelos regularizados presentan mejor generalización y usan menos parámetros (o más parámetros iguales a cero). 
 
 
 \begin{table}
@@ -297,7 +290,7 @@ Para ilustrar esta propiedad, consideremos el \emph{Breast Cancer Wisconsin Data
 
 
 
-
+ 
 
 
 
@@ -310,9 +303,11 @@ Para ilustrar esta propiedad, consideremos el \emph{Breast Cancer Wisconsin Data
 
 
 
-\begin{mdframed}[style=discusion, frametitle={\center Regularización versus mínimos cuadrados}]
-1) ¿es justo comprar MC y RR en términos de MSE?\\
-2) ¿cómo elegir $\rho$? y validación cruzada: subajuste, sobreajuste
+\begin{mdframed}[style=discusion, frametitle={\center Regularización: Consideraciones generales}]
+Para concluir esta sección, enunciamos las siguientes preguntas para discusión posterior\\
+$\bullet$ \textbf{¿es justo comprar MC y MCR en términos del ECM?} Ciertamente no, el criterio de MC siempre reportará un menor ECM, pues ha sido entrenado para minimizar dicho costo. Las ventajas de MCR están en su desempeño fuera de muestra, selección de variables o en  general en su habilidad de  incorporar  sesgo  \emph{de diseñador} en la soluciones que no afloren naturalmente de  los  datos. \\
+$\bullet$ \textbf{¿cómo elegir $\rho$?} De forma general, este \emph{hiperparámetro} determina el balance entre regularización (cuán  sesgado) y ajuste (cuán bien replica  los datos ), consecuentemente lo debemos elegir según nuestra intención. En la práctica,  podemos evaluar el desempeño de distintos valores de $\rho$ fuera de muestra con la finalidad de elegir un valor apropiado. Esta técnica se llama \emph{validación cruzada} y busca determinar modelos que no sufran de subajuste, o sobreajuste.\\
+$\bullet$ Vimos que la norma $\ell_p$ con $0<p\leq1$ tiene la propiedad de selección de características, pero, \textbf{¿qué pasa con la `norma' $\ell_0$?}. La cantidad  $\ell_0(\theta)$ denota la cantidad de elementos no nulos de $\theta$ y no es una norma, sin embargo, puede de todas formas ser usada en la definición del costo en la ecu.~\eqref{eq:reg_least_squares}, con la finalidad de directamente penalizar la cantidad de características usadas por el modelo. Desafortunadamente, encontrar la solución usando la ``norma'' $l_0$ es muy difícil, sin embargo, bajo ciertas condiciones la consideración de la norma $l_1$ puede llevar a la misma solución.
 \end{mdframed}
 
 \subsection{Máxima verosimilitud} % (fold)
