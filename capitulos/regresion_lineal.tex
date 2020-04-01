@@ -313,50 +313,149 @@ $\bullet$ Vimos que la norma $\ell_p$ con $0<p\leq1$ tiene la propiedad de selec
 \subsection{Máxima verosimilitud} % (fold)
 \label{ssub:max_ver}
 
-Ahora tomaremos un enfoque distinto, en el cual no buscaremos el modelo \emph{aproximado} que tiene menor discrepancia con los datos. Por el contrario, nos enfocamos en modelos que han generado \emph{exactamente} los datos observados. Debido a la naturaleza de los datos, para este fin es necesario considerar modelos estocásticos, por lo que el mejor modelo estará dado por el que \emph{más probablemente} haya generado los datos. Específicamente, consideraremos un modelo compuesto por dos partes: la primera es determinística y paramétrica (al igual que los modelos anteriores) y una parte aleatoria la cual permitirá modelar exactamente las observaciones. 
 
-En efecto, consideremos el siguiente modelo
+En el apartado anterior vimos que el criterio de  mínimos cuadrados, y su variante regularizada, ofrecen una alternativa simple, elegante, interpretable y con solución en forma cerrada. Sin embargo, también vimos que dicho criterio sufre de desventajas en cuando a su capacidad de detectar el ajuste de modelos en casos generales, pues el criterio de MC es particularmente apropiado para errores contínuos, aditivos,  y simétricamente dispersos con respecto a una tendencia dada. Existen distintos casos donde el criterio de MC no es apropiado, por ejemplo aplicaciones financieras con  perturbaciones multiplicativas, mediciones de intensidad como frecuencia de aparición de palabras o sismos en donde las perturbaciones son con alta probabilidad solo positivas, y problemas de clasificación o asignación (\emph{clustering}) en donde las métricas de error toman la forma como ``correcto''/``incorrecto'', con lo que una medida de error que incorpore ``más incorrecto'' no tiene sentido. 
+
+Una alternativa natural es diseñar una métrica de desempeño distinta y diseñada específicamente en función  de las propiedades de cada aplicación con la finalidad de capturar asimetrías, no-estacionariedad, asignación correcta, invarianzas (en el problema de \emph{clustering} por ejemplo), etc. Sin embargo, esta no solo es una tarea tediosa y poco elegante---en el sentido que va en contra los objetivos de inteligencia artificial expuestos en el Capítulo~\ref{cap:intro}---sino que puede ser muchas veces impracticable, pues precisamente no conocemos cuáles son las propiedades de los datos antes de ajustar modelos. Además, usar distintas métricas dificulta la interpretación y comparación de los enfoques considerados. Consecuentemente, nos proponemos considerar un criterio global de ajuste de modelos, el que en cada caso particular \emph{colapse} a una forma explícita que sí es \emph{ad hoc} al problema/modelo en cuestión y permite comparar distintos enfoques de manera unificada. 	
+
+El enfoque general para ajuste de modelos que consideraremos en esta sección, y continuaremos utilizando durante el resto del curso, será el del modelo de mayor \emph{verosimilitud} dado un conjunto de datos de entrenamiento $D$. Este es un criterio general para una amplia gama de modelos el que, tal como se mencionó en el párrafo anterior, toma una  forma específica en cada problema, aunque su solución no siempre es calculable de forma explícita. Este enfoque es radicalmente distinto al de MC o d cualquier otro criterio de ``ajuste'': en el caso anterior buscamos un modelo \emph{aproximado} a los datos, donde sabemos que ningún modelo es el modelo correcto, tal que la discrepancia con los datos sea mínima. Por el contrario, en el criterio de \emph{máxima verosimilitud} nuestro objetivo es encontrar el modelo que ha generado \emph{exactamente} los datos observados. Debido a la naturaleza aleatoria de los datos, para implementar este concepto fin es necesario considerar modelos probabilísticos, de forma de poder calcular la probabilidad de que los datos $D$ hayan sido generados por un modelo $m$, luego, elegiremos  el modelo que maximice dicha probabilidad. 
+
+Este criterio es aplicable a modelos probabilísticos para la generación de datos, a los cuales nos referiremos como \emph{modelo generativos}. Para el caso del problema de regresión, el modelo generativo es cualquiera que modele la variable de salida como una variable aleatoria $y$ a través de una distribución condicional (a la entrada $x$ y el parámetro $\theta$) de la forma 
 \begin{equation}
-	y = \theta^\top\tx + \epsilon,\quad \epsilon\sim\cN(0,\sigma_\epsilon^2) \ \text{i.i.d.},
+	y|x,\theta \sim p(y|x,\theta),
+\end{equation}
+donde enfatizamos que $y$ es  la única variable aleatoria y tanto el parámetro $\theta$ como la entrada $x$ son cantidades fijas (la primera desconocida y la segunda conocida).
+
+\begin{mdframed}[style=discusion, frametitle={\center Notación sobre variables aleatorias}]
+ Estrictamente, en base a la notación estándar de  probabilidades, la expresión  correcta para la ecuación anterior debe ser  
+ \begin{equation}
+  	Y=y|x,\theta,
+  \end{equation}
+  pues $Y$ denota la variable aleatoria, e $y$ el valor que ésta toma. Sin embargo, seguiremos la usanza de la comunidad de Aprendizaje de Máquinas donde denotamos la tanto la variable aleatoria como su valor indistintamente con la letra minúscula, e.g., $y$. Seguiremos esta notación a menos que sea estrictamente necesarios para evitar confusión. Además, en todos los casos asumiremos que las distribuciones de probabilidad consideradas tienen densidad con respecto a alguna medida---usualmente \emph{Lebesgue} (continuo) o \emph{cuenta-puntos} (discreto)---ambas denotadas indistintamente por $p(\cdot)$.  Finalmente, usualmente escribiremos 
+  \begin{equation}
+  	y|x \sim p(y|x),
+  \end{equation}
+  sin enunciar explícitamente la dependencia del parámetro $\theta$.
+\end{mdframed}
+
+
+En particular, en el caso de la regresión lineal podemos considerar el siguiente modelo  generativo:
+\begin{equation}
+	y = a^\top x + b + \epsilon,\quad \epsilon\sim\cN(0,\sigma_\epsilon^2),
 	\label{eq:lin_gauss}
 \end{equation}
-donde la parte determinística ha sido elegida lineal en $\tx$ y la parte aleatoria es gaussiana. El modelo probabilístico en la ecuación~\eqref{eq:lin_gauss} puede expresarse en forma distribucional como 
+el cual consta de una parte determinística (lineal en $\tx$) y una parte aleatoria caracterizada por la variable aleatoria $\epsilon$, la cual hemos  elegido gaussiana de media cero y varianza $\sigma_\epsilon^2$. El modelo probabilístico en la ec.~\eqref{eq:lin_gauss} puede expresarse en mediante la siguiente densidad condicional 
 \begin{equation}
-	y|\tx \sim p(y|\tx,\theta) = \cN(y;\theta^\top\tx,\sigma_\epsilon^2).
+	y|x \sim p(y|x,\theta) = \cN(y;a^\top x + b ,\sigma_\epsilon^2),\label{eq:mod_lin_gau}
 \end{equation}
+donde hemos denotados el vector de todos los parámetros del modelo mediante $\theta = [a,b,\sigma_\epsilon^2]$.
 
-A diferencia del criterio de mínimos cuadradros, donde el entrenamiento del modelo (ajuste del parámetro $\theta$) se hacía en base a la función de pérdida cuadrática para un parámetro dado, en este caso el criterio de entrenamiento (en función de un conjunto de observaciones) es la \textbf{probabilidad de los datos} bajo el supuesto de un modelo dado o, equivalentemente, la \textbf{verosimilitud del modelo} dado los datos. Para aclarar este criterio, y antes de considerar optimización alguna, veamos que la verosimilitud del modelo lineal y gaussiano descrito arriba está dado, para un conjunto de observaciones $T=\{(x_i,y_i)\}_{i=1}^N$, por 
+Si bien, lo siguiente no es necesario en el caso general, usualmente asumiremos que las realizaciones del modelo anterior, i.e., los datos $\{y_i\}_{i=1}^N$ generados a partir de la entrada $\{y_i\}_{i=1}^N$, son \textbf{condicionalmente independientes} dado el modelo. Esto significa que \emph{si conociésemos el modelo}, o  equivalentemente, si conociésemos $\theta$, y dos entradas $x_i,x_j$, entonces las  salidas correspondientes $y_i,y_j$ son independientes. Es importante clarificar que los valores generados por el modelo $\{y_i\}_{i=1}^N$ \textbf{no son independientes}. En efecto, si fuesen independientes no podríamos hacer predicciones: la predicción de una observación futura $y_\star$ en  base a una secuencia de observaciones $\{y_i\}_{i=1}^N$ estaría dada por\footnote{Hemos ignorado la dependencia de las variables independientes $\{x_i\}_{i=1}^N$, $x_\star$.}
 \begin{equation}
-	l(\theta) \deq p(Y|\tX,\theta) = p(y_1,\ldots,y_N|\tx_1,\ldots,\tx_N,\theta)= \prod_{i=1}^Np(y_i|\tx_i,\theta) = \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2), \label{eq:verosimilitud}
+	\blueb{[esto es falso]}\qquad p(y_\star|\{y_i\}_{i=1}^N) 
+	\stackrel{\text{(prob. cond.)}}{=} \frac{p(y_\star,\{y_i\}_{i=1}^N)} {p(\{y_i\}_{i=1}^N)} 
+	\stackrel{\text{(indep.)}}{=} \frac{p(y_\star),p(\{y_i\}_{i=1}^N)} {p(\{y_i\}_{i=1}^N)}
+	=p(y_\star), 
+\end{equation}
+es decir, las observaciones pasadas no aportarían para la predicción.  Por  el contrario, como nuestro supuesto es de \textbf{independencia condicional} la expresión correcta es  la siguiente: 
+\begin{equation}
+	\blueb{[esto es verdadero]} \qquad p(y_\star|\{y_i\}_{i=1}^N,\theta)  
+	=p(y_\star|,\theta), \qquad  \qquad\qquad  \qquad \qquad  \qquad\qquad  \qquad
+\end{equation}
+lo que quiere decir que las  observaciones pasadas no son útiles para predecir el  futuro \textbf{solo si conozco el modelo}, pues si este es el caso, no necesito datos para saber de $y_\star$. 
+
+
+El supuesto de independencia condicional está garantizado al imponer que las realizaciones de $\epsilon\sim\cN(0,\sigma_\epsilon^2)$ sean \emph{independientes e idénticamente distribuidas} (iid). Esto es  fundamental para poder aprender el modelo desde múltiples observaciones, pues intuitivamente todas las observaciones aportan evidencia no redundante sobre el parámetro en común $\theta$, si las observaciones fuesen condicionalmente dependientes entonces la información que reportan para estimar $\theta$ sería redundante, o bien si no todas las observaciones siguiesen la misma distribución, entonces cada una tendría ``su propio $\theta$''. Más adelante en el curso veremos casos donde los datos no son iid.  
+
+\subsubsection{Función de verosimilitud} % (fold)
+\label{sssub:verosimilitud} 
+
+\begin{definition}[Verosimilitud]
+Consideremos un  modelo generativo definido mediante la densidad de  probabilidad  $y\sim p(y|\theta)$, donde el  parámetro $\theta\in\Theta$ y un conjunto de observaciones $\{y_i\}_{i=1}^N$ fijo. La función $L(\theta): \Theta \to \R$ definida como la probabilidad de los datos observados condicional al parámetro $\theta$, es decir, 
+\begin{equation}
+			\theta   \mapsto L(\theta) =  p(\{y_i\}_{i=1}^N | \theta)
+\end{equation}
+es conocida como \emph{verosimilitud} del modelo $p(y|\theta)$ o, equivalentemente, del  parámetro $\theta$. 
+\end{definition}
+
+La definición anterior es elocuente: la función de verosimilitud precisamente cuantifica cuán verosímil es un modelo (o equivalentemente, parámetro) de haber generados las observaciones $\{y_i\}_{i=1}^N$. En este sentido, ante dos valores candidatos para el parámetro, por ejemplo $\theta_1$ y $\theta_2$, éstos pueden se evaluados mediante la comparación de $L(\theta_1)$ y $L(\theta_2)$, en efecto, si la razón $L(\theta_1)/L(\theta_2)$ es, por ejemplo, 3, entonces diremos que \emph{es 3 veces más verosímil que el valor de $\theta$ sea $\theta_1$ en comparación a que sea $\theta_2$}. En este sentido, la función de verosimilitud  $L(\theta)$ representa una medida relativa de la \emph{bondad} de cada valor para el parámetro.
+
+Es importante enfatizar que la función $L(\theta)$ \textbf{no es una densidad de probabilidad}. En efecto, podemos considerar la siguiente función en dos variables: $\theta$ y $\y=\{y_i\}_{i=1}^N$   
+\begin{equation}
+	L(\theta,\y) = p(\y|\theta),
+\end{equation}
+la cual toma distintos significados si  fijamos una de las variables: Si fijamos el valor del parámetro $\theta$, entonces, $L(\theta,\cdot) = p(\cdot|\theta)$ es una densidad de probabilidad, en particular, 
+\begin{equation}
+	\int_{\R^N}L(\cdot,\y)\td\y = \int_{\R^N}p(\y|\theta)\td\y = 1,
+\end{equation}
+lo que quiere decir que para ``cualquier $\theta$'', entonces, $p(\y|\theta)$ es un modelo candidato. Por el contrario, si fijamos $\y$, entonces obtenemos la función de verosimilitud $L(\cdot,\y) = p(\y|\cdot)$, la  cual no necesariamente integra uno con respecto a $\theta$.
+
+
+
+\begin{mdframed}[style=ejemplo, frametitle={\center Ejemplo: Verosimilitud para el modelo gaussiano  (muestras  independientes)}]
+
+Consideremos un  modelo gaussiano definido por 
+\begin{equation}
+	y \sim p(y|\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(\frac{-(y-\mu)^2}{2\sigma^2}\right)
+\end{equation}
+y las observaciones $\y = \{y_i\}_{i=1}^N$ generadas de forma independiente. La verosimilitud  de $\theta  =  [\mu,\sigma]$ está dada por 
+\begin{equation}
+  	L(\theta)  =  p(\y|\mu,\sigma^2) 
+  				\stackrel{\text{(iid)}}{=}\prod_{i=1}^N p(y_i|\mu,\sigma^2) 
+  				= \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-\sum_{i=1}^N(y_i-\mu)^2}{2\sigma^2}\right)
+  				\propto \sigma^{-N} e^{-\frac{(\mu-\bar y)^2}{2\sigma^2}}
+  \end{equation}  
+  donde $\bar y = \tfrac{1}{N}\sum_{i=1}^Ny_i$ es el promedio de las observaciones. Observemos que como funciones de $\mu$ y $\sigma^2$, la expresión anterior es respectivamente  proporcional a las densidades Normal y Gamma-inversa,  sin embargo, recordemos que la esta  expresión no necesariamente integra uno y por  ende es solo coincidentemente proporcional a una pdf conocida.
+\end{mdframed}
+
+La verosimilitud es fundamental  en términos de la relación entre las realizaciones  de un experimento y los parámetros que generaron dichas realizaciones, de hecho, el \textbf{principio de la verosimilitud} sentencia que toda la información relevante que la observación $\y = \{y_i\}_{i=1}^N$ puede aportar a la estimación del parámetro  $\theta$, está contenido en la función  de verosimilitud $L(\theta)$. Una consecuencia directa de este principio es que si diseñamos dos experimentos para realizar  inferencia  sobre un parámetro desconocido $\theta$ y ambos  resultan en la misma función de verosimilitud  (salvo una constante de proporcionalidad), entonces,  ambos experimentos, y los datos adquiridos en  ellos, reportan la misma  información  sobre $\theta$.
+
+La pregunta  natural entonces es ¿cómo usar la función $L_\y(\theta)$ para determinar ``el buen $\theta$''? Por supuesto el título de esta sección hace las veces de \emph{spoiler} para esta pregunta: respuesta directa es simplemente elegir el máximo de la función, pues éste nos da el  valor más \emph{verosímil} para $\theta$. Sin embargo, veamos que el uso del argumento que maximiza $L_\y(\theta)$ tiene un significado  mucho más  acabado. Consideremos la siguiente forma de encontrar el parámetro $\theta$: recordemos que el  modelo real es $p(y|\theta)$, con lo que en primer  lugar consideraremos una discrepancia entre modelos, denotada $D(p_1,p_2)$, y luego encontraremos el $\hat\theta$ tal  que $p(y|\hat\theta)$ es lo más \emph{cercano} posible al modelo real con respecto a $D(\cdot,\cdot)$, es decir, el que minimiza la expresión
+\begin{equation}
+    	D(p(y|\theta),p(y|\hat\theta)).
+\end{equation}  
+Este criterio interesante, pues notemos que no hemos incorporado ningún supuesto sobre la parametrización de  los  modelos (cómo el  modelo depende de $\theta$) ni de la  geometría del espacio  $\Theta$; estamos comparando directamente los modelos y no los  valores específicos de los parámetros. Sin embargo, notemos que formular y resolver  este problema no es posible en el caso, pues la expresión de arriba depende del parámetro real $\theta$, el cual no conocemos, con lo que no podríamos resolver dicho problema de optimización. 
+
+Sin embargo, veamos que podemos considerar una métrica que ofrece una alternativa para optimizar la discrepancia entre el modelo real y el aproximado. Dicha métrica, la cual es motivada desde la teoría de la información, es un estándar para comparar distribuciones de probabilidad generales y es conocida como la divergencia de Kullback-Leibler $\KL(p,q) $. Evaluada entre el modelo real $p =  p(y|\theta)$ y el aproximado $q  = p(y|\hat\theta)$, ésta toma la forma 
+\begin{equation}
+ 	\KL( p(y|\theta),p(y|\hat\theta)) =  \int_y\log\left(\frac{p(y|\theta)}{p(y|\hat\theta)}\right)p(y|\theta)\td y.\label{eq:KL_maxlike}
+ \end{equation} 
+ En el caso general, no es claro que podamos calcular dicha integral, sin embargo, observemos que ésta es una  esperanza con respecto a la densidad $p(y|\theta)$, por lo que podemos considerar su aproximación de Monte Carlo las $N$ observaciones en $D$. Denotemos entonces de la aproximación de Monte Carlo de $\KL( p(y|\theta),p(y|\hat\theta))$ usando $N$ observaciones como
+
+%= \argmin_{\hat\theta} \KL( p(y|\theta),p(y|\hat\theta))
+ \begin{align}
+ 	\hat\theta_N & =  \argmin_{\hat\theta}  \sum_{i=1}^N\log\left(\frac{p(y_i|\theta)}{p(y_i|\hat\theta)}\right)\\
+ 				&= \argmin_{\hat\theta}  \sum_{i=1}^N  \log p(y_i|\theta) - \sum_{i=1}^N \log p(y_i|\hat\theta)\nonumber\\
+ 				&= \argmax_{\hat\theta}  \sum_{i=1}^N \log p(y_i|\hat\theta)\nonumber\\
+ 				&= \argmax_{\hat\theta}  \prod_{i=1}^N p(y_i|\hat\theta),\nonumber
+ \end{align}
+ donde hemos usado las propiedades del logaritmo y eliminado términos que no dependen de $\hat\theta$. Observemos que si nuestra muestras son condicionalmente independientes, entonces la expresión anterior implica que $\hat\theta_N$ es el maximizante de la función de verosimilitud:
+ \begin{align}
+ 	\hat\theta_N &= \argmax_{\hat\theta}  \prod_{i=1}^N p(y_i|\hat\theta) = \argmax_{\hat\theta}  p(\y|\hat\theta) = \argmax_{\hat\theta}  L_\y(\theta),
+ \end{align}
+ al que nos  referiremos como \emph{estimador de máxima verosimilitud}. Finalmente, queda la pregunta de cómo se relacionan el estimador de máxima verosimilitud (MV) $\hat\theta_N$ con el el estimado óptimo en el sentido KL, $\hat\theta$. Es directo ver que como la aproximación de Monte Carlo de la KL en la ec.~\eqref{eq:KL_maxlike} converge a la KL cuando el número de muestras tiende a infinito, entonces los tenemos que los minimizantes también convergen. Es decir, consideramos el estimador de máxima verosimilitud, pues en el límite (cuando el número de muestras aumenta), este estimador es el que reporta la mínima divergencia (KL) entre  el modelo real y el aproximado. 
+
+
+Retomemos el problema  de regresión lineal: la verosimilitud del modelo lineal gaussiano  definido en la ec.~\eqref{eq:mod_lin_gau} (con parámetro $\theta  = [a,b,\sigma_\epsilon]$) está dada por (recordemos  que  los datos son condicionalmente independientes)
+\begin{equation}
+	L_\y(\theta) =  \prod_{i=1}^N \cN(y_i;a^\top x_i + b,\sigma_\epsilon^2). \label{eq:verosimilitud_lineal}
 \end{equation} 
-donde la factorización de la probabilidad de los datos es posible dado que las observaciones son \textbf{condicionalmente independiente dado el modelo}.
-
-El ajuste del modelo entonces puede entonces realizarse mediante la maximización (con respecto a $\theta$) de la función de verosimilitud $l(\theta)$ en la ecuación~\eqref{eq:verosimilitud}. Es decir: 
-\begin{equation}
-	\theta^{\text{MV}}= \argmax l(\theta),
-\end{equation}
-donde en superíndince ``MV'' denota ``máxima verosimilitud''. 
-
-Para el caso lineal y gaussiano presentado en la ecuación~\eqref{eq:lin_gauss}, donde recordemos que las observaciones son condicionalmente independientes dado el modelo, el estimador $\theta^{\text{MV}}$ está dado por:
+Consecuentemente, el estimador  de máxima verosimilitud para los parámetros de  la parte lineal están dados por:
 \begin{align}
-	\theta^{\text{MV}} 	&= \argmax \prod_{i=1}^N \cN(y_i;\theta^\top\tx_i,\sigma_\epsilon^2) \label{eq:theta_ML}\\
-						&= \argmax \prod_{i=1}^N \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \exp\left({\frac{-1}{2\sigma_\epsilon^2}(y_i-\theta^\top\tx_i)^2}\right) \nonumber\\
-						&= \argmin \sum_{i=1}^N (y_i-\theta^\top\tx_i)^2 \nonumber
+	[a^{\text{MV}} ,b^{\text{MV}} ]	&= \argmax_{a,b} \prod_{i=1}^N \cN(y_i;a^\top x_i - b,\sigma_\epsilon^2) \label{eq:theta_ML}\\
+						&= \argmax_{a,b} \prod_{i=1}^N \frac{1}{\sqrt{2\pi}\sigma_\epsilon} \exp\left({\frac{-1}{2\sigma_\epsilon^2}(y_i-a^\top x_i - b)^2}\right) \nonumber\\
+						&= \argmin_{a,b} \sum_{i=1}^N (y_i-a^\top x_i - b)^2. \nonumber
 \end{align}
-Nótese que es posible identificar esta última expresión con la del costo cuadrático en la ecuación \eqref{eq:lin_least_squares2}, es decir, el estimador de máxima verosimilitud es el minimizante del mismo costo que el estimador de mínimos cuadrados. Consecuentemente, ambos estimadores son iguales y de acuerdo a la ecuación \eqref{eq:sol_mse} dados por 
+Para  nuestra  sorpresa, observemos que identificar esta última expresión con la del costo cuadrático en la ecuación \eqref{eq:lin_least_squares2}, es decir, el estimador de máxima verosimilitud es el minimizante del mismo costo que el estimador de mínimos cuadrados. Consecuentemente, ambos estimadores son iguales y de acuerdo a la ecuación \eqref{eq:sol_mse} dados por 
 \begin{equation}
-	\theta^{\text{MV}} = \theta^{\text{MC}} = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y 
+	[a^{\text{MV}} ,b^{\text{MV}} ]=[a^{\text{MC}} ,b^{\text{MC}} ] = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y.
 \end{equation}
 
-\subsubsection{Varianza de los datos y mínimos cuadrados} % (fold)
-\label{ssub:var_min_cuad}
-
-Si consideramos el criterio de mínimos cuadrados para encontrar el parámetro óptimo en el modelo de regresión lineal, es posible determinar la varianza de los datos (con respecto al modelo lineal ajustado) mediante 
-
+Además, recordemos que luego de determinar el estimador con criterio de MC, es posible determinar la varianza de los datos (con respecto al modelo lineal ajustado) mediante 
 \begin{equation}
-	\text{Varianza} = \frac{1}{N}\sum_{i=1}^N (y_i-\theta^\top\tx_i)^2
+	\text{Varianza} = \frac{1}{N}\sum_{i=1}^N (y_i-\theta^\top\tx_i)^2,
 \end{equation}
-Notemos que esta cantidad es precisamente la suma de cuadrados e intuitivamente representa la bondad de ajuste del modelo considerado. 
+dicha cantidad es precisamente la suma de cuadrados e intuitivamente representa la bondad de ajuste del modelo considerado. 
 
 En el contexto de máxima verosimilitud, recordemos que la varianza es un parámetro del modelo y no una cantidad asociada al modelo que calculamos de forma independiente. Este parámetro puede ser calculado maximizando la log-verosimilitud, tal como se hizo para la media en la ecuación \eqref{eq:theta_ML}, de acuerdo a
 \begin{align}

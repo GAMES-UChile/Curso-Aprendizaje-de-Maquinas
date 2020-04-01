@@ -23,7 +23,10 @@
 \usepackage{amsmath,bm}
 
 \usepackage{xcolor}
-\providecommand{\red}[1]{\textcolor{red}{#1}}
+\providecommand{\red}[1]{\textcolor{red}{\text{#1}}}
+\providecommand{\blue}[1]{\textcolor{blue}{\text{#1}}}
+\providecommand{\redb}[1]{\textcolor{red}{\textbf{#1}}}
+\providecommand{\blueb}[1]{\textcolor{blue}{\textbf{#1}}}
 \usepackage{graphicx}
 \usepackage{fancybox}
 \usepackage{booktabs}
@@ -48,9 +51,11 @@
 \ifx\byn\undefined
     \definecolor{my_blue}{HTML}{C2D5FF}
     \definecolor{my_red}{HTML}{FFC2C2}
+    \definecolor{my_yellow}{HTML}{FFFFE0}
 \else
     \definecolor{my_blue}{HTML}{FFFFFF}
     \definecolor{my_red}{HTML}{FFFFFF}
+    \definecolor{my_yellow}{HTML}{FFFFFF}
 \fi
 
 
@@ -66,6 +71,18 @@
     backgroundcolor=my_blue}
 
 \colorlet{Green}{green!90}
+
+
+\mdfdefinestyle{ejemplo}{%
+    %linecolor=black,
+    %outerlinewidth=0pt,
+    roundcorner=0pt,
+    innertopmargin=5pt,
+    innerbottommargin=5pt,
+    innerrightmargin=20pt,
+    innerleftmargin=20pt,
+    backgroundcolor=my_yellow}
+
 
 \mdfdefinestyle{pendiente}{%
     style = discusion, 
@@ -101,10 +118,18 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator{\E}{\mathbb{E}}
 \DeclareMathOperator{\V}{\mathbb{V}}
+\DeclareMathOperator{\KL}{\text{KL}}
 \newcommand\deq{\stackrel{\mathclap{\normalfont\mbox{\tiny def}}}{=}}
 %\newcommand{\E}[1]{\mathbb E \left[#1\right]}
 
 
+\usepackage{amsthm}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[section]
 
 
 
