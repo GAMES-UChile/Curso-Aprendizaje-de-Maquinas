@@ -43,7 +43,7 @@ donde hemos sido enfáticos en que el costo depende del conjunto de entrenamient
 Debido a la forma lineal de $f(\cdot)$, resolver este problema de optimización es equivalente a encontrar los parámetros $a$ y $b$ en la ec.~\eqref{eq:reg_lin_fn}. Es decir: 
 \begin{equation}
 	a^\star,b^\star = \argmin_{a,b} \frac{1}{2}\sum_{i=1}^N(y_i-a^
-	\top x_i + b)^2.
+	\top x_i - b)^2.
 	\label{eq:lin_least_squares}
 \end{equation}
 
@@ -75,7 +75,7 @@ donde $\tX$ y $Y$ son las matrices de datos definidas por
  \label{eq:matrices_X} 
 \end{equation}
 
-Con los parámetros del modelo regresión lineal encontrados con el criterio de mínimos cuadrados, es posible implementar la solución y comprarla visualmente con los datos. La Fig.~\ref{fig:reg_lin_1} muestra esta la regresión lineal correspondiente a chirridos de grillos por segundo en función de la temperatura \cite{insects}. 
+Con los parámetros del modelo regresión lineal encontrados con el criterio de mínimos cuadrados, es posible implementar la solución y comprarla visualmente con los datos. La Fig.~\ref{fig:reg_lin_1} muestra la regresión lineal correspondiente a chirridos de grillos por segundo en función de la temperatura \cite{insects}. 
 
 \begin{figure}[H]
 	\centering
@@ -166,7 +166,7 @@ La lección que queda de este ejemplo es que debemos considerar una métrica \em
 \subsubsection{Regularización: ajuste versus generalización} % (fold)
 \label{sub:min_cuad_reg}
 
-Perseguir ciegamente la solución de mínimos cuadrados puede resultar, como discutimos en la sección anterior, en situaciones donde la inversa de Moore-Penrose sea \emph{cercana} a singular, especialmente en los casos que las observaciones son parecidas o redundantes. En este sentido, debemos considerar un criterio que no simplemente busque un ajuste a los datos, sino que también promueva ciertas propiedades de la solución, por ejemplo, suavidad, bajas magnitudes de los parámetros o incluso pocos parámetros. Nos referiremos a estas soluciones como \emph{regulares}, y el objetivo de esttet apartado será \emph{regularizar} la solución de mínimos cuadrados.
+Perseguir ciegamente la solución de mínimos cuadrados puede resultar, como discutimos en la sección anterior, en situaciones donde la inversa de Moore-Penrose sea \emph{cercana} a singular, especialmente en los casos que las observaciones son parecidas o redundantes. En este sentido, debemos considerar un criterio que no simplemente busque un ajuste a los datos, sino que también promueva ciertas propiedades de la solución, por ejemplo, suavidad, bajas magnitudes de los parámetros o incluso pocos parámetros. Nos referiremos a estas soluciones como \emph{regulares}, y el objetivo de este apartado será \emph{regularizar} la solución de mínimos cuadrados.
 
 Las penalizaciones a considerar en el problema de regresión pueden ser codificadas directamente en la función de costo. Por ejemplo, ésta puede incluir un término que promueve el ajuste de los datos y otro término que sanciona soluciones que se alejan de lo deseado. Un criterio estándar de penalización es el basado en la norma de los parámetros, es decir, 
 \begin{equation}
@@ -202,7 +202,7 @@ Es relevante entender por qué una disminución en la norma de los parámetros, 
  \begin{itemize}
  	\item $\text{Sesgo}(\hat f_\star) = \E(\hat f_\star) - f_\star$, es una medida de exactitud: ¿cuán buena (en valor esperado) es la estimación con respecto al valor real?
  	\item $\text{Varianza}(\hat f_\star)= \E(\E(\hat f_\star)- \hat f_\star)^2$, es una medida de precisión: ¿cuán disperso es el estimador?
- 	\item $\sigma^2$ es es la varianza de \emph{ruido} $\epsilon$ y es la parte irreducible del costo, en el sentido que no puede ser controlada por la elección de $\hat\theta$.
+ 	\item $\sigma^2$ es la varianza de \emph{ruido} $\epsilon$ y es la parte irreducible del costo, en el sentido que no puede ser controlada por la elección de $\hat\theta$.
  \end{itemize}
 
 Podemos evaluar el sesgo y la varianza para el estimador de mínimos cuadrados, denotado $\hat\theta_{MC}$, eligiendo $\hat f_\star = \hat\theta_{MC}^\top\tx_\star$. En efecto,  
@@ -305,7 +305,7 @@ Para ilustrar la propiedad de selección de características, consideremos el \e
 
 \begin{mdframed}[style=discusion, frametitle={\center Regularización: Consideraciones generales}]
 Para concluir esta sección, enunciamos las siguientes preguntas para discusión posterior\\
-$\bullet$ \textbf{¿es justo comprar MC y MCR en términos del ECM?} Ciertamente no, el criterio de MC siempre reportará un menor ECM, pues ha sido entrenado para minimizar dicho costo. Las ventajas de MCR están en su desempeño fuera de muestra, selección de variables o en  general en su habilidad de  incorporar  sesgo  \emph{de diseñador} en la soluciones que no afloren naturalmente de  los  datos. \\
+$\bullet$ \textbf{¿es justo comparar MC y MCR en términos del ECM?} Ciertamente no, el criterio de MC siempre reportará un menor ECM, pues ha sido entrenado para minimizar dicho costo. Las ventajas de MCR están en su desempeño fuera de muestra, selección de variables o en  general en su habilidad de  incorporar  sesgo  \emph{de diseñador} en la soluciones que no afloren naturalmente de  los  datos. \\
 $\bullet$ \textbf{¿cómo elegir $\rho$?} De forma general, este \emph{hiperparámetro} determina el balance entre regularización (cuán  sesgado) y ajuste (cuán bien replica  los datos ), consecuentemente lo debemos elegir según nuestra intención. En la práctica,  podemos evaluar el desempeño de distintos valores de $\rho$ fuera de muestra con la finalidad de elegir un valor apropiado. Esta técnica se llama \emph{validación cruzada} y busca determinar modelos que no sufran de subajuste, o sobreajuste.\\
 $\bullet$ Vimos que la norma $\ell_p$ con $0<p\leq1$ tiene la propiedad de selección de características, pero, \textbf{¿qué pasa con la `norma' $\ell_0$?}. La cantidad  $\ell_0(\theta)$ denota la cantidad de elementos no nulos de $\theta$ y no es una norma, sin embargo, puede de todas formas ser usada en la definición del costo en la ecu.~\eqref{eq:reg_least_squares}, con la finalidad de directamente penalizar la cantidad de características usadas por el modelo. Desafortunadamente, encontrar la solución usando la ``norma'' $l_0$ es muy difícil, sin embargo, bajo ciertas condiciones la consideración de la norma $l_1$ puede llevar a la misma solución.
 \end{mdframed}
