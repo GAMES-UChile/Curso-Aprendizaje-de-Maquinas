@@ -41,7 +41,7 @@
 \usepackage{subcaption} % para_unsupervised_chapter
 % ============= Personal ================
 \usepackage{marginnote} 
-\renewcommand*{\marginfont}{\color{blue}\sffamily}
+\renewcommand*{\marginfont}{\color{blue}\sffamily \upshape}
 % ============= Personal ================
 
 %formatting
@@ -137,7 +137,12 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definición}[section]
 
-
+% Comando para notas al margen
+\newcommand{\NAM}[2][]{\ifnum \notasalmargen=1 #2 \else #1 \fi}
+\newcommand{\MarginNote}[2][]{\ifthenelse{\equal{#1}{}}{
+\NAM{\marginnote{#2}}}{
+\NAM{\marginnote{#2}[#1]}
+}}
 
 %listing paackage para código
 \usepackage{listings}

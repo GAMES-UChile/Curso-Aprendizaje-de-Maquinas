@@ -1,4 +1,8 @@
 \documentclass[11pt]{article}
+
+% usar notas al margen (1 para usar notas al margen, 0 si no)
+\def\notasalmargen{1}
+
 %\def\byn{1} %de-comentar para generar cuadros con fondo blanco
 \input{utils/preambulo}
 \author{{ Felipe Tobar}\\Universidad de Chile}
@@ -16,10 +20,12 @@
 \input{capitulos/prefacio}
 \tableofcontents
 \newpage
-% =============Personal==============   
+% =============Notas al margen==============   
+\NAM{
 \newgeometry{top=1.5cm, bottom=1.5cm, outer=5cm, inner=2cm, heightrounded, marginparwidth=4cm, marginparsep=-2.5cm}
 \savegeometry{notas-al-margen}
-% =============Personal==============   
+}
+% =============Notas al margen==============   
 \include{capitulos/introduccion}
 \include{capitulos/regresion_lineal}
 \include{capitulos/regresion_nolineal}
