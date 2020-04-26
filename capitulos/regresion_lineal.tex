@@ -486,20 +486,169 @@ Con lo cual se obtiene, sin sorpresa alguna, la misma expresión de la varianza 
 
 En la práctica, consideraremos la minimización de la log-verosimilitud negativa (en vez de la maximización de la log-verosimilitud) en línea con la literatura y software dedicados a la minimización de funciones. 
 
-\subsection{Regresión via inferencia bayesiana} % (fold)
+\subsection{Regresión via inferencia bayesiana} 
 \label{sub:inferencia_bayes}
 
-En lugar de maximizar la probabilidad de que los datos hayan sido generado por el modelo propuesto para encontrar una estimación puntual del parámetro que estamos buscando, podemos calcular la distribución condicional sobre parámetros condicional a las observaciones disponibles, es decir, $p(\theta|T)$. Este criterio es conceptualmente distinto al de mínimos cuadrados o máxima verosimilitud, pues ya no nos enfocamos en encontrar el parámetro \emph{más probable} o de \emph{menor costo} sino que encontramos una distribución de probabilidad sobre el valor del parámetro que genero los datos observados. Esta distribución es conocida como \emph{distribución posterior del modelo dado los datos} y mediante el teorema de Bayes puede expresarse como
+En el apartado anterior vimos el ajuste de modelos, estimación de parámetros o \emph{inferencia}, mediante la maximización de la función de verosimilitud. Es decir, en base a un conjunto de observaciones $\y$ asignamos el valor más \emph{verosímil} al parámetro desconocido $\theta$, dado por $\hat\theta^\star = \arg\max  L_\y(\hat\theta)$. Es claro por qué esta estimación puntual tiene sentido, desde el punto de vista de laa probabilidad de los datos y de la mínima discrepancia contra el modelo real en base a la  divergencia de Kullback-Liebler. Sin embargo, solo tomar el máximo ignora el resto de la información contenida en la función de verosimilitud, por ejemplo, si consideramos funciones de verosimilitud distintas, por ejemplo, bimodales, con colas pesadas/livianas, asimétricas, discretas, todas esa propiedades no se reflejan en la estimación del parámetro $\theta$ si  estas verosimilitudes coinciden en el máximo. Esta es una limitación fundamental no solo del método de máxima verosimilitud, sino que de la estimación puntual en general. 
 
+Otra limitación del paradigma de máxima verosimilitud es que no da la posibilidad de incorporar conocimiento experto, es decir, introducir sesgos necesarios para la inferencia. Por ejemplo, si sabemos que el parámetro desconocido tiene magnitud pequeña, o está lejos del origen, o es ralo, etc. Esta propiedad es necesaria en el análisis moderno de datos, pues en la ciencia de datos los esfuerzos son colaborativos y el conocimiento experto sin duda ayuda a resolver problemas de forma eficiente y con interpretabilidad. 
+
+El paradigma bayesiano busca conciliar estas dos desventajas del uso de máxima verosimilitud interpretando el parámetro $\theta$ como variable aleatoria, donde la disponibilidad de datos se interpreta como un evento que aporta evidencia sobre el valor de $\theta$. Consecuentemente, el proceso de inferencia ahora se centra en encontrar la distribución condicional  $p(\theta|\text{datos})$.
+
+
+\subsubsection{¿Qué es ser bayesiano?}
+\label{ssub:que_es_bayes}
+
+Thomas Bayes (c.~1701-1761) fue un matemático, filósofo y pastor presbiteriano inglés interesado en el cálculo y uso de las probabilidades. En ese entonces, no existía la diferencia entre probabilidad descriptiva (que caracteriza la generación de datos dado un modelo) e inferencial (que nos permite identificar un modelo dado un conjunto de observaciones). Como vimos en la clase pasada, el uso de probabilidades para estimar (o \emph{inferir}) parámetros usando los propios datos recibía el nombre de \emph{probabilidad inversa}. Tanto Bayes, como el matemático francés Pierre Simon Laplace, estaba al tanto de la siguiente relación para el problema de inferencia, la cual hoy conocemos como el \emph{Teorema de Bayes}:
 \begin{equation}
-	p(\theta|T)=\frac{p(T|\theta)p(\theta)}{p(T)}
+	p(\theta|x) = \frac{p(x|\theta)p(\theta)}{p(x)} \propto p(x|\theta)p(\theta),\label{eq:Bayes}
+\end{equation}
+donde $x\in\cX$ es el valor de una observación y $\theta\in\Theta$ es un parámetro. En la expresión anterior podemos identificar las siguientes cantidades:
+\begin{itemize}
+	\item el prior o distribución a priori: $p(\theta)$,
+	\item la verosimilitud: $p(x|\theta)$,
+	\item la distribución posterior: $p(\theta|x)$,
+	\item la densidad marginal de $x$: $p(x) = \int_\Theta p(x|\theta)p(\theta)\d\theta$.
+\end{itemize}
+Recordemos que en el problema de inferencia, los datos (en este caso $x$) son conocidos y fijos, mientras que el parámetro es variable (en realidad desconocido). Por esta razón, podemos escribir el lado derecho de la ec.~\eqref{eq:Bayes}, pues nos importa la distribución posterior como función de $\theta$ únicamente, tal como fue el caso de la función de verosimilitud en el apartado anterior. En algunas aplicaciones, conocer la versión proporcional de la posterior dada por $p(x|\theta)p(\theta)$ es suficiente para realizar distintos análisis, por ejemplo, cuando usamos Markov chain Monte Carlo.
+
+Bajo cualquier punto de vista de inferencia estadística, e.g., bayesiano u otro, el espacio que contiene los valores de $x$ debe tener suficiente \emph{estructura} para definir probabilidades (o, equivalentemente, modelos); en particular aquellos de la forma $p(x)$ y $p(x|\theta)$. Adicionalmente, una característica particular del enfoque bayesiano es que asume que el espacio donde donde se encuentra el parámetro $\theta$, denotado $\Theta$, también debe ser un espacio de probabilidad. El enfoque frecuentista, por el contrario, tiene un concepto de probabilidad totalmente distinto que resulta en la consideración de $\theta$ como un elemento fijo, como un índice o hipótesis cuyo valor queremos descubrir.
+
+La inferencia bayesiana se sustenta en la noción de probabilidad como  medida de incertidumbre, es decir, en una perspectiva subjetiva del conocimiento disponible sobre la generación del valor $x$. En este sentido, es posible identificar dos tipos de incertidumbre, la primera es la incertidumbre \textbf{aleatoria} y dice relación con la variabilidad con la que el sistema/modelo en cuestión genera el dato $x$. El segundo tipo es la llamada incertidumbre \textbf{epistemológica} y representa nuestra inhabilidad de conocer el modelo que genera los datos. Consecuentemente, el enfoque bayesiano hace la distinción entre ambos tipos de incertidumbre mediante los siguiente elementos:
+\begin{itemize}
+	\item La verosimilitud $p(x|\theta)$: que modela la aleatoriedad del modelo, el cual produce datos de forma aleatoria incluso cuando el modelo es perfectamente conocido. Este tipo de incertidumbre no puede ser reducida observando datos. \textbf{Ejemplo:} En una urna con bolitas rojas y negras donde la probabilidad de elegir una bolita negra es $\theta$, incluso si $\theta$ fuese conocido, la incertidumbre aleatoria del modelo resulta en la imposibilidad de predecir el color de la próxima bolita.   
+	\item La distribución a priori $p(\theta)$: que encapsula la incertidumbre epistemológica (lo que no sabemos) sobre el sistema, la cual pude ser reducida observando datos y calculando $p(\theta|x)$ mediante el Teorema de Bayes. Distintas distribuciones priori llevarán a distintas distribuciones a posteriori, lo cual establece la subjetividad del enfoque bayesiano.  \textbf{Ejemplo:} En la misma urna anterior, el no conocer $\theta$ es un ejemplo de incertidumbre epistemológica.
+\end{itemize}
+
+Una discusión trascendental desde los inicios del enfoque bayesiano apuntaba a  cómo elegir la distribución a  priori $p(\theta)$ para ser lo más objetivo posible, es decir, cómo no introducir sesgos en la inferencia (cálculo de la posterior) heredados de una elección subjetiva del prior---esta era el objetivo de los llamados \emph{bayesianos objetivistas}. La postura de Laplace con respecto de esta disyuntiva fue elegir simplemente un prior \emph{no-informativo}, i.e., uno que no asigne más probabilidad a ningún valor de $\theta$ en particular, para lo cual se puede elegir un prior uniforme $p(\theta)\propto 1$. Sin embargo, posteriormente se descubrió que esta elección introduce sesgo en la inferencia de todas formas.\footnote{Esto es consecuencia de que el prior uniforme no es invariante bajo transformaciones uno-a-uno de $\theta$, consecuentemente, si el modelo es re-parametizado de forma no lineal y se mantiene el prior uniforme, entonces la posterior cambia.} Hacia fines del sigo XIX comenzó a surgir una demanda por un tratamiento i) objetivo de la inferencia que no dependiese de la elección del prior, algo que los \emph{bayesianos objetivistas} no habían garantizado, y ii) riguroso y formal en el sentido de que fuese consistente con la teoría matemática. En este sentido, durante el siglo XX la inferencia estadística vio avances en la dirección de prescindir del uso del prior para evitar inferencias sesgadas, en particular, el foco estuvo en la maximización directa de la verosimilitud con respecto al \emph{índice} $\theta$, tal como vimos en la clase pasada. De forma más general, y a través de Fisher, Neyman y Pearson, fue posible construir un tratamiento formal de la inferencia estadística sobre la bases de una interpretación frecuentista de la probabilidad, esto es, definir la probabilidad de un evento como el límite de la frecuencia de \emph{casos favorables divido por casos totales} cuando el número de realizaciones de un experimento tiende a infinito. Entonces, al considerar los parámetros como cantidades fijas y desconocidas, y al mismo tiempo, concebir la probabilidad como una medida de frecuencias y no de incertidumbre, el punto de vista frecuentista no busca asociar probabilidades a los parámetros desconocidos.
+
+En la segunda mitad del siglo XX hubo un resurgimiento de la inferencia Bayesiana, en parte por el descontento de algunos estadísticos (y científicos en general) con las métricas  frecuentistas estándar como los errores de Tipo-I \& Tipo-II, y los los llamados $p$-valores. Esto permitió utilizar la máquinaria desarrollada por la perspectiva frecuentista para formalizar el enfoque bayesiano, en particular, esta combinación permitió construir priors no informativos invariantes bajo transformaciones una-a-uno (e.g., el prior de Jeffreys), como también definir el concepto de \emph{consistencia}, i.e., si un estimador converge a la respuesta correcta y a qué velocidad ocurre esto. Esta unión entre los conceptos bayesianos y frecuentistas resulta en lo mejor de dos mundos: hace posible construir un modelo que es subjetivo, pues en la práctica queremos incorporar conocimiento experto en los problemas que estemos estudiando, pero al mismo tiempo tenemos una herramienta objetiva (pues el enfoque frecuentista es \emph{automático} en el sentido que no requiere conocimiento experto) para asegurar que nuestros métodos son rigurosos desde una perspectiva matemática. 
+
+\begin{mdframed}[style=discusion, frametitle={\center ¿Qué hizo efectivamente Bayes y por qué?}]
+
+Thomas Bayes fue uno de los primeros \emph{inconformistas anglicanos}.\footnote{ Este término se usa para denotar a los protestantes que no estaban de acuerdo con los métodos y la gobernanza eclesiástica establecida por la ``Iglesia de Inglaterra'' (The Church of England).} Su trabajo de 1763, titulado 
+\begin{center}
+\it
+An Essay Towards Solving a Problem in the Doctrine of Chances
+\end{center}
+esbozó por primera vez el resultado que hoy conocemos como el Teorema de Bayes. Este trabajo fue terminado por el amigo y colega de Bayes, Richard Price (1723 – 1791), el cual  envió el artículo a la prestigiosa revista inglesa \emph{Philosophical Transactions of the Royal Society} (PTRS), donde fue publicado póstumamente. Este artículo consideraba el caso de \emph{invertir la distribución binomial}: en un experimento donde el resultado puede ser éxito  (con probabilidad $p$) o fracaso (con probabilidad $1-p$), el objetivo es encontrar la distribución del parámetro $p$ dado que se han observado $q$ éxitos luego de $n$ experimentos. Para resolver este caso particular, Bayes descubrió que efectivamente la distribución posterior es proporcional a la verosimilitud. Sin embargo, a pesar de que Price completara el trabajo de Bayes  luego de la repentina muerte de éste último, este trascendental descubrimiento quedó momentáneamente en el olvido. Fue finalmente Laplace quien en 1774 publicó la relación entre las distribuciones  prior y posterior como la conocemos hoy, sin dejar de reconocer el trabajo de Bayes. En efecto, en su \emph{Essai Philosophique dur les Probabilites} (1814), Laplace menciona que Bayes ya había llegado al mismo resultado de forma ``refinada y muy ingeniosa, aunque un poco confusa''. 
+
+
+Existen dudas sobre la autoría de Bayes del artículo en cuestión y cuánto de éste efectivamente venía de las propias notas no publicadas de Bayes, y cuánto de la edición y cálculos de R. Price \cite{bellhouse_2004}. En efecto, al año siguiente del artículo original, Price publicó en 1764 otro artículo en PTRS llamado \emph{A Demonstration of the Second Rule in the Essay toward the Solution of a Problem in the Doctrine of Chances}, esta vez de su propia autoría. Tanto Bayes como Price estaban muy lejos de ser  matemáticos prolíficos de su época, de hecho, las publicaciones de ambos no están particularmente ligadas a las matemáticas sino que son de índole religiosa---por mucho que sus contribuciones hayan sido suficientemente  conceptuales y generales para ser consideradas como avances en ambos campos. Una posibilidad para entender las motivaciones de Bayes (y Price) para el desarrollo de los artículos mencionados, pueden encontrarse en el artículo \cite{stigler2013} el cual postula que el verdadero título del artículo de Bayes aparentemente es: 
+\begin{center}
+\it
+A Method of Calculating the Exact Probability of All Conclusions founded on Induction.
+\end{center}
+Este título, según explica \cite{stigler2013}, pudo haber sido perdido en la edición del artículo o probablemente el propio editor de PTRS lo modificó por encontrarlo un tanto \emph{atrevido}.  Si este fuese efectivamente el título, y no el menos informativo título original, se entiende que el artículo tiene por objetivo caracterizar  el problema más general de \emph{inducción}. Esto tiene un sentido particular dado el contexto filosófico y religioso en ese entonces, pues pocos años antes la obra de Hume `Of Miracles' (1748) presentaba un argumento probabilístico para desestimar los milagros (como la resurrección). En  pocas  palabras, Hume postulaba que la considerable \emph{improbabilidad} de un milagro sobrepasaba ampliamente la \emph{probabilidad}  de  que el milagro fuese incorrectamente  documentado. Este ensayo de Hume fue ampliamente leído, discutido y---evidentemente---atacado, en particular, tanto Bayes como Price, ambos inconformistas anglicanos, consideraron  el ensayo de Hume como una agresión. Consecuentemente, Bayes consideró responder al argumento de  Hume mediante la aplicación de probabilidades al problema de inducción, lo cual es confirmado por las notas no publicadas de Bayes con fecha anterior al 31 de diciembre de 1749 \cite{bellhouse_2004}, las que eventualmente llegaron al famoso artículo de 1763. Sin embargo, el trabajo de Bayes no estaba completo, en particular, no contaba una satisfactoria aproximación de la distribución posterior en el ejemplo de la inversión de la distribución binomial mencionado anteriormente. En este sentido, la motivación de Price para terminar este trabajo no era únicamente concluir el trabajo póstumo de su amigo, sino que también desarrollar un respuesta eficaz contra el argumento de Hume. En efecto, luego de una serie de  trabajos relacionados, fue  finalmente en 1767 que Price logró publicar su disertación \emph{On the Importance of Christianity, its Evidences, and the Objections which have been made to it}, donde hace una crítica directa a “Of miracles”. Básicamente, Price sentencia que Hume habría subestimado el impacto que una (gran) cantidad de observadores \textbf{independientes} reportando la existencia del milagro puede tener. En dicho caso, el Teorema de Bayes mostraba que la multiplicación de evidencia, la cual puede ser falible de forma individual, podría sobrepasar la improbabilidad de un evento (el milagro) y establecerlo como verdad (o en realidad muy probable). 
+
+Existen varias razones atribuibles a que el trabajo de Bayes haya sido ignorado parcialmente hasta Laplace, e.g., la incompletitud del trabajo del propio Bayes, el rol incierto que tuvo Price en el desarrollo de éste, y el nombre poco elocuente del artículo que probablemente desvió atención al trabajo. Todo esto nos hace cuestionarnos si es correcto referimos a este trascendental Teorema en honor al Rev.~Thomas Bayes, el cual lanzó el primer atisbo de este resultado y no a Laplace, el cual fue el primero en enunciar la forma general para la relación entre prior, posterior y modelo en la forma que hoy conocemos y usamos. 
+\end{mdframed}
+
+\subsubsection{Elección de prior: conjugación}
+\label{ssub:reg_lin_bayes}
+
+Desde ahora, nuestra misión calcular y analizar la distribución posterior del parámetro $\theta$ dado un conjunto de datos $D$, nos referimos a esto como \emph{inferencia bayesiana} a diferencia de las más general \emph{inferencia estadística} en la cual a veces ses consideran solo estimaciones puntuales de $\theta$. 
+
+La distribución posterior está dada, mediante el teorema de Bayes, por
+\begin{equation}
+	p(\theta|D)=\frac{p(D|\theta)p(\theta)}{p(D)}
 	\label{eq:posterior}
 \end{equation}
-donde $p(\theta)$ es la \emph{distribución a priori} del parámetro y encapsula todos nuestros supuestos, creencias y sesgo sobre el espacio de parámetros (modelos) a considerar. Finalmente, observe que la expresión de la distribución posterior tiene por denominador la \emph{distribución marginal de los datos} $p(T)$ que actúa como constante no normalización para el numerador, pues solo el numerador es función del parámetro $\theta$. Esta constante de normalización puede ser calculada mediante el uso de la ley de probabilidades totales, o bien imponiendo la restricción de que la expresión en la ecuación \eqref{eq:posterior} debe integrar uno:
+donde $p(D|\theta)$ es la verosimilitud o el modelo que elegimos y $p(\theta)$ es la \emph{distribución a priori} del parámetro y encapsula todos nuestros supuestos, creencias y sesgo sobre el espacio de parámetros (modelos) a considerar. Finalmente, recordemos que en el denominador encontramos la  \emph{distribución marginal de los datos} $p(D)$ que actúa como constante de normalización para el numerador, pues el numerador puede ser considerado como una densidad pero no de probabilidad. Esta constante de normalización puede ser calculada mediante el uso de la ley de probabilidades totales, o bien imponiendo la restricción de que la expresión en la ecuación \eqref{eq:posterior} debe integrar uno:
 \begin{equation}
-	p(T) = \int p(T|\theta)p(\theta)d\theta.
+	p(D) = \int p(D|\theta)p(\theta)d\theta.
 \end{equation}
-En base a la forma explícita de $p(T|\theta)p(\theta)$, calcular esta integral puede ser un desafío considerable. Sin embargo, enfatizamos que como esta cantidad no depende del parámetro $\theta$, no es necesario conocerla para explorar o aproximar la (forma de la) distribución posterior $p(\theta|T)$. 
+En base a la forma explícita de $p(D|\theta)p(\theta)$, calcular esta integral puede ser un desafío considerable. Sin embargo, enfatizamos que como esta cantidad no depende del parámetro $\theta$, no es necesario conocerla para explorar o aproximar la (forma de la) distribución posterior $p(\theta|D)$. 
+
+Entonces, con el modelo $p(D|\theta)$ acordado, solo nos queda elegir la distribución a priori, los cual es guiado por dos objetivos. En primer lugar, debemos encapsular lo que efectivamente que sabemos del parámetro $\theta$, por ejemplo, en el caso de regresión lineal, podemos tener evidencia que los datos que observamos representan una cantidad que creciente en el tiempo, en cuyo caso, sabemos que $\theta\geq 0$. El segundo objetivo es obtener una forma \emph{amigable} de la distribución posterior, en el sentido que ésta sea un distribución con propiedades que deseemos, en particular, que la podamos calcular, evaluar, y samplear de ella. Una práctica usual en este sentido es elegir un prior $p(\theta)$ tal que la distribución posterior $p(D|\theta)$ están en la misma familia. 
+\begin{definition}
+	Diremos que el prior $p(\theta)$ es \emph{conjugado} a la verosimilitud $p(D)$, cuando la posterior $p(\theta|D)$ está en la misma familia, es decir, tienen la misma distribución con parámetros distintos.   
+\end{definition}
+El uso de un prior arbitrario resulta en que la posterior tenga una forma arbitraria también, con lo que incluso si tanto el prior como la verosimilitud tienen formas \emph{conocidas}, no tenemos ninguna garantía de que el posterior también la tenga y consecuentemente sea difícil de interpretar. Por el contrario, si usamos priors conjugados la distribución posterior pertenece a \emph{en la misma familia} del prior cuando vamos observando más datos, lo cual tiene un significado relevante: la actualización de prior a posterior mediante la incorporación de datos---conocida como actualización bayesiana---es simplemente un cambio de parámetros, lo cual ofrece una clara interpretación (en el caso que los parámetros tengan significado como media, varianza, o alguna taza), y la nueva distribución ocupan la misma cantidad de memoria que el prior (pues la cantidad de parámetros no cambia). A continuación veremos dos ejemplos de priors conjugados y cómo se interpreta la variación que sufren los parámetros de la posterior al incorporar datos.
+
+\textbf{Modelo gaussiano.} Consideremos un conjunto de observaciones\footnote{Observe que en esta sección no estamos solo enfocados en el problema de regresión, sino que cualquiera que requiera inferencia paramétrica bayesiana.} $\datos=\{x_i\}_{i=1}^n\subset\R$ generadas independiente e idénticamente distribuidas (iid) por el modelo $\cN(\mu,\sigma^2)$. Recordemos que la verosimilitud de la media y varianza respectivamente está dada por 
+\begin{equation}
+	L_\datos(\mu, \sigma^2) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right).
+ \end{equation}
+
+A continuación veremos priors conjugados para esta verosimilitud de forma incremental: primero cuando sola la media $\mu$ es desconocida, luego cuando solo la varianza $\sigma^2$ es desconocida y finalmente cuando ambos parámetros son desconocidos.  
+
+\textbf{Modelo gaussiano ($\sigma^2$ conocido).} Consideremos el prior sobre la media $p(\mu) = \cN(\mu_0,\sigma_0^2)$, con lo que la posterior está dada por  
+ \begin{align}
+ 	p(\mu|\datos) &\propto \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right) \frac{1}{\sqrt{2\pi\sigma_0^2}}\exp\left(-\frac{1}{2\sigma_0^2}(\mu-\mu_0)^2\right)\label{eq:post_normal_mu_1}\\
+ 	&\propto \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2-\frac{1}{2\sigma_0^2}(\mu-\mu_0)^2\right),\label{eq:post_normal_mu_2}
+ \end{align} 
+ donde la proporcionalidad viene de ignorar la constante $p(\datos)$ en la primera línea e ignorar todas las contantes que no dependen de $\mu$ en la segunda línea; recordemos que estas constantes para $\mu$ incluyen a la varianza de $x$, $\sigma^2$, por lo que ignorar esta cantidad es solo posible debido a que estamos considerando el caso en que $\sigma^2$ es conocido. Completando el la forma cuadrática para $\mu$ dentro de la exponencial en la ec.~\eqref{eq:post_normal_mu_2}, obtenemos
+ \begin{equation}
+ 	p(\mu|\datos) \propto \exp\left(-\frac{1}{2\sigma_n^2}(\mu - \mu_n)^2\right),\label{eq:post_normal_mu_3}
+ \end{equation} 
+ donde (ya definiremos $\mu_n$ y $\sigma_n^2$ en breve) como $p(\mu|\datos)$ debe integrar uno, la única densidad de probabilidad proporcional al lado derecho de la ecuación anterior es la Gaussiana de media $\mu_n$ y varianza $\sigma_n^2$. Es decir, la constante de proporcionalidad necesaria para la igualdad en la expresión anterior es $\int_\R\exp\left(-\frac{1}{2\sigma_n^2}(\mu - \mu_n)^2\right)\d\mu = (2\pi\sigma_n^2)^{n/2}$. Consecuentemente, confirmamos que el prior elegido era efectivamente conjugado con la verosimilitud gaussiana y la posterior está dada por la siguiente gaussiana:
+  \begin{equation}
+ 	p(\mu|\datos) = \cN(\mu;\mu_n,\sigma_n^2) = \frac{1}{(2\pi\sigma_n^2)^{N/2}}\exp\left(-\frac{1}{2\sigma_n^2}(\mu - \mu_n)^2\right),\label{eq:post_normal_mu_4}
+ \end{equation} 
+ donde la media y la varianza están dadas respectivamente  por 
+ \begin{align}
+ 	\mu_n &= \frac{1}{\tfrac{1}{\sigma_0^2} + \tfrac{N}{\sigma^2}} \left(\frac{1}{\sigma_0^2}\mu_0 + \frac{N}{\sigma^2}\bar{x} \right), \quad \text{donde } \bar{x} = \frac{1}{N}\sum_{i=1}^N x_i\label{eq:post_Gm}\\
+ 	\sigma_n &= \left(\frac{1}{\sigma_0^2} + \frac{N}{\sigma^2}\right)^{-1}.\label{eq:post_Gv}
+ \end{align}
+
+\begin{remark}
+	La actualización bayesiana transforma los parámetros del prior de  $\mu$ desde  $\mu_0$ y $\sigma_0^2$ hacia $\mu_n$ y $\sigma_n^2$ en las ecs.~\eqref{eq:post_Gm} y \eqref{eq:post_Gv} respectivamente. 
+\end{remark}
+
+\textbf{Modelo gaussiano ($\mu$ conocido).} Ahora procedemos con el siguiente prior para la varianza, llamado Gamma-inverso:
+ \begin{equation}
+ 	p(\sigma^2)= \text{inv-}\Gamma(\sigma^2;\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)
+ \end{equation}
+ esta densidad recibe dicho nombre pues es equivalente a modelar la precisión, definida como el recíproco de la varianza $1/\sigma^2$, mediante la distribución Gamma.  \red{hablar del rol de los parámetros}
+
+ Con este prior, la posterior de la varianza toma la forma:
+ \begin{align}
+ 	p(\sigma^2|\datos) &\propto \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right) \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)\\
+ 	&\propto  \frac{1}{(\sigma^2)^{N/2+\alpha+1}}\exp\left(-\frac{1}{\sigma^2}\left(\frac{1}{2}\sum_{i=1}^N(x_i-\mu)^2 +\beta\right) \right)\nonumber
+ \end{align} 
+ donde nuevamente la proporcionalidad ha sido mantenida debido a la remoción de las constantes. Esta última expresión es proporcional a una distribución Gamma inversa. 
+
+
+
+
+
+
+\red{hablar del rol de los nuevos parámetros}
+
+\subsubsection{Modelo binomial}
+
+Consideremos el evento de obtener ``$s$ aciertos en $n$ intentos''. Por ejemplo anotar $s$ goles con $n$ intentos de penales, u obtener $s$ veces un número par al lanzar un dado $n$ veces. La probabilidad de obtener entonces los ``$s$ aciertos en $n$ intentos'' puede ser modelada mediante una distribución binomial, la cual asume que cada acierto es independiente y  equiprobable con probabilidad $q$. La distribución binomial está dada por
+\begin{equation}
+	p(n, s) = \binom{n}{s} q^s (1-q)^{n-s}
+\end{equation}
+y su único parámetro es la probabilidad marginal $q$.
+
+El prior conjugado para este modelo es la distribución Beta, con parámetros ($\alpha, \beta$), denotada por 
+
+\begin{equation}
+	p(q) = \text{Beta}(q;\alpha,\beta) = \frac{q^{\alpha-1}(1-q)^{\beta-1}}{\mathcal{B}(\alpha, \beta)},
+	\label{eq:distribucion_beta}
+\end{equation}
+donde $\mathcal{B}(x,y) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$ es la función Beta que actúa como contante de normalización.
+
+
+Luego, si consideramos las observaciones $\datos = \{(n_i,s_i)\}_{i=1}^N$ correspondientes a $N$ juegos, donde el $i$-ésimo juego consistió en $n_i$ intentos y $s_i$ aciertos, la distribución posterior de $q$ (con un prior $\text{Beta}(q;\alpha,\beta)$) está dada por
+\begin{align}
+	p(q|\datos) & 	\propto \prod_{i=1}^N  p(n_i,s_i|q)p(q)  \\
+			 & \propto  \prod_{i=1}^N\binom{n_i}{s_i}q^{s_i}(1-q)^{n_i-s_i}q^{\alpha-1}(1-q)^{\beta-1} \nonumber\\
+			 & \propto  q^{\ssum s_i + \alpha - 1}(1-q)^{\ssum (n_i-s_i) + \beta-1} \nonumber
+\end{align}
+donde nuevamente los símbolos de proporcionalidad se han mantenido debido a la remoción de constantes y se ha usado la notación compacta $\ssum s_i = \ssum_{i=1}^N s_i$. Notemos que la última expresión es proporcional a la definición de distribución Beta en la ecuación \eqref{eq:distribucion_beta}, por lo que ajustando la constante de proporcionalidad tenemos: 
+
+\begin{equation}
+	p(q|\datos) = \text{Beta}(q;\ssum s_i + \alpha - 1,\ssum (n_i-s_i) + \beta-1)
+\end{equation}
+
+
+
+
+
 
 La distribución posterior es entonces una \emph{mezcla} entre la distribución posterior (que representa la creencia en la variable antes de ver datos) y la verosimilitud (que representa la probabilidad de los datos condicional al modelo). Cuando la distribución a priori y a posteriori son de la misma familia, diremos que  la distribución a priori es conjugadas con la función de verosimilitud. Ejemplos de priors conjugados son las distribuciones gaussianas, por ejemplo, si consideramos $p(\theta,\tX) = \cN(0,\sigma_\theta^2)$ y una verosimilitud gaussiana (i.e., modelo linear con ruido gaussiano), tenemos
 
@@ -579,85 +728,6 @@ Finalmente, veamos que la estimación puntual de $y_\star$ usando el enfoque bay
 	&= \left(\int \theta \cN(\theta;\mu_\theta, \sigma_\theta^2) \td \theta\right)^\top x_\star \nonumber\\
 	&= \mu_\theta^\top x \nonumber
 \end{align}
-
-\subsection{Priors conjugados}
-
-Como vimos en la Sección \ref{sub:inferencia_bayes}, la distribución posterior está dada directamente por el prior, verosimilitud y constante de normalización mediante
-
-\begin{equation}
-	p(\theta|\datos) = \frac{p(\theta|\datos)p(\theta)}{p(\datos)}\propto p(\theta|\datos)p(\theta)
-\end{equation}
-donde recordemos que $\datos$ denota el conjunto de observaciones y la expresión de la derecha (proporcional a la distribución posterior) es considerada debido a que la constante de normalización es difícil de calcular en general. Como la constante de normalización no depende del parámetro $\theta$, podemos interpretar que solo la función de verosimilitud modifica la elección de la distribución a priori para generar la distribución posterior, por esto estamos interesados en formas de elegir la distribución a priori, tal que al multiplicarla por la verosimilitud, el resultado (la posterior) sigue teniendo la misma \emph{forma}. Cuando este es el caso, diremos que el prior elegido es \emph{conjugado} con la función de verosimilitud. Permanecer en la misma familia, desde prior a posterior, tiene ventajas como interpretación de los nuevos parámetros y cálculo directo de la constante de normalización.
-
-A continuación vemos dos ejemplo de priors conjugados para dos modelos distintos. 
-
-
-\subsubsection{Modelo gaussiano}
-
-Consideremos un conjunto de observaciones\footnote{Observe que en esta sección no estamos solo enfocados en el problema de regresión, sino que cualquiera que requiera inferencia paramétrica bayesiana.} $\datos=\{x_i\}_{i=1}^N\subset\R$ generados independiente e idénticamente distribuidos (iid) por la distribución $\cN(\mu_0,\sigma_0^2)$. Como hemos visto anteriormente, la verosimilitud de los estimadores de la media y varianza respectivamente dados por $\mu$ y $\sigma^2$ están dados por 
-
-\begin{equation}
-	l(\mu, \sigma^2 | \datos) = \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right).
- \end{equation}
-
- A continuación veremos el prior gaussiano para $\mu$ y Gamma-inverso para $\sigma^2$ son conjugados con la verosimilitud en la ecuación anterior. 
-
- Veamos en primer lugar que eligiendo el prior $p(\mu) = \cN(m_\mu,\sigma_\mu^2)$, tenemos 
-
- \begin{align}
- 	p(\mu|\datos) &\propto \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right) \frac{1}{\sqrt{2\pi\sigma_\mu^2}}\exp\left(-\frac{1}{2\sigma_\mu^2}(\mu-m_\mu)^2\right)\\
- 	&\propto \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^N(x_i-\mu)^2-\frac{1}{2\sigma_\mu^2}(\mu-m_\mu)^2\right)\nonumber
- \end{align} 
- donde la segunda linea es proporcional a la primera pues se han removido todas las contantes (pues no dependen de $\mu$). Notemos que la expresión final es proporcional a una gaussiana en $\mu$, por lo tanto, la constante de normalización es conocida y la distribución posterior es gaussiana.
-
- Ahora procedemos con la varianza y un prior Gamma-inverso definido como 
-
- \begin{equation}
- 	p(\sigma^2)= \text{inv-}\Gamma(\sigma^2;\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)
- \end{equation}
- con lo que la posterior toma la forma 
-
- \begin{align}
- 	p(\sigma^2|\datos) &\propto \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right) \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)\\
- 	&\propto  \frac{1}{(\sigma^2)^{N/2+\alpha+1}}\exp\left(-\frac{1}{\sigma^2}\left(\frac{1}{2}\sum_{i=1}^N(x_i-\mu)^2 +\beta\right) \right)\nonumber
- \end{align} 
- donde nuevamente la proporcionalidad ha sido mantenida debido a la remoción de las constantes. Esta última expresión es proporcional a una distribución Gamma inversa. 
-
-
-
-
-
-
-
-
-\subsubsection{Modelo binomial}
-
-Consideremos el evento de obtener ``$s$ aciertos en $n$ intentos''. Por ejemplo anotar $s$ goles con $n$ intentos de penales, u obtener $s$ veces un número par al lanzar un dado $n$ veces. La probabilidad de obtener entonces los ``$s$ aciertos en $n$ intentos'' puede ser modelada mediante una distribución binomial, la cual asume que cada acierto es independiente y  equiprobable con probabilidad $q$. La distribución binomial está dada por
-\begin{equation}
-	p(n, s) = \binom{n}{s} q^s (1-q)^{n-s}
-\end{equation}
-y su único parámetro es la probabilidad marginal $q$.
-
-El prior conjugado para este modelo es la distribución Beta, con parámetros ($\alpha, \beta$), denotada por 
-
-\begin{equation}
-	p(q) = \text{Beta}(q;\alpha,\beta) = \frac{q^{\alpha-1}(1-q)^{\beta-1}}{\mathcal{B}(\alpha, \beta)},
-	\label{eq:distribucion_beta}
-\end{equation}
-donde $\mathcal{B}(x,y) = \frac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha+\beta)}$ es la función Beta que actúa como contante de normalización.
-
-
-Luego, si consideramos las observaciones $\datos = \{(n_i,s_i)\}_{i=1}^N$ correspondientes a $N$ juegos, donde el $i$-ésimo juego consistió en $n_i$ intentos y $s_i$ aciertos, la distribución posterior de $q$ (con un prior $\text{Beta}(q;\alpha,\beta)$) está dada por
-\begin{align}
-	p(q|\datos) & 	\propto \prod_{i=1}^N  p(n_i,s_i|q)p(q)  \\
-			 & \propto  \prod_{i=1}^N\binom{n_i}{s_i}q^{s_i}(1-q)^{n_i-s_i}q^{\alpha-1}(1-q)^{\beta-1} \nonumber\\
-			 & \propto  q^{\ssum s_i + \alpha - 1}(1-q)^{\ssum (n_i-s_i) + \beta-1} \nonumber
-\end{align}
-donde nuevamente los símbolos de proporcionalidad se han mantenido debido a la remoción de constantes y se ha usado la notación compacta $\ssum s_i = \ssum_{i=1}^N s_i$. Notemos que la última expresión es proporcional a la definición de distribución Beta en la ecuación \eqref{eq:distribucion_beta}, por lo que ajustando la constante de proporcionalidad tenemos: 
-
-\begin{equation}
-	p(q|\datos) = \text{Beta}(q;\ssum s_i + \alpha - 1,\ssum (n_i-s_i) + \beta-1)
-\end{equation}
 
 
 
