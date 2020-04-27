@@ -489,7 +489,7 @@ En la práctica, consideraremos la minimización de la log-verosimilitud negativ
 \subsection{Regresión via inferencia bayesiana} 
 \label{sub:inferencia_bayes}
 
-En el apartado anterior vimos el ajuste de modelos, estimación de parámetros o \emph{inferencia}, mediante la maximización de la función de verosimilitud. Es decir, en base a un conjunto de observaciones $\y$ asignamos el valor más \emph{verosímil} al parámetro desconocido $\theta$, dado por $\hat\theta^\star = \arg\max  L_\y(\hat\theta)$. Es claro por qué esta estimación puntual tiene sentido, desde el punto de vista de laa probabilidad de los datos y de la mínima discrepancia contra el modelo real en base a la  divergencia de Kullback-Liebler. Sin embargo, solo tomar el máximo ignora el resto de la información contenida en la función de verosimilitud, por ejemplo, si consideramos funciones de verosimilitud distintas, por ejemplo, bimodales, con colas pesadas/livianas, asimétricas, discretas, todas esa propiedades no se reflejan en la estimación del parámetro $\theta$ si  estas verosimilitudes coinciden en el máximo. Esta es una limitación fundamental no solo del método de máxima verosimilitud, sino que de la estimación puntual en general. 
+En el apartado anterior vimos el ajuste de modelos, estimación de parámetros o \emph{inferencia}, mediante la maximización de la función de verosimilitud. Es decir, en base a un conjunto de observaciones $\y$ asignamos el valor más \emph{verosímil} al parámetro desconocido $\theta$, dado por $\hat\theta^\star = \arg\max  L_\y(\hat\theta)$. Es claro por qué esta estimación puntual tiene sentido, desde el punto de vista de la probabilidad de los datos y de la mínima discrepancia contra el modelo real en base a la  divergencia de Kullback-Leibler. Sin embargo, solo tomar el máximo ignora el resto de la información contenida en la función de verosimilitud, por ejemplo, si consideramos funciones de verosimilitud distintas, por ejemplo, bimodales, con colas pesadas/livianas, asimétricas, discretas, todas esa propiedades no se reflejan en la estimación del parámetro $\theta$ si  estas verosimilitudes coinciden en el máximo. Esta es una limitación fundamental no solo del método de máxima verosimilitud, sino que de la estimación puntual en general. 
 
 Otra limitación del paradigma de máxima verosimilitud es que no da la posibilidad de incorporar conocimiento experto, es decir, introducir sesgos necesarios para la inferencia. Por ejemplo, si sabemos que el parámetro desconocido tiene magnitud pequeña, o está lejos del origen, o es ralo, etc. Esta propiedad es necesaria en el análisis moderno de datos, pues en la ciencia de datos los esfuerzos son colaborativos y el conocimiento experto sin duda ayuda a resolver problemas de forma eficiente y con interpretabilidad. 
 
@@ -588,33 +588,29 @@ A continuación veremos priors conjugados para esta verosimilitud de forma incre
  \end{equation} 
  donde la media y la varianza están dadas respectivamente  por 
  \begin{align}
- 	\mu_n &= \frac{1}{\tfrac{1}{\sigma_0^2} + \tfrac{N}{\sigma^2}} \left(\frac{1}{\sigma_0^2}\mu_0 + \frac{N}{\sigma^2}\bar{x} \right), \quad \text{donde } \bar{x} = \frac{1}{N}\sum_{i=1}^N x_i\label{eq:post_Gm}\\
- 	\sigma_n &= \left(\frac{1}{\sigma_0^2} + \frac{N}{\sigma^2}\right)^{-1}.\label{eq:post_Gv}
+ 	\mu_n &= \frac{1}{\tfrac{1}{\sigma_0^2} + \tfrac{n}{\sigma^2}} \left(\frac{1}{\sigma_0^2}\mu_0 + \frac{n}{\sigma^2}\bar{x} \right), \quad \text{donde } \bar{x} = \frac{1}{n}\sum_{i=1}^n x_i\label{eq:post_Gm}\\
+ 	\sigma_n &= \left(\frac{1}{\sigma_0^2} + \frac{n}{\sigma^2}\right)^{-1}.\label{eq:post_Gv}
  \end{align}
 
 \begin{remark}
-	La actualización bayesiana transforma los parámetros del prior de  $\mu$ desde  $\mu_0$ y $\sigma_0^2$ hacia $\mu_n$ y $\sigma_n^2$ en las ecs.~\eqref{eq:post_Gm} y \eqref{eq:post_Gv} respectivamente. 
+	La actualización bayesiana transforma los parámetros del prior de  $\mu$ desde  $\mu_0$ y $\sigma_0^2$ hacia $\mu_n$ y $\sigma_n^2$ en las ecs.~\eqref{eq:post_Gm} y \eqref{eq:post_Gv} respectivamente. Notemos que los  parámetros de la posterior son combinaciones (interpretables por lo demás) entre los parámetros del prior y los datos, en efecto, la $\mu_n$ es el promedio ponderado entre  $\mu_0$ (que es nuestro candidato para $\mu$ antes de ver datos) con factor $\sigma_0^{-2}$ y el promedio de los datos $\bar{x}$ con factor $(\sigma^{2}/n)^{-1}$, que a su vez es el estimador de máxima verosimilitud. Es importante también notar que  estos  factores son las varianzas inversas---i.e., precisión---de $\mu_0$ y de $\bar{x}$. Finalmente, observemos que $\sigma_n$ es la \emph{suma paralela} de las varianzas, pues  si expresamos la ec.~\eqref{eq:post_Gv} en términos de \emph{precisiones}, vemos que la precisión inicial $\sigma_0^2$ aumenta un término $\sigma^2$ con cada dato que vemos; lo cual tiene sentido pues con más información es la precisión la que debe aumentar y no la incertidumbre (en este caso representada por la varianza).
 \end{remark}
 
 \textbf{Modelo gaussiano ($\mu$ conocido).} Ahora procedemos con el siguiente prior para la varianza, llamado Gamma-inverso:
  \begin{equation}
  	p(\sigma^2)= \text{inv-}\Gamma(\sigma^2;\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)
  \end{equation}
- esta densidad recibe dicho nombre pues es equivalente a modelar la precisión, definida como el recíproco de la varianza $1/\sigma^2$, mediante la distribución Gamma.  \red{hablar del rol de los parámetros}
+ esta densidad recibe dicho nombre pues es equivalente a modelar la precisión, definida como el recíproco de la varianza $1/\sigma^2$, mediante la distribución Gamma. Los hiperparámetros $\alpha$ y $\beta$ son conocidos como parámetros de forma y de tasa (o precisión) respectivamente. 
 
  Con este prior, la posterior de la varianza toma la forma:
  \begin{align}
  	p(\sigma^2|\datos) &\propto \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{1}{2\sigma^2}(x_i-\mu)^2\right) \frac{\beta^\alpha}{\Gamma(\alpha) (\sigma^2)^{\alpha+1}}\exp(-\beta/\sigma^2)\\
  	&\propto  \frac{1}{(\sigma^2)^{N/2+\alpha+1}}\exp\left(-\frac{1}{\sigma^2}\left(\frac{1}{2}\sum_{i=1}^N(x_i-\mu)^2 +\beta\right) \right)\nonumber
  \end{align} 
- donde nuevamente la proporcionalidad ha sido mantenida debido a la remoción de las constantes. Esta última expresión es proporcional a una distribución Gamma inversa. 
+ donde nuevamente la proporcionalidad ha sido mantenida debido a la remoción de las constantes. Esta última expresión es proporcional a una distribución Gamma inversa con hiperparámetros $\alpha$ y $\beta$ ajustados en base a los datos observados. 
 
+\textbf{Modelo gaussiano ($\mu$ y $\sigma^2$ desconocidos).} Tarea. 
 
-
-
-
-
-\red{hablar del rol de los nuevos parámetros}
 
 \subsubsection{Modelo binomial}
 
