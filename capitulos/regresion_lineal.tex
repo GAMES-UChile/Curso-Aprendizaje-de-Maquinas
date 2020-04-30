@@ -399,13 +399,20 @@ Consideremos un  modelo gaussiano definido por
 	y \sim p(y|\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(\frac{-(y-\mu)^2}{2\sigma^2}\right),
 \end{equation}
 y las observaciones $\y = \{y_i\}_{i=1}^N$ iid. La verosimilitud  de $\theta  =  [\mu,\sigma]$ está dada por 
-\begin{equation}
+\begin{align}
   	L(\theta)  =  p(\y|\mu,\sigma^2) 
-  				\stackrel{\text{(iid)}}{=}\prod_{i=1}^N p(y_i|\mu,\sigma^2) 
-  				= \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-\sum_{i=1}^N(y_i-\mu)^2}{2\sigma^2}\right)
-  				\propto \sigma^{-N} e^{-\frac{(\mu-\bar y)^2}{2\sigma^2}},
-  \end{equation}  
-  donde $\bar y = \tfrac{1}{N}\sum_{i=1}^Ny_i$ es el promedio de las observaciones. Observemos que como funciones de $\mu$ y $\sigma^2$, la expresión anterior es respectivamente  proporcional a las densidades Normal y Gamma-inversa. Sin embargo, recordemos que la esta  expresión no necesariamente integra uno y por  ende es solo coincidentemente proporcional a una pdf conocida. La Fig.~\ref{fig:gaussian_likelihood} muestra la  densidad normal ($\mu=0,\sigma=1$) y la verosimilitud para ambos parámetros con 20 y 200 muestras. 
+  				&\stackrel{\text{(iid)}}{=}\prod_{i=1}^N p(y_i|\mu,\sigma^2) 
+  				 = \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-\sum_{i=1}^N(y_i-\mu)^2}{2\sigma^2}\right)\\
+  				\text{[expandir $(\cdot)^2$]}\  & = \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-N(\mu^2 - 2\mu\sum_{i=1}^Ny_i/N + \sum_{i=1}^Ny_i^2/N)}{2\sigma^2}\right)\nonumber\\
+  				\text{[nikita nipone]}\  & = \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-N(\mu^2 - 2\mu\sum_{i=1}^Ny_i/N + \sum_{i=1}^Ny_i^2/N \sred{ \pm (\sum_{i=1}^Ny_i/N)^2)}}{2\sigma^2}\right)\nonumber\\
+  				\text{[formar $(\cdot)^2$]}\  & = \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-(\mu - \sum_{i=1}^Ny_i/N)^2}{2\sigma^2/N}\right)
+  				\exp\left(\frac{-(\sum_{i=1}^Ny_i^2/N  - (\sum_{i=1}^Ny_i/N)^2)}{2\sigma^2/N}\right)
+  				\nonumber\\
+  				\text{[notación]}\  & = \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-(\mu - \bar y)^2}{2\sigma^2/N}\right)
+  				\exp\left(\frac{-(\bar s  - \bar y^2)}{2\sigma^2/N}\right)
+  				\nonumber.
+  \end{align}  
+  donde $\bar y = \tfrac{1}{N}\sum_{i=1}^Ny_i$ es el promedio de las observaciones y $\bar s = \sum_ {i=1}^Ny_i^2/N$ es el promedio de los cuadrados de las observaciones. Observemos que como funciones de $\mu$ y $\sigma^2$, la expresión anterior es respectivamente  proporcional a las densidades Normal (para $\mu$) y Gamma-inversa (para $\sigma^2$). Sin embargo, recordemos que la esta  expresión no necesariamente integra uno y por  ende es solo coincidentemente proporcional a una pdf conocida. La Fig.~\ref{fig:gaussian_likelihood} muestra la  densidad normal ($\mu=0,\sigma=1$) y la verosimilitud para ambos parámetros con 20 y 200 muestras. 
 
 \begin{figure}[H]
 	\centering
