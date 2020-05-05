@@ -24,6 +24,7 @@
 
 \usepackage{xcolor}
 \providecommand{\sred}[1]{\textcolor{red}{#1}}
+\providecommand{\sblue}[1]{\textcolor{blue}{#1}}
 \providecommand{\red}[1]{\textcolor{red}{\text{#1}}}
 \providecommand{\blue}[1]{\textcolor{blue}{\text{#1}}}
 \providecommand{\redb}[1]{\textcolor{red}{\textbf{#1}}}
@@ -107,6 +108,7 @@
 \def\bepsilon{{\bm \epsilon}}
 \def\tx{\tilde{x}}
 \def\tX{\tilde{X}}
+\def\thetaMAP{\theta_\text{MAP}}
 \newcommand{\gp}{\ensuremath{\mathcal{GP}}}
 \newcommand{\pr}{\ensuremath{\mathbb{P}}}
 \newcommand{\x}{\ensuremath{\mathbf{x}}}
@@ -119,11 +121,14 @@
 \newcommand{\rx}{\ensuremath{\textcolor{red}{X_*}}}
 
 
+
+
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator{\E}{\mathbb{E}}
 \DeclareMathOperator{\V}{\mathbb{V}}
 \DeclareMathOperator{\KL}{\text{KL}}
+\DeclareMathOperator{\MVN}{\text{MVN}}
 \newcommand\deq{\stackrel{\mathclap{\normalfont\mbox{\tiny def}}}{=}}
 %\newcommand{\E}[1]{\mathbb E \left[#1\right]}
 
