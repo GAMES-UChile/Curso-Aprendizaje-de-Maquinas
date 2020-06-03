@@ -838,13 +838,15 @@ Siguiendo el ejemplo anterior de la distribución binomial, recordemos que al as
 \subsection{Predicciones} % (fold)
 \label{sub:predicciones}
 
-Luego de haber discutido la estimación de parámetros, tanto desde el punto de vista puntual (MC, MCR, MV, MAP) como de estimación bayesiana, ahora veremos cómo estas estimaciones se utilizan para hacer predicciones. Definamos en primer lugar el contexto para nuestra pedicción. Tenemos un modelo $p(y|x)$, con parámetro $\theta$, y hemos obtenido datos de este modelo denotado $\datos = \{(x_i,y_i)\}_{i=1}^N$. Además, introduciremos el concepto de \emph{variable latente}, es decir, una variable dentro del modelo que no hemos observado pero que nos interesa predecir. Esta definición es clave para estudiar la predicción, pues si bien la construcción del modelo para $y$ tiene como objetivo modelar tanto el proceso generador de datos como el ruido o incertidumbre asociado a observar los datos, nuestro objetivo es predecir la cantidad latente y no la observación futura, pues la observación contiene una perturbación asociada a su incertidumbre aleatoria. En el caso lineal, por ejemplo, denotamos la variable latente como $f = \theta^\top x$, donde el modelo está dado por
+Luego de haber discutido la estimación de parámetros, tanto desde el punto de vista puntual (MC, MCR, MV, MAP) como de estimación bayesiana, ahora veremos cómo estas estimaciones se utilizan para hacer predicciones. 
+
+Definamos en primer lugar el contexto para nuestra pedicción. Consideremos un modelo $p(y|x)$, con parámetro $\theta$, del cual obtenido datos denotados mediante $\datos = \{(x_i,y_i)\}_{i=1}^N$. Además, introduciremos el concepto de \emph{variable latente}, es decir, una variable dentro del modelo que no es observable, pero que nos interesa predecir. Esta definición es clave para estudiar la predicción: si bien la construcción del modelo para $y$ tiene como objetivo modelar la generación de datos ($\theta$) y sus observaciones ($\sigma$), nuestro objetivo final es predecir la cantidad latente, no la observación futura;  pues la observación contiene una perturbación asociada a su incertidumbre aleatoria. En el caso lineal, por ejemplo, denotamos la variable latente como $f = \theta^\top x$, donde el modelo está dado por
 \begin{equation}
 		 y = \theta^\top x  + \epsilon = f + \epsilon, \quad \epsilon \sim \cN(0,\sigma^2).
 \end{equation}
-Denotaremos entonces mediante $\hat f_\star$ e $\hat y_\star$ las predicciones de la variable latente $f$ y la observación $y$ para una nueva entrada $x_\star$, condicional a los datos observados $\datos$. A continuación veremos que distintos supuestos sobre la estimación de $\theta$ resultan en distintas predicciones para estas cantidades, donde utilizaremos el modelo lineal/gaussiano de varianza conocida a modo de ejemplo. 
+Denotaremos entonces mediante $\hat f_\star$ e $\hat y_\star$ las predicciones de la variable latente $f$ y la observación $y$ para una nueva entrada $x_\star$, condicional a los datos observados $\datos$. A continuación veremos que distintos supuestos sobre la estimación de $\theta$ resultan en distintas predicciones para estas cantidades, donde utilizaremos el modelo lineal/gaussiano de varianza conocida para ilustrar estas diferencias. 
 
-En primer lugar consideremos las estimaciones puntuales. En este caso, realizamos un procedimiento conocido como \emph{plug-in prediction}, en donde simplemente utilizamos el valor (puntual) la estimación del parámetro dentro del modelo. En el ejemplo del modelo lineal, si hemos calculado el parámetro mediante máxima verosimilitud (denotado como $\theta_{\text{MV}}$) entonces nuestro modelo lineal estimado es $y = \theta_{\text{MV}}^\top \tilde{x} + \epsilon$. Con lo que la predicción usual de la variable lantente correspondiente a una entrada $\tilde{x}_\star$ es determinista (pues tanto $\theta_{\text{MV}}$ como $x_\star$ lo son) y dada por
+En primer lugar consideremos las estimaciones puntuales, en cuyo caso realizamos un procedimiento conocido como \emph{plug-in prediction}, en donde simplemente utilizamos el valor (puntual) la estimación del parámetro dentro del modelo. En el ejemplo del modelo lineal, si hemos calculado el parámetro mediante máxima verosimilitud (denotado como $\theta_{\text{MV}}$) entonces nuestro modelo lineal estimado es $y = \theta_{\text{MV}}^\top \tilde{x} + \epsilon$. Con lo que la predicción usual de la variable lantente correspondiente a una entrada $\tilde{x}_\star$ es determinista (pues tanto $\theta_{\text{MV}}$ como $x_\star$ lo son) y dada por
 \begin{equation}
 	\hat f_\star = \theta_{\text{MV}}^\top \tilde{x}_\star.
 \end{equation}
@@ -852,9 +854,9 @@ Por el contrario, si lo que quisiésemos estimar es efectivamente la variable al
 \begin{equation}
 	\hat y_\star \sim \cN(\theta_{\text{MV}}^\top \tilde{x}_\star,\sigma^2). 
 \end{equation}
-Graficamente, es también usual representar esta predicción en términos de su esperanza y \emph{barras de error}, las cuales para el caso gaussiano son explícitas para el 95\% en función de la desviación estándar del ruido $\epsilon$. Es decir, con un 95\% de probabilidad, $\hat y_\star\in[\theta_{\text{MV}}^\top \tilde{x}_\star - 2\sigma,\theta_{\text{MV}}^\top \tilde{x}_\star + 2\sigma]$. 
+Gráficamente, es también usual representar esta predicción en términos de su esperanza y \emph{barras de error}, las cuales para el caso gaussiano son explícitas para el 95\% en función de la desviación estándar del ruido $\epsilon$. Es decir, con un 95\% de probabilidad, $\hat y_\star\in[\theta_{\text{MV}}^\top \tilde{x}_\star - 2\sigma,\theta_{\text{MV}}^\top \tilde{x}_\star + 2\sigma]$. 
 
-A diferencia de las estimaciones puntuales, cuando el parámetro $\theta$ es estimado de forma bayesiana (disponemos de su distribución posterior) el modelo estimado en sí es una \textbf{distribución aleatoria}: pues  contiene un parámetro $\theta$ que es en sí aleatorio. Podemos entonces identificar dos fuentes de incertidumbre en el modelo aprendido como discutimos al comienzo de esta sección: la epistemológica dada por la distribución posterior de $\theta$, y la aleatoria dada por la distribución de $\epsilon$. En nuestro ejemplo del modelo lineal y Gaussiano con varianza conocida el modelo aprendido está dado por
+A diferencia de las estimaciones puntuales, cuando el parámetro $\theta$ es estimado de forma bayesiana (disponemos de su distribución posterior) el modelo estimado en sí es una \textbf{distribución aleatoria}: pues el modelo es una función determinista de un parámetro $\theta$ aleatorio. Podemos entonces identificar dos fuentes de incertidumbre en el modelo aprendido como discutimos al comienzo de esta sección: la epistemológica dada por la distribución posterior de $\theta$, y la aleatoria dada por la distribución de $\epsilon$. En nuestro ejemplo del modelo lineal y Gaussiano con varianza conocida el modelo aprendido está dado por
 \begin{equation}
 		 y = \theta^\top \tilde{x} + \epsilon, \quad \epsilon \sim \cN(0,\sigma^2),\ \theta \sim p(\theta|\datos) = \cN(\theta_N,\sigma^2\Lambda_n^{-1}),
 \end{equation}
@@ -862,7 +864,7 @@ donde los parámetros de la posterior de $\theta$ están descritos en las ecs.~\
 
 Entonces, la distribución posterior de la variable latente  está dada por la ``desintegración'' de $\theta$  con respecto a su propia distribución posterior, es decir,
 \begin{equation}
-	\hat f_\star \sim p(f_\star|x_\star,\datos) = \int p(f_\star, \theta|x_\star,\datos)\d\theta = \int p(f_\star|x_\star, \datos, \theta)p( \theta|\datos,x_\star)\d\theta= \int p(f_\star|x_\star, \theta)p( \theta|\datos)\d\theta
+	\hat f_\star \sim p(f_\star|x_\star,\datos) = \int p(f_\star, \theta|x_\star,\datos)\d\theta = \int p(f_\star|x_\star, \datos, \theta)p( \theta|\datos,x_\star)\d\theta= \int p(f_\star|x_\star, \theta)p( \theta|\datos)\d\theta\label{eq:integrate_out_pred}
 \end{equation}
 donde, de izquireda a derecha: 
 \begin{itemize}
@@ -870,60 +872,35 @@ donde, de izquireda a derecha:
 	\item la segunda igualdad es simplemente la definición de distribución condicional
 	\item la tercera igualdad elimina redundacias: dado $\theta$ y $x_\star$, $f_\star$ no depende de los datos; de igual forma, la distribución posterior del parámetro depende solo de los datos pasados, no de un nuevo input.
 \end{itemize}
-En el caso lineal/gaussiano, el integrando de la expresón anterior es la mutiplicación de dos Gaussianas. Si bien el cálculo de dicha integral es tedioso, ésta tiene la forma de una convolución entre dos gaussianas y sabemos\footnote{verificable fácilemte a través del teorema de la convolución} que eso resulta en, nuevamente, una gaussiana. En el caso lineal, sin embargo, ni siquiera es necesario calcular dicha integral, pues podemos calcular la ley posterior de $f_\star$ notando simplemente que $f = \theta^\top \tilde{x}_\star$ y que $\theta \sim \cN(\theta_N,\sigma^2\Lambda_n^{-1})$, lo cual da (linealidad)
+En el caso lineal/gaussiano, el integrando de la expresión más a la derecha de la eq.~\eqref{eq:integrate_out_pred} es la multiplicación de dos gaussianas. Si bien el cálculo de dicha integral es tedioso, ésta tiene la forma de una convolución entre dos gaussianas y sabemos\footnote{Verificable fácilmente a través del teorema de la convolución} que eso resulta en, nuevamente, una gaussiana. En el caso lineal, sin embargo, ni siquiera es necesario calcular dicha integral, pues podemos calcular la ley posterior de $f_\star$ notando simplemente que $f = \theta^\top \tilde{x}_\star$ y que $\theta \sim \cN(\theta_N,\sigma^2\Lambda_n^{-1})$, lo cual da (linealidad)
 \begin{equation}
-	\hat f_\star \sim p(f_\star|x_\star,\datos) = \cN(\theta_N^\top \tilde{x}_\star,\tilde{x}_\star^\top\sigma^2\Lambda_n^{-1} \tilde{x}_\star),\label{eq:post_pref_f}
+	\hat f_\star \sim p(f_\star|x_\star,\datos) = \cN(\theta_N^\top \tilde{x}_\star,\tilde{x}_\star^\top\sigma^2\Lambda_n^{-1} \tilde{x}_\star).\label{eq:post_pref_f}
 \end{equation}
-de donde se pueden extraer directamente las barra de error. 
+Desde esta expresión es posible graficar el modelo mediante la determinación de las barras de error de los parámetros o bien generando una muestra para el parámetro desde su distribución posterior y luego graficar el modelo con dicha muestra---esto es equivalente a samplear desde la posterior del modelo.
 
-Finalmente, la predicción de la observación ruidosa $y=f+\epsilon$, simplemente notemos que esta estará dada por la incorporación del estadístico del ruido a la expresión anterior, en efecto
+Finalmente, para determinar la predicción de la observación ruidosa $y=f+\epsilon$, simplemente notemos que esta estará dada por la incorporación del estadístico del ruido a la expresión en eq.~\eqref{eq:post_pref_f}, en efecto,
 \begin{equation}
 	\hat y_\star\sim\cN(\theta_N^\top \tilde{x}_\star,\tilde{x}_\star^\top\sigma^2\Lambda_n^{-1} \tilde{x}_\star + \sigma^2).
 \end{equation}
 
 \begin{remark}\label{rem:predicciones}
-Observemos que de la predicción (bayesiana) de la ec.~\eqref{eq:post_pref_f} podemos obtener (y es usualmente necesario) una predicción puntual dada por la media, la cual corresponde a 
+De la predicción bayesiana en forma de distribución de la ec.~\eqref{eq:post_pref_f} podemos obtener (y es usualmente necesario) una predicción puntual dada por la media, la cual corresponde a 
 \begin{equation}
 	\E[f_\star|x_\star,\datos] = \E[\theta|\datos]^\top  \tilde{x}_\star = \bar \theta^\top  \tilde{x}_\star, 
 \end{equation}
 donde hemos denotado por $\bar \theta$ a la media posterior de $\theta$. Consecuentemente, las estimaciones puntuales reportadas por el método bayesiano y de estimación puntual resultan en la misma predicción. Este fenómeno solo ocurre en situaciones particular, en este caso, debido a que el modelo es lineal y gaussiano. 
 \end{remark}
 
-
- estos parámetros, en la literatura clásica esto se conoce como 
-
-la distribución sobre valores de $y_\star$ debe tomar en cuenta todos los posibles valores de $\theta$. En efecto, denotando el conjunto de datos como $\datos=\{(x_i,y_i)\}_{i=1}^N$, la distribución de la variable dependiente $y_\star$ dada una nueva entrada $x_\star$ está dada por la distribución condicional del $y$ condicional al conjunto de observaciones $\datos$, lo cual se puede calcular integrando con respecto a la posterior del parámetro, es decir, 
-\begin{equation}
- 	p(y|x,\datos) = \int p(y|x, \theta)p(\theta|\datos) \td\theta.
- \end{equation} 
-Como se vio en la ecuación XXXXX, bajo el supuesto del modelo lineal y gaussiano la posterior sobre $\theta$ también es Gaussiana. Consecuentemente, la integral en la última ecuación puede calcularse de forma analítica y es también gaussiana. 
-
-Finalmente, veamos que la estimación puntual de $y_\star$ usando el enfoque bayesiano también coincide con la estimación puntual usando máxima verosimilitud (o mínimos cuadrados) cuando el modelo es lineal y gaussiano. En efecto, asumiendo la notación para posterior $\cN(\theta;\mu_\theta, \sigma_\theta^2)$, esta estimación puntual está dada por la siguiente esperanza
-\begin{align}
-	\E\left[y|x_\star,\datos\right] 
-	&= \int y p(y|x_\star,\datos) \td y \\
-	&= \int y p(y|x_\star, \theta)p(\theta|\datos) \td \theta \td y \nonumber\\
-	&= \int y \cN(y;\theta^\top x_\star ,\sigma_e^2)\cN(\theta;\mu_\theta, \sigma_\theta^2) \td\theta \td y \nonumber\\
-	&= \int \theta^\top x_\star \cN(\theta;\mu_\theta, \sigma_\theta^2) \td \theta \nonumber\\
-	&= \left(\int \theta \cN(\theta;\mu_\theta, \sigma_\theta^2) \td \theta\right)^\top x_\star \nonumber\\
-	&= \mu_\theta^\top x \nonumber
-\end{align}
-
-
-
-
-\subsection{Máxima verosimilitud y divergencia de Kullback-Liebler}
-
-\begin{mdframed}[style=pendiente, frametitle={\center Discusión}]
-1) Definir información y entropía\\
-2) Presentar KL-divergence como distancia entre distribuciones\\
-3) Interpretar \\
-4) Conectar min KL y max verosimilitud
-	
-\end{mdframed}
-
-
-
+Finalmente, la Fig.~\ref{fig:rpredicciones_reg_lin} muestra la implementación de las 4 formas de predecir usando el modelo lineal aplicado al dataset de grillos y temperatura usado inicialmente en la Fig.~\ref{fig:reg_lin_reg}. Es posible ver como la  predicción bayesiana da sutilmente distintas predicciones que en los extremos del modelo reportan más incertidumbre, mientras que la predicción de $y$ considera tanto ruido que presenta una banda de incertidumbre \emph{uniforme} a lo largo de las observaciones. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred1}
+	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred2}
+	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred3}
+	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred4}
+	\caption{Ejemplo de predicción usando el modelo lineal para la  base de datos de grillos y temperatura. Desde la esquina superior izquierda: predicción plug-in de $f$, predicción plug-in de $y$, predicción bayesiana de $f$ (20 muestras), predicción bayesiana de $y$ (20 muestras).}
+	\label{fig:rpredicciones_reg_lin} 
+\end{figure}
 
 
 
