@@ -1,6 +1,7 @@
 %!TEX root = ../notas_de_clase.tex
 
 \section{Regresión Lineal} 
+\label{cap:reg_lineal}
 
 El problema de regresión busca determinar la relación entre una variable \emph{independiente} (entrada, estímulo o característica; usualmente denotada por $x$) y una variable \emph{independiente} (salida, respuesta o etiqueta; usualmente denotada $y$). Intuitivamente, un modelo de regresión permite entender cómo cambia la variable dependiente cuando la variable independiente es modificada. Esta relación entre ambas variables es representada por una función, consecuentemente, el problema de regresión es equivalente a encontrar una función definida desde el espacio de la entrada $x$ al de la salida $y$. De esta forma, en base a (i) el espacio de posible funciones donde se busque dicha relación, e.g., los polinomios de grado menor o igual a 5, y a (ii) el criterio de búsqueda que se aplique, e.g., mínimos cuadrados, podemos obtener distintas soluciones para el problema de regresión. 
 
@@ -866,9 +867,9 @@ Entonces, la distribución posterior de la variable latente  está dada por la `
 \begin{equation}
 	\hat f_\star \sim p(f_\star|x_\star,\datos) = \int p(f_\star, \theta|x_\star,\datos)\d\theta = \int p(f_\star|x_\star, \datos, \theta)p( \theta|\datos,x_\star)\d\theta= \int p(f_\star|x_\star, \theta)p( \theta|\datos)\d\theta\label{eq:integrate_out_pred}
 \end{equation}
-donde, de izquireda a derecha: 
+donde, de izquierda a derecha: 
 \begin{itemize}
-	\item la primera igualdad pretende \emph{hacer aparecer} $p(f|\theta)$ que es lo que realmente conocemos, donde $p(f|\datos)$ va a ser calculado medirante la desintegración de $\theta$
+	\item la primera igualdad pretende \emph{hacer aparecer} $p(f|\theta)$ que es lo que realmente conocemos, donde $p(f|\datos)$ va a ser calculado mediante la desintegración de $\theta$
 	\item la segunda igualdad es simplemente la definición de distribución condicional
 	\item la tercera igualdad elimina redundacias: dado $\theta$ y $x_\star$, $f_\star$ no depende de los datos; de igual forma, la distribución posterior del parámetro depende solo de los datos pasados, no de un nuevo input.
 \end{itemize}
