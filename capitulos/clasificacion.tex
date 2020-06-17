@@ -2,20 +2,18 @@
 
 \section{Clasificación}
 
-El problema de clasificación dice relación con la identificación de el conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. Como tanto la regresión como la clasificación son los escenarios del aprendizaje supervisado, la el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio donde la variable  $y$ (salida o variable dependiente) es  categórico y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,M\}$ para el caso de clasificación multiclase. 
+El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. En el contexto del aprendizaje supervisado, el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio donde la variable  $y$ (salida o variable dependiente) es \emph{categórico} y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,M\}$ para el caso de clasificación multiclase. 
 	
 
-\subsection{Formulación: caso lineal}
+\subsection{Formulación: clasificación lineal}
 \label{sec:clasif_lineal}
 
 \noindent\begin{minipage}{0.52\textwidth}
 	Consideremos un conjunto de datos
 	\begin{equation}
-	 	\datos = \{(x_i,c_i)\}_{i=1}^N\subset\R^M\times\{\cC_1,\cC_2\},
+	 	\datos = \{(x_i,c_i)\}_{i=1}^N\subset\R^M\times\{\cC_i\}_{i=1}^K,
 	 \end{equation}
-	 donde, al igual que en el problema de regresión, $x$ es la variable independiente y, en este caso, $c$ es la variable dependiente o \emph{clase}. Consideraremos en primera instancia el  caso \emph{binario}, es decir, solo dos clases, ilustrado en la Fig.~\ref{fig:puntos_2d}. 
-
-	 Propondremos un modelo lineal para relacionar la variable independiente con su clase, es decir, 
+	 donde, al igual que en el problema de regresión, $x$ es la variable independiente y $c$ es la variable dependiente o \emph{clase}. Consideraremos en primera instancia el caso \emph{binario}, es decir, solo dos clases ($K=2$), ilustrado en la Fig.~\ref{fig:puntos_2d}. Proponemos un modelo lineal para relacionar la variable independiente con su clase, es decir, 
 	\begin{equation}
 		y(x) = a^\top  x + b,
 		\label{eq:clasificacion_lineal}
@@ -31,21 +29,19 @@ El problema de clasificación dice relación con la identificación de el conjun
 \end{minipage}
 
 \vspace{1cm}
-Nos referiremos al subconjunto que particiona $\R^M$ en clase $\cC_1$ y clase $\cC_1$ como \emph{superficie de decisión}, la cual está definida por $y(x)=0$. Entonces, como $x\in\R^D$, para la consideración del modelo lineal esta superficie de decisión corresponde a un hiperplano de dimensión $D-1$.
+Nos referiremos al subconjunto que particiona $\R^M$ en clase $\cC_1$ y clase $\cC_1$ como \emph{superficie/hiperplano/región de decisión}, la cual está definida por $y(x)=0$. Entonces, como $x\in\R^M$, para la consideración del modelo lineal esta superficie de decisión corresponde a un hiperplano de dimensión $M-1$.
 
-Para resolver el problema de clasificación, debemos encontrar los parámetros $a$ y $b$ en la ec.~\eqref{eq:clasificacion_lineal}. Para este fin, veamos que si $x_1,x_2$ son dos puntos en la superficie de decisión, entonces tenemos la siguiente relación para el parámetro $a$
+Para resolver el problema de clasificación, debemos encontrar los parámetros $a$ y $b$ en la ec.~\eqref{eq:clasificacion_lineal}. Para este fin, veamos que si $x_1,x_2$ son dos puntos en la superficie de decisión, entonces tenemos la siguiente relación para el parámetro $a$:
 \begin{align}
 	0 &= y(x_1) - y(x_2) \nonumber\\
 	  &= a^\top x_1 + b - a^\top x_2 - b \nonumber\\
 	  &= a^\top (x_1-x_2).
 \end{align}
-Es decir, $a$ es ortogonal a cualquier vector que esté contenido dentro del hiperplano de decisión. Intuitivamente, podemos decir que el vector $a\in\R^M$ controla la pendiente (u orientación) del hiperplano de decisión.
-
-Además, observemos que para cualquier $x$ en la superficie de decisión, i.e., $y(x)=0$,  su proyección en el vector $a$ está dada por  
+Es decir, $a$ es ortogonal a cualquier vector que esté contenido dentro de la región de decisión. Intuitivamente, podemos decir que el vector $a\in\R^M$ controla la pendiente (u orientación) del hiperplano de decisión. Además, observemos que para cualquier $x$ en la región de decisión, i.e., $y(x)=0$,  su proyección en el vector $a$ está dada por  
 \begin{equation}
 	\frac{a^\top x}{\left \| a \right \|} = -\frac{b}{\left \| a \right \|},
 \end{equation}
-de donde podemos entender que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión.
+de donde podemos entender que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión,  pues el lado derecho de la ecuación representa la distancia entre la región de decisión y el origen.
 
 Es posible  también interpretar $y(x)$ como una distancia con signo entre un $x\in\R^M$ cualquiera  y la superficie de decisión. Para ver esto, consideremos $x\in\R^M$ y descompongámoslo dos componentes: la primera denotada por $x_{\bot}$, la cual es la proyección ortogonal de $x$ en el hiperplano de  decisión, y la segunda que es perpendicular al hiperplano (y consecuentemente paralela al vector $a$) denotada por $r\frac{a}{\left \| a \right \|}$, donde $r$ denota la distancia entre $x$ y el  hiperplano de  decisión. Expresamos entonces  
 \begin{equation}
@@ -61,7 +57,7 @@ y observamos que
 \end{equation}
 Consecuentemente, vemos que $\forall x\in\R^M$, $r = \frac{y(x)}{||a||}$,  es decir, $y(x)$ representa una medida con signo de la  distancia entre el punto $x$ y la  región de decisión. 
 
-El caso de múltiples clases ($K>2$) puede ser enfrentado mediante una extensión del caso binario. Una forma puede ser construir $K-1$ clasificadores binarios, en donde cada uno  resuelve el problema de discriminar los elementos de la  clase $\cC_k$ del resto; esta técnica se llama \emph{one-versus-rest}. Otra forma es construir $K(K-1)/2$ clasificadores binarios, donde cada uno discrimina entre cada posible par de clases; esta técnica se llama \emph{one-versus-one}. El problema con estas dos alternativas es que dejan  regiones indefinidas en el espacio, pues solo consideran pares de clases que  al ser agregados puede no  ser coherente. 
+El caso de múltiples clases ($K>2$) puede ser enfrentado mediante una extensión del caso binario. Una forma puede ser construir $K-1$ clasificadores binarios, en donde cada uno  resuelve el problema de discriminar los elementos de la  clase $\cC_k$ del resto; esta técnica se llama \emph{one-versus-rest}. Otra forma es construir $K(K-1)/2$ clasificadores binarios, donde cada uno discrimina entre cada posible par de clases; esta técnica se llama \emph{one-versus-one}. El problema con estas dos alternativas es que dejan  regiones indefinidas en el espacio, pues solo consideran pares de clases que  al ser agregados pueden ser incoherentes. 
 
 Una alternativa más robusta para resolver el problema de clasificación multiclase es construir un clasificador para $K$ clases que contiene $K$ funciones lineales de la forma
 \begin{equation}
@@ -75,9 +71,9 @@ Donde $x$ es asignado a la clase $\mathcal{C}_k$ si y solo si $y_k(x) > y_j(x), 
 
 La región de decisión de este clasificador de $K$ clases es efectivamente convexa y no  quedan secciones de $\R^M$ sin asignar clase (o con asignación incoherente). Además, si elegimos $K=2$, obtenemos el clasificador  binario. (Esto puede quedar de tarea 3)
 
-\subsection{Clasificación con mínimos cuadrados}
+\subsection{Ajuste mediante mínimos cuadrados}
 
-Ya hemos planteado el modelo y analizado el rol  y significado de cada uno de sus parámetros; ahora queda por estudiar cómo determinar dichos parámetros $a$ y $b$, dado un conjunto de datos $\datos$. Para esto consideraremos en primer lugar el enfoque de mínimos cuadrados, el cual es la medida de discrepancia  por  excelencia  y a primera vista  parece una respuesta natural a este problema. Primero  introduciremos un poco de notación para plantear el problema de una forma clara.
+Ya hemos planteado el modelo y analizado el rol  y significado de cada uno de sus parámetros; ahora queda por estudiar cómo determinar dichos parámetros $a$ y $b$, dado un conjunto de datos $\datos$. Para esto consideraremos en primer lugar el enfoque de mínimos cuadrados, el cual es la medida de discrepancia  por  excelencia  y a primera vista  parece una respuesta natural a este problema. Primero  introduciremos un poco de notación para plantear el problema de forma clara.
 
 Consideremos el  punto $x\in\R^M$ con clase $c\in\{\mathcal{C}_k\}_{k=1}^K$. Usaremos la \emph{codificación} $t \in\{0,1\}^K$ para representar la pertenencia de $x$ a su respectiva clase. Es decir, 
 \begin{equation}
@@ -86,10 +82,10 @@ Consideremos el  punto $x\in\R^M$ con clase $c\in\{\mathcal{C}_k\}_{k=1}^K$. Usa
 Este tipo de codificación  es conocida como \emph{one-hot  encoding.}  
 
 \begin{remark}
-Usamos esta codificación por  dos razones. Primero, para poder dar valores numéricos a la clase y que  podamos hablar de distancias entre ellos, pues si nuestras clases son ``peras y manzanas'' de igual forma necesitamos poder determinar cuán cerca a cada una de ellas está nuestra estimación. En segundo  lugar, como los valores  asignado al vector $t$ siempre serán puros 0's y  un solo 1, entonces  todos los posibles  valores de $t$ están a la misma distancia de otro. De esta forma, si dos elementos tienen distintas clases, la distancia entre éstas, cualquieras sean será 0 (clases iguales), o bien $\sqrt{2}$ (clases distintas), lo cual no introduce sesgos en la representación de la clase que pueda alterar el aprendizaje del modelo.  	
+Usamos esta codificación por  dos razones. Primero, para poder dar valores numéricos a la clase y que  podamos hablar de distancias entre ellos, pues si nuestras clases son ``peras y manzanas'' necesitamos poder determinar cuán cerca a cada una de ellas está nuestra estimación. En segundo  lugar, como los valores asignados al vector $t$ siempre serán puros 0's y un solo 1, entonces  todos los posibles  valores de $t$ están a la misma distancia unos de otros. De esta forma, si dos elementos tienen distintas clases, la distancia entre éstas, cualquieras sean, será 0 (clases iguales), o bien $\sqrt{2}$ (clases distintas). Esto ayuda a no introduce sesgos en la representación de la clase que puedan alterar el aprendizaje del modelo.  	
 \end{remark}
 
-Asumiendo entonces el modelo linear para cada clase $\mathcal{C}_k$ dado por
+Asumiendo entonces el modelo lineal para cada clase $\mathcal{C}_k$ dado por
 \begin{equation}
 	y_k(x) = a_k^\top x + b_k,
 \end{equation}
@@ -97,24 +93,24 @@ podemos reescribir el modelo de forma matricial como:
 \begin{equation}
 	y(x) = \tilde{\Theta}^\top \tilde{x}.
 \end{equation}
-Donde la $K$-esima columna de $\tilde{\Theta}$ es un vector de $D+1$ dimensiones definido por $\tilde{\theta}=(b_k, a_k^\top)^\top$ y $\tilde{x}=(1,x^\top)^\top$ corresponde al vector $x$ aumentado. De esta forma un punto $x$ será asignado a la clase que tenga mayor $y_k=\tilde{\theta}_k^\top \tilde{x}$.
+Donde la $k$-esima columna de $\tilde{\Theta}$ es un vector de $M+1$ dimensiones definido por $\tilde{\theta}_k=[b_k, a_k^\top]^\top$, $\tilde{x}=[1,x^\top]^\top$ corresponde al vector $x$ aumentado y la cantidad $y(x)$ es el vector de \emph{asignaciones de clases}. De esta forma, un punto $x$ será asignado a la clase que tenga mayor $y_k=\tilde{\theta}_k^\top \tilde{x}$. Es  decir, la clase de $x$ es modelada como  el  $\argmax y(x)$.
 
 Con la notación establecida, ahora podemos enfocarnos en el entrenamiento del modelo. Para esto consideremos un conjunto de entrenamiento $\{(x_n,t_n)\}_{n=1}^N$, y definamos las siguientes matrices:
 \begin{align}
 	T &= [t_1, t_2,\ldots, t_N]^\top\\
 	\tilde{X} &= [\tilde{x}_1, \tilde{x}_2, \ldots, \tilde{x}_N ]^\top.
 \end{align}
-Con lo que finalmente para determinar los coeficientes de $\tilde{\Theta}$ mediante la minimización de la suma de los errores cuadráticos de forma similar al problema de regresión, la función de costo puede ser escrita de la siguiente form:
+Con lo que estamos en posición de determinar los coeficientes de $\tilde{\Theta}$ mediante la minimización de la suma de los errores cuadráticos de forma similar al problema de regresión. Podemos escribir la función de costovde la siguiente forma:
 \begin{equation}
 	J(\tilde{\Theta}) = \trace{(\tilde{\Theta}\tilde{X}-T)^\top(\tilde{\Theta}\tilde{X}-T)},\label{eq:K-class-LS}
 \end{equation}
-Donde $\trace{\cdot}$ corresponde al operador traza, al derivar e igualar a 0 la ec.~\eqref{eq:K-class-LS}, obtenemos la solución de mínimos cuadrados para el problema de clasificación dado por:
+donde $\trace{\cdot}$ corresponde al operador traza. Al aplicar la condición de primer orden a la ec.~\eqref{eq:K-class-LS} (i.e., derivar e igualar a 0), obtenemos la solución de mínimos cuadrados para el problema de clasificación dado por:
 \begin{equation}
 	\tilde{\Theta} = (\tilde{X}^\top\tilde{X})^{-1}\tilde{X}T,
 \end{equation}
 con lo que la predicción de la clase para un nuevo input $x$ está dada por $ y(x) = T^\top\tilde{X}^\top(\tilde{X}^\top\tilde{X})^{-1}\tilde{x}$.
 
-\begin{remark} Hay dos problemáticas conceptuales con este enfoque. En primer lugar, el uso de mínimos cuadrados es muy sensible a la presencia de puntos aislados (\emph{outliers}). Dado el crecimiento cuadrático de la penalización, los puntos lejanos al promedio de los datos tienen una influencia mucho mayor, lo que puede empeorar considerablemente los resultados y no es coherente con el problema de clasificación, donde la estimación es correcta o incorrecta, pero no ``màs'' o ``menos'' correcta. Este efecto sobre la solución es ilustrado en la Figura \ref{fig:clasif_mse}, en donde la presencia de puntos alejados de clase $\cC_2$ afecta el resultado (derecha), incluso donde el resultado original (izquierda) estaba correcto. En segundo lugar, las predicciones de  clase  $y(x)$ no tienen la forma de las etiquetas originales $t$, con lo cual es necesario una intervención ``manual'' en donde, dado un $y(x)$ debemos definir el $t(x)$ apropiado. 
+\begin{remark} Hay dos problemáticas conceptuales con este enfoque. En primer lugar, el uso de mínimos cuadrados es muy sensible a la presencia de puntos aislados (\emph{outliers}). Dado el crecimiento cuadrático de la penalización, los puntos lejanos al promedio de los datos tienen una influencia mucho mayor. Esto ciertamente afecta considerablemente los resultados y no es coherente con el problema de clasificación, donde la estimación es correcta o incorrecta, pero no ``más'' o ``menos'' correcta. Este efecto sobre la solución es ilustrado en la Figura \ref{fig:clasif_mse}, en donde la presencia de puntos alejados de clase $\cC_2$ afecta el resultado (derecha), incluso donde el resultado original (izquierda) estaba correcto. En segundo lugar, las predicciones de  clase  $y(x)$ no tienen la forma de las etiquetas originales $t$, con lo cual es necesario una intervención ``manual'' en donde, dado un $y(x)$ debemos definir el $t(x)$ apropiado. 
 \end{remark}
 
 
