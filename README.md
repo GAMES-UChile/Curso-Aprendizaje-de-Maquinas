@@ -2,6 +2,8 @@
 
 Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas (ex MA5203). 
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/stepp1/Curso-Aprendizaje-de-Maquinas/master)
+
 ## Notas de clase
 
 El elemento principal de este repositorio es el [apunte][pdf] que contiene las notas de clase. Éste ha sido construido durante los 4 años que el curso ha sido dictado y está siendo actualizado continuamente. Por esta razón, no se recomienda imprimir completamente el apunte, sino que revisarlo electrónicamente o bien imprimir sólo la sección a revisar. 
