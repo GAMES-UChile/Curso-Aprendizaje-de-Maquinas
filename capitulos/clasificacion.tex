@@ -1,6 +1,7 @@
 %!TEX root = ../notas_de_clase.tex
 
 \section{Clasificación}
+\label{cap:clasificacion}
 
 El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. En el contexto del aprendizaje supervisado, el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio donde la variable  $y$ (salida o variable dependiente) es \emph{categórico} y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,M\}$ para el caso de clasificación multiclase. 
 	
@@ -147,7 +148,7 @@ Una desventaja de este enfoque, en el cual se ha ignorado la dispersión de las 
 
 Como medida de dispersión, definimos la varianza (muestral) de los elementos de la clase $\cC_k$ mediante
 \begin{align}
-	s_k^2 &= \sum_{n\in \mathcal{C}_k}(a^\top(x_n-\text{m}_k))^2\\
+	s_k^2 &= \sum_{n\in \mathcal{C}_k}(a^\top(x_n-\mu_k))^2\\
 	&= \sum_{n\in \mathcal{C}_k}(y_n-m_k)^2,
 \end{align}
 lo cual nos permite definir la siguiente función objetivo
@@ -238,9 +239,10 @@ Un paradigma alternativo es considerar es un enfoque \emph{generativo}, en el cu
 
 Para el caso de 2 clases, es posible calcular la probabilidad de la clase $\cC_1$ dado $x$ de la forma:
 \begin{align}
-	\mathbb{P}(\mathcal{C}_1|x) &= \frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x)}\nonumber\\
-	&= \frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)+\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}\nonumber\\
-	&=\frac{1}{1+\frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)}}\nonumber\\
+	\mathbb{P}(\mathcal{C}_1|x) 
+	&= \frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x)}\nonumber\\
+	&= \frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)+\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)}\nonumber\\
+	&=\frac{1}{1+\frac{\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)}{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}}\nonumber\\
 	&=\frac{1}{1+\exp(-r)} = \sigma(r).\label{eq:logistic1}
 \end{align}
 Donde hemos introducido la notación $r = r(x) =\ln\left(\frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)}\right)$  y la  función logística definida mediante $\sigma(r) = \frac{1}{1+e^{-r}}$, la cual  tiene propiedades que serán útiles en el entrenamiento, en particular, 
@@ -256,7 +258,7 @@ Donde hemos introducido la notación $r = r(x) =\ln\left(\frac{\mathbb{P}(x|\mat
 
 Podemos ahora considerar el caso de múltiples clases $\{\cC_1,\ldots,\cC_K\}$, donde un desarrollo similar al anterior resulta en:  
 \begin{equation}
-	\mathbb{P}(\mathcal{C}_i | x) = \frac{\mathbb{P}(x | \mathcal{C}_i)\mathbb{P}(\mathcal{C}_i)}{\sum_{j}\mathbb{P}(x | \mathcal{C}_j)\mathbb{P}(\mathcal{C}_j)} = \frac{\exp(s_i)}{\sum_{j\neq i}\exp(s_j)},\label{eq:softmax1}
+	\mathbb{P}(\mathcal{C}_i | x) = \frac{\mathbb{P}(x | \mathcal{C}_i)\mathbb{P}(\mathcal{C}_i)}{\sum_{j}\mathbb{P}(x | \mathcal{C}_j)\mathbb{P}(\mathcal{C}_j)} = \frac{\exp(s_i)}{\sum_{j}\exp(s_j)},\label{eq:softmax1}  
 \end{equation}
 donde hemos denotado $s_i = \mathbb{P}(x | \mathcal{C}_i)\mathbb{P}(\mathcal{C}_i)$. La función que aparece al lado derecho de la  ec.~\eqref{eq:softmax1} se conoce como \emph{exponencial normalizada} o \emph{softmax}, y corresponde a una generalización de la función logística a múltiples clases. Además, esta función tiene la propiedad de ser una aproximación suave de la función máximo y convertir cualquier vector $s=[s_1,\ldots,s_k]$ en una distribución de probabilidad, donde podemos hablar de ``la probabilidad de ser clase $\cC_k$''.
 
@@ -269,7 +271,7 @@ Analizaremos ahora  los supuestos sobre el modelo generativo (i.e., las  probabi
 \end{equation}
 En cuyo caso obtenemos $r$ en ec.~\eqref{eq:logistic1}  dado por
 \begin{align}
-r &= \ln\left(\exp\left(-\frac{1}{2}(x-\mu_1)^\top \Sigma^{-1}(x-\mu_1) +\frac{1}{2}(x-\mu_2)^\top \Sigma^{-1}(x-\mu_2)\right)\right)= a^\top x+b,
+r &= \ln\left(\exp\left(-\frac{1}{2}(x-\mu_1)^\top \Sigma^{-1}(x-\mu_1) +\frac{1}{2}(x-\mu_2)^\top \Sigma^{-1}(x-\mu_2)\right) \frac{p(\mathcal{C}_1)}{p(\mathcal{C}_2)} \right)= a^\top x+b,
 \end{align}
 donde hemos usado la notación
 \begin{align}
@@ -279,7 +281,7 @@ b &= \frac{1}{2}(\mu_1^\top \Sigma^{-1}\mu_1+\mu_2^\top \Sigma^{-1}\mu_2)
 \end{align}
 Lo cual nos entrega la regresión logística (lineal) para el  caso binario, donde al incorporar la expresión anterior en la ec.~\eqref{eq:logistic1} obtenemos
 \begin{equation}
-	p(\mathcal{C}_k|x) = \sigma(a^\top x+b) = \frac{1}{1 + \exp{\left(a^\top x+b\right)}}. \label{eq:logistica2}
+	p(\mathcal{C}_k|x) = \sigma(a^\top x+b) = \frac{1}{1 + \exp{\left(-a^\top x-b\right)}}. \label{eq:logistica2}
 \end{equation}
 
 \begin{remark}\label{rem:reg_log} 
@@ -375,7 +377,7 @@ p(t_{1:N}|x_{1:N},w) = \prod_{i=1}^{N}p(t_i|x_i,w) =  \prod_{i=1}^{N}\sigma_i^{t
 \end{equation}
 Con lo que la log-verosimilitud está dada por
 \begin{equation}
-	l(w) = \sum_{i=1}^N t_i\log(\sigma_i) - (1-t_i)\log(1-\sigma_i).
+	l(w) = \sum_{i=1}^N t_i\log(\sigma_i) + (1-t_i)\log(1-\sigma_i).
 \end{equation}
 
 Notemos que este  problema de optimización no exhibe una solución en forma cerrada, con lo que podemos resolverlo mediante gradiente estocástico, para lo cual es necesario calcular el gradiente de $l(w)$ respecto a $w$:
