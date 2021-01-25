@@ -1,2 +1,31 @@
-Este será el punteo de las diapos 
-1 - 
+Este será el punteo de las diapos, vamos a considerar que las clases tienen una duración de 1 hora aproximadamente.
+
+Clase 1: 
+
+1- Presentación, aclaraciones sobre el curso y sistemas de evaluación (20 a 30 mins)
+	- Primera diapo se presenta al profesor.
+	- Segunda diapo se presenta a auxiliares y ayudantes 
+	- Tercera diapo se presenta el sistema de evaluaciones, ponderaciones y fechas para entregas de tareas. (En general todo el ámbito administrativo)
+
+2 - Introducción y Orígenes del aprendizaje de máquinas(30 mins)
+	- Analizar en función de lo que se considera importante mencionar.
+
+
+Clase 2:
+
+1- Regresión Lineal, Introducción (15 mins)
+	- Primera diapo de presentación del problema
+	- Segunda diapo de por qué el caso lineal como particular 
+2 - Mínimos cuadrados, derivar el theta óptimo (25 mins)
+	- Primera y segunda diapo de presentación del criterio, motivación, notación y cambios de variable.
+	- Tercera diapo derivar el theta óptimo que minimiza el MSE (Esto podría realizarse escribiendo sobre el beamer)
+Comentario: La motivación geométrica podría ser lectura propuesta para no consumir tanto tiempo 
+3 - Regularización, derivar el theta óptimo (20 mins)
+	- Prmeras diapos motivación para utilizar regularizadores, por qué a pesar de aumentar el valor del MSE, sigue siendo útil ()
+	- Comparar los regularizadores, curvas de nivel, selección de variables
+Comentario: Los efectos de los regularizadores deberían ser mostrados apenas se presentan y no luego en la sección 2.1.2
+
+Clase 3: 
+1 - Recuerdo de notación, theta óptimo y regularizadores
+	- Primera diapo con la notación, theta óptimo y distintos regularizadores
+2 - Máxima Verosimilitud	
