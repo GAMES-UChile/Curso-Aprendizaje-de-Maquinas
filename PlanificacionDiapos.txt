@@ -10,22 +10,30 @@ Clase 1:
 2 - Introducción y Orígenes del aprendizaje de máquinas(30 mins)
 	- Analizar en función de lo que se considera importante mencionar.
 
-
 Clase 2:
 
 1- Regresión Lineal, Introducción (15 mins)
-	- Primera diapo de presentación del problema
-	- Segunda diapo de por qué el caso lineal como particular 
+	- Presentación del problema, gráfica con una regresión lineal y por qué es el primer caso que estudiamos  
+
 2 - Mínimos cuadrados, derivar el theta óptimo (25 mins)
-	- Primera y segunda diapo de presentación del criterio, motivación, notación y cambios de variable.
+	- Presentación del criterio, motivación, notación y cambios de variable.
 	- Tercera diapo derivar el theta óptimo que minimiza el MSE (Esto podría realizarse escribiendo sobre el beamer)
-Comentario: La motivación geométrica podría ser lectura propuesta para no consumir tanto tiempo 
+Comentario: La motivación geométrica podría ser lectura propuesta para no consumir tanto tiempo, la singularidad de las matrices puede ser mencionada pero que no ocupe tanto tiempo. 
+
 3 - Regularización, derivar el theta óptimo (20 mins)
-	- Prmeras diapos motivación para utilizar regularizadores, por qué a pesar de aumentar el valor del MSE, sigue siendo útil ()
+	- Motivación para utilizar regularizadores, por qué a pesar de aumentar el valor del MSE, sigue siendo útil ()
 	- Comparar los regularizadores, curvas de nivel, selección de variables
 Comentario: Los efectos de los regularizadores deberían ser mostrados apenas se presentan y no luego en la sección 2.1.2
 
 Clase 3: 
-1 - Recuerdo de notación, theta óptimo y regularizadores
-	- Primera diapo con la notación, theta óptimo y distintos regularizadores
-2 - Máxima Verosimilitud	
+1 - Recuerdo de notación, theta óptimo y regularizadores (15 mins)
+	- Primera diapo con la notación, theta óptimo y distintos regularizadores (Esto puede ser omitido en caso de querer más tiempo para máx verosimilitud o incluido en caso de no se presentado de la clase anterior)
+2 - Máxima Verosimilitud (45 mins)
+	- Notación, función de verosimilitud, Kullback-Leibler divergence.
+	- Divergencia KL a max verosimilitud
+	- Estimador de max verosimilitud caso lineal es el que minimiza el error cuadrático  
+
+Comentario: Formulación con restricciones podría ser omitida para más rapidez.
+Ojo con Monte Carlo
+
+Clase 4: Inferencia Bayesiana 
