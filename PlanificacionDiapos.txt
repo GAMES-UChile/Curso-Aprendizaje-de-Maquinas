@@ -16,29 +16,35 @@ Clase 2: Regresión Lineal
 	- Presentación del problema, gráfica con una regresión lineal y por qué es el primer caso que estudiamos  
 
 2 - Mínimos cuadrados, derivar el theta óptimo (25 mins)
-	- Presentación del criterio, motivación, notación y cambios de variable.
-	- Tercera diapo derivar el theta óptimo que minimiza el MSE (Esto podría realizarse escribiendo sobre el beamer) 
+	- Presentación del criterio, notación y cambios de variable.
+	- Derivar el theta óptimo (Esto podría realizarse escribiendo sobre el beamer) 
 
 3 - Interpretación Geométrica (20 mins) 
-	- 
+	- Por qué mínimos cuadrados, justificación conceptual y práctica.
+	- Justificación geométrica (Presentar el diagrama)
+	- Problemas del criterio de mínimos cuadrados (gráfica con/sin outliers)
 
 Clase 3: Regularización
 
-1 - Regularización, derivar el theta óptimo (20 mins)
+1 - Regularización, Introducción(20 mins)
 	- Motivación para utilizar regularizadores, por qué a pesar de aumentar el valor del MSE, sigue siendo útil ()
-	- Comparar los regularizadores, curvas de nivel, selección de variables
-	- 
-2 - 
+	- Derivar el theta óptimo para p=2 (Solución cerrada)
 
-Comentario: Los efectos de los regularizadores deberían ser mostrados apenas se presentan y no luego en la sección 2.1.2	
+2 - Equivalencia con un problema de optimización 
+	- Comparar los regularizadores, mostrar curvas de nivel y hablar del efecto selección de variables (Gráfica con los histogramas)
+	
+Clase 4: Máxima Verosimilitud vs Mínimos Cuadrados
 
-Clase 4: 
-1 - Máxima Verosimilitud (45 mins)
-	- Notación, función de verosimilitud, Kullback-Leibler divergence.
-	- Divergencia KL a max verosimilitud
+1 - Máxima Verosimilitud (60 mins)
+	- Notación, función de verosimilitud, divergencia KL  
+	- Divergencia KL a max verosimilitud (Ojo con MonteCarlo, esto debería ser un apéndice del apunte)
 	- Estimador de max verosimilitud caso lineal es el que minimiza el error cuadrático  
 
-Comentario: Formulación con restricciones podría ser omitida para más rapidez.
-Ojo con Monte Carlo
+Comentario: El ejemplo de la verosimilitud del caso Gaussiano se presenta en una hoja del beamer sin mucho detalle (pura matraca)
 
-Clase 4: Inferencia Bayesiana 
+Comentario: La divergencia KL tiene una motivación de la teoría de la información que se podría mencionar explicitamente, podría mencionarse también que existen otras métricas que si son distancias entre distribuciones de probabilidad)
+Revisar: http://blog.thegrandlocus.com/2019/06/focus-on-the-kullback-leibler-divergence que tiene un gran discurso al respecto.
+Podría agregarse de apéndice también. 
+
+Clase 5: Inferencia Bayesiana 
+
