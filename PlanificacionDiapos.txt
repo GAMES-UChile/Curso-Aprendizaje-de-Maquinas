@@ -48,3 +48,34 @@ Podría agregarse de apéndice también.
 
 Clase 5: Inferencia Bayesiana 
 
+1 - Introducción (20 mins)
+	- Problema de maximizar solo la verosimilitud, la necesidad de agregar conocimiento previo al problema.
+	- Fórmula de Bayes, theta pasa a ser una cantidad aleatoria un poco de historia
+2 - Elección de Prior: Conjugación (25 mins)
+	- Def prior conjugado y ejemplo del modelo gaussiano mu y sigma conocido
+	- Ejemplo para la regresión Lineal
+3 - Máximo a posteriori (15 mins)
+	- Definición y caso lineal equivale a utilizar regularizador p=1 y p=2
+
+Comentario: Podría dejarse el modelo binomial como lectura propia tanto en prior conjugado como en MAP
+
+Comentario: ¿mu y sigma^2 desconocido seguirá siendo tarea? (fue tarea el año pasado)
+
+Comentario: La normal multivariada no se ve en muchos de los cursos de probabilidades y estadística no dim, por lo que debería ser agregado como apéndice
+
+Clase 6: Predicciones y Regresión no Lineal 
+
+1 - Predicciones (30 mins)
+	- Definiciones, variables latentes
+	- Concepto de desintegración
+	- Mostrar gráficas para el caso lineal 
+
+2 - Regresión no Lineal (30 mins)
+	- Definiciones, seleccion de características y modelo lineal en los parámetros
+	- Ejemplos de transformaciones y ejemplo de predicción pasajeros aerolinea
+
+Clase 7: Clasificación
+
+1 - 
+
+
