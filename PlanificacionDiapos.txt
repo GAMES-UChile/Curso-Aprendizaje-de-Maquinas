@@ -97,10 +97,28 @@ Comentario: La deducción de fórmulas podría ser un problema de tarea, aunque 
 
 Clase 8: Clasificación no Lineal
 
-1 - Clasificación no Lineal: El Perceptrón 
+1 - Clasificación no Lineal: El Perceptrón (20 mins)
 	- Problemas de los modelos anteríores, introducción del perceptrón 
+	- Extracción de características y función de enlace
+	- Criterio del perceptrón, función objetivo y SGD
 
-2 - Clasificación Probabilística: Modelo Generativo
-	- 
+Comentario: Se debe agregar un apéndice acerca del descenso de gradiente estocástico.  
+
+2 - Clasificación Probabilística: Modelo Generativo (30 mins)
+	- Interpretación probabilística y Bayes 
+	- Función y propiedades Sigmoide y Softmax 
+	- Modelamieto, deducción de fórmulas para el caso gaussiano y de 2 clases. 
+
+3 - Regresión vs Modelo Generativo (10 mins)
+	- Optimizar directamente la verosimilitud, calcular el gradiente y método del descenso de gradiente.
+	- Similitud y diferencia con lo realizado para el perceptrón. 
+
+Comentario: Eventualmente esta clase 8 podría ser dividida en 2 clases si es demasiado larga
+
+Clase 9: Support Vector Machines
+
+1 - 
+
+
 
 
