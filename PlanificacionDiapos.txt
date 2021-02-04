@@ -74,8 +74,33 @@ Clase 6: Predicciones y Regresión no Lineal
 	- Definiciones, seleccion de características y modelo lineal en los parámetros
 	- Ejemplos de transformaciones y ejemplo de predicción pasajeros aerolinea
 
-Clase 7: Clasificación
+Clase 7: Clasificación (Año pasado era Clase 10)
 
-1 - 
+1 - Introducción (20 mins)
+	- Definiciones y clasificación lineal para 2 clases (parámetros a y b con respecto a la región de decisión)
+	- Caso multiclase, one-versus-one , one-versus-rest y construcción por argmax (Tarea del año pasado)
+
+2 - Ajuste por mínimos cuadrados (20 mins)
+	- One hot encoding
+	- Deducción de fórmulas, notación y problemáticas de este enfoque (En particular la presencia de outliers y que la estimación no es 'mas' o 'menos' correcta, aquí mostrar las gráficas)
+
+3 - Discriminante Lineal de Fisher (20 mins)
+	- Motivaciones, y reducción de dimensionalidad.
+	- Deducción de las fórmulas
+
+Comentario: Trabajar en la notación de esta sección pues está confusa. 
+
+Comentario: Podría trabajarse en una gráfica con mayor detalle de cómo funciona el discriminante lineal de fisher. (En particular la gráfica que tiene la proyección en la recta)
+
+Comentario: La deducción de fórmulas podría ser un problema de tarea, aunque más bien parece un problema de lineal jajaja
+
+
+Clase 8: Clasificación no Lineal
+
+1 - Clasificación no Lineal: El Perceptrón 
+	- Problemas de los modelos anteríores, introducción del perceptrón 
+
+2 - Clasificación Probabilística: Modelo Generativo
+	- 
 
 
