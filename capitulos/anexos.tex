@@ -30,12 +30,12 @@ Existen varias razones atribuibles a que el trabajo de Bayes haya sido ignorado 
 Para dos vectores $x\in\R^n$, $y\in\R^m$, el operador $\frac{\partial y}{\partial x}$ puede ser definido como una matriz de dos formas distintas dependiendo del orden en el que se completen las entradas de la matriz:
 
 \begin{itemize}
-	\item Notación jacobiana (numerator-layout): la matriz se completa de acuerdo a $y$ y $x^t$, es decir:
+	\item Notación jacobiana (numerator-layout): la matriz se completa de acuerdo a $y$ y $x^\top $, es decir:
 	\begin{equation*}
 		\left(\frac{\partial y}{\partial x}\right)_{ij} = \frac{\partial y_j}{\partial x_i} \implies \frac{\partial y}{\partial x}\in \mathcal{M}_{mn}(\R)
 	\end{equation*}
 	
-	\item Notación hessiana (denominator-layour): la matriz se completa de acuerdo a $x$ e $y^t$, es decir:
+	\item Notación hessiana (denominator-layour): la matriz se completa de acuerdo a $x$ e $y^\top $, es decir:
 	\begin{equation*}
 		\left(\frac{\partial y}{\partial x}\right)_{ij} = \frac{\partial y_i}{\partial x_j} \implies \frac{\partial y}{\partial x}\in \mathcal{M}_{nm}
 	\end{equation*}
@@ -47,19 +47,28 @@ La notación estandar corresponde a la notación jacobiana y es la que se sigue 
 
 Bajo la convención de la notación jacobiana, se tienen las siguientes fórmulas de derivación.\\
 
-Sean $x$, $u=u(x)$, $v=v(x)$ vectores. Sea $A$ matriz de dimensiones apropiadas, entonces:
+Sean $x$, $u=u(x)$, $v=v(x)$ vectores y $g=g(x)$ campo vectorial. Sean $A,U,V$ matriz de dimensiones apropiadas, entonces:
 
 \begin{itemize}
-	\item $\frac{\partial (Au)}{\partial x} = A\frac{\partial u^t}{\partial x} \implies \begin{cases}
+	\item $\frac{\partial (Au)}{\partial x} = A\frac{\partial u^\top }{\partial x} \implies \begin{cases}
 		\frac{\partial (Ax)}{\partial x}=A\\
-		\frac{\partial (x^tA)}{\partial x} = A^t \text{ ya que } \frac{\partial u^t}{\partial x} = \left( \frac{\partial u}{\partial x}\right)^t
+		\frac{\partial (x^\top A)}{\partial x} = A^\top  \text{ ya que } \frac{\partial u^\top }{\partial x} = \left( \frac{\partial u}{\partial x}\right)^\top 
 	\end{cases}$
 	
-	\item $\frac{\partial (u\cdot v)}{\partial x} = u^t\frac{\partial v}{\partial x} + v^t \frac{\partial u}{\partial x} \implies \begin{cases}
+	\item $\frac{\partial (u\cdot v)}{\partial x} = u^\top \frac{\partial v}{\partial x} + v^\top  \frac{\partial u}{\partial x} \implies \begin{cases}
  	\frac{\partial (a\cdot x)}{\partial x} = a\\
- 	\frac{\partial (x\cdot x)}{\partial x} = \frac{\partial \norm{x}^2}{\partial x} = 2x^t
- \end{cases}
-$ 
+ 	\frac{\partial (x\cdot x)}{\partial x} = \frac{\partial \norm{x}^2}{\partial x} = 2x^\top 
+ \end{cases}$ 
+ 
+ \item $\frac{\partial (u^\top A v)}{\partial x} = u^\top A \frac{\partial v}{\partial x} + v^\top A^\top  \frac{\partial u}{\partial x} \implies \begin{cases}
+ 	\frac{\partial (x^\top Ax)}{\partial x} = x^\top(A+A^\top)=2x^\top A\text{ si $A$ es simétrica}.\\
+ 	\frac{\partial (x^\top Ax)}{\partial x \partial x} = A + A^\top
+ \end{cases}$ 
+ 
+  	\item $\frac{\partial (g(u))}{\partial x} = \frac{\partial g(u)}{\partial u} \frac{\partial u}{\partial x}$
+  	
+  	\item $\frac{\partial (UV)}{\partial x} = U \frac{\partial (V)}{\partial x} + \frac{\partial (U)}{\partial x}V$
+  
 \end{itemize}
 
 
@@ -72,10 +81,10 @@ $
 Por lo tanto, una matriz cuadrada es invertible si y solo si tiene rango máximo (todas sus filas y columnas son l.i.). De este modo, se tiene la siguiente propiedad:
 
 \begin{lemma}
-	Sea $A\in\mathcal{M}_{mn}(\R)$ entonces $A^tA \in\mathcal{M}_{nn}(\R)$ es invertible si y solo si $A$ tiene todas sus columnas l.i.
+	Sea $A\in\mathcal{M}_{mn}(\R)$ entonces $A^\top A \in\mathcal{M}_{nn}(\R)$ es invertible si y solo si $A$ tiene todas sus columnas l.i.
 \end{lemma}
 
-En efecto, dado que $r(M_1M_2)\leq\min\{r(M_1),r(M_2)\}$ entonces, $A^tA \in\mathcal{M}_{nn}(\R)$ es invertible si y solo si $r(A^tA)=n\iff r(A^t)=r(A)=n$, por lo que $A$ tiene $n$ columnas (y filas) l.i.\\
+En efecto, dado que $r(M_1M_2)\leq\min\{r(M_1),r(M_2)\}$ entonces, $A^\top A \in\mathcal{M}_{nn}(\R)$ es invertible si y solo si $r(A^\top A)=n\iff r(A^\top )=r(A)=n$, por lo que $A$ tiene $n$ columnas (y filas) l.i.\\
 
 Debido a esto es que para poder utilizar la fórmula de regresión lineal mediante MC o MCR necesariamente $\hat{X} \in\mathcal{M}_{N,M+1}(\R)$ debe ser de rango $M+1$ (máximo por columnas), lo cual es equivalente a pedir que las $M+1$ observaciones sean l.i.\\
 
@@ -83,7 +92,7 @@ Debido a esto es que para poder utilizar la fórmula de regresión lineal median
 
 \begin{itemize}
 	\item (inversa débil) $AA^+A=A$ y $A^+AA^+=A^+$
-	\item (simetría) $(AA^+)^t = AA^+$ Y $(A^+A)^t = A^+A$
+	\item (simetría) $(AA^+)^\top  = AA^+$ Y $(A^+A)^\top  = A^+A$
 \end{itemize}
 	
 \end{definition}
@@ -91,8 +100,8 @@ Debido a esto es que para poder utilizar la fórmula de regresión lineal median
 Se puede probar que la pseudoinversa siempre existe. Además, por el lema anterior se tiene que si $A$ es de rango completo, entonces la pseudoinversa tiene forma cerrada:
 
 \begin{itemize}
-	\item $A$ tiene columnas l.i. $\implies A^+=(A^tA)^{-1}A^t$ y es inversa por izquierda: $A^+A=I$.
-	\item $A$ tiene filas l.i. $\implies A^+=A^t(AA^t)^{-1}$ y es inversa por derecha: $AA^+=I$.
+	\item $A$ tiene columnas l.i. $\implies A^+=(A^\top A)^{-1}A^\top $ y es inversa por izquierda: $A^+A=I$.
+	\item $A$ tiene filas l.i. $\implies A^+=A^\top (AA^\top )^{-1}$ y es inversa por derecha: $AA^+=I$.
 \end{itemize}
 
 De este modo, en la regresión por MC, la solución $\theta=\hat{X}^+Y$ puede ser interpretada como el proceso de despejar $\theta$ en la hipótesis $Y=X\theta$.
@@ -113,7 +122,24 @@ Esta descomposición puede ser demostrada directamente probando que al multiplic
 
 
 \subsection{Optimización}
-\subsubsection{Teorema de Lagrange}
+\subsubsection{Teorema de Karush-Khun-Tucker}
+
+Sean $f:E\subset\R^n\to\R$, $g:\R^n \to \R^m$ y $h:\R^n \to \R^p$ funciones diferenciables. Un problema de optimización con estructura de Karush-Kuhn-Tucker viene dado por:
+	\begin{align*}
+		(P) & \min_{s.a} f(x)\\
+		& g(x) \leq 0\\
+		& h(x) = 0\\
+		& x\in E
+	\end{align*}
+
+Donde $g(x) \leq 0\iff g_i(x)\leq 0,\forall i\in\{1,\ldots,m\}$.\\
+
+Sea $x_0$ un punto factible de $(P)$ tal que $\left\{\{\nabla g_i(x_0)\}_{i=1}^m,\{\nabla h_i(x_0)\}_{i=1}^p\right\}$ es linealmente independiente. Si $x_0$ es solución de $(P)$, entonces existen $\mu\in\R^m$ y $\lambda\in\R^p$ tal que
+\begin{align*}
+		f(x) + \langle\lambda,g(x_0)\rangle + \langle\mu,h(x_0)\rangle &=0\\
+		 u_i g_i(x_0) &= 0\\
+		 u_i &\geq 0\\
+	\end{align*}
 
 
 \subsubsection{Método del gradiente clásico}
@@ -150,16 +176,13 @@ El algoritmo se detiene cuando se alcanza una cierta tolerancia de error, la cua
 
 \subsubsection{Dualidad lagrangiana}
 
-Sean $f:E\subset\R\to\R$, $g:\R^m \to \R$ y $h:\R^p \to \R$ funciones. Un problema de optimización con estructura de Karush-Kuhn-Tucker viene dado por:
-
+Sean $f:E\subset\R^n\to\R$, $g:\R^n \to \R^m$ y $h:\R^n \to \R^p$ funciones diferenciables y $(P)$ un problema de optimización con estructura de Karush-Kuhn-Tucker:
 	\begin{align*}
 		(P) & \min_{s.a} f(x)\\
 		& g(x) \leq 0\\
 		& h(x) = 0\\
 		& x\in E
 	\end{align*}
-
-Donde $g(x) \leq 0\iff g_i(x)\leq 0,\forall i\in\{1,\ldots,m\}$.\\
 
 El lagrangiano de $(P)$ corresponde a $L(x,\lambda,\mu) := f(x) + \langle\lambda,g(x)\rangle + \langle\mu,h(x)\rangle$, donde $\lambda$ y $\mu$ se denominan multiplicadores de Lagrange o variables duales. Se define la función lagrangiana dual como:
 
