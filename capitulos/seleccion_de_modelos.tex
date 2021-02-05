@@ -1,8 +1,7 @@
 %!TEX root = notas_de_clase.tex
 
-\newpage
-\centerline{--------------------------------- clase X/4/18 ---------------------------------}
-\section{Selección de Modelo}
+\section{Selección de modelos}
+
 Supongamos que tenemos un montón de datos, de los cuales podemos ajustar un millón de modelos, tanto como la imaginación nos limite. Entonces ¿Con cuál te quedarías al final?
 Cuando nos enfrentamos a la decisión de elegir un modelo usualmente lo que más interesa es la preciso del modelo a la hora de generalizar. El problema de solo buscar precisión es claro: \emph{overfitting} (ver figura \ref{fig:overfitting}).
 \begin{figure}[h!]
@@ -16,12 +15,94 @@ La elección de modelo es uno de los problemas más recurrentes en análisis de 
 
 Bajo la filosofía anterior, encontrar un  \textit{trade-off} entre \emph{bias} (la flexibilidad del modelo de ajustarse a los datos) y performance sería lo ideal. Es por esta razón que crear un estadístico que pudiera expresar correctamente el compromiso precisión - flexibilidad ayudaría en la elección de modelo. Esto último es lo que busca relizar el \emph{Akaike Information Criterion} (AIC) y el \emph{Bayesian Information Criterion} (BIC) los cuales son dos enfoques distintos para abordar esta problemática.
 
-\subsection{Criterio de Información Akaike}
+
+\subsection{Descomposición sesgo-varianza}
+
+En el capítulo de regresión lineal se estudió el método de mínimos cuadrados regularizados, el cual generaba un regresor con un mayor error cuadrático medio (ECM) al evaluarlo dentro del conjunto de entrenamiento, pero un mejor desempeño que MC al evaluarlo fuera de muestra. Esto ocurría debido a que, si bien MCR perdía la propiedad de ser un estimador insesgado, la penalización en la norma del parámetro permitía disminuir la varianza del estimador, lo cual resultaba en una disminución del error de estimación debido a la descomposición sesgo-varianza.\\
+
+El objetivo de esta sección será probar dicha descomposición.
+
+\begin{definition}
+	Sea $D=\{(x_i,y_i)\}_{i=1}^n\subset\R^N\times\R$ un conjunto de observaciones generadas por una función desconocida $f:\R^N\to\R$ mediante $y=f(x)+\epsilon$ donde $\epsilon$ es una v.a. (ruido) con $\E(\epsilon)=0$ y $\text{Var}(\epsilon)=\sigma^2$. Sea $\hat{f}(\cdot|D)$ un estimador de $f$ determinado a partir de $D$, entonces, se tienen las siguientes definiciones:
+	
+	\begin{itemize}
+		\item Error (cuadrático) esperado: $\E_D\left[(y-\hat{f}(x|D))^2\right]$.
+		\item Sesgo del estimador: $\text{Bias}_D(\hat{f}(x|D)):=\E_D(\hat{f}\left(x|D) - y\right) = \E_D(\hat{f}(x|D)) - f(x)$.
+		\item Varianza del estimador: $\text{Var}_D(\hat{f}(x|D)) := \E_D\left[\left(\hat{f}(x|D)-\E_D(\hat{f}(x|D))\right)^2\right]$.
+		
+	\end{itemize}
+\end{definition}
+
+Bajo las definiciones anteriores, se tiene el siguiente teorema:
+
+\begin{theorem}[descomposición sesgo-varianza] Sea $\hat{\theta}$ un estimador de un parámetro $\theta$ desconocido, entonces:
+
+\begin{equation}
+	\E_D\left[(y-\hat{f}(x|D))^2\right] = \text{Bias}_D(\hat{f}(x|D))^2 + \text{Var}_D(\hat{f}(x|D)) + \sigma^2
+\end{equation}
+	
+\end{theorem}
+
+\begin{proof}
+
+Para evitar sobrecargar la notación, se utilizará $\hat{f}=\hat{f}(x|D)$ y se omitirán los subíndices.
+
+\begin{align*}
+&\E\big[(y - \hat{f})^2\big] = \E\big[(f+\epsilon  - \hat{f} )^2\big] \\
+ & = \E\big[(f+\epsilon  - \hat{f} +\E(\hat{f})-\E(\hat{f}))^2\big] \\
+ & = \E\big[(f-\E(\hat{f}))^2\big]+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big] 
++2\E\big[(f-\E(\hat{f}))\epsilon\big]
++2\E\big[\epsilon(\E(\hat{f})- \hat{f})\big]
++2\E\big[(\E(\hat{f})- \hat{f})(f-\E(\hat{f}))\big] \\
+ & = (f-\E(\hat{f}))^2+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big] 
++2(f-\E(\hat{f}))\E[\epsilon]
++2\E[\epsilon]\E\big[\E(\hat{f})- \hat{f}\big]
++2\E\big[\E(\hat{f})- \hat{f}\big](f-\E(\hat{f})) \\
+ & = (f-\E(\hat{f}))^2+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big]\\
+ & = (f-\E(\hat{f}))^2+\operatorname{Var}[\epsilon]+\operatorname{Var}\big[\hat{f}\big]\\
+ & = \operatorname{Bias}(\hat{f})^2+\operatorname{Var}[\epsilon]+\operatorname{Var}\big[\hat{f}\big]\\
+ & = \operatorname{Bias}(\hat{f})^2+\sigma^2+\operatorname{Var}\big[\hat{f}\big]
+\end{align*}
+\end{proof}
+
+Esta descomposición muestra que la varianza intrínseca del ruido afectará directamente y de forma aditiva sobre el error de la predicción, imposibilitando realizar predicciones exactas bajo cualquier modelo aleatorio. Por otra parte, tal como se vio en mínimos cuadrados regularizados, se puede introducir sesgo con el fin de disminuir la varianza y viceversa, lo cual crea la pregunta acerca de cuál es par sesgo-varianza óptimo que minimiza el error total. Dicha pregunta se conoce como dilema sesgo-varianza (bias-variance tradeoff) y juega un papel importante en la selección de hiperparámetros del modelo.\\
+
+De esta forma, la combinación sesgo-varianza crea un error total convexo tal como se puede observar en la siguiente figura:
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 0.4\linewidth]{img/cap5_biasvariance.pdf}
+    \caption{Tradeoff entre el sesgo y la varianza.}
+\end{figure}
+
+
+\subsection{Validación cruzada}
+
+Para poder evaluar el desempeño fuera de muestra, se suele particionar el conjunto de datos $\mathcal{D}$ en dos, donde con el primer conjunto se realizará el entrenamiento y con el segundo se medirá el rendimiento del estimador. Con el fin de evitar posibles sesgos provocados por una partición en específico, la evaluación de desempeño se debe realizar varias veces sobre conjuntos de validación distintos. De esta forma, al promediar los rendimientos de cada partición se obtiene un rendimiento fuera de muestra estimado. Las distintas formas de mezclar y particionar los datos se conocen como validación cruzada.
+
+\subsubsection{Validación cruzada exhaustiva}
+
+En este tipo de validación cruzada, se prueban todas las posibles permutaciones de los datos al particionar el conjunto $\mathcal{D}$. Se tienen 2 técnicas exhaustivas:
+
+\begin{itemize}
+	\item l\textbf{eave $p$ out (LpOCV):} el conjunto $\mathcal{D}$ se particiona dejando $p$ elementos para validación y el resto como elementos de entrenamiento. Este entrenamiento y cálculo de desempeño se repite $C_p^N$ veces, pasando por todos los posibles train sets de tamaño $p$.
+	\item \textbf{leave one out (LOOCV):} corresponde al caso anterior con $p=1$. En este caso cada dato de $\mathcal{D}$ es utilizado como único elemento de validación mientras el resto de los datos se utiliza para entrenar.
+\end{itemize}
+
+\subsubsection{Validación cruzada no exhaustiva}
+
+\begin{itemize}
+	\item \textbf{$k$-fold:} el conjunto $\mathcal{D}$ es dividido en $k$ grupos de igual tamaño. Luego, uno de esos grupos es utilizado como validador y el resto como entranemiento. Esto se repite $k$ veces de forma de que todos los grupos sean validadores una y solo una vez.
+	\item \textbf{Monte Carlo CV:} se realizan particiones binarias aleatorias de $\mathcal{D}$. Se entrena y evalúa usando el par de conjuntos creados en cada partición.
+\end{itemize}
+
+\subsection{Criterio de información Akaike}
 La siguiente aproximación es válida cuando $N \to \infty$:
 
-\begin{equation*}
+\begin{equation}
 -2\mathbb{E}[\log P_{\hat{\theta}}(Y)] \approx \frac{-2}{N}\mathbb{E}[\log L] + 2\frac{d}{N},
-\end{equation*}
+\end{equation}
 
 en donde $d$ es la cantidad de parámetros del modelo y  $L$ es la función de verosimilitud definida por:
 
@@ -53,7 +134,7 @@ $$
 \end{equation}
 en donde la función $d(\alpha)$ denota una medida de la complejidad del modelo y $\overline{err}(\alpha)$ denota el error promedio del modelo $\alpha$.
 
-\subsection{Criterio de Información Bayesiano}
+\subsection{Criterio de información bayesiano}
 Nuevamente, si nuestro setting nos permite obtener el máximo de la función de verosimilitud. Podemos utilizar el \emph{Bayesian Information Criterion} (BIC) el cual está definido por:
 
 \begin{equation}
@@ -94,6 +175,8 @@ o su versión ponderada:
 \begin{equation}
 MSE(\theta) = \frac{1}{n}\sum_{i=1}^N \frac{(y_i-\mathbb{E}(y_i|\theta))^2}{\mathbb{V}\text{ar}(y_i|\theta)}
 \end{equation}
+
+Esta forma de medir el error tiene la ventaja de ser fácilmente computable e interpretable, pero no es apropiada para modelos que están lejos de la distribución normal.
 
 \subsubsection{log-densidad predictiva o log-verosimilitud}
 Otra forma de realizar esta evaluación es utilizando el estadístico \emph{log-densidad preditiva} $\log p(y|\theta)$ el cual es proporcional a error cuadrático medio si el modelo es normal con varianza constante. Estudiaremos el caso de un solo punto, para luego extrapolar a más de un punto.
