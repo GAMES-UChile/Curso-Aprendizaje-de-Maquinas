@@ -1,7 +1,7 @@
 %!TEX root = ../notas_de_clase.tex
 
 \newpage
-\section{Redes Neuronales - Editado}
+\section{Redes Neuronales}
 
 \subsection{Introducci\'on y Arquitectura}
 
@@ -54,8 +54,7 @@ La \textbf{arquitectura} de una red neuronal se refiere a la totalidad de su est
 
 \begin{equation}
 \begin{split}
-\bm{h}^{(1)} = g^{(1)}(\bm{W}^{(1) T}\bm{x} + \bm{b}^{(1)}) 
-\\
+\bm{h}^{(1)} = g^{(1)}(\bm{W}^{(1) T}\bm{x} + \bm{b}^{(1)}) \\
 \bm{h}^{(2)} = g^{(1)}(\bm{W}^{(2) T}\bm{h}^{(1)} + \bm{b}^{(2)})
 \end{split}
 \end{equation}
@@ -115,21 +114,21 @@ Donde $J_i$ corresponde a la discrepancia entre $y_i$ y el valor entregado por l
 
 Donde $Z=(Z_1,...,Z_M)$, $N=(N_1,...,N_K)$, $O=(O_1,...,O_K)$ y se puede ver que $g:\R^K \rightarrow \R^K$, de esta forma los parámetros $\theta$ del modelo son:
 
-\begin{align*}
+\begin{align}
 \{\alpha_{0m}, \alpha_m; \quad m &= 1,...,M \} \quad M(p+1) \quad \text{pesos}\\
 \{\beta_{0k}, \beta_k; \quad k &= 1,...,K \} \quad K(M+1) \quad \text{pesos}\\
-\end{align*}
+\end{align}
 
 De ahora en adelante $J\equiv J(\theta)$, también es importante distinguir que es distinto calcular la derivada de $J$ respecto a un peso que está en la capa de salida y un peso que pertenece a una capa escondida, siendo el primer caso mucho más fácil de calcular, esto se justifica por el hecho que los valores de la capa de salida participan directamente en el calculo del error $J$, mientras que los valores de las neuronas escondidas no, esto se hará evidente en los cálculos. Como último preámbulo se definen las siguientes variables que nos ayudaran a hacer los cálculos más claros:
 
-\begin{align*}
+\begin{align}
 z_{mi} &= \sigma(\alpha_{0m} + \alpha_{m}^Tx_i)\\
 z_i &= (z_{1i},...,z_{Mi})\\
 n_{ki} &= \beta_{0k} + \beta_k^Tz_i\\
 n_i &= (n_{1i},...,n_{Ki})\\
 o_{i} &= g(n_i)\\
 o_{ki} &= (o_i)_k\\
-\end{align*}
+\end{align}
 
 Considerando que derivar es una operación lineal calcularemos la derivada de $J_i$, a partir de este termino podemos obtener la derivada de $J$ sumando sobre todo $i=1,...,N$.
 
@@ -275,7 +274,7 @@ Reemplazamos la expresión anterior por un problema sustituto, que consiste en e
 J(\bm{\theta}) = \E_{(\bm{x},y)\sim \hat{p}_{\textrm{data}}}L(f(\bm{x};\bm{\theta}),y) = \frac{1}{m}\sum_{i=1}^m L(f(x^{(i)};\theta),y^{(i)})
 \end{equation}
 
-\subsubsection{Descenso del Gradiente Estoc\'astico y por Batches}
+\subsubsection{Minibatch}
 
 Los algoritmos de optimizaci\'on para aprendizaje de m\'aquinas t\'ipicamente actualizan los par\'ametros usando un valor esperado del costo, obtenido a trav\'es de un subset de los t\'erminos de la funci\'on de costos. La propiedad m\'as usada respecto de la funci\'on objetivo (1) es sobre el gradiente, este cumple la siguiente expresión:
 
@@ -287,7 +286,9 @@ Calcular esta expresi\'on es computacionalmente caro, ya que requiere evaluar ca
 
 Una motivaci\'on importante para usar descenso de gradiente por mini-batches es que sigue el gradiente del costo que considera el error de generalizaci\'on (\ref{gradiente_completo}) mientras no se repitan ejemplos. En la pr\'actica las implementaciones de descenso del gradiente por mini-batches desordenan el set de datos una vez y luego pasan por \'el m\'ultiples veces.
 
-\subsubsection{Algoritmos con Momentum}
+\subsubsection{variantes del SGD}
+
+\subsubsection{Algoritmos con Momentum} %Aumentar nivel.
 
 Aunque los métodos de descenso de gradiente estoc\'astico sigue siendo un algoritmo popular, el aprendizaje a veces puede ser lento. Los algoritmos que incorporan momentum fueron dise{\~{n}}ados para acelerar el aprendizaje, especialmente en presencia de altas curvaturas, cuando se tienen gradientes peque{\~{n}}os pero consistentes o gradientes ruidosos. El algoritmo \textbf{descenso de gradiente estoc\'astico con momentum} acumula un decaimiento exponencial de media m\'ovil de los gradientes pasados y contin\'ua su movimiento en esta direcci\'on. Un hiperpar\'ametro $\alpha$ determina qu\'e tan r\'apido las contribuciones de gradientes pasados decaen exponencialmente. Se actualiza mediante:
 
@@ -299,19 +300,15 @@ Aunque los métodos de descenso de gradiente estoc\'astico sigue siendo un algor
 
 Con $\epsilon$ el learning rate y $\bm{v}$ la velocidad o momentum.
 
-\subsubsection{Algoritmos con Learning Rates Adaptativos}
+\subsubsection{Algoritmos con Learning Rates Adaptativos} %Aumentar nivel.
 
 En la pr\'actica el learning rate resulta ser uno de los hiperpar\'ametros m\'as dif\'iciles de ajustar debido a su importante efecto en el desempe{\~{n}}o del modelo. La funci\'on de costos suele ser altamente sensible (a crecer o decrecer) en algunas direcciones en el espacio de los par\'ametros e insensible en otras, por lo que hace sentido usar un learning rate distinto para cada par\'ametro y autom\'aticamente adaptar este par\'ametro durante el aprendizaje. El algoritmo \textbf{AdaGrad} adapta el learning rate de todos los par\'ametros al escalarlos de manera inversamente proporcional a la ra\'iz cuadrada de la suma de todos las ra\'ices cuadradas hist\'oricas del gradiente. Los par\'ametros con derivadas parciales m\'as grandes tienen un r\'apido decrecimiento en su learning rate, mientras que los par\'ametros con derivadas parciales peque{\~{n}}as decrecen en menor cantidad su learning rate. El efecto neto es mayor progreso en zonas m\'as planas del espacio de los par\'ametros. Se actualiza mediante:
 
 \begin{gather*}
-\delta = 10^{-7}; \bm{r} = 0
-\\
-\bm{g} \longleftarrow \frac{1}{m}\nabla_{\bm{\theta}}\sum_{i=1}^{m}L(f(\bm{x}^{(i)};\bm{\theta}),y^{(i)})
-\\
-\bm{r} \longleftarrow \bm{r} + \bm{g}\odot \bm{g}
-\\
-\bigtriangleup\bm{\theta} \longleftarrow -\frac{\epsilon}{\delta+\sqrt{\bm{r}}}\odot \bm{g}
-\\
+\delta = 10^{-7}; \bm{r} = 0\\
+\bm{g} \longleftarrow \frac{1}{m}\nabla_{\bm{\theta}}\sum_{i=1}^{m}L(f(\bm{x}^{(i)};\bm{\theta}),y^{(i)})\\
+\bm{r} \longleftarrow \bm{r} + \bm{g}\odot \bm{g}\\
+\bigtriangleup\bm{\theta} \longleftarrow -\frac{\epsilon}{\delta+\sqrt{\bm{r}}}\odot \bm{g}\\
 \bm{\theta} \longleftarrow \bm{\theta}+\bigtriangleup\bm{\theta}
 \end{gather*}
 
