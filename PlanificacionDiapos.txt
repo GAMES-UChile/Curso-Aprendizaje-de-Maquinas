@@ -90,6 +90,8 @@ Clase 7: Clasificación (Año pasado era Clase 10)
 
 Comentario: Trabajar en la notación de esta sección pues está confusa. 
 
+Comentario: Se puede quitar el discriminante lineal de fisher, introducirlo en otra clase y partir la clase 7 con las k-vecinos más cercanos. Esperaremos a que esté trabajado con mayor detalle. 
+
 Comentario: Podría trabajarse en una gráfica con mayor detalle de cómo funciona el discriminante lineal de fisher. (En particular la gráfica que tiene la proyección en la recta)
 
 Comentario: La deducción de fórmulas podría ser un problema de tarea, aunque más bien parece un problema de lineal jajaja
@@ -115,10 +117,50 @@ Comentario: Se debe agregar un apéndice acerca del descenso de gradiente estoc�
 
 Comentario: Eventualmente esta clase 8 podría ser dividida en 2 clases si es demasiado larga
 
+Clase 8.5: Selección de Modelos y validación cruzada
+
 Clase 9: Support Vector Machines
 
-1 - 
+1 - Motivación e introducción a las SVM (15 mins) 
+	- Idea general del modelo y  definiciones
+	- Problemáticas que resuelve
 
+2 - Formulación del Problema (30 mins)
+	- Deducción de fórmulas y el problema de optimización
+	- Problema dual y resolución 
+	- Propiedades y definiciones de ser necesarias (por ejemplo de ser definida positiva o lagrangiano, etc...)
+	- Observación fundamental con respecto a cómo optimizar el modelo (Sequential minimal optimization) y observación con respecto a la reducción de operaciones cuando la dimensión M de la entrada es grande. 
+
+3 - Soft Margin (15 mins)
+	- Problemas con el modelo anterior, comparación de gráficas en presencia de outliers 
+	- Utilización de variables de holgura ("Regularizador") 
+	- Lagrangiano asociado e interpretación.
+
+Clase 10: Support Vector Machines 2
+
+1 - Recuerdo de clase anterior (15 mins)
+
+2 - Método del Kernel (30 mins)
+	- Qué sucede cuando los datos no son linealmente separables ni están cerca de serlos 
+	- Ejemplo de extracción de características para "XOR"
+	- Basta calcular el producto entre características de los datos, hablar sobre la maldición de la dimensionalidad. 
+	- Definiciones y teorema de Mercer. Truco del Kernel
+
+3 - Distintos tipos de Kernel (15 mins)
+	- Kernel Polinomial, RBF, periódico 
+	- Kernel Ridge Regression
+	- Kernel SVM y conclusiones al respecto. 
+
+Clase 11: Aprendizaje no Supervisado 
+
+1 -  
+
+Comentario: Esperaré a que esté más trabajado, quedan cosas por agregar. 
+
+Comentario: En esta sección está el discriminante lineal de fisher 
+
+Clase 12: Clustering 
+	1 - K-Medias
 
 
 
