@@ -2,25 +2,24 @@
 
 %preamble
 
- 
 \usepackage[letterpaper, portrait, margin=0.8in]{geometry}
+
 %language
 \usepackage[spanish,es-nodecimaldot]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{apacite}
-
-
 
 %packages
 \usepackage[Algoritmo]{algorithm}
 \usepackage{algorithmicx}
 \usepackage[noend]{algpseudocode}
 \usepackage{mathtools}
-\setlength {\marginparwidth }{2cm}
+\setlength {\marginparwidth}{2cm}
 \usepackage{todonotes}
 \usepackage{amsbsy}
 \usepackage{amssymb}
 \usepackage{amsmath,bm}
+\usepackage{dsfont}
 
 \usepackage{xcolor}
 \providecommand{\sred}[1]{\textcolor{red}{#1}}
@@ -97,7 +96,6 @@
 
 %definitions
 \def\td{{\text d}}
-\def\R{{\mathbb R}}
 \def\cN{{\mathcal N}}
 \def\cX{{\mathcal X}} 
 \def\cC{{\mathcal C}} 
@@ -121,6 +119,9 @@
 \newcommand{\by}{\ensuremath{\textcolor{blue}{Y}}}
 \newcommand{\rx}{\ensuremath{\textcolor{red}{X_*}}}
 
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
 
 
 
@@ -137,13 +138,12 @@
 
 \usepackage{amsthm}
 
-\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem}{Teorema}[section]
 \newtheorem{corollary}{Corollary}[theorem]
-\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{lemma}{Proposición}[theorem]
 \theoremstyle{definition}
 \newtheorem{definition}{Definición}[section]
 \newtheorem{remark}{Observación}[section]
-
 
 
 %listing paackage para código
@@ -177,3 +177,5 @@
 }
  
 \lstset{style=mystyle}
+
+\numberwithin{equation}{section}
