@@ -1,11 +1,6 @@
 %!TEX root = notas_de_clase.tex
 
-
-
-
-
-\newpage
-\section{Procesos Gaussianos}
+\section{Procesos gaussianos}
 
 
 Como se vio en capítulos anteriores, el problema de regresión busca encontrar una función $y= f(x)$, dado un conjunto de pares de la forma $\mathcal{D}=\{(x_i, y_i)\}_{i=1}^N$. Dento de los métodos vistos para resolver el problema de regresión, se vio el de regresión lineal, lineal en los parámetros y no lineals. Una característica en común que tienen estos métodos es que el proceso de entrenamiento consiste en encontrar un número \textbf{fijo} de parámetros, que minimicen cierta función objetivo, donde la cantidad de parámetros y la forma del modelo es parte del diseño. A este tipo de modelos se les llama \textit{paramétricos}.\\
@@ -25,7 +20,10 @@ Partiremos definiendo un $\gp$ como una distribución a priori sobre funciones, 
 Es de notar que si $\mathcal{X}$ tiene cardinalidad infinita (por ejemplo $\mathcal{X}=\mathbb{R}$), $f(\cdot)$ puede ser visto como un vector infinito dimensional. Como en la práctica no podemos trabajar con un vector infinito dimensional, dados $n$ puntos $\{ x_i\}_{1}^{n}  \subset \mathcal{X}$ podemos definirnos el vector n-dimensional de valores de la funciones evaluados en dichos puntos $f(\mathbf{x})=[f(x_1), \ldots, f(x_n)]$.\\
 
 
-\ovalbox{\textbf{Definición}:} Un Proceso Gaussiano ($\gp$) es una colección de variables aleatorias, tal que para cualquier subconjunto finito de puntos, estos tienen una distribución conjuntamente Gaussiana.\\ 
+\begin{definition}[proceso gaussiano]
+	Un proceso gaussiano ($\gp$) es una colección de variables aleatorias, tal que para cualquier subconjunto finito de puntos, estos tienen una distribución conjuntamente Gaussiana.
+\end{definition}
+
 
 Al aplicar esta definición a nuestro caso anterior, $\pr(f)$ será un $\gp$ y para cualquier conjunto finito $\{ x_i\}_{1}^{n}  \subset \mathcal{X}$, la distribución de $\pr(f(\mathbf{x}))$ es Gaussiana multivariada $f(\mathbf{x})=[f(x_1), \ldots, f(x_n)]$). En este caso las variables aleatorias representan el valor de la función $f(x_i)$ en la posición $x_i$.\\
 
@@ -74,7 +72,7 @@ Como sabemos, las funciones definidas por el $\gp$ son vectores infinito dimensi
 	\label{fig:gp_1}
 \end{figure}
 
-\subsection{Incorporando Información: Evaluación sin ruido}
+\subsection{Incorporando información: evaluación sin ruido}
 
 Ahora que ya podemos muestrear de nuestro prior, nos interesaría incorporar las observaciones que tenemos de la función a nuestro modelo. Para esto, primero consideramos el caso en que las observaciones son sin ruido, es decir tenemos observaciones de la forma $\{x_i, f(x_i)\}_{1}^{n}$, donde tenemos el valor real de nuestra función en los puntos $[x_1, \ldots, x_n]=\bx$. 
 
@@ -120,7 +118,7 @@ Esto se muestra en la Fig.\ref{fig:gp_2}, donde podemos ver que la media de la p
 	\label{fig:gp_2}
 \end{figure}
 
-\subsection{Incorporando Información: Evaluación con ruido}
+\subsection{Incorporando información: Evaluación con ruido}
 
 En aplicaciones reales el caso de tener observaciones sin ruido es poco habitual, por lo que si queremos incorporar la incertidumbre real debemos tomar en cuenta errores de medición en nuestro modelo. Tomemos el caso de tener observaciones contaminadas con ruido i.i.d (independientes idénticamente distribuidas) donde las observaciones serán de la forma $y_i = f(x_i) + \eta$ donde $\eta \sim \mathcal{N}(0, \sigma_n^2)$, donde ahora nuestro conjunto de observaciones es de la forma $(\bx, \by)$ donde $\by=f(\bx) + \eta$.
 
