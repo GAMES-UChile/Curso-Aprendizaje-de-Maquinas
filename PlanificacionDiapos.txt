@@ -151,16 +151,32 @@ Clase 10: Support Vector Machines 2
 	- Kernel Ridge Regression
 	- Kernel SVM y conclusiones al respecto. 
 
-Clase 11: Aprendizaje no Supervisado 
+Clase 11.5: Aprendizaje no Supervisado 
 
-1 -  
+1 -  Definiciones 
+	- Reducción de dimensionalidad
+	- Maldición de la dimensionalidad
+2 - Análisis de componentes principales
+	- Motivación y Desarrollo PCA
+	- Kernel PCA 
+	- Probabilistic PCA 
+	- Discriminante lineal de fisher (Agregar una introducción adhoc)
+
+Comentario: En general pienso que esta sección no está desarrollada completamente y no deberíamos más que mencionarla, lo agregaré como clase 11.5 
 
 Comentario: Esperaré a que esté más trabajado, quedan cosas por agregar. 
 
-Comentario: En esta sección está el discriminante lineal de fisher 
 
-Clase 12: Clustering 
-	1 - K-Medias
+Clase 11: Clustering 
+
+1- Algunos Clustering (30 mins)
+	- Hierarchical clustering y las distintos criterios de "similitud"
+	- k-means, formulación y algoritmo de optimización	
+
+2 - Mixture Models (30 mins)
+	- 
+
+Comentario: Se arregló la formulación de k-means
 
 
 

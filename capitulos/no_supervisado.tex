@@ -286,14 +286,14 @@ Sea $r_{ik}$ la asignación, esta estará definida por:
 
 \begin{align}
 r_{ik} = \begin{cases}
-1 & \text{si } k = \text{argmin}||x_i-x_k||\\
+1 & \text{si } k = \text{argmin}||x_i-\mu_k||\\
 0 & \text{si no.}
 \end{cases}
 \end{align}
 Es decir, para encontrar los centroides se debe minimizar la función:
 
 \begin{align}
-J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-x_j||^2
+J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-\mu_k||^2
 \end{align}
 
 Para minimizar esta función utilizaremos un enfoque llamado \emph{Expectation-Maximization}. Este es un método iterativo y como tal, tiene problemas con mínimo locales, pero para solucionar esto, basta inicializar el algoritmo muchas veces.\\
