@@ -169,14 +169,39 @@ Comentario: Esperaré a que esté más trabajado, quedan cosas por agregar.
 
 Clase 11: Clustering 
 
-1- Algunos Clustering (30 mins)
+1 - Algunos Clustering (30 mins)
 	- Hierarchical clustering y las distintos criterios de "similitud"
 	- k-means, formulación y algoritmo de optimización	
 
-2 - Mixture Models (30 mins)
-	- 
+2 - Mixture Models (20 mins)
+	- Definiciones y modelamiento
+	- Optimización mediante verosimilitud no es cerrada, se necesita de métodos de gradiente
+	- Entrenamiento de una GMM y resultados
+	- Expectation Maximization
+
+3 - DBSCAN (10 mins)
+	- Motivaciones y descripción
+	- Algoritmo y resultados
 
 Comentario: Se arregló la formulación de k-means
+
+Comentario: Esta clase debe ser dividida en 2 partes según como se desarrolle.
+
+Clase 12: Redes Neuronales parte I
+
+1 - Introducción a RN (30 mins)
+	- Conceptos básicos 
+	- Diferencias con respecto a los modelos anteriormente considerados, en particular la optimización de los parámetros
+	- Funciones de costos asociadas a los distintos problemas, regresión, clasificación, etc... 
+
+2 - Estructura de la Red (30 mins)
+	- Definicion de arquitectura 
+	- 2 primeras capas 
+	- Teorema de aproximación universal 
+
+Clase 13: Redes Neuronales parte II
+
+1 - 
 
 
 
