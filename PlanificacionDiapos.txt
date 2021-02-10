@@ -191,6 +191,7 @@ Clase 12: Redes Neuronales parte I
 
 1 - Introducción a RN (30 mins)
 	- Conceptos básicos 
+	- Problemas clásicos que pueden ser resueltos mediante las redes neuronales
 	- Diferencias con respecto a los modelos anteriormente considerados, en particular la optimización de los parámetros
 	- Funciones de costos asociadas a los distintos problemas, regresión, clasificación, etc... 
 
@@ -201,7 +202,50 @@ Clase 12: Redes Neuronales parte I
 
 Clase 13: Redes Neuronales parte II
 
-1 - 
+1 - Forward propagation (15 mins)
+	- Álgebra de tensores 
+	- Cómo funciona el forward y algoritmo
 
+2 - Backward propagation (45 mins)
+	- Idea del backward y de donde viene el nombre
+	- Regla delta
+	- Deducción de fórmulas
+	- Algoritmo de Backward propagation (Arreglar un poco la notación)
+
+Comentario: La notación está horrible jajaja, imposible de leer 
+
+Comentario: Agregar un apéndice de álgebra de tensores. 	
+
+Clase 14: Redes Neuronales parte III
+
+1 - Técnicas de regularización (30 mins)
+	- Lp
+	- Dropout
+	- Otros métodos
+
+2 - Técnicas de optimización (30 mins)
+	- Minibatch
+	- SGD
+
+Comentario: Si falta contenido en técnicas de regularización, se pueden agregar temas como Agrupación, bootstrap y  early stopping 
+
+Comentario: La sección de técnicas de optimización solo incluyen minibatch, se pueden mencionar los siguientes aspectos:
+Un dropout alto permite tener una mayor cantidad de neuronas por capa lo que acelera el entrenamiento, el SGD de por si es un algoritmo de optimización mientras que sus variantes son para mejorar el rendimiento!
+
+Clase 15: Redes Neuronales parte IV
+
+1 - Otros tipos de Redes Neuronales (60 mins)
+	- Convolucionales y problemas que resuelven
+	- Recurrentes y problemas que resuelven
+	- Autoencoders y problemas que resuelven
+	- GAN y problemas que resuelven
+
+Comentario: Dependiendo de la velocidad de las clases, estas últimas 4 podrían convertirse en 3. 
+
+Comentario: Se puede dejar deep learning para el final del curso y ver procesos gaussianos antes. 
+
+Clase 16: Procesos Gaussianos
+
+1 -  
 
 
