@@ -244,8 +244,35 @@ Comentario: Dependiendo de la velocidad de las clases, estas últimas 4 podrían
 
 Comentario: Se puede dejar deep learning para el final del curso y ver procesos gaussianos antes. 
 
-Clase 16: Procesos Gaussianos
+Clase 16: Procesos Gaussianos parte I 
 
-1 -  
+1 - Introducción a los GP
+	- Modelos no paramétricos
+	- Definición proceso Gaussiano y caracterización
 
+2 - Muestreo de un Prior GP
+	- Como muestrear, kernel RBF e interpretación de hiperparámetros
+	- Incoroporando observaciones sin ruido, cálculo de la posterior que también es un GP 
+	- Gráficas correspondientes. 
+	- Incorporación de observaciones con ruido 
+
+3 - Entrenamiento de un GP 
+	- Significado
+	- Optimizaciones y desventajas de optimizar el proceso con parámetros fijos. 
+
+4 - Complejidad computacional 
+
+5 - Distintos tipos de Kernel 
+	- Presentación de kernels, significado de sus hiperparámetros y gráficas correspondientes 
+	- Suma y multiplicación de kernels también corresponde a un kernel
+
+6 - Extensiones para un GP
+	- GP de clasificación y gráfica correspondiente
+	- Selección automática de relevancia 
+	- Multi output GP 
+	- Otros (Regresión lineal a GP, nota sobre RKHS)
+
+Comentario: Esto podría corresponder a clase 16 , clase 17 y clase 18 
+
+Comentario: Desarrollar más la parte de Representación Espectral para la construcción de Kernels. 
 
