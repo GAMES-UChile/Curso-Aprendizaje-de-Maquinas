@@ -1,0 +1,107 @@
+\documentclass[9pt]{beamer}
+\include{config/commands}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{ \usetheme{Madrid}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+}
+
+% \usepackage[T1]{fontenc}
+\input{preambuloBeamer} %Este es el mismo utilizado en el tex de clases salvo modificaciones
+
+
+\title[Aprendizaje de Máquinas]{ Clasificación\\
+\textit{Aprendizaje de Máquinas}}
+\author[]{Felipe Tobar}
+\institute{CMM - Universidad de Chile}
+\date{\today}
+%-------------------------------------------
+% Inicio del documento, no tocar la config. de portada
+%-------------------------------------------
+\begin{document}
+% Portada
+\begin{frame}
+  \titlepage
+\end{frame}
+% Tabla de contenidos
+\begin{frame}{Contenido}
+  \tableofcontents
+  
+\end{frame}
+% Portada de seccion
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}}
+
+%tcolorbox
+%-------------------------------------------
+% Contenido
+%-------------------------------------------
+% Nueva sección, o capitulo, tiene diapo de portada propio, basta con ponerla fuera del entorno frame
+
+\section{Clasificación}
+\begin{frame}{Introducción - Problema de Clasificación}
+El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. \vspace{0.5cm} \pause
+
+\begin{columns}
+
+  \begin{column}{0.5\textwidth}
+    En el contexto del aprendizaje supervisado, puede ser visto como un problema de regresión. \vspace{0.5cm} \pause
+
+    En efecto, basta suponer que $y$ variable de salida (o variable dependiente) es \emph{categórica} y usualmente denotada por $\{ 0 , 1 \}$ en el caso binario o para el caso multiclase $\{ 1 \dots K \}$ \vspace{0.5cm} \pause
+
+    Entre los métodos de clasificación existentes, trabajaremos en 
+
+    \begin{enumerate}
+      \item \emph{k} vecinos más cercanos \pause
+      \item Regresión Logística \pause
+      \item Support Vector Machines (SVM) \pause
+
+    \end{enumerate}
+
+
+  \end{column}
+
+  \begin{column}{0.5\textwidth}
+    \centering
+    \includegraphics[width=5cm]{../img/cap2_dosclases.pdf}\\
+    \captionof{figure}{Ejemplo del problema  de clasificación binaria, donde la clase $\cC_1$ está presentada en azul y la clase $\cC_2$ en rojo.}
+    \label{fig:puntos_2d}
+  \end{column}
+
+
+\end{columns}
+
+
+\end{frame}
+
+\begin{frame}{Clasificación Lineal}
+
+Consideremos el caso binario K=2 clases, proponemos un modelo lineal para relacionar la variable independiente con su clase, es decir, $y(x) = a^Tx+b$ tal que  $x \in \cC_1$ si $y(x) \geq 0$, en caso contrario,  $x \in \cC_2$. \pause
+
+Para encontrar los parámetros $a,b$ óptimos, sean $x_1$ y $x_2$ en la región de decisión \pause  
+\begin{align}
+  0 &= y(x_1) - y(x_2) \nonumber\\ 
+    &= a^\top x_1 + b - a^\top x_2 - b \nonumber\\ 
+    &= a^\top (x_1-x_2).
+\end{align}
+
+
+\end{frame}
+
+
+\end{document}
