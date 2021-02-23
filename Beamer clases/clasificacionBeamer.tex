@@ -89,19 +89,102 @@ El problema de clasificación dice relación con la identificación del conjunto
 
 \end{frame}
 
-\begin{frame}{Clasificación Lineal}
+\begin{frame}{Clasificación Lineal - Binaria}
 
 Consideremos el caso binario K=2 clases, proponemos un modelo lineal para relacionar la variable independiente con su clase, es decir, $y(x) = a^Tx+b$ tal que  $x \in \cC_1$ si $y(x) \geq 0$, en caso contrario,  $x \in \cC_2$. \pause
 
-Para encontrar los parámetros $a,b$ óptimos, sean $x_1$ y $x_2$ en la región de decisión \pause  
+Para encontrar los parámetros $a,b$ óptimos, sean $x_1$ y $x_2$ en la región de decisión $y(x)=0$ \pause  
 \begin{align}
   0 &= y(x_1) - y(x_2) \nonumber\\ 
     &= a^\top x_1 + b - a^\top x_2 - b \nonumber\\ 
     &= a^\top (x_1-x_2).
 \end{align}
+\pause
+Además, observemos que para cualquier $x$ en la región de decisión se tiene que 
+\begin{equation}
+  \norm{\text{proy}_a(x)} = \norm{x}cos(\theta) = \norm{x} \frac{a^\top x}{\norm{a}\cdot\norm{x}} = -\frac{b}{\norm{a}}
+\end{equation}
+
+Con lo que tenemos una intepretación geométrica de ambos parámetros. 
+
+\end{frame}
+
+\begin{frame}{Clasificación Lineal - Binaria}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../img/cap3_proy.pdf}
+    \caption{Proyección de un punto sobre la región de decisión. }
+\end{figure}
 
 
 \end{frame}
+
+\begin{frame}{Clasificación Lineal - Binaria}
+
+También es posible interpretar $y(x)$ como una distancia con signo entre un $x\in\R^M$ cualquiera y la superficie de decisión. \pause
+
+Para ver esto, consideremos $x\in\R^M$ y descompongámoslo dos componentes: la primera denotada por $x_{\bot}$, la cual es la proyección ortogonal de $x$ en el hiperplano de  decisión, y la segunda que es perpendicular al hiperplano (y consecuentemente paralela al vector $a$) denotada por $r\frac{a}{\left \| a \right \|}$, donde $r$ denota la distancia (positiva o negativa) entre $x$ y el  hiperplano de  decisión. Expresamos entonces  \pause
+
+\begin{equation}
+  x = x_{\bot}+r\frac{a}{\left \| a \right \|},
+\end{equation}
+
+y observamos que \pause
+
+\begin{equation}
+  y(x) 
+  = a^\top x+b 
+  =a^\top  \left( x_{\bot} + r\frac{a}{\left \| a \right \|} \right) +b 
+  = \underbrace{a^\top x_{\bot} +b }_{=0} +   r\frac{a^\top  a}{\left \| a \right \|}
+  = r||a||.
+\end{equation}
+
+\pause 
+
+Luego $r = \frac{y(x)}{\norm{a}}$ y como $r$ es una medida con signo, $y(x)$ también lo es. 
+
+
+\end{frame}
+
+\begin{frame}{Clasificación Lineal - Múltiples clases}
+
+El caso de múltiples clases ($K>2$) puede ser enfrentado mediante una extensión del caso binario, algunas de ellas 
+
+\begin{enumerate}
+
+  \item \textbf{One versus rest: } Construcción de $K-1$ clasificadores binarios que discrimina una clase $\cC_k$ del resto \pause
+
+
+  \item \textbf{One versus one: } Construccion de $K(K-1)/2$ clasificadores binarios que discriminan entre cada par posible de clases \pause
+
+\end{enumerate}
+
+\textbf{¿Qué problema presentan estos métodos?} \pause Busquemos otra forma \pause 
+
+\vspace{0.5cm}
+
+Una alternativa más robusta para resolver el problema de clasificación multiclase es construir un clasificador para $K$ clases que contiene $K$ funciones lineales de la forma 
+\begin{equation}
+  y_k(x) = a_k^\top x + b_k, \quad k=1,\ldots,K.
+\end{equation}
+\pause 
+Donde $x$ es asignado a la clase $\mathcal{C}_k$ si y solo si $y_k(x) > y_j(x), \forall j\neq k$, es decir: 
+
+\begin{equation}
+  \mathcal{C}(x) = \underset{k}{\argmax}\hspace{1mm} y_j(x).
+\end{equation}
+
+\pause 
+\textbf{¿Qué ventajas posee este método?}
+
+\end{frame}
+
+\begin{frame}{Ajuste mediante mínimos cuadrados}
+
+
+\end{frame}
+
 
 
 \end{document}
