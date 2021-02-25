@@ -17,7 +17,6 @@
 % \usepackage[T1]{fontenc}
 \input{preambuloBeamer} %Este es el mismo utilizado en el tex de clases salvo modificaciones
 
-
 \title[Aprendizaje de Máquinas]{ Clasificación\\
 \textit{Aprendizaje de Máquinas}}
 \author[]{Felipe Tobar}
@@ -279,7 +278,7 @@ Y dado que $J$ es estrictamente convexo, su mínimo se alcanza en su único punt
 Problemáticas conceptuales de este enfoque: 
 \begin{enumerate}
   \item Sensibilidad a presencia de puntos aislados (outliers) \pause
-  \item Intervención "manual" de las etiquetas \pause
+  \item Intervención ''manual'' de las etiquetas \pause
 \end{enumerate}
 \begin{figure}[H]
   \centering
@@ -294,6 +293,78 @@ Problemáticas conceptuales de este enfoque:
 
 \section{El perceptrón}
 
+\begin{frame}{El perceptrón - Introducción}
+Las nociones básicas que hemos visto hasta ahora para lidiar con el problema de clasificación tienen dos problemas conceptuales. \pause
+\begin{enumerate}
+  \item Falta de una métrica correcta \pause
+  \item No existe una \emph{función de verosimilitud} apropiada \pause
+\end{enumerate}
+La incorporación de esta función que conecta el modelo lineal con la clase, resulta en un \emph{modelo lineal generalizado}, es decir, una modelo lineal conectado a una  función no-lineal que llamaremos \emph{función de enlace}.\\ \pause
+Sin embargo, el desafío más importante en esta construcción es que el modelo resultante ya no es lineal, ni en la entrada ni en los parámetros , pues una verosimilitud (función de enlace) lineal nunca nos llevará de un espacio de inputs (hemos asumido $\R^M$) al espacio de categorías $\{\cC_1,\cC_2,\ldots,\cC_k\}$, es decir, necesitamos una no-linealidad ``después'' de la parte lineal \\ \pause
+
+Una forma de resolver estas problemáticas es mediante el uso del \emph{Perceptrón} \cite{rosenblatt_1958}, un modelo de clasificación binario que tuvo mucha importancia en el área de reconocimiento de patrones.
+
+\end{frame}
+
+\begin{frame}{Perceptrón}
+
+El Perceptrón consiste en una función no lineal fija usada para transformar $x$ en un vector de características\footnote{En este caso consideramos no linealidad antes y después de la parte lineal, sin embargo, considerar la entrada como $x$ o  como $\phi(x)$ es  equivalente en base a lo  visto en los modelos lineales en los parámetros. } $\phi(x)\in\R^D$, que luego es usado para generar un modelo lineal \emph{generalizado} con función de enlace no lineal $f(\cdot)$ de la siguiente forma:
+\begin{align*}
+  y(x) &= f(\theta^\top\phi(x))\\
+  f(u) &= \left\{\begin{matrix}
+  +1,\quad u\geq 0\\
+  -1,\quad u<0
+  \end{matrix}\right.
+\end{align*} \pause
+El Perceptrón entonces asigna $x$ a la clase $\mathcal{C}_1$ si $y(x)=+1$ y asignará $x$ a la clase $\mathcal{C}_2$ cuando $y(x)=-1$. Notemos que  para  el caso que $\phi$ es lineal, este es el mismo clasificador presentado en la Sección de clasificación lineal, pero en este caso el criterio para asignar la clase es \textbf{parte del modelo}. \pause
+
+Usando el hecho que las etiquetas están representadas por la  codificación $t\in\{1,-1\}$, la condición de asignación puede ser cubiertas por la expresión:
+\begin{equation*}
+  \theta^\top\phi(x_n)t_n > 0,\quad \forall (x_n,t_n) \in \datos.
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{El perceptrón}
+Podemos entonces satisfacer esta restricción mediante el ``criterio del perceptrón'', el cual se basa en examinar  los elementos de $\datos$ que fueron clasificados incorrectamente. Este criterio asocia a los puntos clasificados correctamente error 0 y a los puntos mal clasificados error $-\theta^\top\phi(x)t>0$. De esta forma, si denotamos $\mathcal{M}$ el conjunto de puntos mal clasificados, se debe minimizar la siguiente función objetivo: \pause 
+
+\begin{equation*}
+  J_\text{P}(\theta,x) = \E\left(-\theta^\top\phi(x)t(x)\mathds{1}_{\theta^\top\phi(x)t(x)\leq 0} \right) 
+\end{equation*} \pause
+\begin{equation*}
+\approx -\sum_{(x_i,t_i)\in \mathcal{D}}\theta^\top\phi(x_i)t_i \mathds{1}_{\theta^\top\phi(x_i)t_i\leq 0} = -\sum_{(x_i,t_i)\in \mathcal{M}}\theta^\top\phi(x_i)t_i
+\end{equation*} 
+
+Para el problema de minimización del funcional del perceptrón, se puede utilizar el método del gradiente estocástico (ver anexo). 
+
+\end{frame}
+
+\begin{frame}{El perceptron}
+
+En este caso, el algoritmo iterativo tiene la siguiente estructura: \pause
+\begin{align*}
+  \theta^{\tau+1} &= \theta^\tau - \eta_\tau \nabla_\theta J_\text{P}(\theta^\tau,x_i)\nonumber\\
+  &= \theta^\tau + \eta_\tau \phi(x_i)t_i.\label{eq:percetron_rule}
+\end{align*}\pause
+Es importante notar que al actualizar el vector $\theta$, el conjunto de puntos mal clasificados $\mathcal{M}$ va a cambiar, pues (esperamos que) en cada iteración los elementos del conjunto de puntos mal clasificados vaya disminuyendo.\\
+
+Por lo tanto, el algoritmo de entrenamiento para el perceptrón es el siguiente: \pause
+
+\begin{itemize}
+  \item[i)] se recorre el conjunto de puntos de entrenamiento $\{x_i\}_{i=1}^N$, \pause
+  \item[ii)] si el punto $x_i$ fue clasificado correctamente el vector de pesos de mantiene igual \pause
+  \item[iii)] si $x_i$ fue clasificado incorrectamente, el vector $\theta^\tau$ es actualizado según la ecuación anterior con $\eta=1$ mediante
+  \begin{equation*}
+   \theta^{\tau+1} = \theta^\tau + \phi(x_i)t_i.
+  \end{equation*} 
+\end{itemize}
+\pause
+Es decir, el parámetro $\theta$ está paso a paso modificado en la dirección de las características $\phi(x_i)$ con multiplicador $\pm1$ en base a la clase verdadera de $x_i$ hasta  que todos los puntos de $\datos$ están bien clasificados.
 
 
+\end{frame}
+\section{Clasificación probabilística: modelo generativo}
+
+\bibliography{../capitulos/referencias} %Bibliografía
+\bibliographystyle{apacite}
 \end{document}

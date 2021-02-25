@@ -107,8 +107,6 @@ Clase 8: Clasificación no Lineal
 	- Extracción de características y función de enlace
 	- Criterio del perceptrón, función objetivo y SGD
 
-Comentario: Se debe agregar un apéndice acerca del descenso de gradiente estocástico.  
-
 2 - Clasificación Probabilística: Modelo Generativo (30 mins)
 	- Interpretación probabilística y Bayes 
 	- Función y propiedades Sigmoide y Softmax 
