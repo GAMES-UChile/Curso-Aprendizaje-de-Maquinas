@@ -5,7 +5,7 @@
 
 El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. En el contexto del aprendizaje supervisado, el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio donde la variable  $y$ (salida o variable dependiente) es \emph{categórico} y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,K\}$ para el caso de clasificación multiclase. 
 	
-\subsection{$k$ vecinos más cercanos}
+\subsection{$k$ vecinos más cercanos (KNN)}
 Dado un conjunto de datos
 \begin{equation}
 	 	\datos = \{(x_i,c_i)\}_{i=1}^N\subset\R^M\times\{\cC_i\}_{i=1}^K
@@ -99,7 +99,7 @@ Es decir, $a$ es ortogonal a cualquier vector que esté contenido dentro de la r
 Donde se usó el hecho de que $cos\left(\measuredangle(x,y)\right) = \frac{\langle x,y\rangle}{\norm{x}\norm{y}}$.
 
 
-Por lo tanto, se concluye que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión,  pues el lado izquierdo de la ecuación representa la distancia entre la región de decisión y el origen: $\norm{\text{proy}_a(x)} = d(\{x:a^\top x = 0\},0)$.
+Por lo tanto, se concluye que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión,  pues el lado izquierdo de la ecuación representa la distancia entre la región de decisión y el origen: $\norm{\text{proy}_a(x)} = d(\{x:a^\top x = 0\},0)$.\\
 
 Es posible  también interpretar $y(x)$ como una distancia con signo entre un $x\in\R^M$ cualquiera  y la superficie de decisión. Para ver esto, consideremos $x\in\R^M$ y descompongámoslo dos componentes: la primera denotada por $x_{\bot}$, la cual es la proyección ortogonal de $x$ en el hiperplano de  decisión, y la segunda que es perpendicular al hiperplano (y consecuentemente paralela al vector $a$) denotada por $r\frac{a}{\left \| a \right \|}$, donde $r$ denota la distancia entre $x$ y el  hiperplano de  decisión. Expresamos entonces  
 \begin{equation}
@@ -115,7 +115,7 @@ y observamos que
 \end{equation}
 Consecuentemente, vemos que $\forall x\in\R^M$, $r = \frac{y(x)}{||a||}$,  es decir, $y(x)$ representa una medida con signo de la  distancia entre el punto $x$ y la  región de decisión (ya que $r$ lo es).\\
 
-El caso de múltiples clases ($K>2$) puede ser enfrentado mediante una extensión del caso binario. Una forma puede ser construir $K-1$ clasificadores binarios, en donde cada uno  resuelve el problema de discriminar los elementos de la  clase $\cC_k$ del resto; esta técnica se llama \emph{one-versus-rest} (OvR). Otra forma es construir $K(K-1)/2$ clasificadores binarios, donde cada uno discrimina entre cada posible par de clases; esta técnica se llama \emph{one-versus-one} (OvO). El problema con estas dos alternativas es que dejan  regiones indefinidas en el espacio, pues solo consideran pares de clases que  al ser agregados pueden ser incoherentes. 
+El caso de múltiples clases ($K>2$) puede ser enfrentado mediante una extensión del caso binario. Una forma puede ser construir $K-1$ clasificadores binarios, en donde cada uno  resuelve el problema de discriminar los elementos de la  clase $\cC_k$ del resto; esta técnica se llama \emph{one-versus-rest} (OvR). Otra forma es construir $K(K-1)/2$ clasificadores binarios, donde cada uno discrimina entre cada posible par de clases; esta técnica se llama \emph{one-versus-one} (OvO). El problema con estas dos alternativas es que dejan  regiones indefinidas en el espacio, pues solo consideran pares de clases que  al ser agregados pueden ser incoherentes. \\
 
 Una alternativa más robusta para resolver el problema de clasificación multiclase es construir un clasificador para $K$ clases que contiene $K$ funciones lineales de la forma
 \begin{equation}
@@ -142,7 +142,7 @@ Consideremos el  punto $x\in\R^M$ con clase $c\in\{\mathcal{C}_k\}_{k=1}^K$. Usa
 Este tipo de codificación  es conocida como \emph{one-hot  encoding.}  
 
 \begin{remark}
-Usamos esta codificación por  dos razones. Primero, para poder dar valores numéricos a la clase y que  podamos hablar de distancias entre ellos, pues si nuestras clases son ``peras y manzanas'' necesitamos poder determinar cuán cerca a cada una de ellas está nuestra estimación. En segundo  lugar, como los valores asignados al vector $t$ siempre serán puros 0's y un solo 1, entonces  todos los posibles  valores de $t$ están a la misma distancia unos de otros. De esta forma, si dos elementos tienen distintas clases, la distancia entre éstas, cualquieras sean, será 0 (clases iguales), o bien $\sqrt{2}$ (clases distintas). Esto ayuda a no introduce sesgos en la representación de la clase que puedan alterar el aprendizaje del modelo.  	
+Usamos esta codificación por  dos razones. Primero, para poder dar valores numéricos a la clase y que  podamos hablar de distancias entre ellos, pues si nuestras clases son ``peras y manzanas'' necesitamos poder determinar cuán cerca a cada una de ellas está nuestra estimación. En segundo  lugar, como los valores asignados al vector $t$ siempre serán puros 0's y un solo 1, entonces  todos los posibles  valores de $t$ están a la misma distancia unos de otros. De esta forma, si dos elementos tienen distintas clases, la distancia entre estas, cualquieras sean, será 0 (clases iguales), o bien $\sqrt{2}$ (clases distintas). Esto ayuda a no introduce sesgos en la representación de la clase que puedan alterar el aprendizaje del modelo.  	
 \end{remark}
 
 Asumiendo entonces un modelo lineal para cada clase $\mathcal{C}_k$, se tiene que
@@ -176,9 +176,9 @@ Por otra parte, definiendo las siguientes matrices:
 		t_N^\top
 	\end{matrix}\right)\in\R^{N\times K},\qquad
 	\tX = \left(\begin{matrix}
-		t_1^\top\\
+		\tx_1^\top\\
 		\vdots\\
-		t_N^\top
+		\tx_N^\top
 	\end{matrix}\right)\in\R^{N\times (M+1)}
 \end{equation}
 
@@ -239,7 +239,7 @@ Una forma de resolver estas problemáticas es mediante el uso del \emph{Perceptr
 	-1,\quad u<0
 	\end{matrix}\right.
 \end{align}
-Opciones típicas para el vector $\phi(x)$ es concatenar la entrada con un intercepto para la recta, es decir $\phi(x) = [x^\top, 1]$ y $\theta \mapsto [\theta,b]^\top$ como vimos al comienzo del curso, o bien características no lineales como las vistas en la sección de regresión no lineal. El Perceptrón entonces asigna $x$ a la clase $\mathcal{C}_1$ si $y(x)=+1$ y asignará $x$ a la clase $\mathcal{C}_2$ cuando $y(x)=-1$. Notemos que  para  el caso que $\phi$ es lineal, este es el mismo clasificador presentado en la Sección \ref{sec:clasif_lineal}, pero en este caso el criterio para asignar la clase es \textbf{parte del modelo}.
+Opciones típicas para el vector $\phi(x)$ es concatenar la entrada con un intercepto para la recta, es decir $\phi(x) = [x^\top, 1]$ y $\theta \mapsto [\theta,b]^\top$ como vimos al comienzo del curso, o bien características no lineales como las vistas en la sección de regresión no lineal. El Perceptrón entonces asigna $x$ a la clase $\mathcal{C}_1$ si $y(x)=+1$ y asignará $x$ a la clase $\mathcal{C}_2$ cuando $y(x)=-1$. Notemos que  para  el caso que $\phi$ es lineal, este es el mismo clasificador presentado en la Sección \ref{sec:clasif_lineal}, pero en este caso el criterio para asignar la clase es \textbf{parte del modelo}.\\
 
 Una condición para determinar el parámetro $\theta\in\R^D$ en base a un conjunto de datos  $\datos = \{(x_i,t_i)\}_{i=1}^N$, es que para $x\in\mathcal{C}_1$ ($t=1$), se cumpla que $\theta^\top\phi(x) > 0$, y para $x\in\mathcal{C}_2$ ($t=-1$) se cumpla $\theta^\top \phi(x) < 0$. Usando el hecho que las etiquetas están representadas por la  codificación $t\in\{1,-1\}$, ambas condiciones pueden ser cubiertas por la expresión:
 \begin{equation}
@@ -531,3 +531,6 @@ Notemos que la regla de ajuste del parámetro $\theta$ en la ec.~\eqref{eq:reg_l
 	\includegraphics[width=0.9\textwidth]{img/cap3_logistica.pdf}\\
 	\caption{En gris la frontera de decisión: una nueva entrada $x_\star$ será asignada a la clase $\cC_1$ si $p(\cC_1|x_\star)>\frac{1}{2}$, en caso contrario, será asignada a $\cC_2$. Se observa que al entrenar con más muestras, $\norm{w}$ crece por lo que el parámetro se sobreajusta a los datos y el clasificador converge a una función indicatriz.}
 \end{figure}
+
+
+
