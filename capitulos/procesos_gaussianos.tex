@@ -3,33 +3,25 @@
 \section{Procesos gaussianos}
 
 
-Como se vio en capítulos anteriores, el problema de regresión busca encontrar una función $y= f(x)$, dado un conjunto de pares de la forma $\mathcal{D}=\{(x_i, y_i)\}_{i=1}^N$. Dento de los métodos vistos para resolver el problema de regresión, se vio el de regresión lineal, lineal en los parámetros y no lineals. Una característica en común que tienen estos métodos es que el proceso de entrenamiento consiste en encontrar un número \textbf{fijo} de parámetros, que minimicen cierta función objetivo, donde la cantidad de parámetros y la forma del modelo es parte del diseño. A este tipo de modelos se les llama \textit{paramétricos}.\\
+Como se vio en capítulos anteriores, el problema de regresión busca encontrar una función $y= f(x)$, dado un conjunto de pares de la forma $\mathcal{D}=\{(x_i, y_i)\}_{i=1}^N$. Dentro de los métodos vistos para resolver el problema de regresión, se vio el de regresión lineal, lineal en los parámetros y no lineales. Una característica en común que tienen estos métodos es que el proceso de entrenamiento consiste en encontrar un número fijo de parámetros, que minimicen cierta función objetivo, donde la cantidad de parámetros y la forma del modelo es parte del diseño. A este tipo de modelos se les llama \textit{modelos paramétricos}.\\
 
-En contraste, se encuentran los modelos \textit{no paramétricos} los cuales \textbf{no} tienen un número fijo de parámetros, donde pueden llegar a ser en algunos casos infinito. Un ejemplo es el algoritmo k-vecinos más cercanos (KNN), donde los puntos del conjunto de entrenamiento son usados para clasificar nuevas muestras. Otro ejemplo son las máquinas de soporte vectorial (SVM) donde al entrenar se obtienen los vectores de soporte.\\
+En contraste, se encuentran los modelos \textit{no paramétricos} los cuales no tienen un número fijo de parámetros, donde pueden llegar a ser en algunos casos infinito. Un ejemplo es el algoritmo de $k$-vecinos más cercanos (KNN), donde los puntos del conjunto de entrenamiento son usados para clasificar nuevas muestras. Otro ejemplo son las máquinas de soporte vectorial (SVM) donde al entrenar se obtienen los vectores de soporte.\\
 
-Es importante hacer la distinción entre parámetros que se aprenden y los parámetros de modelo, muchas veces llamados hyperparámetros, donde estos últimos pueden ser fijos independiente si el método es paramétrico y no paramétrico; esto se ve en el caso de SVM donde los parámetros serían los vectores de soporte, y los hyperparámetros serían el tipo de kernel, los parámetros de dicho kernel y los demás valores elegidos de antemano que definen el tipo de modelo.\\
+Es importante hacer la distinción entre parámetros que se aprenden y los parámetros del modelo, muchas veces llamados hiperparámetros, donde estos últimos pueden ser fijos independiente si el método es paramétrico o no paramétrico. Esto se ve en el caso de SVM donde los parámetros serían los vectores de soporte, y los hiperparámetros serían el tipo de kernel, los parámetros de dicho kernel y los demás valores elegidos de antemano que definen el tipo de modelo.\\
 
-En este capítulo introduciremos un método no paramétrico probabilístico de regresión no lineal, llamados Procesos Gaussianos ($\gp$), este en vez de encontrar un candidato único de la función a estimar, define una distribución sobre funciones $\mathbb{P}(f)$, donde $f(\cdot)$ es una función de un espacio de entrada $\mathcal{X}$ a los reales, $f: \mathcal{X} \rightarrow \mathbb{R}$. Esto tiene la virtud que permitirá cuantificar la incertidumbre puntual que existe en la predicción de nuestro modelo que servirá en forma de intervalos de confianza para la distribución Gaussiana.\\
+En este capítulo introduciremos un método no paramétrico probabilístico de regresión no lineal, llamado procesos gaussianos ($\gp$). Este modelo en vez de encontrar un candidato único de la función a estimar, define una distribución sobre funciones $\mathbb{P}(f)$, donde $f$ es una función de un espacio de entrada $\mathcal{X}$ a los reales, $f: \mathcal{X} \rightarrow \mathbb{R}$. Esto tiene la virtud de permitir cuantificar la incertidumbre puntual que existe en la predicción de nuestro modelo, la cual servirá en forma de intervalos de confianza para la distribución gaussiana.\\
 
-Partiremos definiendo un $\gp$ como una distribución a priori sobre funciones, y mostraremos que la densidad posterior se puede encontrar de forma exacta y que esta también es un $\gp$, conservando sus propiedades.
+Partiremos definiendo un $\gp$ como una distribución a priori sobre funciones, y mostraremos que la densidad posterior se puede encontrar de forma exacta y que esta también es un $\gp$, conservando sus propiedades.\\
 
-\begin{equation}
-	\mathbb{P}(f|\mathcal{D}) =  \frac{\pr(f)\pr(\mathcal{D}|f)}{\pr(\mathcal{D})}
-\end{equation}
-
-Es de notar que si $\mathcal{X}$ tiene cardinalidad infinita (por ejemplo $\mathcal{X}=\mathbb{R}$), $f(\cdot)$ puede ser visto como un vector infinito dimensional. Como en la práctica no podemos trabajar con un vector infinito dimensional, dados $n$ puntos $\{ x_i\}_{1}^{n}  \subset \mathcal{X}$ podemos definirnos el vector n-dimensional de valores de la funciones evaluados en dichos puntos $f(\mathbf{x})=[f(x_1), \ldots, f(x_n)]$.\\
-
+Es importante notar que si $\mathcal{X}$ tiene cardinalidad infinita (por ejemplo $\mathcal{X}=\mathbb{R}$), $f$ puede ser visto como un vector infinito dimensional. Como en la práctica no podemos trabajar con un vector infinito dimensional, dados $n$ puntos $\{ x_i\}_{i=1}^{n}  \subset \mathcal{X}$, podemos definirn el vector $n$-dimensional de valores de la función evaluada en dichos puntos $f(\mathbf{x})=(f(x_1), \ldots, f(x_n))^\top$.
 
 \begin{definition}[proceso gaussiano]
-	Un proceso gaussiano ($\gp$) es una colección de variables aleatorias, tal que para cualquier subconjunto finito de puntos, estos tienen una distribución conjuntamente Gaussiana.
+	Un proceso gaussiano ($\gp$) es una colección de variables aleatorias, tal que para cualquier subconjunto finito de puntos, estos tienen una distribución conjuntamente gaussiana.
 \end{definition}
 
-
-Al aplicar esta definición a nuestro caso anterior, $\pr(f)$ será un $\gp$ y para cualquier conjunto finito $\{ x_i\}_{1}^{n}  \subset \mathcal{X}$, la distribución de $\pr(f(\mathbf{x}))$ es Gaussiana multivariada $f(\mathbf{x})=[f(x_1), \ldots, f(x_n)]$). En este caso las variables aleatorias representan el valor de la función $f(x_i)$ en la posición $x_i$.\\
-
+Al aplicar esta definición a nuestro caso anterior, $\pr(f)$ será un $\gp$ y para cualquier conjunto finito $\{ x_i\}_{i=1}^{n}  \subset \mathcal{X}$, la distribución de $\pr(f(\mathbf{x}))$ es Gaussiana multivariada $f(\mathbf{x})=(f(x_1), \ldots, f(x_n))^\top$). En este caso las variables aleatorias representan el valor de la función $f(x_i)$ en la posición $x_i$.\\
 
 Un $\gp$ queda completamente caracterizado por su función de media $m(\cdot)$ y función de covarianza $K(\cdot, \cdot)$, de esta forma para cualquier conjunto finito podemos encontrar la distribución. Definimos estas funciones como
-
 \begin{align}
 	m(x) & = \mathbb{E}\left\{f(x)\right\}\\
 	K(x, x') & = \mathbb{E}\left\{\left(f(x) - m(x)\right) \left(f(x') - m(x') \right)\right\}
@@ -49,9 +41,7 @@ Donde para un conjunto finito tenemos que la marginal resulta de la forma:
 
 Hasta el momento hemos hablado del espacio de entrada $\mathcal{X}$ como genérico, un caso común es definir los $\gp$ sobre el tiempo ($\mathbb{R}^{+}$), es decir que los $x_i$ son instantes de tiempo. Es de notar que este no es el único caso, y se podría definir sobre un espacio más general, por ejemplo $\mathbb{R}^d$.\\
 
-Otro punto a notar es que como estamos hablando de una colección (no necesariamente finita) de variables aleatorias, es necesario que se cumpla la propiedad de marginalización (o llamada consistencia\footnote{Para más detalles puede ver el teorema de consistencia de Kolmogorov}). Esta propiedad se refiere a que si un $\gp$ define una distribución multivariada para digamos dos variables $(y_1, y_2) \sim \mathcal{N}(\mu, \Sigma)$ entonces también debe definir $y_1 \sim \mathcal{N}(\mu_1, \Sigma_{11})$ donde $\mu_1$ es la componente respectiva del vector $\mu$ y $\Sigma_{11}$ la submatriz correspondiente de $\Sigma$. En otras palabras, el tomar un subconjunto más grande de puntos no cambia la distribución de un subconjunto más pequeño. Y podemos notar que esta condición se cumple si tomamos la función de covarianza definida anteriormente.\\
-
-
+Otro punto a notar es que como estamos hablando de una colección (no necesariamente finita) de variables aleatorias, es necesario que se cumpla la propiedad de marginalización (o llamada consistencia\footnote{Para más detalles puede ver el teorema de consistencia de Kolmogorov}). Esta propiedad se refiere a que si un $\gp$ define una distribución multivariada para digamos dos variables $(y_1, y_2) \sim \mathcal{N}(\mu, \Sigma)$ entonces también debe definir $y_1 \sim \mathcal{N}(\mu_1, \Sigma_{11})$ donde $\mu_1$ es la componente respectiva del vector $\mu$ y $\Sigma_{11}$ la submatriz correspondiente de $\Sigma$. En otras palabras, el tomar un subconjunto más grande de puntos no cambia la distribución de un subconjunto más pequeño. Y podemos notar que esta condición se cumple si tomamos la función de covarianza definida anteriormente.
 
 \subsection{Muestreo de un prior $\gp$}
 
@@ -72,40 +62,38 @@ Como sabemos, las funciones definidas por el $\gp$ son vectores infinito dimensi
 	\label{fig:gp_1}
 \end{figure}
 
-\subsection{Incorporando información: evaluación sin ruido}
+\subsection{Incorporando información}
 
-Ahora que ya podemos muestrear de nuestro prior, nos interesaría incorporar las observaciones que tenemos de la función a nuestro modelo. Para esto, primero consideramos el caso en que las observaciones son sin ruido, es decir tenemos observaciones de la forma $\{x_i, f(x_i)\}_{1}^{n}$, donde tenemos el valor real de nuestra función en los puntos $[x_1, \ldots, x_n]=\bx$. 
+Ahora que ya podemos muestrear de nuestro prior, nos interesaría incorporar las observaciones que tenemos de la función a nuestro modelo. Para esto, se pueden considerar dos casos: observaciones con ruido y observaciones sin ruidos (o deterministas).
 
-Luego, tenemos el par de entradas y observaciones $\left(\textcolor{blue}{X}, f(\textcolor{blue}{X})\right)$ digamos que queremos realizar una predicción en el conjunto $\textcolor{red}{X_*}$ de $n_*$ puntos, luego la distribución conjunta es de la forma:
+\subsubsection{Evaluación sin ruido}
 
+ En el caso de las observaciones sin ruido, tenemos observaciones de la forma $\{(x_i, f(x_i))\}_{i=1}^{n}$, donde tenemos el valor real de nuestra función en los puntos $[x_1, \ldots, x_n]=X$. Luego, tenemos el par de entradas y observaciones $(X,f(X))$. Digamos que queremos realizar una predicción en el conjunto $X_*$ de $n_*$ puntos, luego la distribución conjunta es de la forma:
 \begin{align}
-	\begin{bmatrix} f(\bx) \\ f(\rx)  \end{bmatrix}
+	\begin{bmatrix} f(X) \\ f(X_*)  \end{bmatrix}
 	\sim \mathcal{N} \left(
-	\begin{bmatrix} m(\bx) \\ m(\rx)  \end{bmatrix}, 
+	\begin{bmatrix} m(X) \\ m(X_*)  \end{bmatrix}, 
 	\begin{bmatrix}
-		K(\bx, \bx) & K(\bx, \rx) \\ K(\rx, \bx) & K(\rx, \rx)
+		K(X, X) & K(X, X_*) \\ K(X_*, X) & K(X_*, X_*)
 	\end{bmatrix}
 	 \right)
 \end{align}
 
-Donde la submatriz $K(\bx, \rx)$ es de $n \times n_*$, $K(\bx, \bx)$ de $n \times n$ y así respectivamente para cada submatriz.
+Donde la submatriz $K(X, X_*)$ es de $n \times n_*$, $K(X, X)$ de $n \times n$ y así respectivamente para cada submatriz. Dada las observaciones y una función de covarianza, podemos evaluar la verosimilitud, que también es gaussiana, lo que nos lleva a un punto clave de los processos gaussianos:
 
-Pero a nosotros nos interesa encontrar la densidad posterior de $f(\cdot)$, y dada las observaciones y una función de covarianza podemos evaluar la verosimilitud, que también es Gaussiana, lo que nos lleva a un punto clave de los Processos Gaussianos.\\
+\begin{lemma}
+	Dado un prior $\gp$ sobre $f(\cdot)$ y una verosimilitud Gaussiana, la posterior sobre $f(\cdot)$ es también un $\gp$. Además, se puede condicionar sobre las observaciones $(X, f(X))$ para obtener
 
-\doublebox{
-\begin{minipage}{.95\linewidth}
-\textbf{Dado un prior $\gp$ sobre $f(\cdot)$ y una verosimilitud Gaussiana, la posterior sobre $f(\cdot)$ es también un $\gp$.}
-\end{minipage}}\\
+\begin{equation}
+	f(X_*)|f(X), X  \sim \mathcal{N}(m_{X_*|X}, \Sigma_{X_*|X}) \label{eq:gp_post}
+\end{equation}
 
-Luego, podemos condicionar sobre las observaciones $(\bx, f(\bx))$ y obtenemos
-
+Donde la media y covarianza son:
 \begin{align}
-	& f(\rx)|f(\bx), \bx  \sim \mathcal{N}(m_{\rx|\bx}, \Sigma_{\rx|\bx})\\ \label{eq:gp_post}
-	& \quad \text{Donde la media y covarianza son:} \nonumber \\
-	m_{\rx|\bx} & = m(\rx) + K(\rx, \bx)K^{-1}(\bx, \bx) (f(\bx) - m(\bx))\\
-	 \Sigma_{\rx|\bx} & = K(\rx, \rx) - K(\rx, \bx)K^{-1}(\bx, \bx) K(\bx, \rx)
+	m_{X_*|X} & = m(X_*) + K(X_*, X)K^{-1}(X, X) (f(X) - m(X))\\
+	 \Sigma_{X_*|X} & = K(X_*, X_*) - K(X_*, X)K^{-1}(X, X) K(X, X_*)
 \end{align}
-
+\end{lemma}
 
 Ahora, dado un conjunto de observaciones y dada una función de covarianza, podemos obtener la densidad posterior. Para mostrar esto tomemos el caso de hacer regresión para una función conocida, para la cual tenemos observaciones sin ruido muestreadas no uniformemente, con estas observaciones queremos encontrar la función real de las que provienen; para esto usamos un prior $\gp$ con función media nula y kernel SE (por el momento tendrá parámetros fijos), nos damos un rango donde queremos hacer predicción y condicionamos en las observaciones usando la Ec.(\ref{eq:gp_post}). En este caso las observaciones corresponden al 15$\%$ de los puntos generados por nuestra función sintética.\\
 
@@ -118,39 +106,42 @@ Esto se muestra en la Fig.\ref{fig:gp_2}, donde podemos ver que la media de la p
 	\label{fig:gp_2}
 \end{figure}
 
-\subsection{Incorporando información: Evaluación con ruido}
+\subsubsection{Evaluación con ruido}
 
-En aplicaciones reales el caso de tener observaciones sin ruido es poco habitual, por lo que si queremos incorporar la incertidumbre real debemos tomar en cuenta errores de medición en nuestro modelo. Tomemos el caso de tener observaciones contaminadas con ruido i.i.d (independientes idénticamente distribuidas) donde las observaciones serán de la forma $y_i = f(x_i) + \eta$ donde $\eta \sim \mathcal{N}(0, \sigma_n^2)$, donde ahora nuestro conjunto de observaciones es de la forma $(\bx, \by)$ donde $\by=f(\bx) + \eta$.
+En aplicaciones reales el caso de tener observaciones sin ruido es poco habitual, por lo que si queremos incorporar la incertidumbre real debemos tomar en cuenta errores de medición en nuestro modelo. Tomemos el caso de tener observaciones contaminadas con ruido i.i.d (independientes idénticamente distribuidas) donde las observaciones serán de la forma $y_i = f(x_i) + \eta$ donde $\eta \sim \mathcal{N}(0, \sigma_n^2)$, por lo que ahora nuestro conjunto de observaciones es de la forma $(X,Y)$ donde $Y=f(X) + \eta$.
 
 Lo que en nuestro modelo equivale a agregar un término a la función de covarianza
 
 \begin{equation}
-	cov(\by) = K(X, X) + \sigma_n^2\eye
+	cov(Y) = K(X, X) + \sigma_n^2\eye
 \end{equation}
 
-Donde si tenemos el mismo caso anterior, observaciones $(\bx, \by)$ y queremos evaluar en $\rx$, la conjunta queda
-
-
+Donde si tenemos el mismo caso anterior, observaciones $(X,Y)$ y queremos evaluar en $X_*$, la conjunta queda
 \begin{align}
-	\begin{bmatrix} \by \\ f(\rx)  \end{bmatrix}
+	\begin{bmatrix} Y \\ f(X_*)  \end{bmatrix}
 	\sim \mathcal{N} \left(
-	\begin{bmatrix} m(\bx) \\ m(\rx)  \end{bmatrix}, 
+	\begin{bmatrix} m(X) \\ m(X_*)  \end{bmatrix}, 
 	\begin{bmatrix}
-		K(\bx, \bx) + \sigma_n^2 \eye & K(\bx, \rx) \\ K(\rx, \bx) & K(\rx, \rx)
+		K(X,X) + \sigma_n^2 \eye & K(X, X_*) \\ K(X_*,X) & K(X_*,X_*)
 	\end{bmatrix}
 	 \right)
 \end{align}
 
 Notemos que el termino de ruido solo es agregado al subbloque correspondiente a las observaciones, no se agrega el termino en los otros subbloques pues buscamos hacer una predicción de la función latente $f(\cdot)$ y no una versión ruidosa de esta.
-Igual que en el caso sin ruido, podemos condicionar esta conjunta a las observaciones y obtenemos
+Igual que en el caso sin ruido, podemos condicionar esta conjunta a las observaciones y obtenemos el siguiente resultado:
 
-\begin{align}
-	& f(\rx)|\by, \bx  \sim \mathcal{N}(m_{\rx|\bx}, \Sigma_{\rx|\bx})\\ \label{eq:gp_posterior}
-	& \quad \text{Donde la media y covarianza son:} \nonumber \\
-	m_{\rx|\bx} & = m(\rx) + K(\rx, \bx) [K(\bx, \bx) + \sigma_n^2 \eye]^{-1} (\by - m(\bx))\\
-	 \Sigma_{\rx|\bx} & = K(\rx, \rx) - K(\rx, \bx) [K(\bx, \bx) + \sigma_n^2 \eye]^{-1} K(\bx, \rx)
-\end{align}
-
+\begin{lemma}
+	Para una evaluación con ruido se tiene que
+	
+	\begin{equation}
+		f(X_*)|Y, X  \sim \mathcal{N}(m_{X_*|X}, \Sigma_{X_*|X})\label{eq:gp_posterior}
+	\end{equation}
+	Donde la media y covarianza son:
+	\begin{align}
+		m_{X_*|X} & = m(X_*) + K(X_*, X) [K(X, X) + \sigma_n^2 \eye]^{-1} (Y - m(X))\\
+	 \Sigma_{X_*|X} & = K(X_*, X_*) - K(X_*, X) [K(X, X) + \sigma_n^2 \eye]^{-1} K(X, X_*)
+	\end{align}
+\end{lemma}
 
 Si tomamos el mismo ejemplo anterior, pero añadimos el ruido al modelo, obtenemos la predicción de la Fig.\ref{fig:gp_3}. En este caso podemos ver que la media de la posterior no necesariamente coincide su valor con el de la observación, pues se toma en cuenta la incertidumbre en las observaciones mismas, también se ve que no se obtienen soluciones degeneradas incluso en zonas donde hay observaciones aglomeradas.
 
@@ -162,13 +153,11 @@ Si tomamos el mismo ejemplo anterior, pero añadimos el ruido al modelo, obtenem
 	\label{fig:gp_3}
 \end{figure}
 
-
-
 \subsection{Entrenamiento y optimización de un $\gp$}
 
-hasta el momento nos hemos dado la función de covarianza y sus parámetros, por lo que aún no hemos hecho realizado el \textit{aprendizaje} de nuestro $\gp$, que es lo que haremos a continuación.\\
+hasta el momento nos hemos dado la función de covarianza y sus parámetros, por lo que aún no hemos hecho realizado el \textit{aprendizaje} de nuestro $\gp$, que es lo que haremos a continuación.
 
-\noindent{\textbf{¿Qué es entrenar un $\gp$?}}
+\subsubsection{¿Qué es entrenar un $\gp$?}
 
 Vimos que dada una función de covarianza podemos representar el proceso, y podemos encontrar analíticamente la densidad posterior de nuestra función $f(\cdot)$ condicionando a las observaciones. Pero la forma que tendrá la posterior y la función fuera de las observaciones dependerá fuertemente en nuestra función kernel escogida, en este sentido, para un kernel dado nos gustaría encontrar los parámetros de este que mejor representen nuestra función a estimar.\\
 
@@ -188,12 +177,12 @@ Donde $\mathbf{m}=m(X)$ y $\mathbf{K}_y=K_{\theta}(X,X) + \sigma_n^2 \eye$, la m
 
 \begin{align}
 	NLL & = -\log \pr(Y|X, \theta, \sigma_n) \\
-	NLL & = \textcolor{blue}{\underbrace{ \color{black}{\frac{1}{2}\log|\mathbf{K_y}|} }_
-	    {\text{\parbox{2cm}{\centering Penalización\\[-4pt] por\\[-4pt] complejidad}}}}
-	    + \textcolor{Green}{\underbrace{ \color{black}{\frac{1}{2}(Y - \mathbf{m})^T \mathbf{K}_y^{-1} (Y - \mathbf{m}) }}_
-	    {\text{\parbox{4cm}{\centering Data fit (Única parte que depende de $Y$)}}}}
-	    + \textcolor{red}{\underbrace{ \color{black}{\frac{n}{2} \log2\pi}}_
-	    {\text{\parbox{2cm}{\centering Constante de normalización}}}} \label{eq:gp_nll}
+	NLL & = \underbrace{ \color{black}{\frac{1}{2}\log|\mathbf{K_y}|} }_
+	    {\text{\parbox{2cm}{\centering Penalización\\[-4pt] por\\[-4pt] complejidad}}}
+	    + \underbrace{ \color{black}{\frac{1}{2}(Y - \mathbf{m})^T \mathbf{K}_y^{-1} (Y - \mathbf{m}) }}_
+	    {\text{\parbox{4cm}{\centering Data fit (Única parte que depende de $Y$)}}}
+	    + \underbrace{ \color{black}{\frac{n}{2} \log2\pi}}_
+	    {\text{\parbox{2cm}{\centering Constante de normalización}}}\label{eq:gp_nll}
 \end{align}
 
 De izquierda a derecha, el primer término tiene el rol de penalizar por la complejidad del modelo, y vemos que depende solo del kernel y las entradas; el segundo término cuantifica que tan bien se ajusta el modelo a los datos, y es la única componente que depende de las observaciones $Y$ (ruidosas) de la función, el último término es una constante de normalización.\\
@@ -211,9 +200,9 @@ Siguiendo con los ejemplos anteriores, para el mismo conjunto de observaciones r
 Al ir variando $\ell$ se ve que la penalización por complejidad va disminuyendo, pues a mayor $\ell$ menos complejas son las funciones (recordar Fig.\ref{fig:gp_1}, a mayor $\ell$ más suaves y regulares las muestras), también vemos que la componente del ajuste de datos comienza a decaer y luego se mantiene en incremento, pues a mayor \textit{lengthscale} el modelo se vuelve menos flexible, por lo que no es capaz de ajustarse de manera correcta a los datos. De esta forma, el proceso de entrenamiento dará preferencia a funciones que se ajusten bien a los datos sin ser tan complejas, ahora viendo el valor total del NLL vemos que este alcanza su mínimo en $\ell$ en el rango de $[10-30]$.\\
 
 
-Ya tenemos una noción de que es entrenar un $\gp$, queremos minimizar la $NLL$ (Ec.(\ref{eq:gp_nll})) y encontrar los parámetros del kernel y del ruido (si aplica). Ahora discutiremos formas de optimizar este funcional.\\
+Ya tenemos una noción de que es entrenar un $\gp$, queremos minimizar la $NLL$ (Ec.(\ref{eq:gp_nll})) y encontrar los parámetros del kernel y del ruido (si aplica). Ahora discutiremos formas de optimizar este funcional.
 
-\noindent{\textbf{¿Cómo se entrena?}}
+\subsubsection{¿Cómo se entrena un \gp?}
 
 Como contamos con una expresión cerrada para la NLL, podemos utilizar métodos clásicos de optimización, una opción es calcular el gradiente de esta función objetivo y aplicar algún método basado en gradiente, como L-BFGS; otra es utilizar el método de Powell que no requiere que la función sea diferenciable, por lo que no utiliza gradiente.\\
 
@@ -249,7 +238,7 @@ La desventaja de utilizar métodos tradicionales de optimización es que estos e
 % \subsubsection{Métricas de evaluación}
 % ---pendiente---
 
-\subsubsection{Complejidad Computacional}
+\subsubsection{Complejidad computacional}
 
 Es importante reconocer una de las principales desventajas de utilizar un $\gp$ cuando se cuenta con una gran cantidad de datos, esto es, su costo computacional.
 Recordando, cuando queremos entrenar nuestro $\gp$ vamos a minimizar la log verosimilitud marginal negativa (NLL), mostrada en la Ec.(\ref{eq:gp_nll}), donde al observar en segundo término vemos que es la operación más costosa siendo $\mathcal{O}(n^3)$ con respecto al número de puntos de entrenamiento $n$. Hay que tomar en cuenta que la evaluación de la NLL se debe hacer en cada iteración del método de optimización elegido.
@@ -259,7 +248,7 @@ En cuanto a la evaluación, esta está dada por la Ec.(\ref{eq:gp_posterior}), d
 Lo anterior mencionado limita la cantidad de problemas que se pueden abordar usando estos procesos, sin embargo existen formas de obtener aproximaciones que siguen manteniendo la estructura y deseables propiedades de los $\gp$ a un menor costo computacional, estos reducen el orden de $\mathcal{O}(n^3)$ a $\mathcal{O}(nm^2)$ en entrenamiento y $\mathcal{O}(m^2)$ en test, con $m<n$. Un ejemplo de estos son los \textit{Sparse Gaussian Processes} que utilizan una aproximación de rango bajo para la matriz de covarianza, utilizando \textit{pseudo-inputs} en vez el conjunto de entrenamiento completo.
 
 
-\subsection{Funciones de covarianza (Kernels)}
+\subsection{Funciones de covarianza (kernels)}
 
 Una función de covarianza es una función de dos argumentos donde cualquier matriz que se obtiene como resultado en la evaluación de un conjunto de puntos (la llamaremos matriz de Gram) es semidefinida positiva.
 
@@ -271,9 +260,9 @@ Hasta el momento solo hemos utilizado un tipo de función de covarianza, el llam
 
 Es importante denotar tipos de familias de funciones de covarianza, si la función solo depende de la diferencia, es decir $k(x, x')=k(x-x')$ se le llamará \textit{kernel estacionario}, más aún, si depende solo de la norma de la diferencia $k(x, x')=k(|x-x'|)$ se le llamará \textit{kernel isométrico}, un ejemplo de esto es el kernel SE.\\
 
-Es de notar que kernels estacionarios hacen que la covarianza entre puntos sea invariante a traslaciones en el espacio de entradas. Una noción importante es que un kernel puede ser visto como una medida de similaridad entre puntos, y en el caso de kernels estacionarios, mientras más cercanos estén dos puntos más símiles serán.\\
+Es de notar que kernels estacionarios hacen que la covarianza entre puntos sea invariante a traslaciones en el espacio de entradas. Una noción importante es que un kernel puede ser visto como una medida de similaridad entre puntos, y en el caso de kernels estacionarios, mientras más cercanos estén dos puntos más símiles serán.
 
-\textbf{Kernel \textit{Rational Quadratic} (RQ)}\\
+\subsubsection{Rational Quadratic (RQ)}
 
 Este kernel viene dado por la Ec.(\ref{eq:gp_kernel_rq}), este puede ser interpretado como una suma infinita de kernels SE con distintos \textit{lenghtscale}, donde $\alpha$ es un parámetro de variación de escala, notar que cuando $\alpha \rightarrow \infty$ el kernel tiende a uno SE. En la Fig.\ref{fig:gp_6} se muestra el kernel RQ, a la izquierda se ve el valor de la covarianza en función de la diferencia de los argumentos $x-x'$, a la derecha se muestran diferentes muestras de funciones con este kernel.
  
@@ -289,7 +278,7 @@ Este kernel viene dado por la Ec.(\ref{eq:gp_kernel_rq}), este puede ser interpr
 	\label{fig:gp_6}
 \end{figure}
 
-\textbf{Kernel Periódico}\\
+\subsubsection{Kernel periódico}
 
 Como su nombre lo indica, este kernel, dado por la Ec.(\ref{eq:gp_kernel_p}), permite modelar funciones periódicas, donde el parámetro $p$ controla el periodo de la función. Una extensión de este el kernel localmente periódico, dado por la Ec.(\ref{eq:gp_kernel_lp}) que es un kernel SE ponderado por uno periódico, este da la libertad de tener funciones con una estructura periódica local.
 
@@ -330,14 +319,13 @@ A continuación veremos un número de extensiones que se le pueden hacer a un $\
 
 \subsubsection{$\gp$ de clasificación}
 
-\begin{wrapfigure}{r}{0.38\textwidth}
-\includegraphics[width=0.38\textwidth]{img/cap6_gp_classificacion}
+\begin{wrapfigure}{r}{0.35\textwidth}
+\centering
+\includegraphics[width=0.3\textwidth]{img/cap6_gp_classificacion}
 \caption{$\gp$ de clasificación utilizando datos sintéticos. Este clasificador entrega una densidad de probabilidad en vez de una sola función de decisión.}\label{fig:gp_8}
 \end{wrapfigure} 
 
 Hasta el momento hemos visto como usar un $\gp$ para regresión, pero este también puede usado para clasificación, para esto simplemente ``pasamos'' nuestro $\gp$ por una función logística, para así obtener un prior sobre $\sigma\left(f(x)\right)$ donde $\sigma$ es la función logística. Sin embargo esto trae consigo un problema, pues ahora la distribución posterior a las observaciones no se tiene de forma analítica como para el caso de regresión, esto lleva a que tengamos que recurrir a métodos aproximado de inferencia. Una solución simple es utilizar la aproximación de Laplace, pero si se quieren aproximaciones más fidedignas métodos más complejos pueden ser usados como \textit{Expectation Maximization} y métodos MCMC. En la Fig.\ref{fig:gp_8} se muestra un ejemplo con datos sintéticos, a diferencia de la mayoría de los clasificadores vistos, este entrega naturalmente una densidad de probabilidad para la función de decisión.\\
-
-
 
 \subsubsection{Selección automática de relevancia (ARD) (\textit{Selección automática de features})}
 Un $\gp$ define una densidad de probabilidad sobre funciones, donde estas funciones son del tipo $f: \mathbb{R}^D \rightarrow \mathbb{R}$, con $D$ es finito, este es nuestra dimensión de entrada o ``características''. Haciendo un pequeño cambio en nuestra función kernel podemos hacer que esta automáticamente seleccione las entradas más relevantes con el problema, es decir realice una selección de características automática.\\
@@ -357,7 +345,7 @@ Dado un número $m$ de canales, se tendrán $m$ funciones de autocovarianza y ah
 Una opción simple es asumir que los canales son independientes entre sí, lo que equivale a entrenar independientemente $m$ procesos Gaussianos, uno para cada canal, esto facilita el diseño de las funciones de covarianza pero hace que se pierdan relaciones entre los canales.
  
 
-\subsection{Diferentes Interpretaciones de un $\gp$}
+\subsection{Diferentes interpretaciones de un $\gp$}
 
 \subsubsection{De regresión lineal a $\gp$}
 
@@ -411,50 +399,3 @@ Y tomamos el vector $\bm{\alpha} = \left(k(X, X) + \sigma_n \eye \right)^{-1} Y$
 \end{equation}
 
 Donde, a pesar de que el proceso esta descrito por (posiblemente infinita) funciones base, aún así es la suma de finitos términos, cada uno centrado en un punto de entrenamiento, esto es debido al teorema del representante de los Espacios de Hilbert de Kernel Reproductor (RKHS). La intuición detrás de esto es que incluso si el $\gp$ induce una distribución conjunta sobre todos los $y = f(x)$, una para cada $x$ en el dominio, al hacer predicciones en el punto $x_*$ solo nos interesa la distribución $(n+1)$-dimensional definida por los puntos de entrenamiento más este punto de test.
-
-
-
-\doublebox{
-\begin{minipage}{\linewidth}
-\centerline{\textbf{\underline{Resumen}}}
-
-\textbf{¿Que es un Proceso Gaussiano?}\\
-Un Proceso Gaussiano ($\gp$) es un método no paramétrico que define un \textit{prior sobre funciones}, lo cual se traduce en una \textit{posterior} sobre funciones si la verosimilitud es Gaussiana. Este proceso se encuentra caracterizado completamente por su función de media $m(\cdot)$ (generalmente se asume $0$) y función de covarianza o kernel $K_{\theta}(\cdot, \cdot)$ que puede depender o no de parámetros ($\theta$).\\
-
-\textbf{¿Cómo se entrena?}\\
-Dado un conjunto de entrenamiento $(\bx, \by)= \{(x_i, y_i)\}_{i=1}^{n}$, donde $y_i$ pueden estar contaminadas o no por ruido (generalmente se asume ruido Gaussiano de varianza $\sigma_n^2$)
-se \textit{minimiza} la log-verosimilitud marginal negativa (NLL), que para el caso de $m(\cdot)=0$ es:
-
-\begin{align}
-	NLL & = -\log \pr(\by|\bx, \theta, \sigma_n) \\
-	NLL & = \textcolor{blue}{\underbrace{ \color{black}{\frac{1}{2}\log|\mathbf{K_y}|} }_
-	    {\text{\parbox{2cm}{\centering Penalización\\[-4pt] por\\[-4pt] complejidad}}}}
-	    + \textcolor{Green}{\underbrace{ \color{black}{\frac{1}{2}\by^T \mathbf{K}_y^{-1} \by }}_
-	    {\text{\parbox{2cm}{\centering Data fit }}}}
-	    + \textcolor{red}{\underbrace{ \color{black}{\frac{n}{2} \log2\pi}}_
-	    {\text{\parbox{2cm}{\centering Constante de normalización}}}} \label{eq:gp_nll_summary}
-\end{align}
-
-Donde $\mathbf{K}_y=K_{\theta}(\bx,\bx) + \sigma_n^2 \eye$.\\
-
-\textbf{¿Cómo se evalúa en nuevos puntos?}\\
-Si queremos evaluar en el conjunto de test $\rx$, la evaluación es:
-
-\begin{align}
-	& f(\rx)|\by, \bx  \sim \mathcal{N}(0, \Sigma_{\rx|\bx})\\ \label{eq:gp_posterior_summary}
-	& \quad \text{Donde la media y covarianza son:} \nonumber \\
-	m_{\rx|\bx} & = K(\rx, \bx) [K(\bx, \bx) + \sigma_n^2 \eye]^{-1} \by\\
-	 \Sigma_{\rx|\bx} & = K(\rx, \rx) - K(\rx, \bx) [K(\bx, \bx) + \sigma_n^2 \eye]^{-1} K(\bx, \rx)
-\end{align}
-
-\textbf{¿Qué costo tiene?} 
-\begin{itemize}
-	\item Entrenamiento: $\mathcal{O}(n^3)$ respecto al número de muestras del conjunto de \textcolor{blue}{\textbf{entrenamiento}}.
-	\item Evaluacion: $\mathcal{O}(n^2)$ respecto al número de muestras del conjunto de \textcolor{red}{\textbf{test}}.
-\end{itemize}
-
-\textbf{Notas sobre la implementación:}\\
-Como la matriz de Gram ($K(X,X)$) es definida positiva y simétrica, para calcular su inversa de forma más eficiente se utiliza la descomposición de Cholesky, donde si $K=LL^T$, entonces $K^{-1}=(L^T)^{-1}L^{-1}$
-
-
-\end{minipage}}
