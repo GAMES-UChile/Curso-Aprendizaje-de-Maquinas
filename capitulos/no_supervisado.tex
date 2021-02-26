@@ -6,10 +6,6 @@
 
 El problema de reducción de dimensionalidad consiste con construir una representación de dimensión estrictamente menor que los datos originales con la finalidad de interpretar de mejor forma la información contenida en nuestros datos así como también disminuir el costo computacional en el entrenamiento.
 
-\subsubsection{Maldición de la dimensionalidad}
-
-La maldición de la dimensionalidad o efecto Hughes es un conjunto de fenómenos que ocurren al realizar análisis sobre datos de alta dimensión, los cuales en algunos casos tienden a aumentar el costo computacional de forma exponencial en la dimensión.
-
 \subsubsection{Análisis de componentes principales (PCA)}
 
 Consideremos ahora un conjunto de observaciones de $\{\x_i\}_{i=1}^N\subset\R^M$, donde denotamos $\x_i=[x_{i1},x_{i2},\ldots,x_{iM}]^\top$. Podemos entender que el elemento $x_{ij}$ corresponde al valor del atributo $j$ para la observación $i$. 
@@ -41,7 +37,7 @@ Este criterio es conocido como \textbf{análisis de componentes principales (PCA
 
 \begin{itemize}
 	\item Características de media nula: la matriz $X$ con $(X)_{ij} = (\x_i)_j$ debe tener columnas con media $0$. Esto se consigue restando la media de la columna a cada una de las entradas de dicha columna. El objetivo de este ajuste es poder centrar los datos.
-	\item Varianzas marginales unitarias: si una dimensión tiene una varianza marginal mayor que el resto, ésta será más importante en la determinación de la dirección de máxima varianza solo por su magnitud y no por la relación entre variables. La normalización se consigue dividiendo cada entrada de la columna por la desviación estándar de la columna.
+	\item Varianzas marginales unitarias: si una dimensión tiene una varianza marginal mayor que el resto, esta será más importante en la determinación de la dirección de máxima varianza solo por su magnitud y no por la relación entre variables. La normalización se consigue dividiendo cada entrada de la columna por la desviación estándar de la columna.
 \end{itemize}
 
 Como en general no contamos con la distribución de las observaciones $p(\x)$, podemos considerar una aproximación muestral de la varianza en la ecuación \eqref{eq:PCA_max} y resolver 
@@ -286,14 +282,14 @@ Sea $r_{ik}$ la asignación, esta estará definida por:
 
 \begin{align}
 r_{ik} = \begin{cases}
-1 & \text{si } k = \text{argmin}||x_i-\mu_k||\\
+1 & \text{si } k = \text{argmin}||x_i-x_k||\\
 0 & \text{si no.}
 \end{cases}
 \end{align}
 Es decir, para encontrar los centroides se debe minimizar la función:
 
 \begin{align}
-J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-\mu_k||^2
+J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-x_j||^2
 \end{align}
 
 Para minimizar esta función utilizaremos un enfoque llamado \emph{Expectation-Maximization}. Este es un método iterativo y como tal, tiene problemas con mínimo locales, pero para solucionar esto, basta inicializar el algoritmo muchas veces.\\
@@ -432,7 +428,7 @@ donde el logaritmo de sumas es complicado de optimizar, incluso cuando la distri
 
 Asumamos por un momento que tenemos valores para la variable latente $\z$, si este fuese el caso, podríamos buscar los parámetros mediante la optimización de la log-verosimilitud completa, $\log p(\x, \z |\theta)$, la cual como en GMM puede tener una forma más simple de optimizar debido a que no hay una suma dentro del logaritmo. \\
 
-Sin embargo, en la prácticax no tenemos acceso al valor de las variables latentes $\z_n$ sino que únicamente podemos acceder a una estimación de éstas mediante la distribución posterior $p(\z|\x,	\theta)$. Entonces, estrictamente hablado, la cantidad que nos gustaría maximizar $\log p(\x, \z |\theta)$ es aleatoria, por lo que podemos maximizar su esperanza con respecto a las observaciones (etapa de maximización). Luego, con los valores obtenidos para los parámetros podemos recalcular la distribución posterior $p(\z|\x,\theta)$ (etapa de esperanza) y seguir este proceso iterativamente. La motivación de este procedimiento, llamado \emph{expectation-maximization}, es que en primer lugar, con la cantidad $p(\z|\x,\theta)$ fija, el cálculo de los nuevos parámetros mediante máxima verosimilitud indiscutiblemente aumenta la verosimilitud, luego éstos mejores parámetros dan consecuentemente una mejor estimación de la distribución posterior $p(\z|\x,\theta)$, con lo cual la actualización de los parámetros usando esta mejorada aproximación de la posterior debe ser incluso mejor.
+Sin embargo, en la prácticax no tenemos acceso al valor de las variables latentes $\z_n$ sino que únicamente podemos acceder a una estimación de estas mediante la distribución posterior $p(\z|\x,	\theta)$. Entonces, estrictamente hablado, la cantidad que nos gustaría maximizar $\log p(\x, \z |\theta)$ es aleatoria, por lo que podemos maximizar su esperanza con respecto a las observaciones (etapa de maximización). Luego, con los valores obtenidos para los parámetros podemos recalcular la distribución posterior $p(\z|\x,\theta)$ (etapa de esperanza) y seguir este proceso iterativamente. La motivación de este procedimiento, llamado \emph{expectation-maximization}, es que en primer lugar, con la cantidad $p(\z|\x,\theta)$ fija, el cálculo de los nuevos parámetros mediante máxima verosimilitud indiscutiblemente aumenta la verosimilitud, luego estos mejores parámetros dan consecuentemente una mejor estimación de la distribución posterior $p(\z|\x,\theta)$, con lo cual la actualización de los parámetros usando esta mejorada aproximación de la posterior debe ser incluso mejor.
 
 
 \end{mdframed}
