@@ -46,15 +46,15 @@ Comentario: La divergencia KL tiene una motivación de la teoría de la informac
 Revisar: http://blog.thegrandlocus.com/2019/06/focus-on-the-kullback-leibler-divergence que tiene un gran discurso al respecto.
 Podría agregarse de apéndice también. 
 
-Clase 5: Inferencia Bayesiana 
+Clase 5 y 6: Inferencia Bayesiana 
 
-1 - Introducción (20 mins)
+1 - Introducción 
 	- Problema de maximizar solo la verosimilitud, la necesidad de agregar conocimiento previo al problema.
 	- Fórmula de Bayes, theta pasa a ser una cantidad aleatoria un poco de historia
-2 - Elección de Prior: Conjugación (25 mins)
+2 - Elección de Prior: Conjugación 
 	- Def prior conjugado y ejemplo del modelo gaussiano mu y sigma conocido
 	- Ejemplo para la regresión Lineal
-3 - Máximo a posteriori (15 mins)
+3 - Máximo a posteriori 
 	- Definición y caso lineal equivale a utilizar regularizador p=1 y p=2
 
 Comentario: Podría dejarse el modelo binomial como lectura propia tanto en prior conjugado como en MAP
@@ -63,7 +63,7 @@ Comentario: ¿mu y sigma^2 desconocido seguirá siendo tarea? (fue tarea el año
 
 Comentario: La normal multivariada no se ve en muchos de los cursos de probabilidades y estadística no dim, por lo que debería ser agregado como apéndice
 
-Clase 6: Predicciones y Regresión no Lineal 
+Clase 7: Predicciones y Regresión no Lineal 
 
 1 - Predicciones (30 mins)
 	- Definiciones, variables latentes
@@ -74,7 +74,7 @@ Clase 6: Predicciones y Regresión no Lineal
 	- Definiciones, seleccion de características y modelo lineal en los parámetros
 	- Ejemplos de transformaciones y ejemplo de predicción pasajeros aerolinea
 
-Clase 7: Clasificación (Año pasado era Clase 10)
+Clase 8: Clasificación (Año pasado era Clase 10)
 
 1 - Introducción (20 mins)
 	- Definiciones y clasificación lineal para 2 clases (parámetros a y b con respecto a la región de decisión)
@@ -100,27 +100,27 @@ Comentario: Podría trabajarse en una gráfica con mayor detalle de cómo funcio
 Comentario: La deducción de fórmulas podría ser un problema de tarea, aunque más bien parece un problema de lineal jajaja
 
 
-Clase 8: Clasificación no Lineal
+Clase 9 y 10: Clasificación no Lineal
 
-1 - Clasificación no Lineal: El Perceptrón (20 mins)
+1 - Clasificación no Lineal: El Perceptrón 
 	- Problemas de los modelos anteríores, introducción del perceptrón 
 	- Extracción de características y función de enlace
 	- Criterio del perceptrón, función objetivo y SGD
 
-2 - Clasificación Probabilística: Modelo Generativo (30 mins)
+2 - Clasificación Probabilística: Modelo Generativo 
 	- Interpretación probabilística y Bayes 
 	- Función y propiedades Sigmoide y Softmax 
 	- Modelamieto, deducción de fórmulas para el caso gaussiano y de 2 clases. 
 
-3 - Regresión vs Modelo Generativo (10 mins)
+3 - Regresión vs Modelo Generativo 
 	- Optimizar directamente la verosimilitud, calcular el gradiente y método del descenso de gradiente.
 	- Similitud y diferencia con lo realizado para el perceptrón. 
 
-Comentario: Eventualmente esta clase 8 podría ser dividida en 2 clases si es demasiado larga
+Clase 11 y 12: Selección de Modelos y validación cruzada
 
-Clase 8.5: Selección de Modelos y validación cruzada
+Comentario: Selección de Modelos y validación cruzada antes de SVM o después?, propongo que sea después para no perder el hilo 
 
-Clase 9: Support Vector Machines
+Clase 13: Support Vector Machines
 
 1 - Motivación e introducción a las SVM (15 mins) 
 	- Idea general del modelo y  definiciones
@@ -137,7 +137,7 @@ Clase 9: Support Vector Machines
 	- Utilización de variables de holgura ("Regularizador") 
 	- Lagrangiano asociado e interpretación.
 
-Clase 10: Support Vector Machines 2
+Clase 14: Support Vector Machines 2
 
 1 - Recuerdo de clase anterior (15 mins)
 
@@ -152,7 +152,7 @@ Clase 10: Support Vector Machines 2
 	- Kernel Ridge Regression
 	- Kernel SVM y conclusiones al respecto. 
 
-Clase 11.5: Aprendizaje no Supervisado 
+Clase 14.5: Aprendizaje no Supervisado 
 
 1 -  Definiciones 
 	- Reducción de dimensionalidad
@@ -168,7 +168,7 @@ Comentario: En general pienso que esta sección no está desarrollada completame
 Comentario: Esperaré a que esté más trabajado, quedan cosas por agregar. 
 
 
-Clase 11: Clustering 
+Clase 15: Clustering 
 
 1 - Algunos Clustering (30 mins)
 	- Hierarchical clustering y las distintos criterios de "similitud"
@@ -188,7 +188,7 @@ Comentario: Se arregló la formulación de k-means
 
 Comentario: Esta clase debe ser dividida en 2 partes según como se desarrolle.
 
-Clase 12: Redes Neuronales parte I
+Clase 16: Redes Neuronales parte I
 
 1 - Introducción a RN (30 mins)
 	- Conceptos básicos 
@@ -201,7 +201,7 @@ Clase 12: Redes Neuronales parte I
 	- 2 primeras capas 
 	- Teorema de aproximación universal 
 
-Clase 13: Redes Neuronales parte II
+Clase 17: Redes Neuronales parte II
 
 1 - Forward propagation (15 mins)
 	- Álgebra de tensores 
@@ -217,7 +217,7 @@ Comentario: La notación está horrible jajaja, imposible de leer
 
 Comentario: Agregar un apéndice de álgebra de tensores. 	
 
-Clase 14: Redes Neuronales parte III
+Clase 18: Redes Neuronales parte III
 
 1 - Técnicas de regularización (30 mins)
 	- Lp
@@ -233,7 +233,7 @@ Comentario: Si falta contenido en técnicas de regularización, se pueden agrega
 Comentario: La sección de técnicas de optimización solo incluyen minibatch, se pueden mencionar los siguientes aspectos:
 Un dropout alto permite tener una mayor cantidad de neuronas por capa lo que acelera el entrenamiento, el SGD de por si es un algoritmo de optimización mientras que sus variantes son para mejorar el rendimiento!
 
-Clase 15: Redes Neuronales parte IV
+Clase 19: Redes Neuronales parte IV
 
 1 - Otros tipos de Redes Neuronales (60 mins)
 	- Convolucionales y problemas que resuelven
@@ -245,7 +245,7 @@ Comentario: Dependiendo de la velocidad de las clases, estas últimas 4 podrían
 
 Comentario: Se puede dejar deep learning para el final del curso y ver procesos gaussianos antes. 
 
-Clase 16: Procesos Gaussianos parte I 
+Clase 20: Procesos Gaussianos parte I 
 
 1 - Introducción a los GP
 	- Modelos no paramétricos

@@ -1,0 +1,62 @@
+\documentclass[9pt]{beamer}
+\include{config/commands}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\mode<presentation>
+{ \usetheme{Madrid}      % or try Darmstadt, Madrid, Warsaw, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{default}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+}
+
+% \usepackage[T1]{fontenc}
+\input{preambuloBeamer} %Este es el mismo utilizado en el tex de clases salvo modificaciones
+
+\title[Aprendizaje de Máquinas]{ Deep Learning\\
+\textit{Aprendizaje de Máquinas}}
+\author[]{Felipe Tobar}
+\institute{CMM - Universidad de Chile}
+\date{\today}
+%-------------------------------------------
+% Inicio del documento, no tocar la config. de portada
+%-------------------------------------------
+\begin{document}
+% Portada
+\begin{frame}
+  \titlepage
+\end{frame}
+% Tabla de contenidos
+\begin{frame}{Contenido}
+  \tableofcontents
+  
+\end{frame}
+% Portada de seccion
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}}
+
+%tcolorbox
+%-------------------------------------------
+% Contenido
+%-------------------------------------------
+% Nueva sección, o capitulo, tiene diapo de portada propio, basta con ponerla fuera del entorno frame
+
+\section{Redes Neuronales - Introducción y Arquitectura}
+\begin{frame}{Redes Neuronales - Introducción y Arquitectura}
+
+\end{frame}
+
+\bibliography{../capitulos/referencias} %Bibliografía
+\bibliographystyle{apacite}
+\end{document}
