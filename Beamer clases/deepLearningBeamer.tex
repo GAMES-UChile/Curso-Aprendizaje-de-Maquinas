@@ -1,3 +1,4 @@
+%!TEX root = deepLearningBeamer.tex
 \documentclass[9pt]{beamer}
 \include{config/commands}
 %
@@ -17,7 +18,7 @@
 % \usepackage[T1]{fontenc}
 \input{preambuloBeamer} %Este es el mismo utilizado en el tex de clases salvo modificaciones
 
-\title[Aprendizaje de Máquinas]{ Deep Learning\\
+\title[Aprendizaje de Máquinas]{ Redes Neuronales\\
 \textit{Aprendizaje de Máquinas}}
 \author[]{Felipe Tobar}
 \institute{CMM - Universidad de Chile}
@@ -52,11 +53,49 @@
 %-------------------------------------------
 % Nueva sección, o capitulo, tiene diapo de portada propio, basta con ponerla fuera del entorno frame
 
-\section{Redes Neuronales - Introducción y Arquitectura}
+\section{Redes Neuronales - Introducción}
 \begin{frame}{Redes Neuronales - Introducción y Arquitectura}
+Una \textit{Red Neuronal} es un modelo computacional basado en la conexión de múltiples unidades (neuronas) cuyo objetivo es aproximar una función $f^{*}$. \pause
+\newline 
+
+\begin{columns}
+
+  \begin{column}{0.5\textwidth}
+
+  Su principal ventaja radica en la posibilidad de entrenarla con datos crudos, es decir, no se presentan las características relevantes de la data y en vez, se permite que el algoritmo aprenda cuales son. \pause
+
+  \vspace{0.2cm}
+  Los modelos escenciales de redes neuronales se conocen como \textbf{feedforward neural networks}, o \textbf{multilayer perceptrons} (MLPs), Una red feedforward define un mapping $\bm{y}=f(\bm{x}; \bm{\theta})$ y aprende los parámetros $\bm{\theta}$ que resultan en la mejor aproximación posible. \pause 
+  \vspace{0.2cm}
+
+  Estos modelos se conocen como redes ya que son típicamente el resultado de composiciones sucesivas de varios tipos de funciones $f^{(1)}$, $f^{(2)}$, $f^{(3)}, \dots$. \pause 
+
+  \end{column}
+
+  \begin{column}{0.5\textwidth}
+  \begin{figure}[H]
+  \centering
+  \includegraphics[scale=.4]{../img/F1NN1L.png}
+  \caption{Ejemplo de una red neuronal de 1 capa: (\textit{izquierda}). \\  Representación vectorial de las capas. (\textit{derecha})}
+\end{figure}
+
+  \end{column}
+
+\end{columns}
+
+
 
 \end{frame}
 
-\bibliography{../capitulos/referencias} %Bibliografía
-\bibliographystyle{apacite}
-\end{document}
+\begin{frame}{Redes Neuronales - El perceptrón}
+
+
+
+
+\end{frame}
+
+
+%Quitar de comentarios apenas se agregue alguna referencia 
+%\bibliography{../capitulos/referencias} %Bibliografía
+%\bibliographystyle{apacite}
+\end{document} 
