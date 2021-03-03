@@ -53,8 +53,8 @@
 %-------------------------------------------
 % Nueva sección, o capitulo, tiene diapo de portada propio, basta con ponerla fuera del entorno frame
 
-\section{Redes Neuronales - Introducción}
-\begin{frame}{Redes Neuronales - Introducción y Arquitectura}
+\section{Redes Neuronales - Introducción y Arquitectura}
+\begin{frame}{Redes Neuronales - Introducción}
 Una \textit{Red Neuronal} es un modelo computacional basado en la conexión de múltiples unidades (neuronas) cuyo objetivo es aproximar una función $f^{*}$. \pause
 \newline 
 
@@ -89,20 +89,76 @@ Una \textit{Red Neuronal} es un modelo computacional basado en la conexión de m
 
 \begin{frame}{Redes Neuronales - El perceptrón}
 
-El \textit{perceptrón} corresponde a la unidad básica de una red neuronal, esta recibe un input numérico $x = (x_i)_{i=1}^n$ y computa la suma ponderada $u = x_1w_1 + x_2w_2 + \dots + w_nx_n + b$ donde $W = (w_i)_{i=1}^n$ corresponden a los \textbf{pesos} (weights) y $b$ el \textbf{sesgo} (bias). \pause 
+El \textit{perceptrón} corresponde a la forma más básica de una red neuronal, esta recibe un input numérico $x = (x_i)_{i=1}^n \in \R^n$ y computa la suma ponderada $u = x_1w_1 + x_2w_2 + \dots + w_nx_n + b$ donde $W = (w_i)_{i=1}^n \in \R^n$ corresponden a los \textbf{pesos} (weights) y $b \in \R$ el \textbf{sesgo} (bias). \pause 
 
 A continuación, se aplica una función de activación $f$ y se entrega un output $h = f(u)$. \pause 
 \begin{figure}[H]
   \centering
   \includegraphics[scale=.3]{../img/cap5_activaciones}
-  \caption{Ejemplos de funciones de activación}
+  \caption{Algunos ejemplos de funciones de activación}
 \end{figure}
 
+\end{frame}
 
+\begin{frame}{Redes Neuronales - El perceptrón}
 
+Un conjunto de perceptrones conectados unos con otros en secuencia forman arquitecturas capaces de resolver problemas más complejos. \pause  
 
+\begin{columns}
 
+  \begin{column}{0.7\textwidth}
 
+  \begin{figure}[H]
+    \centering
+    \includegraphics[scale=.3]{../img/cap7_xor}
+    \caption{Red Neuronal para computar XOR}
+  \end{figure}
+
+  \end{column}
+
+  \begin{column}{0.3\textwidth}
+  
+  XOR operator
+
+  \scalebox{1.3}{
+  \begin{tabular}{| c  c | c |}
+    \hline
+    $x_1$ & $x_2$ & $y$ \\ \hline
+    0 & 0 & 0 \\
+    1 & 0 & 1 \\
+    0 & 1 & 1 \\ 
+    1 & 1 & 0 \\ \hline
+  \end{tabular}
+  }
+
+  
+
+  \end{column}
+
+\end{columns} \pause
+
+En su forma matricial 
+$$
+(h_1 , h_2) = \text{Relu} \left ( \begin{pmatrix}
+x_1 & x_2  
+\end{pmatrix} \begin{pmatrix}
+1 &1 \\ 
+ 1 & 1
+\end{pmatrix} + \begin{pmatrix}
+0 & -1 
+\end{pmatrix}\right) \hspace{0.5cm} h = \text{Relu}(xW + b)
+$$
+\pause
+$$
+y = \begin{pmatrix}
+h_1 & h_2 
+\end{pmatrix}\begin{pmatrix}
+1 \\ 
+-2 
+\end{pmatrix} + (0) \hspace{0.5cm} y = hU + c
+$$
+Donde $U$ y $c$ corresponden al peso y bias de la última capa respectivamente. 
+\textbf{¿Cómo construir el resto de operadores lógicos?}
 \end{frame}
 
 
