@@ -77,7 +77,7 @@ Una \textit{Red Neuronal} es un modelo computacional basado en la conexión de m
   \centering
   \includegraphics[scale=.4]{../img/F1NN1L.png}
   \caption{Ejemplo de una red neuronal de 1 capa: (\textit{izquierda}). \\  Representación vectorial de las capas. (\textit{derecha})}
-\end{figure}
+  \end{figure}
 
   \end{column}
 
@@ -88,6 +88,17 @@ Una \textit{Red Neuronal} es un modelo computacional basado en la conexión de m
 \end{frame}
 
 \begin{frame}{Redes Neuronales - El perceptrón}
+
+El \textit{perceptrón} corresponde a la unidad básica de una red neuronal, esta recibe un input numérico $x = (x_i)_{i=1}^n$ y computa la suma ponderada $u = x_1w_1 + x_2w_2 + \dots + w_nx_n + b$ donde $W = (w_i)_{i=1}^n$ corresponden a los \textbf{pesos} (weights) y $b$ el \textbf{sesgo} (bias). \pause 
+
+A continuación, se aplica una función de activación $f$ y se entrega un output $h = f(u)$. \pause 
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=.3]{../img/cap5_activaciones}
+  \caption{Ejemplos de funciones de activación}
+\end{figure}
+
+
 
 
 
