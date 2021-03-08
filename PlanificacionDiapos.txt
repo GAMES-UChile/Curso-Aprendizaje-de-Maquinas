@@ -193,22 +193,28 @@ Esto se está  trabajando actualmente, el contenido y cantidad de clases puede c
 
 Clase 16: Redes Neuronales parte I
 
-1 - Introducción a RN (30 mins)
-	- Conceptos básicos 
-	- Problemas clásicos que pueden ser resueltos mediante las redes neuronales
-	- Diferencias con respecto a los modelos anteriormente considerados, en particular la optimización de los parámetros
-	- Funciones de costos asociadas a los distintos problemas, regresión, clasificación, etc... 
+1 - Introducción a RN 
+	- Conceptos y definiciones
+	- El perceptrón
+	- Problemas clásicos que pueden ser resueltos mediante las redes neuronales 
 
-2 - Estructura de la Red (30 mins)
-	- Definicion de arquitectura 
-	- 2 primeras capas 
-	- Teorema de aproximación universal 
+2 - Estructura de la Red 
+	- Qué es la arquitectura de la red
+	- Primeras capas (input, hidden,output)
+	- Ejemplo red para XOR 
+	- Teorema de aproximación universal
+
+3 - Funciones de costo y unidades de output 
+	- Función de costos, por qúé usar la entropía cruzada
+	- Linea, sigmoidal y softmax, Problemas con los que se relaciona y si se puede alguna deducción de fórmula. 
+	- Demostración para output lineal
+	
 
 Clase 17: Redes Neuronales parte II
 
-1 - Forward propagation (15 mins)
-	- Álgebra de tensores 
-	- Cómo funciona el forward y algoritmo
+1 - Álgebra de tensores y forward propagation
+	- Forward propagation
+	- Álgebra de tensores
 
 2 - Backward propagation (45 mins)
 	- Idea del backward y de donde viene el nombre

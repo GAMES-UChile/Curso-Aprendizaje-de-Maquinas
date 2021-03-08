@@ -1,0 +1,105 @@
+% Copyright 2015 by Facundo Muñoz
+%
+% This file may be distributed and/or modified
+%
+% 1. under the LaTeX Project Public License and/or
+% 2. under the GNU Public License.
+%
+\usefonttheme{serif}     % Font theme: serif
+\usepackage{ccfonts}     % Font family: Concrete Math
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\let\Tiny=\tiny
+
+\ProvidesPackage{beamerthemesimple}
+
+%\def\beamer@simplecolor{gris}
+%\DeclareOptionBeamer{color}{\beamer@simplecolor=#1}
+%\ExecuteOptionsBeamer{gris}
+%\ProcessOptionsBeamer
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,trees,positioning,fadings}
+
+\input xkeyval
+
+\newcommand<>{\includeoverlaygraphics}[2][]
+{
+  \begin{tikzpicture}
+    \alt#3{\node[opacity=1] {\includegraphics[#1]{#2}};}
+          {\node[opacity=.15] {\includegraphics[#1]{#2}};}
+  \end{tikzpicture}
+}
+
+% These define macros \KV@setwatermark@hoffset that take one argument
+% which is processed by the last piece of codes into braces
+\def\@hos{}
+\def\@vos{}
+\def\@alpha{0.15} % This one does not work. Why?
+\define@key{setwatermark}{hoffset}[\def\@hos{.}]{\def\@hos{\hspace*{#1}}} 
+\define@key{setwatermark}{voffset}[\def\@vos{.}]{\def\@vos{\vspace*{#1}}} 
+\define@key{setwatermark}{alpha}[\def\@alpha{1}]{\def\@alpha{#1}} 
+
+\def\setwatermark{\@ifnextchar[\@setwatermark{\@setwatermark[]}}
+\def\@setwatermark[#1]#2{%
+  \setkeys{setwatermark}{#1}%
+  \def\@watermark{#2}
+}
+% \newcommand{\setwatermark}[1]{\def\@watermark{#1}}
+\setwatermark{}   % Empty initialization
+
+
+\mode<presentation>
+
+  % http://www.colorcombos.com/color-scheme-275.html
+  \definecolor{destacado}{RGB}{0,48,135} % azul oscuro
+  \definecolor{normal}{RGB}{15,15,15}  % gris medio
+  \definecolor{fondo}{RGB}{240, 240, 240}  % azul claro
+ 
+  \setbeamercolor{normal text}{bg=white,fg=normal}
+  \setbeamercolor*{block title}{bg=fondo,fg=destacado}
+  \setbeamercolor*{block body}{bg=fondo,fg=normal}
+  \setbeamercolor{alerted text}{fg=black}
+  
+  \usetheme{default}
+%  \usecolortheme[named=gris]{structure}
+  \usecolortheme[named=destacado]{structure}
+  \usefonttheme{structurebold}
+
+  % overlays semitransparentes
+  \setbeamercovered{transparent}
+  
+  % incluir el contador de diapos
+  \setbeamertemplate{footline}[frame number]
+  
+  % eliminar íconos de nav.
+  \setbeamertemplate{navigation symbols}{}
+  
+  % bloques
+  \setbeamertemplate{blocks}[rounded][shadow=true]
+
+  % especificación global para listas
+  %\beamerdefaultoverlayspecification{<+-| alert@+>}
+  
+  % márgenes
+  \setbeamersize{text margin left=0.4cm,text margin right=0.4cm}
+  
+  \setbeamertemplate{background}{
+  \parbox[c][\paperheight]{\paperwidth}{%
+    \vfill \hfill 
+    \begin{tikzpicture}
+      \node[opacity=\@alpha]  % not working. why?
+      %\node[opacity=.07]
+      {
+        \@watermark
+      };
+    \end{tikzpicture}
+    \@hos
+    
+    \@vos
+  }
+} 
+
+\mode
+<all>
