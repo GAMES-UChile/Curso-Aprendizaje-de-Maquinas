@@ -90,9 +90,7 @@ Clase 8: Clasificación (Año pasado era Clase 10)
 
 
 Comentario: r distancia entre x y el hiperplano de decisión no es estrictamente una distancia y más bien es una medida con signo. (Pues para que la descomposición tenga sentido para todo x es necesario que r pueda ser negativo)
-
-Comentario: Trabajar en la notación de esta sección pues está confusa. 
-
+ 
 Comentario: Se puede quitar el discriminante lineal de fisher, introducirlo en otra clase y partir la clase 7 con las k-vecinos más cercanos. Esperaremos a que esté trabajado con mayor detalle. 
 
 Comentario: Podría trabajarse en una gráfica con mayor detalle de cómo funciona el discriminante lineal de fisher. (En particular la gráfica que tiene la proyección en la recta)
@@ -212,19 +210,16 @@ Clase 16: Redes Neuronales parte I
 
 Clase 17: Redes Neuronales parte II
 
-1 - Álgebra de tensores y forward propagation
-	- Forward propagation
-	- Álgebra de tensores
+1 - Forward y Backward propagation (45 mins)
+	- Forward propagation 
+	- Introducción backward propagation
+	- Recordar la notación (@ para multiplicación de matrices , * para punto a punto)
+	- Deducción de fórmulas 
 
-2 - Backward propagation (45 mins)
-	- Idea del backward y de donde viene el nombre
-	- Regla delta
-	- Deducción de fórmulas
-	- Algoritmo de Backward propagation (Arreglar un poco la notación)
+2 - Regularización en Redes (15 mins)
+	- 
 
-Comentario: La notación está horrible jajaja, imposible de leer 
-
-Comentario: Agregar un apéndice de álgebra de tensores. 	
+Comentario: Se hizo denuevo la deducción de fórmulas en backward propagation, queda pendiente revisar 
 
 Clase 18: Redes Neuronales parte III
 
