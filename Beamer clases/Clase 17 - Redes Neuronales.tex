@@ -93,8 +93,8 @@ El algoritmo de backpropagation ha experimentatdo un resurgimiento en estas últ
 Es considerado un algoritmo eficiente e implementaciones modernas de estas aprovechan el paralelismo de las GPU para mejorar su rendimiento. \pause
 
 \vspace{0.2cm}El gradiente se
-calcular´a de esta forma ya que, aunque es posible obtener una expresi´on anal´ıtica para este, evaluar
-la expresi´on puede ser muy caro computacionalmente.
+calculará de esta forma ya que, aunque es posible obtener una expresión analítica para este, evaluar
+la expresión puede ser muy caro computacionalmente.
 
 A continuación se describe brevemente el algoritmo: 
 
@@ -213,19 +213,75 @@ Además, la función de activación en el output será lineal y por tanto $(\hat
 
 \begin{itemize}
   \item Usualmente los datos son entregados en paquetes de datos (batch) y los pesos/bias actualizados mediante descenso de gradiente estocástico
-  \item La cantidad de iteraciones del algoritmo es lo que se conoce como \textbf{épocas}
+  \item La cantidad de veces que se pase por todos los datos de entrenamiento se conoce como \textbf{épocas}
 \end{itemize}
 
 \end{observacion}
 
 \end{frame}
 
-\section{Regularización para una red neuronal}
+\section{Regularización para una Red Neuronal}
+
+\begin{frame}{Regularización}
+Las redes neuronales y algoritmos de deep learning son aplicados a tareas extremadamente complejas como lo son el procesamiento de imágenes, audio, y texto. Controlar la complejidad de un modelo no solo se reduce a encontrar el tamaño y cantidad de parámetros adecuados, como se ha visto para otros modelos de aprendizaje de máquinas, sino que en la práctica el modelo con el mejor ajuste por lo general será un modelo grande (profundo) que ha sido regularizado apropiadamente. \pause 
+
+El objetivo de las técnicas de regularización es el de reducir el \textit{error de generalización}, es decir, el error esperado al clasificar datos nunca antes vistos pero manteniendo la capacidad del modelo (profundidad, cantidad de nodos, funciones de activación, etc...) \pause 
+
+A continuación veremos algunas de ellas: 
+
+
+\end{frame}
+
+
+\begin{frame}{Técnicas de regularización}
+
+\begin{itemize}
+  \item \textbf{Regularización $L^2$} \\ \pause
+  Una regularización que se basa en limitar la norma de los parámetros del modelo es la ya conocida \textbf{regularización} $\bm{L}^{2}$ (o \textbf{ridge regression}), mediante la cual se obtiene la función objetivo regularizada $\tilde{J}$: \pause
+
+  \begin{equation*}
+  \tilde{J}(\bm{\theta};\bm{X},\bm{y}) = J(\bm{\theta};\bm{X},\bm{y}) + \frac{\alpha}{2}||\bm{\theta}||^{2}_{2}
+  \end{equation*} \pause
+
+  No es dificil ver que esta regularización es equivalente a la actualización de parámetros según gradiente estocástico de la forma \pause
+
+  \begin{equation*}
+  (w_{ij}^{(k)})' = (1-\beta) w_{ij}^{(k)} - \lambda \frac{\partial J}{\partial w_{ij}^{(k)}}, \quad \beta = \lambda \alpha
+  \end{equation*}
+  y por eso también es llamada \textit{'weight decay'} y es la forma en que se implementa
+
+\end{itemize}
+
+\end{frame}
 
 \begin{frame}
+\begin{itemize}
+  \item \textbf{Dropout} \\ 
+
+  Esta técnica de regularización consiste en entrenar en cada iteración una fracción de los pesos mediante una elección aleatoria. Su implementación es bastante simple y basta con definir para cada capa $k$ la probabilidad $1-p_k$ de 'apagar' una neurona en particular. \pause
+
+    \[
+    h^{(k)} = f^{(k)}(h^{(k-1)}W^{(k)} + b^{(k)}) *  \frac{M^{(k)}}{p_k}, \quad M^{(k)}_i \sim \text{Bernoulli}(p_k) \hspace{0.2cm} \forall i,k
+    \]
+
+  Notar que al aplicar backward, también es necesario 'apagar' las neuronas que no participaron del forward para evitar que sean entrenadas. \pause
+
+  \item \textbf{Early Stopping} \pause
+
+  La cantidad de épocas disminuye el error de entrenamiento pero no siempre el de generalización, es más, con una cantidad grande de épocas, el error de generalización aumenta y esto es porque la red aprende con exactitud cada input en el conjunto de train y no sus características más importantes, a esto se le denomina \textbf{overfitting}. \\ \pause
+
+  La técnica de \textit{Early stopping} consiste en evitar esto, deteniendo el algoritmo antes de llegar al overfitting según un parámetro de decisión. Es importante destacar que esto se realiza evaluando sobre el conjunto de validación. \pause
+
+  \item Otras técnicas: \textbf{Bootstrap , data augmentation , noise injection}
 
 
+\end{itemize}
 
+
+\end{frame}
+
+\begin{frame}
+  \titlepage
 \end{frame}
 
 

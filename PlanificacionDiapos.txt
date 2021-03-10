@@ -217,41 +217,32 @@ Clase 17: Redes Neuronales parte II
 	- Deducción de fórmulas 
 
 2 - Regularización en Redes (15 mins)
-	- 
+	- L2
+	- Dropout
+	- Otros métodos
 
 Comentario: Se hizo denuevo la deducción de fórmulas en backward propagation, queda pendiente revisar 
 
 Clase 18: Redes Neuronales parte III
 
-1 - Técnicas de regularización (30 mins)
-	- Lp
-	- Dropout
-	- Otros métodos
-
-2 - Técnicas de optimización (30 mins)
+1 - Técnicas de optimización (30 mins)
 	- Minibatch
 	- SGD
+
+2 - Otros tipos de Redes Neuronales (30 mins)
+	- Convolucionales y problemas que resuelven
+	- Recurrentes y problemas que resuelven
+	- Autoencoders y problemas que resuelven
+	- GAN y problemas que resuelven
 
 Comentario: Si falta contenido en técnicas de regularización, se pueden agregar temas como Agrupación, bootstrap y  early stopping 
 
 Comentario: La sección de técnicas de optimización solo incluyen minibatch, se pueden mencionar los siguientes aspectos:
 Un dropout alto permite tener una mayor cantidad de neuronas por capa lo que acelera el entrenamiento, el SGD de por si es un algoritmo de optimización mientras que sus variantes son para mejorar el rendimiento!
 
-Clase 19: Redes Neuronales parte IV
-
-1 - Otros tipos de Redes Neuronales (60 mins)
-	- Convolucionales y problemas que resuelven
-	- Recurrentes y problemas que resuelven
-	- Autoencoders y problemas que resuelven
-	- GAN y problemas que resuelven
-
-Comentario: Dependiendo de la velocidad de las clases, estas últimas 4 podrían convertirse en 3. 
-
-Comentario: Se puede dejar deep learning para el final del curso y ver procesos gaussianos antes. 
-
 --------------------------------------
 
-Clase 20: Procesos Gaussianos parte I 
+Clase 19: Procesos Gaussianos parte I 
 
 1 - Introducción a los GP
 	- Modelos no paramétricos
@@ -279,7 +270,7 @@ Clase 20: Procesos Gaussianos parte I
 	- Multi output GP 
 	- Otros (Regresión lineal a GP, nota sobre RKHS)
 
-Comentario: Esto podría corresponder a clase 16 , clase 17 y clase 18 
+Comentario: Esto podría corresponder a clase 19 , clase 20 y clase 21, se verá a medida se crean las diapos 
 
 Comentario: Desarrollar más la parte de Representación Espectral para la construcción de Kernels. 
 

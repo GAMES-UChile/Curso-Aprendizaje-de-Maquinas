@@ -1,0 +1,129 @@
+\documentclass[9pt]{beamer}
+%\include{config/commands}
+%
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\input{preambuloBeamer}
+\usetheme{simple}
+
+% \usepackage[T1]{fontenc} %Este es el mismo utilizado en el tex de clases salvo modificaciones
+\title{Clase 18 - Redes Neuronales III}
+\subtitle{Aprendizaje de Máquinas - MA5204}
+\date{\today}
+\author{Felipe Tobar} 
+\titlegraphic{
+\begin{figure}[htp] 
+    \centering
+        \includegraphics[width=0.15\textwidth]{../img/Uchile.pdf}%
+    %\hspace{2em}% 
+    %    \includegraphics[width=0.15\textwidth]{img/CMM.pdf}%
+         
+\end{figure}
+}
+\institute{Department of Mathematical Engineering \&\\ Center for Mathematical Modelling\\Universidad de Chile}
+%-------------------------------------------
+% Inicio del documento, no tocar la config. de portada
+%-------------------------------------------
+\begin{document}
+% Portada
+\begin{frame}
+  \titlepage
+\end{frame}
+% Tabla de contenidos
+\begin{frame}{Contenido}
+  \tableofcontents
+  
+\end{frame}
+% Portada de seccion
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}}
+
+%tcolorbox
+%-------------------------------------------
+% Contenido
+%-------------------------------------------
+% Nueva sección, o capitulo, tiene diapo de portada propio, basta con ponerla fuera del entorno frame
+\section{Optimización para una Red Neuronal}
+\begin{frame}{Algoritmos de Optimización - Minibatch}
+
+Los algoritmos de optimización para aprendizaje de máquinas típicamente actualizan los parámetros usando un valor esperado del costo, obtenido a través de un subset de los términos de la función de costos. La propiedad más usada respecto de la función objetivo es que \pause
+\begin{equation*}
+\nabla_{\bm{\theta}}J(\bm{\theta}) = -\E_{\bm{x},y\sim \hat{p}_{\textrm{data}}}\nabla_{\bm{\theta}}\textrm{log}\; p_{\textrm{modelo}}(y|\bm{x})
+\end{equation*} \pause
+
+Los algoritmos de optimización que usan el set de entrenamiento completo para actualizar los parámetros en cada iteración se conocen como \textbf{métodos de batch} o \textbf{determinísticos} y tienden a quedar atrapados en óptimos locales. \\ \pause 
+
+Los algoritmos que usan un solo ejemplo a la vez se conocen como \textbf{métodos estocásticos} y son tremendamente ineficientes para una cantidad grande de datos. \pause 
+
+Por lo tanto, la mayoría de los algoritmos usados pertenecen a una categoría intermedia, estos son los \textbf{métodos de minibatch o minibatch estocástico}, los cuales usan un subconjunto de tamaño reducido y calculan un promedio de gradientes para obtener el valor esperado.
+
+
+\end{frame}
+
+\begin{frame}{Algoritmos de Optimización - Variantes del SGD}
+
+\textbf{Promedio movil exponencial: } Esta modificación consiste en promediar el gradiente con su valor en la iteración anterior con el fin de seguir la dirección de gradientes pesados (momentum) , su implementación es como sigue \pause
+\[
+v_t = (1-\beta) \left ( \frac{\partial J}{\partial \theta_t} \right ) + \beta v_{t-1};  \quad v_0 = 0
+\] \pause
+La actualización de parámeros viene dada por 
+\[
+\theta_{t+1} = \theta_t - \lambda v_t
+\] \pause 
+
+\textbf{Adagrad: } Esta modificación es sobre el learning rate pues nos gustaría avanzar en alguna dirección incluso cuando el gradiente es pequeño. Definimos \pause
+\[
+v_{t} = v_{t-1} +  \frac{\partial J}{\partial \theta_t} * \frac{\partial J}{\partial \theta_t} ; \quad v_0 = 0
+\] 
+Con actualizaciones dadas por \pause
+\[
+\theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{v_t + \epsilon}} * \frac{\partial J}{\partial \theta_t}
+\]
+Donde $\epsilon$ es un parámetro para estabilidad numérica
+
+\end{frame}
+
+\begin{frame}{Algoritmos de Optimización - Variantes del SGD}
+
+\textbf{RMSprop: } Esta modificación intenta ser una mejora a la anterior, Adagrad, y lo que hace es introducir promedios moviles exponenciales sobre el learning rate de la siguiente forma \pause
+\[
+v_t = \beta v_{t-1} + (1-\beta)\frac{\partial J}{\partial \theta_t} * \frac{\partial J}{\partial \theta_t} ; \quad v_0 = 0
+\] \pause
+y actualiza 
+\[
+\theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{v_t + \epsilon}} * \frac{\partial J}{\partial \theta_t}
+\] \pause 
+\textbf{Adam: } Finalmente esta modificación es simplemente una combinación de las ideas de  learning rate adaptativo RMSprop y momentum. Actualmente es una de las más utilizadas. \pause
+
+\vspace{0.2cm}
+
+\begin{observacion}
+Hasta ahora hemos visto varias modificaciones del descenso de gradiente estocástico pero cabe destacar que no existen grandes resultados teóricos que las sustenten, es decir, corresponden a heurísticas.
+\end{observacion}
+\end{frame}
+
+\section{Tipos de Redes Neuronales}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+
+
+
+%Quitar de comentarios apenas se agregue alguna referencia 
+%\bibliography{../capitulos/referencias} %Bibliografía
+%\bibliographystyle{apacite}
+\end{document} 
