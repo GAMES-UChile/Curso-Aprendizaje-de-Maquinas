@@ -5,7 +5,7 @@
 Dado un conjunto de datos, existen muchos posibles modelos para poder realizar el aprendizaje, por lo que surge la pregunta natural de qué modelo elegir. Una respuesta rápida a esta pregunta sería elegir el modelo que mejor se ajuste a los datos en el entrenamiento. El problema de utilizar este criterio es el sobreajuste, el cual puede ser observado en la Figura \ref{fig:overfitting} donde se observa que en la tercera imagen, el modelo aprende oscilaciones que muy probablemente son generadas por los ruidos de las observaciones. 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width = 0.9\linewidth]{img/cap3_ajuste.pdf}
+    \includegraphics[width = 0.9\linewidth]{img/cap4_ajuste.pdf}
     \caption{Ejemplos de sub, sobre y correcto ajuste.}
     \label{fig:overfitting}
 \end{figure}
@@ -68,8 +68,8 @@ De esta forma, la combinación sesgo-varianza crea un error total convexo tal co
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width = 0.4\linewidth]{img/cap5_biasvariance.pdf}
-    \caption{Tradeoff entre el sesgo y la varianza.}
+    \includegraphics[width = 0.45\linewidth]{img/cap4_biasvariance.pdf}
+    \caption{Tradeoff entre el sesgo y la varianza. Se observa que el error total mínimo es alcanzado en un par $(sesgo,varianza)$ específico.} 
 \end{figure}
 
 
@@ -82,7 +82,7 @@ Una primera forma de elegir y evaluar un modelo fuera de muestra, consiste en pa
 En este tipo de validación cruzada, se prueban todas las posibles permutaciones de los datos al particionar el conjunto $\mathcal{D}$. Se tienen 2 técnicas exhaustivas:
 
 \begin{itemize}
-	\item l\textbf{eave $p$ out (LpOCV):} el conjunto $\mathcal{D}$ se particiona dejando $p$ elementos para validación y los $N-p$ elementos restantes se utilizan para entrenar el modelo. Este entrenamiento y cálculo de desempeño se repite $C_p^N=\frac{N!}{(N-p)!p!}$ veces, pasando por todos los posibles conjuntos de validación de tamaño $p$.
+	\item \textbf{leave $p$ out (LpOCV):} el conjunto $\mathcal{D}$ se particiona dejando $p$ elementos para validación y los $N-p$ elementos restantes se utilizan para entrenar el modelo. Este entrenamiento y cálculo de desempeño se repite $C_p^N=\frac{N!}{(N-p)!p!}$ veces, pasando por todos los posibles conjuntos de validación de tamaño $p$.
 	\item \textbf{leave one out (LOOCV):} corresponde al caso anterior con $p=1$. En este caso cada dato de $\mathcal{D}$ es utilizado como único elemento de validación mientras el resto de los datos se utiliza para entrenar.
 \end{itemize}
 
@@ -94,7 +94,7 @@ En este tipo de validación cruzada, se prueban todas las posibles permutaciones
 \end{itemize}
 
 \begin{remark}
-Una variante de este método es dividir el conjunto $\datos$ en 3, donde los primeros dos conjuntos son utilizados para entrenamiento y validación, mientras que el tercero (conocido como test set) es utilizado para obtener una estimación real del desempeño fuera de muestra del modelo elegido a partir de los dos conjuntos anteriores. Esto se realiza ya que al considerar únicamente el desempeño en el conjunto de validación, por lo general se sobreestima el desempeño real fuera de muestra debido a que el modelo fue elegido precisamente tomando el que reporta el menor error dentro del conjunto de validación.\\
+Una variante de la validación cruzada es dividir el conjunto $\datos$ en 3, donde los primeros dos conjuntos son utilizados para entrenamiento y validación, mientras que el tercero (conocido como test set) es utilizado para obtener una estimación real del desempeño fuera de muestra del modelo elegido a partir de los dos conjuntos anteriores. Esto se realiza ya que al considerar únicamente el desempeño en el conjunto de validación, por lo general se sobreestima el desempeño real fuera de muestra debido a que el modelo fue elegido precisamente tomando el que reporta el menor error dentro del conjunto de validación.\\
 
 Si bien no hay una regla estándar que indique cómo particionar el conjunto, una división usual es utilizar el 50\% para entrenamiento y 25\% para validación y test.
 \end{remark}
@@ -153,7 +153,7 @@ Luego, sustituyendo en $\hat{l}$ y notando que $\sum\limits_{i=1}^N H_l(\theta_0
 De este modo, el sesgo del riesgo empírico como estimador del riesgo real es:
 
 \begin{equation*}
-	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) = -n \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right)
+	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) = -N \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right)
 \end{equation*}
 
 Por otra parte, dado que $\sqrt{N}\left(\hat{\theta}-\theta_0\right)\approx\mathcal{N}\left(0,H_{l_0}(\theta_0)^{-1}\right)$, la forma cuadrática anterior puede ser aproximada por una distribución de Pearson: $N(\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\approx\mathcal{X}^2_d$, donde $\E(\mathcal{X}^2_d)=d$. De este modo,
