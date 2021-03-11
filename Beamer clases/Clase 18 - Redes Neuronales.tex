@@ -114,6 +114,119 @@ Hasta ahora hemos visto varias modificaciones del descenso de gradiente estocás
 
 \section{Tipos de Redes Neuronales}
 
+\begin{frame}{Redes Neuronales Convolucionales}
+
+Las \textbf{redes neuronales convolucionales} (o \textbf{CNNs}) son un tipo de redes neuronales que fueron diseñadas para procesar datos con una tipología tipo \textit{grid} (grilla). Una serie de tiempo que tiene observaciones en intervalos regulares de tiempo se puede pensar como un \textit{grid} de 1 dimensión. Las imágenes se pueden pensar como \textit{grids} de 2-D de pixeles. El nombre de esta arquitectura hace referencia a que usan una operación matemática conocida como convolución. \pause 
+
+\begin{equation*}
+s(t) = (x * w)(t) = \int x(a)w(t-a)da
+\end{equation*} \pause 
+
+En el contexto de CNNs, el primer argumento a convolucionar, $x$, es el \textbf{input}, y el segundo argumento, $w$, se conoce como el \textbf{kernel}.\pause Usualmente, el \textbf{kernel} es un arreglo muldimensional de parámetros entrenables de menor dimensionalidad que el input y que moviendose a través de este según un valor de \textit{stride}, extrae las $\textit{features}$ de alto nivel (como bordes por ejemplo). 
+
+\end{frame}
+
+\begin{frame}{Redes Neuronales Convolucionales}
+
+\begin{figure}[H]
+    \centering
+    \visible<1->{\includegraphics[scale=.35]{../img/kernel_cnn}}
+    \caption{Ejemplo de una convolución 2-D, el valor de \textit{stride} es (1,1) \cite{Goodfellow-et-al-2016}}
+\end{figure} \pause 
+
+Una vez extraido el mapa de características (\textit{feature map}) mediante la utilización de variados kernel según se requiera, este es aplanado a una dimensión y sirve como input para una \textit{feedforward neural network} que se encargará de entregar el output correspondiente. 
+
+\end{frame}
+
+\begin{frame}{Redes Neuronales Recurrentes}
+
+Las \textbf{redes neuronales recurrentes} (o \textbf{RNNs}) son una familia de modelos especializados en procesamiento de datos secuenciales, $\bm{x}^{(1)},...,\bm{x}^{(\tau)}$. Las RNNs también comparten parámetros, pero en una forma muy distinta que las CNNs. En una RNN, cada miembro del output en una etapa es una función de cada miembro del output de la etapa anterior. \pause
+
+Se denota por $\bm{h}^{(t)}$ al estado de un sistema din\'amico que involucra una recurrencia conducido por un input externo $\bm{x}^{(t)}$:
+
+\begin{equation*}
+\bm{h}^{(t)} = f(\bm{h}^{(t-1)}; \bm{x}^{(t)}, \bm{\theta})
+\end{equation*}
+\pause
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\caption{Ejemplo de una red recurrente sin output \cite{Goodfellow-et-al-2016}}
+\centering
+\visible<3->{\includegraphics[scale=.3]{../img/RNN1.png}}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Redes Neuronales Recurrentes}
+Existen varios tipos de RNNs que se han diseñado para distintos fines. \pause
+
+\begin{columns}
+  \begin{column}{0.5\textwidth}
+    \begin{itemize}
+      \item Redes recurrentes que producen un output en cada instante de tiempo y tienen conexiones entre todas las unidades escondidas \pause
+      \item Redes recurrentes que producen un output en cada instante de tiempo y tienen conexiones entre el output a la unidad escondida del siguiente instante \pause
+      \item Redes recurrentes con conexiones entre las unidad escondidas, que procesan una secuencia entera antes de producir el output \pause
+    \end{itemize}
+
+  \end{column}
+
+  \begin{column}{0.5\textwidth}
+
+    \begin{figure}[H]
+    \captionsetup{font=small,labelfont=small}
+    \visible<5->{\caption{Red recurrente para el primer ejemplo \cite{Goodfellow-et-al-2016}}}
+    \centering
+    \visible<5->{\includegraphics[scale=.2]{../img/RNN2.png}}
+    \end{figure}
+
+  \end{column}
+
+\end{columns}
+
+
+\end{frame}
+
+
+\begin{frame}{Autoencoders}
+Un \textbf{autoencoder} es una red neuronal que busca replicar el input hacia el output, es decir, busca que la información que entra a la red sea lo más parecida posible a la de salida, para lo cual cuenta con una capa interna $\bm{h} = f(\bm{x})$ (\textbf{encoder}) con menor dimensión que el input y que lo codifica (genera una representación de este) y una función que produce la reconstrucción $\bm{r} = g(\bm{h})$, el \textbf{decoder}. \pause \\
+
+Un autoencoder buscará aprender los \textit{encoder} y \textit{decoder} tales que $g(f(\bm{x})) = \bm{x}$ para todo $\bm{x}$. Como el modelo está forzado a aprender los atributos más importantes para que pueda efectivamente reproducir el input en su output, este aprenderá en general propiedades útiles de los datos de entrenamiento. Los \textit{autoencoders} modernos modelan mappings estocásticos $p_{\textrm{encoder}}(\bm{h}|\bm{x})$ y $p_{\textrm{decoder}}(\bm{x}|\bm{h})$, en vez de funciones determinísticas. \pause
+
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\centering
+\visible<3->{\includegraphics[scale=1.5]{../img/cap5_autoencoder}}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}{Redes Generativas Adversariales}
+
+Una \textbf{red generativa adversarial} (o \textbf{GAN}) se basa en un escenario de teoría de juegos, en donde una \textbf{red generadora} debe competir con un adversario. La red generadora produce muestras $\bm{x} = g(\bm{z};\bm{\theta}^{(g)})$, mientras que una \textbf{red discriminadora} trata de distinguir entre muestras obtenidas de los datos de entrenamiento y muestras generadas por la red generadora. El discriminador retorna una probabilidad, $d(\bm{x};\bm{\theta}^{(d)})$, indicando la probabilidad de que $\bm{x}$ sea un dato real y no uno simulado. \pause
+ 
+Para formular el aprendizaje, se describe un juego de suma cero en donde una función $v(\bm{\theta}^{(g)},\bm{\theta}^{(d)})$ determina el pago del discriminador, y el generador recibe $-v(\bm{\theta}^{(g)},\bm{\theta}^{(d)})$ como pago. Así, durante el entrenamiento cada jugador intenta maximizar su propio pago, para que en convergencia se tenga \pause
+
+\begin{equation*}
+g^{*} = \textrm{arg} \textrm{min}_{g} \textrm{max}_{d} v(g,d)
+\end{equation*} \pause
+
+Esto motiva a que el discriminador aprenda a clasificar correctamente entre muestras reales y falsas y, simulatáneamente, el generador intenta engañar al clasificador para que crea que las muestras generadas son reales. En convergencia, las muestras del generador son indistinguibles de los datos reales. Una motivación del uso de GANs es que cuando $\textrm{max}_{d} v(g,d)$ es convexa en $\bm{\theta}^{(g)}$, el procedimiento asegura la convergencia.
+
+
+\end{frame}
+
+\begin{frame}{Redes Generativas Adversariales}
+\begin{figure}[H]
+\captionsetup{font=small,labelfont=small}
+\centering
+\includegraphics[scale=.7]{../img/gans.PNG}
+\caption{Imágenes generadas por una GAN entrenada con el set de datos LSUN. (Izquierda) Imágenes de dormitorios generadas por el modelo DCGAN (imagen de Radford et al., 2015). (Derecha) Imágenes de iglesias generadas por el modelo LAPGAN (imagen de Denton et al., 2015)}
+\end{figure}
+
+\end{frame}
+
 \begin{frame}
   \titlepage
 \end{frame}
@@ -124,6 +237,6 @@ Hasta ahora hemos visto varias modificaciones del descenso de gradiente estocás
 
 
 %Quitar de comentarios apenas se agregue alguna referencia 
-%\bibliography{../capitulos/referencias} %Bibliografía
-%\bibliographystyle{apacite}
+\bibliography{../capitulos/referencias} %Bibliografía
+\bibliographystyle{apacite}
 \end{document} 
