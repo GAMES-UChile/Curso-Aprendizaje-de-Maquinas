@@ -79,7 +79,7 @@ Con los parámetros del modelo regresión lineal encontrados con el criterio de 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/cap1_chirridos.pdf}\\
+	\includegraphics[width=0.9\textwidth]{img/cap2_chirridos.pdf}\\
 	\caption{Ejemplo de regresión lineal mediante mínimos cuadrados sobre la base de datos de chirridos versus temperatura.}
 	\label{fig:reg_lin_1}
 \end{figure}
@@ -147,7 +147,7 @@ por lo tanto:
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.45\textwidth]{img/LinRegGeo.pdf}\\
+	\includegraphics[width=0.45\textwidth]{img/cap2_intuicionLinReg.pdf}\\
 	\caption{Interpretación geométrica de la regresión lineal y mínimos cuadrados}
 	\label{fig:projection}
 \end{figure}
@@ -158,7 +158,7 @@ Finalmente, notemos que el criterio de  mínimos cuadrados (MC) también tiene d
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/cap1_chirridos_outlier.pdf}\\
+	\includegraphics[width=0.8\textwidth]{img/cap2_chirridos_outlier.pdf}\\
 	\caption{Se ha agregado un dato erróneo (\emph{outlier} en gris) y se ha recalculado la regresión lineal, note cómo la inclusión de dicho punto deteriora el resultado de la regresión.}
 	\label{fig:reg_lin_2}
 \end{figure}
@@ -167,7 +167,7 @@ La lección que queda de este ejemplo es que debemos considerar una métrica \em
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/cap1_errores.pdf}\\
+	\includegraphics[width=0.8\textwidth]{img/cap2_errores.pdf}\\
 	\caption{Distintas funciones de costo en función del error de estimación, de izquierda a derecha: cuadrático, absoluto (crecimiento lineal en función del error), $\epsilon$-insensible (es irrelevante si el error está entre 0 o  $\epsilon$) y acotado (es irrelevante si el error es mayor que cierto umbral).}
 	\label{fig:reg_lin_err}  
 \end{figure}
@@ -268,7 +268,7 @@ y = X@theta + 10rng.randn(n_samples, 1)
 
  \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/cap1_bias-variance.pdf}\\
+	\includegraphics[width=0.8\textwidth]{img/cap2_bias-variance.pdf}\\
 	\caption{Mínimos cuadrados versus regresión de Ridge ($\rho\in\{40,80\}$): determinación de parámetros usando solo 15 muestras para un parámetro de dimensión $M=100$. De derecha a izquierda podemos ver magnitud de los parámetros encontrados, error dentro de muestra y error fuera de muestra. Experimento repetido 400 veces.}
 	\label{fig:MCvsRR_Synth}  
 \end{figure}
@@ -299,7 +299,7 @@ Con la interpretación del problema de regularización como un problema de optim
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/cap1_regularizadores.pdf}\\
+	\includegraphics[width=0.8\textwidth]{img/cap2_regularizadores.pdf}\\
 	\caption{Curvas de nivel del costo cuadrático para un problema hipotético con solución $\theta=[10,20]$ (izquierda) y términos de regularización para órdenes $p\in\{0.5,1,2\}$. Observe cómo las curvas de nivel atraen el mínimo hacia el origen de distinta forma: $p=2$ lleva la solución directamente al origen, mientras que $p\in\{0.5,1\}$ lleva la solución a los bordes, es  decir, privilegiando soluciones ralas. La solución $\theta=[10,20]$ se ha denotado con una cruz azul, recuerde que solo el costo cuadrático depende de este valor, no los términos de regularización. }
 	\label{fig:reg_lin_reg}  
 \end{figure}
@@ -311,7 +311,7 @@ Para ilustrar la propiedad de selección de características, consideremos el \e
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/cap1_OLS_RR_LASSO.pdf}\\
+	\includegraphics[width=0.8\textwidth]{img/cap2_OLS_RR_LASSO.pdf}\\
 	\caption{Parámetros de la regresión lineal del \emph{Breast Cancer Dataset} usando MC, RR y LASSO. Observe cómo RR y LASSO disminuye críticamente la magnitud de los parámetros y, además, LASSO lleva parámetros directamente a cero, resultando en un modelo más simple (i.e, con menos parámetros).}
 	\label{fig:MC_RR_LASSO_breastcancer}  
 \end{figure}
@@ -351,7 +351,7 @@ $\bullet$ Vimos que la norma $\ell_p$ con $0<p\leq1$ tiene la propiedad de selec
 
 En el apartado anterior vimos que para la regresión lineal, el criterio de  mínimos cuadrados, y su variante regularizada, ofrecen una alternativa simple, elegante, interpretable y con solución en forma cerrada. Sin embargo, también vimos que dicho criterio sufre de desventajas en cuanto a su capacidad de ajustar modelos en casos generales, pues el criterio de MC es particularmente apropiado para variables continuas, con perturbaciones aditivas  y simétricamente dispersas con respecto a una tendencia dada. Existen distintos casos donde el criterio de MC no es apropiado, por ejemplo aplicaciones financieras con  perturbaciones multiplicativas, mediciones de intensidad como frecuencia de aparición de palabras o sismos en donde las perturbaciones son con alta probabilidad solo positivas, y problemas de clasificación o asignación (\emph{clustering}) en donde las métricas de error toman la forma como ``correcto''/``incorrecto'', con lo que una medida de error que reporte ajustes ``más incorrectos'' no tiene sentido. \\
 
-Una alternativa natural es considerar una métrica de desempeño distinta y diseñada específicamente en función  de cada aplicación con la finalidad de capturar asimetrías, no-estacionariedad, asignación correcta e invarianzas (en el problema de \emph{clustering} por ejemplo) entre otras propiedades. Sin embargo, esta no solo es una tarea tediosa y poco elegante --- en el sentido que va en contra los objetivos de inteligencia artificial expuestos en el Capítulo \ref{cap:intro} --- sino que puede ser muchas veces impracticable, pues precisamente no conocemos cuáles son las propiedades de los datos antes de ajustar modelos. Además, usar distintas métricas dificulta la interpretación y comparación de los enfoques considerados. Consecuentemente, nos proponemos considerar un criterio global de ajuste de modelos, el que en cada caso particular \emph{colapse} a una forma explícita que sí es \emph{ad hoc} al problema/modelo en cuestión y permite comparar distintos enfoques de manera unificada.\\
+Una alternativa natural es considerar una métrica de desempeño distinta y diseñada específicamente en función  de cada aplicación con la finalidad de capturar asimetrías, no-estacionariedad, asignación correcta e invarianzas (en el problema de \emph{clustering} por ejemplo) entre otras propiedades. Sin embargo, esta no solo es una tarea tediosa y poco elegante --- en el sentido que va en contra los objetivos de inteligencia artificial expuestos en el capítulo inicial --- sino que puede ser muchas veces impracticable, pues precisamente no conocemos cuáles son las propiedades de los datos antes de ajustar modelos. Además, usar distintas métricas dificulta la interpretación y comparación de los enfoques considerados. Consecuentemente, nos proponemos considerar un criterio global de ajuste de modelos, el que en cada caso particular \emph{colapse} a una forma explícita que sí es \emph{ad hoc} al problema/modelo en cuestión y permite comparar distintos enfoques de manera unificada.\\
 
 El enfoque general para ajuste de modelos que consideraremos en esta sección, y continuaremos utilizando durante el resto del curso, será el \emph{criterio  de máxima verosimilitud}, dado un conjunto de datos de entrenamiento $\datos$. Este es un criterio general para una amplia gama de modelos que, tal como se mencionó en el párrafo anterior, toma una  forma específica en cada problema, aunque su solución no siempre es calculable de forma explícita. Este enfoque es radicalmente distinto al de MC y a cualquier otro criterio de ``ajuste'': con el criterio MC se asume que ningún modelo es el modelo correcto y por lo tanto se busca un modelo \emph{aproximado} a los datos tal que la discrepancia entre el modelo candidato y los datos sea mínima. Por el contrario, en el criterio de \emph{máxima verosimilitud} nuestro objetivo es encontrar el modelo que --- con mayor probabilidad --- ha generado \emph{exactamente} los datos observados. Debido a la naturaleza aleatoria de los datos, para implementar este concepto es necesario considerar modelos probabilísticos, de forma de poder calcular la probabilidad de que los datos $\datos$ hayan sido generados por un modelo $m$, luego, elegiremos  el modelo que maximice dicha probabilidad. \\
 
@@ -379,7 +379,7 @@ el cual consta de una parte determinística (afín en $x$) y una parte aleatoria
 \begin{equation}
 	y|x \sim p(y|x,\theta) = \cN(y;a^\top x + b ,\sigma_\epsilon^2),\label{eq:mod_lin_gau}
 \end{equation}
-donde hemos denotados el vector de todos los parámetros del modelo mediante $\theta = [a,b,\sigma_\epsilon^2]$.\\
+donde hemos denotados el vector de todos los parámetros del modelo mediante $\theta = (a,b,\sigma_\epsilon^2)^\top$.\\
 
 Si bien, lo siguiente no es necesario en el caso general, usualmente asumiremos que las realizaciones del modelo anterior, i.e., los datos $\{y_i\}_{i=1}^N$ generados a partir de la entrada $\{x_i\}_{i=1}^N$, son \textbf{condicionalmente independientes} dado el modelo. Esto significa que \emph{si conociésemos el modelo}, o  equivalentemente, si conociésemos $\theta$, y dos entradas $x_i,x_j$ independientes, entonces las  salidas correspondientes $y_i,y_j$ son independientes. Es importante clarificar que los valores generados por el modelo $\{y_i\}_{i=1}^N$ \textbf{no son independientes}. En efecto, si fuesen independientes no podríamos hacer predicciones: la predicción de una observación nueva $y_\star$ en base a una secuencia de observaciones $\{y_i\}_{i=1}^N$ estaría dada por\footnote{Hemos ignorado la dependencia de las variables independientes $\{x_i\}_{i=1}^N$, $x_\star$.}
 \begin{equation}
@@ -426,7 +426,7 @@ Consideremos un  modelo gaussiano definido por
 \begin{equation}
 	y \sim p(y|\mu,\sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(\frac{-(y-\mu)^2}{2\sigma^2}\right), \label{eq:ejemplo_gaussiano}
 \end{equation}
-y las observaciones $\y = \{y_i\}_{i=1}^N$ iid. La verosimilitud  de $\theta  =  [\mu,\sigma^2]$ está dada por 
+y las observaciones $\y = \{y_i\}_{i=1}^N$ iid. La verosimilitud  de $\theta  =  (\mu,\sigma^2)^\top$ está dada por 
 \begin{align}
   	L(\theta)  &=  p(\y|\mu,\sigma^2) \stackrel{\text{(iid)}}{=}\prod_{i=1}^N p(y_i|\mu,\sigma^2) = \prod_{i=1}^N \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(\frac{-(y_i-\mu)^2}{2\sigma^2}\right)\nonumber\\ 
   				 &= \frac{1}{(2\pi\sigma^2)^{N/2}}  \exp\left(\frac{-\sum_{i=1}^N(y_i-\mu)^2}{2\sigma^2}\right)\nonumber\\
@@ -441,7 +441,7 @@ y las observaciones $\y = \{y_i\}_{i=1}^N$ iid. La verosimilitud  de $\theta  = 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth, frame]{img/cap1_gaussian_likelihood}\\
+	\includegraphics[width=0.8\textwidth, frame]{img/cap2_gaussian_likelihood}\\
 	\caption{Densidad normal (izquierda, $\mu=0$ y $\sigma=1$) y verosimilitud para la media y la varianza en base a 20 (centro) y 200 (derecha) observaciones.}
 	\label{fig:gaussian_likelihood}  
 \end{figure}
@@ -522,7 +522,7 @@ Con lo cual se obtiene, sin sorpresa alguna, la misma expresión de la varianza 
 
 En la práctica, consideraremos la minimización de la log-verosimilitud negativa (en vez de la maximización de la log-verosimilitud) en línea con la literatura y software dedicados a la minimización de funciones. 
 
-\subsection{Regresión via inferencia bayesiana} 
+\subsection{Regresión vía inferencia bayesiana} 
 \label{sub:inferencia_bayes}
 
 En el apartado anterior vimos el ajuste de modelos, estimación de parámetros o \emph{inferencia}, mediante la maximización de la función de verosimilitud. Es decir, en base a un conjunto de observaciones $\y$ asignamos el valor más \emph{verosímil} al parámetro desconocido $\theta$, dado por $\hat\theta^\star = \arg\max  L_\y(\hat\theta)$. Es claro por qué esta estimación puntual tiene sentido, desde el punto de vista de la probabilidad de los datos y de la mínima discrepancia contra el modelo real en base a la  divergencia de Kullback-Leibler. Sin embargo, solo tomar el máximo ignora el resto de la información contenida en la función de verosimilitud, por ejemplo, si consideramos funciones de verosimilitud distintas (bimodales, con colas pesadas/livianas, asimétricas, discretas, etc.), todas esa propiedades no se reflejan en la estimación del parámetro $\theta$ si  estas verosimilitudes coinciden en el máximo. Esta es una limitación fundamental no solo del método de máxima verosimilitud, sino que de la estimación puntual en general. \\
@@ -645,7 +645,9 @@ Recordemos que, para observaciones $\datos=\{(x_i,y_i)\}_{i=1}^n$, el modelo de 
 \begin{equation}
  	Y = \tX\theta + \bepsilon,
  \end{equation}
- donde $[\tX]_{i:} = [x_i^\top,1],\ [Y]_i = y_i,\ [\bepsilon]_i = \epsilon_i\sim\cN(0,\sigma^2),\ \theta = [a;b]$. Con lo que su verosimilitud está dada por 
+ donde $[\tX]_{i:} = [x_i^\top,1],\ [Y]_i = y_i,\ [\bepsilon]_i = \epsilon_i\sim\cN(0,\sigma^2),\ \theta = [a;b]$.\\
+ 
+Por lo tanto, su verosimilitud está dada por:
 \begin{align}
 	L(\theta,\sigma^2) &= \MVN(Y; \tX\theta, \eye\sigma^2)\\
 					&\propto \left(\sigma^2\right)^{-n/2}   \exp\left(-\frac{1}{2\sigma^2} (Y - \tX\theta)^\top(Y - \tX\theta)\right),\nonumber
@@ -673,10 +675,10 @@ donde $\epsilon\sim\cN(0,0.5^2)$. Desde arriba hacia abajo, se han considerado $
 \begin{minipage}[t]{0.65\textwidth}
 
 \begin{figure}[H]
-	\includegraphics[width=\textwidth,frame]{img/cap1_bayesian_lin_reg_0.pdf}\\
-	\includegraphics[width=\textwidth,frame]{img/cap1_bayesian_lin_reg_1.pdf}\\
-	\includegraphics[width=\textwidth,frame]{img/cap1_bayesian_lin_reg_2.pdf}\\
-	\includegraphics[width=\textwidth,frame]{img/cap1_bayesian_lin_reg_50.pdf}
+	\includegraphics[width=\textwidth,frame]{img/cap2_bayesian_lin_reg_0.pdf}\\
+	\includegraphics[width=\textwidth,frame]{img/cap2_bayesian_lin_reg_1.pdf}\\
+	\includegraphics[width=\textwidth,frame]{img/cap2_bayesian_lin_reg_2.pdf}\\
+	\includegraphics[width=\textwidth,frame]{img/cap2_bayesian_lin_reg_50.pdf}
 	\caption{Regresión lineal bayesiana}
 	\label{fig:bayesian_lin_reg}
 \end{figure}
@@ -766,7 +768,7 @@ Ahora, realizaremos tres experimentos, en los cuales elegimos $n\in\{10,100,1000
 
 \begin{figure}[H] 
 	\centering	
-	\includegraphics[width=0.75\textwidth,frame ]{img/cap1_bayesian_binomial.pdf}
+	\includegraphics[width=0.75\textwidth,frame ]{img/cap2_bayesian_binomial.pdf}
 	\caption{Concentración de la distribución posterior en el modelo binomial.}
 	\label{fig:bayes_binomial}
 \end{figure}
@@ -812,7 +814,7 @@ Observemos que esta expresión es equivalente al costo cuadrático regularizado 
 
 Si bien en la ec.~\eqref{eq:MAP_reg_lin} elegimos un prior Gaussiano, pudimos haber elegido un prior exponencial $p(\theta)\propto\exp(\gamma|\theta|)$, con lo que habríamos llegado a MCR con regularización $p=1$ (o LASSO). Esto conecta claramente el uso de una distribución a priori dentro de la inferencia Bayesiana con el criterio general de regularización: El imponer un prior sobre $\theta$ es \emph{promover}, mediante probabilidades relativas, algunas soluciones para $\theta$; mientras que, por el contrario, el uso de un regularizador \emph{penaliza} algunas soluciones. Ajustando apropiadamente la función de regularización y la distribución a priori, podemos llegar a soluciones equivalentes en ambos casos, en particular, la elección de un prior uniforme equivale a un coeficiente de regularización $\rho$ nulo. Sin embargo, debemos recordar que además de la estimación puntual MAP, el enfoque bayesiano entrega la distribución completa sobre el parámetro desconocido. \\ 
 
-Un ejemplo de la conexión entre regularizadores y priors puede ser obtenido directamente del desarrollo anterior. La razón entre las varianzas del ruido y del prior en la ec.~\eqref{eq:MAP_reg_lin}, dada por $\sigma_\epsilon^2/\sigma_\theta^2$, toma el mismo rol que el peso del regularizador $\rho/p$ en la formulación de MCR en la  ec.~\eqref{eq:reg_least_squares}. Esto implica que un prior con varianza $\sigma_\theta^2$ pequeña (cf. grande) es equivalente a un problema de MCR con un $\rho$ grande (cf. pequeño), lo cual tiene sentido:  $\theta$ puede ser ``llevado a cero'' mediante la asignación de un prior concentrado en cero o bien penalizando el magnitud de $\theta$ (MCR).\\
+Un ejemplo de la conexión entre regularizadores y priors puede ser obtenido directamente del desarrollo anterior. La razón entre las varianzas del ruido y del prior en la ec.~\eqref{eq:MAP_reg_lin}, dada por $\sigma_\epsilon^2/\sigma_\theta^2$, toma el mismo rol que el peso del regularizador $\rho$ en la formulación de MCR en la  ec.~\eqref{eq:reg_least_squares}. Esto implica que un prior con varianza $\sigma_\theta^2$ pequeña (cf. grande) es equivalente a un problema de MCR con un $\rho$ grande (cf. pequeño), lo cual tiene sentido:  $\theta$ puede ser ``llevado a cero'' mediante la asignación de un prior concentrado en cero o bien penalizando el magnitud de $\theta$ (MCR).\\
 
 Desde ahora, podemos referirnos como MAP a las estimaciones puntuales en general pues, como acabamos de ver, esta es equivalente a MCR y al mismo tiempo contiene al criterio de máxima verosimilitud como caso particular (cuando el prior es uniforme). Además, para modelos generales (distintos al caso lineal y gaussiano) el MAP no podrá ser calculado de forma explícita imponiendo 
 \begin{equation}
@@ -848,11 +850,10 @@ Siguiendo el ejemplo anterior de la distribución binomial, recordemos que al as
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\textwidth]{img/cap1_bayesian_binomial_MAP.pdf}
+	\includegraphics[width=0.9\textwidth]{img/cap2_bayesian_binomial_MAP.pdf}
 	\caption{Concentración de MAP y reducción de varianza posterior: modelo binomial.}
 	\label{fig:binomial_MAP}
 \end{figure}
-
 
 \end{mdframed}
 
@@ -861,7 +862,7 @@ Siguiendo el ejemplo anterior de la distribución binomial, recordemos que al as
 
 Luego de haber discutido la estimación de parámetros, tanto desde el punto de vista puntual (MC, MCR, MV, MAP) como de estimación bayesiana, ahora veremos cómo estas estimaciones se utilizan para hacer predicciones. \\
 
-Definamos en primer lugar el contexto para nuestra pedicción. Consideremos un modelo $p(y|x)$, con parámetro $\theta$, del cual se han obtenido datos denotados mediante $\datos = \{(x_i,y_i)\}_{i=1}^N$. Además, introduciremos el concepto de \emph{variable latente}, es decir, una variable dentro del modelo que no es observable, pero que nos interesa predecir. Esta definición es clave para estudiar la predicción: si bien la construcción del modelo para $y$ tiene como objetivo modelar la generación de datos ($\theta$) y sus observaciones ($\sigma$), nuestro objetivo final es predecir la cantidad latente, no la observación futura;  pues la observación contiene una perturbación asociada a su incertidumbre aleatoria. En el caso lineal, por ejemplo, denotamos la variable latente como $f = \theta^\top x$, donde el modelo está dado por
+Definamos en primer lugar el contexto para nuestra pedicción. \ Además, introduciremos el concepto de \emph{variable latente}, es decir, una variable dentro del modelo que no es observable, pero que nos interesa predecir. Esta definición es clave para estudiar la predicción: si bien la construcción del modelo para $y$ tiene como objetivo modelar la generación de datos ($\theta$) y sus observaciones ($y$), nuestro objetivo final es predecir la cantidad latente, no la observación futura;  pues la observación contiene una perturbación asociada a su incertidumbre aleatoria. En el caso lineal, por ejemplo, denotamos la variable latente como $f = \theta^\top x$, donde el modelo está dado por
 \begin{equation}
 		 y = \theta^\top x  + \epsilon = f + \epsilon, \quad \epsilon \sim \cN(0,\sigma^2).
 \end{equation}
@@ -913,10 +914,10 @@ donde hemos denotado por $\bar \theta$ a la media posterior de $\theta$. Consecu
 Finalmente, la Fig.~\ref{fig:rpredicciones_reg_lin} muestra la implementación de las 4 formas de predecir usando el modelo lineal aplicado al dataset de grillos y temperatura usado inicialmente en la Fig.~\ref{fig:reg_lin_reg}. Es posible ver como la  predicción bayesiana da sutilmente distintas predicciones que en los extremos del modelo reportan más incertidumbre, mientras que la predicción de $y$ considera tanto ruido que presenta una banda de incertidumbre \emph{uniforme} a lo largo de las observaciones. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred1}
-	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred2}
-	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred3}
-	\includegraphics[width=0.45\textwidth]{img/cap1_chirridos_pred4}
+	\includegraphics[width=0.49\textwidth]{img/cap2_chirridos_pred1}
+	\includegraphics[width=0.49\textwidth]{img/cap2_chirridos_pred2}
+	\includegraphics[width=0.49\textwidth]{img/cap2_chirridos_pred3}
+	\includegraphics[width=0.49\textwidth]{img/cap2_chirridos_pred4}
 	\caption{Ejemplo de predicción usando el modelo lineal para la  base de datos de grillos y temperatura. Desde la esquina superior izquierda: predicción plug-in de $f$, predicción plug-in de $y$, predicción bayesiana de $f$ (20 muestras), predicción bayesiana de $y$ (20 muestras).}
 	\label{fig:rpredicciones_reg_lin} 
 \end{figure}
@@ -1026,7 +1027,7 @@ Un buen conjunto de características no solo ayuda a una buena representación (
 \end{mdframed}
 
 
-\subsubsection{Ejemplos de transformaciones}
+\subsubsection{Ejemplo de transformaciones}
 
 La selección de las características es fundamental para una representación apropiada de nuestros datos y consecuentemente para el desempeño del modelo de regresión no lineal. En efecto, si la familia de funciones $\phi_1,\ldots,\phi_D$ no captura la representación de las características de forma compatible con el modelo lineal, el esfuerzo por ajustar la parte lineal del modelo será infructuoso. En general, la elección de la base de funciones debe ser diseñada y evaluada caso a caso.\\
 
@@ -1129,8 +1130,10 @@ Además, hemos considerado 12 años de datos con frecuencia mensual (144 datos),
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth, frame]{img/cap1_pasajeros.pdf}
+    \includegraphics[width=0.9\textwidth, frame]{img/cap2_pasajeros.pdf}
     \caption{Regresión no-linea de cantidad de pasajeros en el tiempo. Arriba-izq: datos de entrenamiento, arriba-der: modelo con componente polinomial, abajo-izq: modelo con componentes polinomial y oscilatoria (amplitud fija), abajo-der: modelo con componentes polinomial y oscilatoria (amplitud creciente).}
     \label{fig:pasajeros}  
 \end{figure}
 \end{mdframed}
+
+
