@@ -22,7 +22,7 @@ donde $\sigma:\{1,2,\ldots,M\}\mapsto\{1,2,\ldots,M\}$ es una permutación que p
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]{img/cap8_pca.pdf}
+	\includegraphics[width=0.6\textwidth]{img/cap6_pca.pdf}
 	\caption{Base ortogonal de $\R^2$ formada por las componentes principales de los datos. Se observa en este caso que ninguna de las componentes principales corresponde a un vector de la base canónica. El eje que cruza los cuadrantes 1 y 3 corresponde a $\cvector_1$ y el otro, a $\cvector_2$.}
 	\label{fig:ej_fda}
 \end{figure}
@@ -118,7 +118,7 @@ En la Figura \ref{fig:kpca} se puede observar un ejemplo en que el resultado de 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.7\linewidth]{img/cap7_kpca.pdf}
+    \includegraphics[width=0.7\linewidth]{img/cap6_kpca.pdf}
     \caption{Ejemplo de KPCA sobre un conjunto de datos que no es linealmente separable.}
     \label{fig:kpca}
 \end{figure}
@@ -193,13 +193,13 @@ En general, al proyectar un objeto $M$-dimensional en un espacio  1-dimensional,
 
 Con el objetivo de encontrar el vector $a$ que cumple con este requerimiento en base a un conjunto de datos  $\datos$, primero definamos las cardinalidades de clases mediante $N_1 = |\{x\in\datos:x\in\cC_1\}|$ y $N_2 = |\{x\in\datos:x\in\cC_2\}|$, lo cual permite calcular los promedios muestrales (centros de masa) de cada  clase mediante: 
 \begin{equation}
-	\mu_1=\frac{1}{N_1}\sum_{n\in\mathcal{C}_1}x_n,
+	\mu_1=\frac{1}{N_1}\sum_{n\in\mathcal{C}_1}x_n
 	\quad\quad\quad
-	\mu_2=\frac{1}{N_2}\sum_{n\in\mathcal{C}_2}x_n.
+	\mu_2=\frac{1}{N_2}\sum_{n\in\mathcal{C}_2}x_n
 \end{equation}
 La medida más simple de separación entre las proyecciones de las clases sobre $a$ es la distancia entre las medias  de sus proyecciones:
 \begin{equation}
-	m_1 - m_2 = a^\top(\mu_1-\mu_2),
+	m_1 - m_2 = a^\top(\mu_1-\mu_2)
 \end{equation}
 donde $m_k= a^\top\mu_k$ corresponde al promedio de los elementos de  la clase $\mathcal{C}_k$ proyectado sobre el  vector $a$ (centro de masa sobre la recta). Consecuentemente, el vector $a$ que maximiza la distancia entre la proyección de clases es el que maximiza la expresión anterior. Sin embargo, esta expresión puede ser arbitrariamente grande si escalamos $a$, por lo que se fijará $\left \| a \right \|_2=1$. Además, por la desigualdad de Cauchy-Schwarz, $|a^\top(\mu_1-\mu_2)|\leq \norm{a}\norm{\mu_1-\mu_2}$ con igualdad si y solo si los vectores son paralelos. De este modo, se llega a que $a\propto(\mu_1-\mu_2)$. \\
 
@@ -244,7 +244,7 @@ La Figura \ref{fig:ej_fda} muestra el  discriminador lineal que solo considera l
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\textwidth]{img/cap2_dos_clases_proyeccion.pdf}
+	\includegraphics[width=0.8\textwidth]{img/cap6_dos_clases_proyeccion.pdf}
 	\caption{Discriminador lineal considerando solo la media entre clases (izquierda) y  su extensión mediante la corrección de Fisher que incorpora la varianza muestral de los datos.}
 	\label{fig:ej_fda}
 \end{figure}
@@ -323,7 +323,7 @@ El método de Forgy es preferido cuando se realiza k-means mediante el algoritmo
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.7\textwidth]{img/cap7_k_medias}
+  \includegraphics[width=0.7\textwidth]{img/cap6_k_medias}
   \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por k-means.}
   \label{fig:kmeans}
 \end{figure}
@@ -335,7 +335,7 @@ Por otra parte, la asignación de cluster mediante el centroide más cecano prov
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.6\textwidth]{img/cap8_voronoi}
+  \includegraphics[width=0.6\textwidth]{img/cap6_voronoi}
   \caption{Partición de $\mathbb{R}^2$ inducida por los centroides.}
   \label{fig:kmeans}
 \end{figure}
@@ -412,7 +412,7 @@ La Figura \ref{fig:gmm} muestra un ejemplo de clustering utilizando GMM. En este
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/cap7_gmm}
+  \includegraphics[width=0.8\textwidth]{img/cap6_gmm}
   \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por GMM.}
   \label{fig:gmm}
 \end{figure}
@@ -513,7 +513,7 @@ La figura \ref{fig:dbscan} muestra un ejemplo de clustering utilizando DBSCAN. A
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.8\textwidth]{img/cap7_dbscan}
+  \includegraphics[width=0.8\textwidth]{img/cap6_dbscan}
   \caption{Datos reales con sus etiquetas correctas (izquierda) y clusters encontrados por DBSCAN (derecha).}
   \label{fig:dbscan}
 \end{figure}
