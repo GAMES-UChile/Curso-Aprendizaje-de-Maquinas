@@ -38,7 +38,7 @@ donde $w\in \R^n$ es el vector perpendicular al hiperplano y $b\in \R$ es el \em
 El problema de clasificación consiste en encontrar dichos parámetros de acuerdo a algún criterio, en este caso es el criterio del máximo margen. Notemos en primer lugar que este problema no tiene solución única, pues si $(w,b)$ son solución entonces $(\lambda w, \lambda b)$, $\lambda>0$ también lo son. Para evitar esta \emph{invarianza} con tal de que el problema tenga solución única, podemos imponer una restricción sobre los bordes del margen. Denotando vectores soporte de cada clase mediante $x_{+}$ y $x_{-}$, se impone que para todo vector soporte $x_+$, $x_-$, estos pertenezcan a su respectiva clase, es decir:
 \begin{align}
  	w^\top x_{+} + b &= 1 \label{ec:borde_svm1}\\
- 	w^\top x_{-} + b &=  -1,\label{ec:borde_svm2}
+ 	w^\top x_{-} + b &=  -1\label{ec:borde_svm2}
  \end{align}
  donde estos vectores soportes puede no ser únicos. Observemos que si bien aún no sabemos cuales son los vectores de soporte, podemos imponer esta restricción de todas formas, las que se van a traducir en las restricciones del problema de optimización que definirá la solución del problema de clasificación.\\
  
@@ -51,7 +51,7 @@ m &= \frac{1}{2} \norm{\operatorfont{proy}_w(x_+-x_-)} = \frac{1}{2} \norm{x_+-x
 & =\frac{1}{2\norm{w}} w^\top(x_+ - x_-)
 \end{align}
 
-Donde se usó el hecho de que $cos\left(\measuredangle(x,y)\right) = \frac{\langle x,y\rangle}{\norm{x}\norm{y}}$.
+Donde se usó el hecho de que $\cos\left(\measuredangle(x,y)\right) = \frac{\langle x,y\rangle}{\norm{x}\norm{y}}$.
 
 \begin{figure}[ht]
     \centering
@@ -65,12 +65,12 @@ Veamos que el ancho del margen $m$ no depende explícitamente de los vectores so
 \begin{align}
     m &= \frac{1}{2||w||} \left( (w^\top x_{+}) - (w^\top x_{-})\right)\nonumber\\
     &= \frac{1}{2||w||} \left((1-b) - (-1-b)\right)\nonumber\\
-    &= \frac{1}{||w||}.\label{eq:margen}
+    &= \frac{1}{||w||}\label{eq:margen}
 \end{align}
 Además, consideremos la siguiente codificación para las clases:
 \begin{alignat}{3}
     y_i&=+1 &&\Leftrightarrow w^\top x_i + b \geq +1 \label{eq:codif_svm1}\\
-    y_i &=-1 &&\Leftrightarrow w^\top x_i + b \leq -1.\label{eq:codif_svm2}
+    y_i &=-1 &&\Leftrightarrow w^\top x_i + b \leq -1\label{eq:codif_svm2}
  \end{alignat}
  
 En base a la expresión de la ec.~\eqref{eq:margen} para el ancho del margen y la codificación de clases anterior, podemos formular el problema de clasificación de máximo margen mediante  siguiente problema de optimización:
@@ -79,7 +79,7 @@ En base a la expresión de la ec.~\eqref{eq:margen} para el ancho del margen y l
 & \underset{w,b}{\text{max}}
 & & \frac{1}{||w||}\\
 & \text{s.a}
-& & y_i (w^\top x_i +b) \geq 1, \; i = 1, \ldots, N.
+& & y_i (w^\top x_i +b) \geq 1, \; i \in\{ 1, \ldots, N\}
 \end{aligned}
 \end{equation}
 Lo cual simplemente quiere decir que se está maximizando el ancho del margen, sujeto a que todas las muestras estén bien clasificadas. Es importante notar que este problema es factible solo si las clases son linealmente separable ya que restricción exige que todas las muestran queden bien clasificadas.\\
@@ -90,7 +90,7 @@ Para evitar problemas de diferenciablidad del recíproco de la raíz cuadrada en
 (P)\quad & \underset{w,b}{\min}
 & & \frac{1}{2}||w||^2\\
 & \text{s.a}
-& & y_i (w^\top x_i +b) \geq 1, \; i = 1, \ldots, N.
+& & y_i (w^\top x_i +b) \geq 1, \; i \in\{ 1, \ldots, N\}
 \end{aligned}
 \end{equation}
 Este problema de optimización con restricciones puede ser resuelto mediante el método de Lagrange, donde resolvemos el \emph{problema dual} (ver anexos), el cual tiene una estructura más ``amigable'' para resolver. Además, luego veremos que la resolución mediante este método es fundamental para la extensión no-lineal de SVM.\\
@@ -126,7 +126,7 @@ Finalmente, el problema dual consiste en maximizar $\theta(\alpha)$ sujeto a que
 \end{aligned} \label{eq:dualSVM}
 \end{equation}
 
-La segunda restricción se heredó de la CPO impuesta sobre $L$ al calcular $\theta(\alpha)$. Este problema es del tipo QP (\emph{quadratic programming}), para el cual existen variados métodos para resolverlo de manera óptima y eficiente. Por otra parte,
+La primera restricción se heredó de la CPO impuesta sobre $L$ al calcular $\theta(\alpha)$. Este problema es del tipo QP (\emph{quadratic programming}), para el cual existen variados métodos para resolverlo de manera óptima y eficiente. Por otra parte,
 
 \begin{equation}
 \sum\limits_{i,j=1}^{N} \alpha_i \alpha_j y_i y_j \langle x_i, x_j\rangle = \sum\limits_{i,j=1}^{N}  \alpha_i \langle   y_i x_i,  y_jx_j\rangle \alpha_j = \alpha^\top \Lambda \alpha,
@@ -141,18 +141,17 @@ Donde $\Lambda\in\R^{N\times N}$ corresponde a una matriz de Gram (en alguna bas
 Además, se tiene la siguiente propiedad:
 
 \begin{lemma}
-	$A$ es definida positiva si y solo si $f(x)= x^tAx + b^tx + c$ es estrictamente convexa.
+	$A$ es definida positiva si y solo si $f(x)= x^\top Ax + b^\top x + c$ es estrictamente convexa.
 \end{lemma}
 
 \begin{proof}
-	Basta verlo para la forma cuadrática $f(x)=x^tAx$. Sea $\lambda\in (0,1)$ y $x,y\in\R^n$, entonces:
-
+	Basta verlo para la forma cuadrática $f(x)=x^\top Ax$. Sea $\lambda\in (0,1)$ y $x,y\in\R^n$ con $x\neq y$, entonces:
 \begin{align*}
-	&\left(\lambda x+(1-\lambda)y\right)^t A \left(\lambda x+(1-\lambda)y\right) <\lambda x^tAx + (1-\lambda)y^tAy\\
-			\iff &\lambda^2 x^tAx + (1-\lambda)^2 y^tAy + \lambda(1-\lambda)x^tAy + \lambda(1-\lambda)y^tAx < \lambda x^t Ax+(1-\lambda)y^tAy\\
-			\iff & \lambda(1-\lambda)x^tAx+\lambda(1-\lambda)y^tAy-\lambda(1-\lambda)y^tAy> 0\\
-			\iff & x^tAx+y^tAy-x^tAy-y^tAx> 0\\
-			\iff & (x-y)^tA(x-y)> 0, \forall x,y\in \R^n:x\neq y\\
+	&\left(\lambda x+(1-\lambda)y\right)^\top A \left(\lambda x+(1-\lambda)y\right) <\lambda x^\top Ax + (1-\lambda)y^\top Ay\\
+			\iff &\lambda^2 x^\top Ax + (1-\lambda)^2 y^\top Ay + \lambda(1-\lambda)x^\top Ay + \lambda(1-\lambda)y^\top Ax < \lambda x^\top Ax+(1-\lambda)y^\top Ay\\
+			\iff & \lambda(1-\lambda)x^\top Ax+\lambda(1-\lambda)y^\top Ay-\lambda(1-\lambda)y^\top Ay> 0\\
+			\iff & x^\top Ax+y^\top Ay-x^\top Ay-y^\top Ax> 0\\
+			\iff & (x-y)^\top A(x-y)> 0, \forall x,y\in \R^n:x\neq y\\
 			\iff &A \text{ es definida positiva}
 \end{align*}
 \end{proof}
@@ -161,7 +160,7 @@ Luego, el funcional de SVM es estríctamente cóncavo, lo cual implica que el m�
 
  Una vez resuelta la formulación dual (i.e., se han encontrado los valores óptimos para $\alpha$), la predicción de un nuevo punto $x_\star$ es de la forma 
 \begin{equation}
- 	\hat{y}(x_\star)= \text{sgn} (\overline{w}^\top x_\star + b) = \text{sgn}\left(\left[\sum\limits_{i=1}^{N} \alpha_i y_i \langle x_i, x_\star\rangle\right] + b\right),
+ 	\hat{y}(x_\star)= \text{sgn} (\overline{w}^\top x_\star + b) = \text{sgn}\left(\left[\sum\limits_{i=1}^{N} \alpha_i y_i \langle x_i, x_\star\rangle\right] + b\right)
  \end{equation}
  
 Finalmente, por el teorema de holgura complementaria, para $\alpha$ óptimo se tiene que
@@ -197,7 +196,7 @@ La formulación del problema de clasificación que \emph{perdona} algunos datos 
 (P)\quad & \underset{w,b, \xi}{\text{min}}
 & & \frac{1}{2}||w||^2 + c\sum\limits_{i=1}^{N} \xi_i \\
 & \text{s.a}
-& & y_i (w\cdot x_i +b) \geq 1 - \xi_i,\;\xi_i\geq0,\; i = 1, \ldots, N
+& & y_i (w\cdot x_i +b) \geq 1 - \xi_i,\;\xi_i\geq0,\; i \in\{ 1, \ldots, N\}
 \end{aligned}
 \end{equation}
 donde $c>0$ es un hiperparámetro. Observemos que la introducción del término $c\sum_{i=1}^{N} \xi_i$ en la función de costo puede ser interpretada como una regularización, tal como lo hicimos con mínimos cuadrados. En efecto, de las restricciones del problema anterior, podemos ver que los $\xi$ indican qué tan mal clasificado está un punto, donde: 
@@ -214,14 +213,14 @@ Estas tres condiciones son ilustradas en la Fig.~\ref{fig:soft_margin}.
     \label{fig:soft_margin}
 \end{figure}
 
-Procediendo de la misma forma que en el caso anterior, el dual de este problema es (lagrangiano):
+Procediendo de la misma forma que en el caso anterior, el dual de este problema es:
 \begin{equation}
 \begin{aligned}
 (D)\quad & \underset{\alpha}{\text{max}}
 & & \sum\limits_{i=1}^{N}\alpha_i - \frac{1}{2} \sum\limits_{i,j=1}^{N} \alpha_i \alpha_j y_i y_j \langle x_i, x_j\rangle\\
 & \text{s.a}
 & & \sum\limits_{i=1}^{N} \alpha_i y_i= 0 \\
-& &  &0 \leq \alpha_i \leq c.
+& &  &0 \leq \alpha_i \leq c
 \end{aligned}
 \end{equation}
 Esta solución similar al caso anterior y también se puede resolver con técnicas de programación cuadrática, en particular, su solución también existe y es única. La diferencia entre ambas soluciones (con y sin variables de holgura) está dada por el hecho de que los multiplicadores de Lagrange ahora están acotados por el hiperparámetro $c$, el que representa la importancia que se da a la suma de las variables de holgura versus el ancho del margen en la función de costo del problema de optimización.\\
@@ -232,18 +231,18 @@ Al no conocer los estadísticos de los datos, en la práctica ajustamos el hiper
 
 \subsection{Método de kernel}
 
-El clasificador SVM (tanto con margen duro o blando) tiene una propiedad muy beneficiosa en el caso linealmente separable: la solución siempre existe, es única y se puede encontrar. Sin embargo, no tenemos ninguna garantía en los casos no separables, los cuales afloran usualmente en la práctica. Consideremos el problema de clasificar una base de datos generadas con una función ``o exclusivo'', o ``XOR'', presentada en la Fig.~\ref{fig:xor}. Estos datos no son linealmente separables, con lo que al calcular el clasificador óptimo  de SVM no llegaríamos a ninguna solución coherente ya que el problema es infactible, sin embargo, notemos que es posible diseñar una característica particular para este conjunto donde sí son separables. 
+El clasificador SVM (tanto con margen duro o blando) tiene una propiedad muy beneficiosa en el caso linealmente separable: la solución siempre existe, es única y se puede encontrar. Sin embargo, no tenemos ninguna garantía en los casos no separables, los cuales afloran usualmente en la práctica. Consideremos el problema de clasificar una base de datos generadas con una función ``o exclusivo'', o ``XOR'', presentada en la Figura~\ref{fig:xor}. Estos datos no son linealmente separables, con lo que al calcular el clasificador óptimo  de SVM no llegaríamos a ninguna solución coherente ya que el problema es infactible, sin embargo, notemos que es posible diseñar una característica particular para este conjunto donde sí son separables. 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.4\textwidth]{img/cap5_xor}
+    \includegraphics[width=0.35\textwidth]{img/cap5_xor}
     \caption{Datos XOR: no son linealmente separables.}
     \label{fig:xor}
 \end{figure}
 
 En efecto, consideremos el mapa desde  $\R^2$ a $\R^3$ definido mediante
 \begin{equation}
-    \phi: [x_1, x_2]^\top \mapsto [x_1, x_2, x_1 x_2]^\top,
+    \phi: [x_1, x_2]^\top \mapsto [x_1, x_2, x_1 x_2]^\top
 \end{equation}
 y observemos que este permite clasificar de forma lineal (y trivial) las clases del problema XOR: ambas quedan clasificadas mediante el plano $z=0$ en $\R^3$, esto es ilustrado en la Fig.~\ref{fig:xor_proyectado}. La función $\phi$ es un ejemplo de una ingeniería de características como las vistas en el capítulo de regresión no lineal, en este caso particular, la característica relevante era precisamente $x_1x_2$.
 
@@ -259,12 +258,12 @@ y observemos que este permite clasificar de forma lineal (y trivial) las clases 
 \begin{remark}
 En el caso del problema XOR conocíamos la característica apropiada, sin embargo, en el caso general no es claro cuál debe ser ``el buen $\phi$''. A pesar de esto, notemos que tanto para la formulación con margen duro o blando de SVM, la solución solo requerirá que seamos capaces de calcular los productos internos entre las características de cada entrada. Es decir, si consideramos un $\phi$ arbitrario para nuestro problema de clasificación, solo necesitaríamos calcular los productos puntos de la forma
 \begin{equation}
-    \langle \phi(x_i) , \phi(x_j) \rangle, 
+    \langle \phi(x_i) , \phi(x_j) \rangle 
 \end{equation}
 para todo $x_i,x_j$ en el conjunto de entrenamiento. 
 \end{remark}
 
-Podemos entonces aplicar la siguiente intuición: seguramente no podemos encontrar el $\phi$ exclusivo de cada problema, sino que podemos utilizar uno (o una clase) que sea muy general, complejo, o ``universal''. Esperamos que esta característica general nos sirva para una gran cantidad de problemas, donde tenemos la garantía de que lo podremos usar como parte de SVM si somos capaces de calcular su producto interno. Además, por ``general'' podemos entender ``de alta dimensión'': podríamos pensar que para un problema en el cual no sabemos el buen $\phi$, podemos considerar incorporar e incorporar características, con lo cual tendríamos una ``característica agregada'' de alta dimensión, esperando que alguno de los términos agregados sea el que efectivamente separa las clases. Si bien no está garantizada la separabilidad lineal al combinar características, al agregar dimensiones los datos están cada vez más separados debido a la maldición de la dimensionalidad (ver anexos) y se puede probar que en dimensión infinita, siempre se podrá separar linealmente.
+Podemos entonces aplicar la siguiente intuición: seguramente no podemos encontrar el $\phi$ exclusivo de cada problema, sino que podemos utilizar uno (o una clase) que sea muy general, complejo, o ``universal''. Esperamos que esta característica general nos sirva para una gran cantidad de problemas, donde tenemos la garantía de que lo podremos usar como parte de SVM si somos capaces de calcular su producto interno. Además, por ``general'' podemos entender ``de alta dimensión'': podríamos pensar que para un problema en el cual no sabemos el buen $\phi$, podemos considerar incorporar e incorporar características, con lo cual tendríamos una ``característica agregada'' de alta dimensión, esperando que alguno de los términos agregados sea el que efectivamente separa las clases. Si bien no está garantizada la separabilidad lineal al combinar características, al agregar dimensiones los datos están cada vez más separados debido a la maldición de la dimensionalidad y se puede probar que en dimensión infinita, siempre se podrá separar linealmente.
 
 \begin{figure}[h]
     \centering
@@ -301,7 +300,7 @@ De esta forma, se tiene el siguiente teorema de analisis funcional que sustenta 
 Es decir, existe un mapa de características $\phi$ tal que $K(x_1, x_2)$ representa el producto interno (en algún espacio) de las características de $x_1$ y $x_2$. Además, dicho espacio no es necesariamente de dimensión finita.
 
 \begin{remark}[truco del kernel]
-La introducción del concepto de kernel es fundamental en SVM. La definición y lema anteriores nos dicen que para cualquier función simétrica y definida positiva $K$, existe una función $\phi$, que puede ser incluso de dimensión infinita, tal que la evaluación del kernel en dos puntos cualquiera equivale al producto interno entre dos evaluaciones de $\phi$ en los mismos puntos, es decir, $K(x_1,x_2)$ representa un producto interno en algún espacio de características. Esto, sumado al hecho de que la solución de SVM solo requiere del cálculo de productos internos, nos permite construir \emph{kernel SVMs}, donde parametrizamos directamente el producto interno en el problema de optimización mediante el kernel, pues esto da la garantía que el mapa de características $\phi$ existe. El caso interesante es cuando ocupamos un kernel que corresponde a un $\phi$ infinito dimensional, pues estamos efectivamente realizando la clasificación en un espacio de dimensión infinita pero con un procedimiento que solo requiere de una cantidad finita de cálculos, esto se llama \emph{el truco del kernel}. Este truco puede aplicarse a cualquier algoritmo en donde las entradas solo aparezcan en la forma de productos punto, proceso que recibe el nombre de \emph{kernelización}. 
+La introducción del concepto de kernel es fundamental en SVM. La definición y el teorema anterior nos dicen que para cualquier función simétrica y definida positiva $K$, existe una función $\phi$, que puede ser incluso de dimensión infinita, tal que la evaluación del kernel en dos puntos cualquiera equivale al producto interno entre dos evaluaciones de $\phi$ en los mismos puntos, es decir, $K(x_1,x_2)$ representa un producto interno en algún espacio de características. Esto, sumado al hecho de que la solución de SVM solo requiere del cálculo de productos internos, nos permite construir \emph{kernel SVMs}, donde parametrizamos directamente el producto interno en el problema de optimización mediante el kernel, pues esto da la garantía que el mapa de características $\phi$ existe. El caso interesante es cuando ocupamos un kernel que corresponde a un $\phi$ infinito dimensional, pues estamos efectivamente realizando la clasificación en un espacio de dimensión infinita pero con un procedimiento que solo requiere de una cantidad finita de cálculos, esto se llama \emph{el truco del kernel}. Este truco puede aplicarse a cualquier algoritmo en donde las entradas solo aparezcan en la forma de productos punto, proceso que recibe el nombre de \emph{kernelización}. 
 \end{remark}
 
 \newpage
@@ -313,7 +312,7 @@ La introducción del concepto de kernel es fundamental en SVM. La definición y 
     \begin{equation}
        K_{pol} (x, y) = (c + x^\top y)^d
     \end{equation}
-    donde $x\geq 0$ es un parámetro libre y $d\in\N$ es el orden del polinomio. Para probar que dicha función es un kernel, basta reagrupar los términos buscando formar un producto interno. Para $x,y\in\R^m$, $d=2$ se tiene que: 
+    donde $c\geq 0$ es un parámetro libre y $d\in\N$ es el orden del polinomio. Para probar que dicha función es un kernel, basta reagrupar los términos buscando formar un producto interno. Para $x,y\in\R^m$, $d=2$ se tiene que: 
     \begin{align}
         K_{pol} (x, y)  &= \left(c + \sum_{i=1}^m x_iy_i\right)^2\\
                         &= \sum_{i=1}^m (x_i^2)(y_i^2) + \sum_{i=2}^m \sum_{j=1}^{i-1} (\sqrt{2}x_ix_j)(\sqrt{2}y_iy_j) + \sum_{i=1}^m (\sqrt{2c}x_i)(\sqrt{2c}y_i) + c^2\\
@@ -341,7 +340,7 @@ La introducción del concepto de kernel es fundamental en SVM. La definición y 
 
 Por último, el conjunto de kernels es cerrado bajo sumas y multiplicaciones, lu cual permite construir kernels más complejos combinando otros más simples. Esto será de gran utilidad en procesos gaussianos.
 
-\subsection{Kernel ridge regression}
+\subsubsection{Kernel ridge regression}
 
 Veamos que es directo kernelizar el método de mínimos cuadrados regularizados visto en la Sección \ref{sub:min_cuad_reg}. En particular, consideremos el caso de regularización cuadrática, el cual, vimos que tiene solución
 \begin{equation}
@@ -436,7 +435,7 @@ Como hemos descrito la predicción de MCR en forma de productos internos, podemo
 Finalmente, el hecho que los modelos no paramétricos tengan una cantidad de términos creciente en la cantidad de observaciones implica que su complejidad y desempeño son crecientes también. Esto está de acuerdo con la intuición de que  un modelo no debería tener una complejidad o capacidad fija, sino que flexible a medida que se va considerado una mayor evidencia.
 \end{remark}
 
-\subsection{Kernel SVM}
+\subsubsection{Kernel SVM}
 
 Volvamos ahora a SVM para convertir un problema no linealmente separable en uno linealmente separable (en algún espacio) mediante una \emph{kernelización}, es decir, reemplazando las entradas $x$ por un mapa de características $\phi(\cdot)$ de alta (o infinita) dimensión. Como vimos anteriormente, si la formulación de SVM está expresada en forma de productos internos (y sí que lo está), a través del truco del kernel podemos parametrizar directamente dichos productos internos con un kernel $K(\cdot,\cdot)$ sin la necesidad de definir explícitamente el mapa $\phi$. 
 
@@ -446,7 +445,7 @@ Reemplazando entonces las entadas por las características igual que en el caso 
 (P)\quad & \underset{w,b}{\text{min}}
 & & \frac{1}{2}||w||^2 + c\sum\limits_{i=1}^{N} \xi_i\\
 & \text{s.a}
-& & y_i (w^\top \phi(x_i) +b) \geq 1- \xi_i, \; i = 1, \ldots, N.
+& & y_i (w^\top \phi(x_i) +b) \geq 1- \xi_i, \; i \in\{ 1, \ldots, N\}
 \end{aligned}
 \end{equation}
 Mientras que su formulación dual tiene la forma
@@ -456,7 +455,7 @@ Mientras que su formulación dual tiene la forma
 & & \sum\limits_{i=1}^{N}\alpha_i - \frac{1}{2} \sum\limits_{i=1}^{N} \alpha_i \alpha_j y_i y_j \langle\phi(x_i), \phi(x_j)\rangle\\
 & \text{s.a}
 & & \sum\limits_{i=1}^{N} \alpha_i y_i= 0 \\
-& &  &0 \leq \alpha_i \leq c.
+& &  &0 \leq \alpha_i \leq c
 \end{aligned}
 \end{equation}
 Podemos ocupar el truco del kernel para parametrizar directamente el producto interno $\langle \phi(x_i), \phi(x_j)\rangle$ mediante $K(x_i,x_j)$. Con esto, el problema de optimización en el dual se convierte en 
@@ -466,7 +465,7 @@ Podemos ocupar el truco del kernel para parametrizar directamente el producto in
 & & \sum\limits_{i=1}^{N}\alpha_i - \frac{1}{2} \sum\limits_{i=1}^{N} \alpha_i \alpha_j y_i y_j K(x_i, x_j)\\
 & \text{s.a}
 & & \sum\limits_{i=1}^{N} \alpha_i y_i= 0 \\
-& &  &0 \leq \alpha_i \leq c.
+& &  &0 \leq \alpha_i \leq c
 \end{aligned}
 \end{equation}
 
@@ -490,3 +489,4 @@ Finalmente, observemos que los métodos de kernel tienen una tremenda ventaja co
 %-Usar diferentes Kernels
 %-Ver el overfitting cuando ocupas un polinomio de muchos grados
 %-Ver la importancia de escalar los datos
+
