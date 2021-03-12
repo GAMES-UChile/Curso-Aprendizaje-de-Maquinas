@@ -97,9 +97,77 @@ Podemos entonces satisfacer esta restricción mediante el ``criterio del percept
 \approx -\sum_{(x_i,t_i)\in \mathcal{D}}\theta^\top\phi(x_i)t_i \mathds{1}_{\theta^\top\phi(x_i)t_i\leq 0} = -\sum_{(x_i,t_i)\in \mathcal{M}}\theta^\top\phi(x_i)t_i
 \end{equation*} 
 
-Para el problema de minimización del funcional del perceptrón, se puede utilizar el método del gradiente estocástico (ver anexo). 
+Para el problema de minimización del funcional del perceptrón, se puede utilizar el método del gradiente estocástico.
 
 \end{frame}
+
+\begin{frame}{Método del gradiente estocástico}
+
+
+En aprendizaje de máquinas por lo general se busca un parámetro óptimo que minimice el error de ajuste de acuerdo a una función de pérdida $J$. Dicho problema puede ser escrito de la forma: \pause
+  
+  \begin{equation*}
+    \hat{\theta} = \argmin_\theta \sum_{i=1}^n J(y_i,\hat{y}_\theta(x_i)) = \argmin_\theta \frac{1}{n} \sum_{i=1}^n J(y_i,\hat{y}_\theta(x_i))
+  \end{equation*} \pause 
+  
+  Donde $y_i$ corresponde a la salida de $x_i$ mientras que $\hat{y}_\theta(x_i)$ representa la predicción de la salida de $x_i$ mediante un modelo de parámetro(s) $\theta$.\\ \pause 
+  
+  Muchas veces es infactible encontrar el óptimo de forma analítica o bien, el algoritmo del gradiente clásico se queda atrapado en mínimos locales. Una forma distinta de ver el problema es considerar que $(x_i,y_i)\sim\mu$ iid para una distribución $\mu$ desconocida. Desde ese punto de vista, el problema se reduce a minimizar $\E\left(J(y,\hat{y}_\theta(x))\right)$. Este tipo de problemas puede ser escrito en general como \pause 
+  
+  \begin{equation*}
+    \min_\theta \E(f(\theta,X)),\quad X\sim \mu\text{ desconocida}
+  \end{equation*} 
+
+
+
+
+\end{frame}
+
+
+\begin{frame}{Método del gradiente estocástico }
+Una alternativa al método del gradiente clásico $\theta^{\tau+1} = \theta^\tau - \beta_{\tau+1}\nabla_\theta \E(f(\theta^\tau,X))$ consiste en utilizar las observaciones iid $(x_i)_{i\geq 1}\sim\mu$ al momento de iterar, considerando una observación por iteración en vez del funcional $\E(f(\theta^\tau,X))$ completo, es decir: \pause 
+
+\begin{equation*}
+  \theta^{\tau+1} = \theta^\tau - \eta_{\tau+1}\nabla_\theta f(\theta^\tau,x_{\tau+1})
+\end{equation*} \pause 
+
+Notar que en cada iteración se necesita evaluar una sola vez $\nabla_\theta f$ y no hace falta calcular su esperanza, más aún, este algoritmo permite entrenar modelos con datos a medida que van llegando (actualización a tiempo real) \\ \pause 
+
+Este algoritmo es conocido como método del gradiente estocástico (SGD), donde el término $\nabla_\theta f(\theta^\tau,x_{\tau+1})$ puede ser visto como un gradiente exacto perturbado: \pause 
+
+\begin{equation*}
+  \nabla_\theta f(\theta^\tau,x_{\tau+1}) = \nabla_\theta\E(f(\theta^\tau,X)) + \Delta_t
+\end{equation*} \pause 
+
+Donde $\Delta_t = \nabla_\theta f(\theta^\tau,x_{\tau+1}) - \nabla_\theta \E( f(\theta^\tau,X))$ cumple que $\E(\Delta_t)=0$ ya que de acuerdo a la regla integral de Leibniz, $\nabla_\theta \E( f(\theta^\tau,X)) =  \E(\nabla_\theta f(\theta^\tau,X))$.\\ \pause
+
+
+Esta propiedad del gradiente con ruido es la que le permite al algoritmo del gradiente estocástico poder saltarse con mayor facilidad los mínimos locales ya que la evolución de $\theta_\tau$ contiene una parte aleatoria que no depende del valor del gradiente en el punto.
+
+
+\end{frame}
+
+\begin{frame}{Método del gradiente estocástico}
+
+\begin{figure}[H]
+  \centering
+  \visible<1->{\includegraphics[width=0.5\textwidth]{../img/cap3_sgd.pdf}}\\
+  \caption{Posibles iteraciones del algoritmo SGD. El algoritmo del gradiente clásico hubiese quedado atrapado en $\theta_2$ ya que en dicho punto el gradiente es nulo por lo que no hay desplazamiento.}
+\end{figure} \pause 
+
+\begin{theorem}[Sigmund-Robins] Bajo hipótesis razonables sobre $f$ (regularidad en $\theta$, integrabilidad de $\nabla_\theta f$ y cotas) y tasas de aprendizaje suficientemente pequeñas (por ejemplo, $\eta_\tau = 1/\tau$), la sucesión $(\theta^\tau)_{\tau\geq 1}$ converge c.s. al conjunto de puntos críticos de $\E(f(\theta,X))$.\\   
+  \end{theorem}
+
+
+
+\end{frame}
+
+
+
+
+
+
+
 
 \begin{frame}{El perceptrón}
 
@@ -170,6 +238,9 @@ donde hemos denotado $s_i = \log\left(\mathbb{P}(x | \mathcal{C}_i)\mathbb{P}(\m
 
 \end{frame}
 
+\begin{frame}
+  \titlepage
+\end{frame}
 
 %Quitar de comentarios apenas se agregue alguna referencia 
 \bibliography{../capitulos/referencias} %Bibliografía
