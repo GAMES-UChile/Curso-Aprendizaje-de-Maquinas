@@ -18,7 +18,7 @@ Notemos que es posible representar cada vector $\x_i$ mediante una cantidad $M'<
 \begin{equation}
 	\x_i \approx \sum_{j=1}^{M'} x_{i\sigma(j)}\e_{\sigma(j)}
 \end{equation}
-donde $\sigma:\{1,2,\ldots,M\}\mapsto\{1,2,\ldots,M\}$ es una permutación que prioriza las coordenadas más representativas de los datos. Dichas aproximaciones de las observaciones $\{\x_i\}_{i=1}^N$ son una versión de baja dimensión, entonces, naturalmente nos podemos hacer la siguiente pregunta: dado una dimensión $M'<M$  ¿es efectivamente un subconjunto de los vectores canónicos la mejor base para descomponer las observaciones?  ¿cómo encontramos la \emph{mejor} base?
+donde $\sigma:\{1,2,\ldots,M\}\mapsto\{1,2,\ldots,M\}$ es una permutación que prioriza las coordenadas más representativas de los datos. Dichas aproximaciones de las observaciones $\{\x_i\}_{i=1}^N$ son una versión de baja dimensión, entonces, naturalmente nos podemos hacer la siguiente pregunta: dada una dimensión $M'<M$  ¿es efectivamente un subconjunto de los vectores canónicos la mejor base para descomponer las observaciones?  ¿cómo encontramos la \emph{mejor} base?
 
 \begin{figure}[H]
 	\centering
@@ -203,7 +203,7 @@ La medida más simple de separación entre las proyecciones de las clases sobre 
 \end{equation}
 donde $m_k= a^\top\mu_k$ corresponde al promedio de los elementos de  la clase $\mathcal{C}_k$ proyectado sobre el  vector $a$ (centro de masa sobre la recta). Consecuentemente, el vector $a$ que maximiza la distancia entre la proyección de clases es el que maximiza la expresión anterior. Sin embargo, esta expresión puede ser arbitrariamente grande si escalamos $a$, por lo que se fijará $\left \| a \right \|_2=1$. Además, por la desigualdad de Cauchy-Schwarz, $|a^\top(\mu_1-\mu_2)|\leq \norm{a}\norm{\mu_1-\mu_2}$ con igualdad si y solo si los vectores son paralelos. De este modo, se llega a que $a\propto(\mu_1-\mu_2)$. \\
 
-Una desventaja de este enfoque, en el cual se ha ignorado la dispersión de las clases y solo se ha considerado su media, es que pueden existir 2 clases bien separadas en el espacio $D$-dimensional, pero que al proyectar los datos sobre la recta que une sus promedios, las proyecciones de cada clase se traslapen. 
+Una desventaja de este enfoque, en el cual se ha ignorado la dispersión de las clases y solo se ha considerado su media, es que pueden existir 2 clases bien separadas en el espacio $M$-dimensional, pero que al proyectar los datos sobre la recta que une sus promedios, las proyecciones de cada clase se traslapen. 
 
 \begin{figure}[H]
 	\centering
@@ -275,8 +275,8 @@ Para dos clusters $A,B\subset\mathcal{D}$, los criterios de similitud más frecu
 
 Donde $d:\mathcal{D}\times \mathcal{D}\to \R_+$ es una métrica en $\mathcal{D}$. Elecciones distintas del criterio de similitud y/o métrica (generalmente euclidiana) pueden llevar a agrupaciones distintas.
 
-\subsubsection{k-means}
-Dado un entero $k \in \mathbb{N}$ y uin conjunto de observaciones $X = \{x_i\}_{i=1}$ con $x_i\in \mathbb{R}^D$ queremos separar los datos en k grupos, donde cada grupo se le asigna un centroide $\mu_k$ y cada elemento $x_i$ se le asigna el grupo que tenga el centroide más cercano.
+\subsubsection{$k$-means}
+Dado un entero $k \in \mathbb{N}$ y un conjunto de observaciones $X = \{x_i\}_{i=1}$ con $x_i\in \mathbb{R}^D$ queremos separar los datos en k grupos, donde cada grupo se le asigna un centroide $\mu_k$ y cada elemento $x_i$ se le asigna el grupo que tenga el centroide más cercano.
 
 Sea $r_{ik}$ la asignación, esta estará definida por:
 
@@ -286,7 +286,7 @@ r_{ik} = \begin{cases}
 0 & \text{si no.}
 \end{cases}
 \end{align}
-Es decir, para encontrar los centroides se debe minimizar la función:
+Es decir, para encontrar los centroides se debe minimizar el funcional:
 
 \begin{align}
 J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-x_j||^2
@@ -294,7 +294,7 @@ J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-x_j||^2
 
 Para minimizar esta función utilizaremos un enfoque llamado \emph{Expectation-Maximization}. Este es un método iterativo y como tal, tiene problemas con mínimo locales, pero para solucionar esto, basta inicializar el algoritmo muchas veces.\\
 
-El algoritmo más frecuente usado para k-means es el algoritmo de Loyd:
+El algoritmo más frecuente usado para k-means es el algoritmo de Lloyd:
 
 \begin{itemize}
     \item \textbf{E-step:} En este paso, se calculan (actualizan) las asignaciones $r_{ik}$, dejando fijos $\mu_k$. Lo que corresponde a asignar el dato $x_i$ al centroide más cercano.
@@ -320,6 +320,7 @@ Para los centroides iniciales, se tienen dos posibles inicializaciones:
 
 El método de Forgy es preferido cuando se realiza k-means mediante el algoritmo de Lloyd.\\
 
+\underline{\textbf{Ejemplo:}} En la figura \ref{fig:kmeans} se observa un ejemplo de clustering utilizando kmeans. Los clusters creados por kmeans son circulares, puesto que se utiliza distancia euclidiana hace el centro del cluster.\\
 
 \begin{figure}[h]
   \centering
@@ -327,9 +328,6 @@ El método de Forgy es preferido cuando se realiza k-means mediante el algoritmo
   \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por k-means.}
   \label{fig:kmeans}
 \end{figure}
-
-\underline{\textbf{Ejemplo:}} En la figura \ref{fig:kmeans} se observa un ejemplo de clustering utilizando kmeans. Los clusters creados por kmeans son circulares, puesto que se utiliza distancia euclidiana hace el centro del cluster.\\
-
 
 Por otra parte, la asignación de cluster mediante el centroide más cecano provoca que cada par de centroides divida al espacio ambiente en dos semiespacios mediante el hiperplano simetral que pasa entre ambos puntos. Luego, dado que la intersección finita de semiespacios genera un poliedro, se tiene que la partición generada por kmeans forma un diagrama de Voronoi.
 
@@ -341,9 +339,9 @@ Por otra parte, la asignación de cluster mediante el centroide más cecano prov
 \end{figure}
 
 
-\subsubsection{Modelo de mezcla de gaussianas}
+\subsubsection{Modelo de mezcla de gaussianas (GMM)}
 
-La mezcla de gaussianas (GMM) es un caso general de $k$-means, en donde los clusters pueden tener una forma anisotrópica modelada por una Gaussiana con covarianza no necesariamente proporcional a la identidad. Además, si bien su solución puede ser muy similar a K-means los supuestos subyacentes al modelo CMM son diferentes y obedecen a un enfoque de modelo generativo. \\
+La mezcla de gaussianas (GMM) es un caso general de $k$-means, en donde los clusters pueden tener una forma anisotrópica modelada por una Gaussiana con covarianza no necesariamente proporcional a la identidad. Además, si bien su solución puede ser muy similar a $k$-means los supuestos subyacentes al modelo CMM son diferentes y obedecen a un enfoque de modelo generativo. \\
 
 
 Una distribución de mezcla de gaussianas consiste en una combinación convexa de distribuciones gaussianas
@@ -383,7 +381,7 @@ Recordemos que los parámetros del modelo de mezcla de gaussianas son los coefic
 \begin{equation}
 	\log p(\x_1,\ldots,\x_N) = \sum_{n=1}^N \log p(\x_n) = \sum_{n=1}^N \log \sum_{k=1}^K  \pi_k\cN(\x_n|\mu_k,\Sigma_k) \label{eq:GMM_like}	
 \end{equation}
-Hay una serie de complicaciones relacionados a la búsqueda de estos parámetros mediante la maximización de las ecuación \eqref{eq:GMM_like}. Primero, están las soluciones dadas por singularidades cuando una muestra es exactamente igual a una de las medias, en cuyo caso un término de la log-verosimilitud es proporcional a $1/\sigma_k$, con lo que la maximización de $\sigma_k$ resulta en una log-verosimilitud infinita. En segundo lugar tenemos las redundancias de soluciones: para cada máximo local (o solución en general) de la log-verosimilitd existen $K!$ soluciones equivalente con la misma verosimilitud dadas por las permutaciones de las etiquetas de los clusters. Finalmente, optimizar la log-verosimilitud de la mezcla de gaussianas es desafiante porque la sumatoria aparece \emph{dentro} del logaritmo, consecuentemente,  el logaritmo no actúa directamente en la gaussiana reduciendo el funcional de optimización a una solución en forma cerrada. Por esta razón, es necesario considerar métodos basados en gradiente.
+Hay una serie de complicaciones relacionados a la búsqueda de estos parámetros mediante la maximización de la ecuación \eqref{eq:GMM_like}. Primero, están las soluciones dadas por singularidades cuando una muestra es exactamente igual a una de las medias, en cuyo caso un término de la log-verosimilitud es proporcional a $1/\sigma_k$, con lo que la maximización de $\sigma_k$ resulta en una log-verosimilitud infinita. En segundo lugar tenemos las redundancias de soluciones: para cada máximo local (o solución en general) de la log-verosimilitd existen $k!$ soluciones equivalente con la misma verosimilitud dadas por las permutaciones de las etiquetas de los clusters. Finalmente, optimizar la log-verosimilitud de la mezcla de gaussianas es desafiante porque la sumatoria aparece \emph{dentro} del logaritmo, consecuentemente,  el logaritmo no actúa directamente en la gaussiana reduciendo el funcional de optimización a una solución en forma cerrada. Por esta razón, es necesario considerar métodos basados en gradiente.
 
 
 \paragraph{Entrenamiento de una GGM}
