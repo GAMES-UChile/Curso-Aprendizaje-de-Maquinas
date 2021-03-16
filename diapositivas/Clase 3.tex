@@ -1,4 +1,4 @@
-\documentclass[9pt]{beamer}
+\documentclass[handout, 9pt]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
@@ -59,7 +59,7 @@ Este análisis no es del todo correcto ya que:
 Para el caso $p=2$, el funcional tiene la forma
 
 \begin{equation*}
-	J_\rho = \norm{Y-\tX\theta}_2^2 + \rho\norm{\theta}_2^2
+	J_\rho = \norm{Y-\tX\theta}_2^2 + \rho\norm{\theta}_2^2.
 	\label{eq:reg_least_squares}
 \end{equation*}
 
@@ -109,20 +109,20 @@ Donde los 3 sumandos de la descomposición corresponden a:\pause
 
 Para el caso de las estimaciones por mínimos cuadrados y ridge regression se tienen los siguientes resultados:
 
-\begin{theorem}[descomposición sesgo-varianza para MC]
+\begin{teorema}[descomposición sesgo-varianza para MC]
 	\begin{align*}
 	\text{Sesgo}(\hat f_\star) &= 0\\
 	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX)^{-1}	\tx_\star
 \end{align*}
-\end{theorem}\pause
+\end{teorema}\pause
 	
-\begin{theorem}[descomposición sesgo-varianza para ridge regression]
+\begin{teorema}[descomposición sesgo-varianza para ridge regression]
 	\begin{align*}
 	\text{Sesgo}(\hat f_\star) & = \tx_\star^\top \left((\eye+\rho(\tX^\top\tX)^{-1})^{-1}-\eye\right)\theta\\
 	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX + \rho\eye)^{-1}\tX^\top\tX(\tX^\top\tX+\rho\eye)^{-1}	\tx_\star
 \end{align*}
 
-\end{theorem}	\pause
+\end{teorema}	\pause
 Además, se puede probar que la varianza del estimador de ridge regression es menor a la varianza del estimador de MC.	\\~\ \pause
 
 De esta forma, el parámetro $\rho$ juega el papel de balancear el sesgo y la varianza del estimador.
