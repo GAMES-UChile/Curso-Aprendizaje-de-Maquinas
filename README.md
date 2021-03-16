@@ -14,7 +14,7 @@ Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas 
 
 ### Material de Estudio
 
-Nota: todo el material de clases, tanto el apunte como las diapositivas, están en constante evolución, especialmente antes de cada clase. Por esta razón, de necesitar imprimirlo, se recomienda solo imprimir el material que se va a leer. 
+*Nota: todo el material de clases, tanto el apunte como las diapositivas, están en constante evolución, especialmente antes de cada clase. Por esta razón, de necesitar imprimirlo, se recomienda solo imprimir el material que se va a leer.* 
 
 **Apunte**: Los contenidos del curso están presentado en el apunte, el cual se ha construido desde las notas de clase durante los últimos años. La últiva versión está disponible [aquí][link-apunte]. 
 
