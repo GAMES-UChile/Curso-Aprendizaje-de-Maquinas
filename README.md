@@ -2,7 +2,7 @@
 
 Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas (Universidad de Chile).
 
-#### Contenidos
+### Contenidos
 1. Introducción: ¿qué es la Inteligencia Artificial y cómo se relaciona con el AM?
 2. Regresión
 3. Clasificación
@@ -12,7 +12,7 @@ Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas 
 7. Redes neuronales
 8. Process Gaussianos
 
-#### Material de Estudio
+### Material de Estudio
 
 Nota: todo el material de clases, tanto el apunte como las diapositivas, están en constante evolución, especialmente antes de cada clase. Por esta razón, de necesitar imprimirlo, se recomienda solo imprimir el material que se va a leer. 
 
@@ -44,7 +44,7 @@ Nota: todo el material de clases, tanto el apunte como las diapositivas, están 
 
 **Demos y tareas**: A medida el curso se va desarrollando, iremos publicando ejemplos en Jupyter notebooks en la carpeta [demos][demos-JN] y también las tareas en la carpeta [tareas][tareas-f]
 
-#### Cuerpo Docente 2021
+### Cuerpo Docente 2021
 
 **Profesor**:  
 
@@ -61,11 +61,11 @@ Universidad de Chile
 - Arie Wortsman
 - Víctor Faraggi
 
-#### Versiones pasadas
+### Versiones pasadas
 
 Los vídeos de las clase de la versión 2020 del curso puede encontrarse en [esta lista de YouTube][youtube-2020]
 
-#### Agradecimentos
+### Agradecimentos
 El diseño de este curso, producción de material implementación de este curso ha sido posible gracias al [Centro de Modelamiento Matemático][CMM-link], Universidad de Chile, y a los proyectos ANID PAI-82140061, Fondecyt-11171165.  
 
 Además, todos los ayudantes desde 2016 han hecho posible este curso. Gracias:

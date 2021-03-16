@@ -26,13 +26,13 @@
 	
 Para un conjunto de entrenamiento $\datos$ que contiene $N\in\N$ observaciones de entrada y salida, respectivamente $\{x_i\}_{i=1}^N$ y $\{y_i\}_{i=1}^N$, de la forma
 \begin{equation*}
-	\datos=\{(x_i,y_i)\}_{i=1}^N\subset \R^M \times \R
+	\datos=\{(x_i,y_i)\}_{i=1}^N\subset \R^M \times \R,
 	\label{eq:training_set}
 \end{equation*}\pause
 la regresión lineal busca encontrar un modelo lineal, es decir, una función $f$ definida por 
 \begin{align*}
   f \colon \R^M &\to \R\nonumber\\
-  x &\mapsto f(x)=a^\top x + b,\quad a\in\R^M,b\in\R
+  x &\mapsto f(x)=a^\top x + b,\quad a\in\R^M,b\in\R,
 \end{align*}
 que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, en base a las las observaciones contenidas en el conjunto $\datos$.
 
