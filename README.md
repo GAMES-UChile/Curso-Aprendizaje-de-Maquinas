@@ -21,7 +21,7 @@ Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas 
 **Diapositivas y vídeos**: Para la versión 2021, lo cual ha requerido que el curso sea dictado de forma remota y asíncrona donde los y las estudiantes estudian de forma personal, hemos diseñado diapositivas para todas las clases. Además, los vídeos serán subidos luego de cada clasea esta lista: [playlist videos 2021][youtube-2021]. 
 
 - Clase 1 (15 marzo): Introducción 				[[slides]][slides-c1] & [[video]][video-c1]
-- Clase 2: Regresión lineal (parte 1) 			[[slides]][slides-c2] 
+- Clase 2 (17 marzo): Regresión lineal (parte 1)[[slides]][slides-c2] & [[video]][video-c2]
 - Clase 3: Regresión lineal (parte 2) 			[[slides]][slides-c3] 
 - Clase 4: Máxima verosimilitud 				[[slides]][slides-c4] 
 - Clase 5: Inferencia bayesiana (parte 1) 		[[slides]][slides-c5] 
@@ -117,3 +117,4 @@ Además, todos los ayudantes desde 2016 han hecho posible este curso. Gracias:
 
 
 [video-c1]: https://youtu.be/WuPht7pwFAk
+[video-c2]: https://youtu.be/rbojC-SltCU
