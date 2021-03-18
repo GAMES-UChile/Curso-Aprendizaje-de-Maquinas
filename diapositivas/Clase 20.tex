@@ -1,0 +1,95 @@
+\documentclass[9pt]{beamer}
+
+\input{preambuloBeamer}
+\usetheme{simple}
+
+\title{Clase 20 - Procesos Gaussianos}
+\subtitle{Aprendizaje de Máquinas - MA5204}
+\date{\today}
+\author{Felipe Tobar} 
+\titlegraphic{
+\begin{figure}[htp] 
+    \centering
+        \includegraphics[width=0.15\textwidth]{../img/Uchile.pdf}% 
+\end{figure}
+}
+\institute{Department of Mathematical Engineering \&\\ Center for Mathematical Modelling\\Universidad de Chile}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Procesos Gaussianos}
+
+\begin{frame}{Modelos paramétricos y no paramétricos}
+
+Entre los métodos que hasta ahora hemos visto, se encuentran el de regresión lineal y no lineal. Una característica en común que tienen estos métodos es que el proceso de entrenamiento consiste en encontrar un número fijo de parámetros, que minimicen cierta función objetivo, donde la cantidad de parámetros y la forma del modelo es parte del diseño. A este tipo de modelos se les llama \textit{modelos paramétricos}. \pause
+\vspace{0.2cm} 
+
+En contraste, se encuentran los modelos \textit{no paramétricos} los cuales no tienen un número fijo de parámetros, donde pueden llegar a ser en algunos casos infinito, un ejemplo clásico de esto  Un ejemplo es el algoritmo de $k$-vecinos más cercanos (KNN), donde los puntos del conjunto de entrenamiento son usados para clasificar nuevas muestras. Otro ejemplo son las máquinas de soporte vectorial (SVM) donde al entrenar se obtienen los vectores de soporte. \pause 
+\vspace{0.2cm} 
+
+En este capítulo introduciremos un método no paramétrico probabilístico de regresión no lineal, llamado procesos gaussianos ($\gp$). Este modelo en vez de encontrar un candidato único de la función a estimar, define una distribución sobre funciones $\mathbb{P}(f)$, donde $f$ es una función de un espacio de entrada $\mathcal{X}$ a los reales, $f: \mathcal{X} \rightarrow \mathbb{R}$. Esto tiene la virtud de permitir cuantificar la incertidumbre puntual que existe en la predicción de nuestro modelo, la cual servirá en forma de intervalos de confianza para la distribución gaussiana.
+
+\end{frame}
+
+\begin{frame}{Proceso Gaussiano}
+
+\begin{definition}[proceso gaussiano]
+  Un proceso gaussiano ($\gp$) es una colección de variables aleatorias, tal que para cualquier subconjunto finito de puntos, estos tienen una distribución conjuntamente gaussiana.
+\end{definition} \pause
+
+Al aplicar esta definición a nuestro caso anterior, $\pr(f)$ será un $\gp$ y para cualquier conjunto finito $\{ x_i\}_{i=1}^{n}  \subset \mathcal{X}$, la distribución de $\pr(f(\mathbf{x}))$ es Gaussiana multivariada $f(\mathbf{x})=(f(x_1), \ldots, f(x_n))^\top$). En este caso las variables aleatorias representan el valor de la función $f(x_i)$ en la posición $x_i$. \pause
+\vspace{0.2cm}
+
+Un $\gp$ queda completamente caracterizado por su función de media $m(\cdot)$ y función de covarianza $K(\cdot, \cdot)$, de esta forma para cualquier conjunto finito podemos encontrar la distribución. Definimos estas funciones como
+\begin{align*}
+  m(x) & = \mathbb{E}\left\{f(x)\right\}\\
+  K(x, x') & = \mathbb{E}\left\{\left(f(x) - m(x)\right) \left(f(x') - m(x') \right)\right\}<sd
+\end{align*}
+
+
+\end{frame}
+
+\begin{frame}{Proceso Gaussiano}
+
+Y de esta forma podemos escribir el proceso como: \pause 
+
+\begin{equation*}
+  f \sim \gp(m(\cdot), K(\cdot, \cdot))
+\end{equation*}  \pause 
+
+Donde para un conjunto finito tenemos que la marginal resulta de la forma:
+\pause
+\begin{equation*}
+  f(\x) \sim \mathcal{N}(m(\x), K(\x, \x))
+\end{equation*} \pause 
+
+
+
+Hasta el momento hemos hablado del espacio de entrada $\mathcal{X}$ como genérico, un caso común es definir los $\gp$ sobre el tiempo ($\mathbb{R}^{+}$), es decir que los $x_i$ son instantes de tiempo. Es de notar que este no es el único caso, y se podría definir sobre un espacio más general, por ejemplo $\mathbb{R}^d$. \pause
+
+\vspace{0.2cm}
+
+Otro punto a notar es que como estamos hablando de una colección (no necesariamente finita) de variables aleatorias, es necesario que se cumpla la propiedad de marginalización (o llamada consistencia). Esta propiedad se refiere a que si un $\gp$ define una distribución multivariada para digamos dos variables $(y_1, y_2) \sim \mathcal{N}(\mu, \Sigma)$ entonces también debe definir $y_1 \sim \mathcal{N}(\mu_1, \Sigma_{11})$ donde $\mu_1$ es la componente respectiva del vector $\mu$ y $\Sigma_{11}$ la submatriz correspondiente de $\Sigma$. En otras palabras, el tomar un subconjunto más grande de puntos no cambia la distribución de un subconjunto más pequeño. Y podemos notar que esta condición se cumple si tomamos la función de covarianza definida anteriormente.
+
+\begin{frame}{Muestreo de un GP}
+
+
+\end{frame}
+
+
+\end{frame}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+
+%Quitar de comentarios apenas se agregue alguna referencia 
+%\bibliography{../capitulos/referencias} %Bibliografía
+%\bibliographystyle{apacite}
+\end{document} 
