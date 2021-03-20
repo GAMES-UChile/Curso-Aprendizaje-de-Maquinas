@@ -150,7 +150,7 @@ Clase 14: Support Vector Machines 2
 	- Kernel Ridge Regression
 	- Kernel SVM y conclusiones al respecto. 
 
-Clase 14.5: Aprendizaje no Supervisado 
+Clase 15: Aprendizaje no Supervisado 
 
 1 -  Definiciones 
 	- Reducción de dimensionalidad
@@ -166,7 +166,7 @@ Comentario: En general pienso que esta sección no está desarrollada completame
 Comentario: Esperaré a que esté más trabajado, quedan cosas por agregar. 
 
 
-Clase 15: Clustering 
+Clase 16: Clustering 
 
 1 - Algunos Clustering (30 mins)
 	- Hierarchical clustering y las distintos criterios de "similitud"
@@ -189,7 +189,7 @@ Comentario: Esta clase debe ser dividida en 2 partes según como se desarrolle.
 -----------------------------------------
 Esto se está  trabajando actualmente, el contenido y cantidad de clases puede cambiar 
 
-Clase 16: Redes Neuronales parte I
+Clase 17: Redes Neuronales parte I
 
 1 - Introducción a RN 
 	- Conceptos y definiciones
@@ -208,7 +208,7 @@ Clase 16: Redes Neuronales parte I
 	- Demostración para output lineal
 	
 
-Clase 17: Redes Neuronales parte II
+Clase 18: Redes Neuronales parte II
 
 1 - Forward y Backward propagation (45 mins)
 	- Forward propagation 
@@ -223,7 +223,7 @@ Clase 17: Redes Neuronales parte II
 
 Comentario: Se hizo denuevo la deducción de fórmulas en backward propagation, queda pendiente revisar 
 
-Clase 18: Redes Neuronales parte III
+Clase 19: Redes Neuronales parte III
 
 1 - Técnicas de optimización (30 mins)
 	- Minibatch
@@ -242,7 +242,7 @@ Un dropout alto permite tener una mayor cantidad de neuronas por capa lo que ace
 
 --------------------------------------
 
-Clase 19: Procesos Gaussianos parte I 
+Clase 20: Procesos Gaussianos parte I 
 
 1 - Introducción a los GP
 	- Modelos no paramétricos
@@ -254,23 +254,24 @@ Clase 19: Procesos Gaussianos parte I
 	- Gráficas correspondientes. 
 	- Incorporación de observaciones con ruido 
 
-3 - Entrenamiento de un GP 
+
+Clase 21: Procesos Gaussianos parte II
+
+1 - Entrenamiento de un GP 
 	- Significado
 	- Optimizaciones y desventajas de optimizar el proceso con parámetros fijos. 
 
-4 - Complejidad computacional 
+2 - Complejidad computacional 
 
-5 - Distintos tipos de Kernel 
+3 - Distintos tipos de Kernel 
 	- Presentación de kernels, significado de sus hiperparámetros y gráficas correspondientes 
 	- Suma y multiplicación de kernels también corresponde a un kernel
 
-6 - Extensiones para un GP
+4 - Extensiones para un GP
 	- GP de clasificación y gráfica correspondiente
 	- Selección automática de relevancia 
 	- Multi output GP 
 	- Otros (Regresión lineal a GP, nota sobre RKHS)
 
-Comentario: Esto podría corresponder a clase 19 , clase 20 y clase 21, se verá a medida se crean las diapos 
-
-Comentario: Desarrollar más la parte de Representación Espectral para la construcción de Kernels. 
+Comentario: Se omiten algunas secciones por incompletitud, continuar desarrollándolas 
 

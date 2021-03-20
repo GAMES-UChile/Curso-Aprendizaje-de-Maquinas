@@ -175,7 +175,7 @@ Donde si tenemos el mismo caso anterior, observaciones $(X,Y)$ y queremos evalua
   \end{bmatrix}
    \right)
 \end{align*}
-
+\pause 
 \begin{observacion}
 Notemos que el termino de ruido solo es agregado al subbloque correspondiente a las observaciones, no se agrega el termino en los otros subbloques pues buscamos hacer una predicción de la función latente $f(\cdot)$ y no una versión ruidosa de esta.
 \end{observacion}
@@ -189,14 +189,14 @@ Igual que en el caso sin ruido, podemos condicionar esta conjunta a las observac
 \begin{lemma}
   Para una evaluación con ruido se tiene que
   
-  \begin{equation}
+  \begin{equation*}
     f(X_*)|Y, X  \sim \mathcal{N}(m_{X_*|X}, \Sigma_{X_*|X})\label{eq:gp_posterior}
-  \end{equation}
+  \end{equation*}
   Donde la media y covarianza son:
-  \begin{align}
+  \begin{align*}
     m_{X_*|X} & = m(X_*) + K(X_*, X) [K(X, X) + \sigma_n^2 \eye]^{-1} (Y - m(X))\\
    \Sigma_{X_*|X} & = K(X_*, X_*) - K(X_*, X) [K(X, X) + \sigma_n^2 \eye]^{-1} K(X, X_*)
-  \end{align}
+  \end{align*}
 \end{lemma}
 
 
