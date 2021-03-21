@@ -125,7 +125,7 @@ Desde un punto interpretativo, el exponente 2 busca penalizar mayormente grandes
 
 Desde un punto de vista conceptual, otra justificación para usar la medida del  error cuadrático es que este representa la varianza muestral. Es decir, si considerásemos que $x_i$ e $y_i$ son observaciones iid de variables aleatorias $X$ e $Y$ respectivamente, entonces el error cuadrático medio (asociado a la función $f$) definido por
 \begin{equation}
-	ECM = \frac{1}{N}\sum_{i=1}^N (y_i-f(x_i))^2
+	ECM = \frac{1}{N}\sum_{i=1}^N (y_i-f(x_i))^2,
 \end{equation}
 corresponde a la varianza muestral de la variable aleatoria $Y-f(X)$ (asumiendo que $\E(Y-f(X))=0$). De igual forma, la varianza de la suma de múltiples variables aleatorias (pensemos en errores acumulados, los cuales son independientes) corresponde a la suma de las varianzas de dichas VAs. Esto ocurre precisamente cuando usamos el exponente igual a 2, y no si usáramos 1.95 o 2.05.\\
 
@@ -138,12 +138,13 @@ donde la cantidad de incógnitas ($M+1$) es ampliamente superada por el número 
 \begin{equation}
 	u\in \text{span}(\tX) \iff \exists \theta_u\in \R^{M+1}: u=\tX\theta_u,
 \end{equation}
-
 por lo tanto:
 \begin{align}
 	 e\perp \text{span}(\tX) &\iff e\perp u,\forall u \in \text{span}(\tX) \iff (Y-\tX \theta)^\top \tX \theta_u = 0, \forall \theta_u \in \R^{M+1} \nonumber\\
-	& \iff (Y-\tX \theta)^\top \tX=0 \iff  \theta = (\tX^\top\tX)^{-1}\tX^\top Y
+	& \iff (Y-\tX \theta)^\top \tX=0 \iff  \theta = (\tX^\top\tX)^{-1}\tX^\top Y.
 \end{align}
+Es decir, la distancia se minimiza para el $\theta$, correspondiente a la solución por mínimos cuadrados.\\
+
 
 \begin{figure}[t]
 	\centering
@@ -152,9 +153,8 @@ por lo tanto:
 	\label{fig:projection}
 \end{figure}
 
-Es decir, la distancia se minimiza para el $\theta$, correspondiente a la solución por mínimos cuadrados.\\
 
-Finalmente, notemos que el criterio de  mínimos cuadrados (MC) también tiene desventajas. Implícitamente, MC está intrínsecamente relacionado con un supuesto de gaussianidad de los datos --- esto será evidente cuando estudiemos el criterio de máxima verosimilitud --- consecuentemente, el uso de MC produce estimaciones razonables cuando la relación entre $x$  e $y$ es simétrica y sin \emph{grandes desviaciones}. Por el contrario, cuando existen datos que se alejan mucho de la tendencia buscada, las estimaciones encontradas mediante MC pueden desviarse considerablemente de la solución buscada, esto se debe precisamente a la contribución cuadrática del error, donde, coloquialmente, una muestra \emph{muy alejada} pesa tanto o más que varias muestras \emph{ligeramente alejadas}. La Figura \ref{fig:reg_lin_2} ilustra este fenómeno para el mismo ejemplo de los chirridos en la Fig.~\ref{fig:reg_lin_1}, donde se ha introducido un \emph{outlier}, es decir, una observación que está inusualmente alejada de los datos y se ha recalculado el resultado de la regresión lineal mediante el criterio de MC. Se puede ver cómo se deteriora la estimación solo con la introducción de un nuevo dato. 
+Finalmente, notemos que el criterio de  mínimos cuadrados (MC) también tiene desventajas. Implícitamente, MC está intrínsecamente relacionado con un supuesto de gaussianidad de los datos; esto será evidente cuando estudiemos el criterio de máxima verosimilitud. Consecuentemente, el uso de MC produce estimaciones razonables cuando la relación entre $x$  e $y$ es simétrica y sin \emph{grandes desviaciones}. Por el contrario, cuando existen datos que se alejan mucho de la tendencia buscada, las estimaciones encontradas mediante MC pueden desviarse considerablemente de la solución buscada, esto se debe precisamente a la contribución cuadrática del error, donde, coloquialmente, una muestra \emph{muy alejada} pesa tanto o más que varias muestras \emph{ligeramente alejadas}. La Figura \ref{fig:reg_lin_2} ilustra este fenómeno para el mismo ejemplo de los chirridos en la Fig.~\ref{fig:reg_lin_1}, donde se ha introducido un \emph{outlier}, es decir, una observación que está inusualmente alejada de los datos y se ha recalculado el resultado de la regresión lineal mediante el criterio de MC. Se puede ver cómo se deteriora la estimación solo con la introducción de un nuevo dato. 
 
 \begin{figure}[H]
 	\centering
@@ -191,9 +191,8 @@ Una ventaja de la regularización de Tikhonov es que su solución, al igual que 
 	&\iff -2(Y-\tX\theta)^\top\tX + 2\rho\theta^\top =0\nonumber\\
 	&\iff -Y^\top\tX +\theta^\top\tX^\top\tX + \rho\theta^\top= 0\nonumber\\
 	&\iff \theta^\top = Y^\top \tX(\tX^\top\tX + \rho\eye)^{-1}\nonumber\\
-	&\iff \theta = (\tX^\top\tX+\rho\eye)^{-1}\tX^\top Y
+	&\iff \theta = (\tX^\top\tX+\rho\eye)^{-1}\tX^\top Y.
 \end{align}
-
 De la última expresión, es posible ver que el requerimiento de no colinealidad de las observaciones y $N\geq M+1$ ya no son necesarios para que la solución esté bien definida ya que es posible \emph{regularizar} la solución forzando que la matriz $\tX^\top\tX +\rho \eye$ sea arbitrariamente lejana de las matrices singulares (o tenga un determinante arbitrariamente grande) aumentando el valor de $\rho$, en efecto:
 
 \begin{lemma}
@@ -203,9 +202,8 @@ De la última expresión, es posible ver que el requerimiento de no colinealidad
 \begin{proof}
 	Para una matriz $M$ fija, $M^{ij}$ representará la matriz $M$ sin la fila $i$ ni la columna $j$. De este modo se tiene que:
 	\begin{equation}
-		\det(A+\rho\eye) = \sum_{i=1}^n (A+\rho\eye)_{1i}\cdot \det\left((A+\rho\eye)^{1i}\right) = p\cdot\det\left((A+\rho\eye)^{11}\right) + \sum_{i=1}^n a_{1i}\cdot \det\left((A+\rho\eye)^{1i}\right)
+		\det(A+\rho\eye) = \sum_{i=1}^n (A+\rho\eye)_{1i}\cdot \det\left((A+\rho\eye)^{1i}\right) = p\cdot\det\left((A+\rho\eye)^{11}\right) + \sum_{i=1}^n a_{1i}\cdot \det\left((A+\rho\eye)^{1i}\right).
 	\end{equation}
-	
 	Además, en el caso base ($n=1$), $\det(A+\rho\eye)=a+\rho\to\infty$ cuando $\rho\to\infty$. Dado que el determinante es un polinomio en $\rho$ de grado menor o igual a la dimensión de la matriz, entonces, en el límite, el primer sumando dominará a la sumatoria (ya que está multiplicado por $p$). De este modo, $\det(A+\rho\eye)\to \infty$ cuando $\rho\to\infty$.
 \end{proof}
 
@@ -219,8 +217,7 @@ Es relevante entender por qué una disminución en la norma de los parámetros, 
 \begin{equation}
  	\E{(y_\star - \hat f_\star)^2} = \text{Sesgo}(\hat f_\star)^2 + \text{Varianza}(\hat f_\star) + \sigma^2,\label{eq:expected_sq_loss}
  \end{equation} 
-
- donde el valor esperado es tomado con respecto a la ley de $\epsilon$, la única fuente de incertidumbre en este escenario. Los 3 sumandos de la descomposición corresponden a:
+donde el valor esperado es tomado con respecto a la ley de $\epsilon$, la única fuente de incertidumbre en este escenario. Los 3 sumandos de la descomposición corresponden a:
  \begin{itemize}
  	\item $\text{Sesgo}(\hat f_\star) := \E(\hat f_\star) - f_\star$. Representa una medida de exactitud: ¿cuán buena (en valor esperado) es la estimación con respecto al valor real?
  	\item $\text{Varianza}(\hat f_\star) = \E(\E(\hat f_\star)- \hat f_\star)^2$. Representa una medida de precisión: ¿cuán disperso es el estimador?
@@ -247,9 +244,8 @@ Al penalizar la norma $l_2$ del parámetro $\theta$, la regresión de ridge sacr
 \begin{theorem} Bajo la hipótesis de ruido aditivo sobre un modelo lineal, el estimador de mínimos cuadrados regularizados cumple que:
 	\begin{align}
 	\text{Sesgo}(\hat f_\star) & = \tx_\star^\top \left((\eye+\rho(\tX^\top\tX)^{-1})^{-1}-\eye\right)\theta\\
-	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX + \rho\eye)^{-1}\tX^\top\tX(\tX^\top\tX+\rho\eye)^{-1}	\tx_\star
+	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX + \rho\eye)^{-1}\tX^\top\tX(\tX^\top\tX+\rho\eye)^{-1}	\tx_\star.
 \end{align}
-
 Además, la varianza del estimador de MCR es menor a la varianza del estimador de MC.
 \end{theorem}
 
@@ -291,7 +287,7 @@ donde $\lambda$ es el multiplicador de Lagrange asociado al problema. Usando la 
 lo cual recupera la forma del problema de minimización de mínimos cuadrados regularizados. Enfatizamos esta relación en el siguiente recuadro. 
 
 \begin{mdframed}[style=discusion, frametitle={\center Mínimos cuadrados regularizados: optimización con restricciones}]
-Observemos que el problema de mínimos cuadrados regularizados, determinado por el costo en la ec.~\eqref{eq:reg_least_squares}, es equivalente al dual del problema de optimización con restricciones dado en las ecuaciones \eqref{eq:dual_MCR1}-\eqref{eq:dual_MCR2} para un $\lambda$ dado tal que $\lambda =\rho$. Consecuentemente, como el valor óptimo de $\lambda$ depende del nivel de la restricción $\tau$, podemos aseverar que \textbf{para cualquier $\rho\geq0$, existe un $\tau\geq0$ tal que la minimización de \eqref{eq:reg_least_squares} es equivalente a la de \eqref{eq:MC_restriccion}.} Consecuentemente,  podemos interpretar el problema de MCR como el de MC sujeto a una restricción sobre la norma del parámetro. 
+Observemos que el problema de mínimos cuadrados regularizados, determinado por el costo en la ecuación \eqref{eq:reg_least_squares}, es equivalente al dual del problema de optimización con restricciones dado en las ecuaciones \eqref{eq:dual_MCR1}-\eqref{eq:dual_MCR2} para un $\lambda$ dado tal que $\lambda =\rho$. Consecuentemente, como el valor óptimo de $\lambda$ depende del nivel de la restricción $\tau$, podemos aseverar que \textbf{para cualquier $\rho\geq0$, existe un $\tau\geq0$ tal que la minimización de \eqref{eq:reg_least_squares} es equivalente a la de \eqref{eq:MC_restriccion}.} Consecuentemente,  podemos interpretar el problema de MCR como el de MC sujeto a una restricción sobre la norma del parámetro. 
 	
 \end{mdframed}
 
@@ -332,7 +328,7 @@ Para ilustrar la propiedad de selección de características, consideremos el \e
 Por otro lado, a diferencia de ridge-regression, LASSO no tiene una solución con forma cerrada por lo que se debe optimizar con algoritmos de programación cuadrática. Otra de las desventajas que tiene este regularizador ocurre al trabajar con entradas de alta dimensión (por ejemplo, imágenes o videos) y un conjunto de entrenamiento pequeño (es decir, $N< M$), donde la selección de características escoge a lo más $N$ componentes no nulas y el resto las descarta, ignorando posibles correlaciones entre las variables debido a un conjunto de entrenamiento pequeño. Para evitar esto, se pueden utilizar la regularización LASSO y ridge al mismo tiempo, resultando en lo que se denomina \emph{elastic net regularization}, cuyo funcional de costo es
 
 \begin{equation}
-	J_\rho = \norm{Y-\tX\theta}_2^2 + \lambda_1\norm{\theta}_2^2 + \lambda_2\norm{\theta}_1
+	J_\rho = \norm{Y-\tX\theta}_2^2 + \lambda_1\norm{\theta}_2^2 + \lambda_2\norm{\theta}_1.
 \end{equation} 
 
 \begin{mdframed}[style=discusion, frametitle={\center Consideraciones generales}]
@@ -343,7 +339,7 @@ $\bullet$ \textbf{¿es justo comparar MC y MCR en términos del ECM?} Ciertament
 
 $\bullet$ \textbf{¿cómo elegir $\rho$?} De forma general, este \emph{hiperparámetro} determina el balance entre regularización (cuán  sesgado) y ajuste (cuán bien replica  los datos de entrenamiento), consecuentemente lo debemos elegir según nuestra intención. En la práctica, se puede evaluar el desempeño fuera de muestra para distintos valores de $\rho$ con la finalidad de elegir un valor apropiado. Una manera de realizar la evaluación de desempeño para diferentes $\rho$ es la \emph{validación cruzada} (ver selección de modelos).\\
 
-$\bullet$ Vimos que la norma $\ell_p$ con $0<p\leq1$ tiene la propiedad de selección de características, pero, \textbf{¿qué pasa con la ``norma'' $\ell_0$?}. La cantidad  $\ell_0(\theta)$ denota la cantidad de elementos no nulos de $\theta$ y, si bien no es una norma en el sentido formal de la palabra, puede de todas formas ser usada en la definición del costo en la ecuación ~\eqref{eq:reg_least_squares}, con la finalidad de directamente penalizar la cantidad de características usadas por el modelo. Desafortunadamente, encontrar la solución usando la ``norma'' $l_0$ es muy difícil, sin embargo, bajo ciertas condiciones, la consideración de la norma $l_1$ puede llevar a la misma solución.
+$\bullet$ Vimos que la norma $\ell_p$ con $0<p\leq1$ tiene la propiedad de selección de características, pero, \textbf{¿qué pasa con la ``norma'' $\ell_0$?} La cantidad  $\ell_0(\theta)$ denota la cantidad de elementos no nulos de $\theta$ y, si bien no es una norma en el sentido formal de la palabra, puede de todas formas ser usada en la definición del costo en la ecuación~\eqref{eq:reg_least_squares}, con la finalidad de directamente penalizar la cantidad de características usadas por el modelo. Desafortunadamente, encontrar la solución usando la ``norma'' $l_0$ es muy difícil, sin embargo, bajo ciertas condiciones, la consideración de la norma $l_1$ puede llevar a la misma solución.
 \end{mdframed}
 
 \subsection{Máxima verosimilitud}

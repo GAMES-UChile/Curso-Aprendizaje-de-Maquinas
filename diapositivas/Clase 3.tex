@@ -3,8 +3,8 @@
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 3 - Regresión lineal (parte 2)}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 3: Regresión lineal (parte 2)}
+\subtitle{MA5204 Aprendizaje de Máquinas}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -72,10 +72,10 @@ El funcional es estrictamente monótono por lo que tiene un único mínimo, el c
 	&\iff -2(Y-\tX\theta)^\top\tX + 2\rho\theta^\top =0\nonumber\\
 	&\iff -Y^\top\tX +\theta^\top\tX^\top\tX + \rho\theta^\top= 0\nonumber\\
 	&\iff \theta^\top = Y^\top \tX(\tX^\top\tX + \rho\eye)^{-1}\nonumber\\
-	&\iff \theta = (\tX^\top\tX+\rho\eye)^{-1}\tX^\top Y
+	&\iff \theta = (\tX^\top\tX+\rho\eye)^{-1}\tX^\top Y.
 \end{align*}\pause
 	
-Se observa que la condición $N>M$ ya no es necesaria ya que la matriz $\tX^\top\tX+\rho\eye$ puede tener determinante tan grande como se quiera haciendo variar $\rho$, solucionando el problema de invertibilidad.	
+Se observa que la condición $N>M$ ya no es necesaria, pues la matriz $\tX^\top\tX+\rho\eye$ puede tener determinante tan grande como se quiera simplemente eligiendo un $\rho$ suficientemente grande, solucionando el problema de invertibilidad.	
 	
 \end{frame}
 
@@ -85,7 +85,7 @@ Se observa que la condición $N>M$ ya no es necesaria ya que la matriz $\tX^\top
 Una forma de analizar la efectividad de una estimación de un parámetro es mediante la descomposición sesgo-varianza. Se asumirá que las muestras están compuestas de una parte determinista $\tx$ y un ruido aditivo $\epsilon$ (de media nula), es decir:
 
 \begin{equation*}
-	y_i = \theta^\top\tx_i + \epsilon_i
+	y_i = \theta^\top\tx_i + \epsilon_i.
  \end{equation*}\pause
 Luego, si $\hat\theta$ es una estimación del parámetro $\theta$, se puede probar que para una nueva observación $(\tx_\star,y_\star)$, el \emph{error cuadrático esperado} asociado a la predicción $\hat y_\star = \hat\theta^\top \tx_\star$ se puede descomponer de la siguiente forma:
  
@@ -125,7 +125,9 @@ Para el caso de las estimaciones por mínimos cuadrados y ridge regression se ti
 \end{teorema}	\pause
 Además, se puede probar que la varianza del estimador de ridge regression es menor a la varianza del estimador de MC.	\\~\ \pause
 
-De esta forma, el parámetro $\rho$ juega el papel de balancear el sesgo y la varianza del estimador.
+De esta forma, el parámetro $\rho$ juega el papel de balancear el sesgo y la varianza del estimador.\\~\ 
+
+\textbf{Ejercicio:} Probar los teoremas anteriores. 
 	
 \end{frame}
 
@@ -133,7 +135,7 @@ De esta forma, el parámetro $\rho$ juega el papel de balancear el sesgo y la va
 \begin{frame}{Ejemplo de ridge regression vs. mínimos cuadrados}
 
 \begin{itemize}
-	\item Sean $N=1000$ muestras relacionados linealmente.\pause
+	\item Sean $N=1000$ muestras rde un modelo lineal.\pause
 	\item Se utilizarán solo $N'=15$ muestras para entrenar el modelo usando MC, y RR con $\rho\in\{40,80\}$.\pause
 	\item Se repetirá el proceso 400 veces para analizar como se comportan los estimadores dentro de muestra (con respecto a los datos de entrenamiento) y fuera de muestra (con respecto a los $N-N'$ datos no usados para entrenar).\pause
 \end{itemize}
@@ -155,16 +157,16 @@ Por lo tanto, se observa que incluir un sesgo en el ajuste del modelo (RR) puede
 \end{frame}
 
 %Equivalencia con un problema de optimización con restricción.
-\begin{frame}{Equivalencia con un problema de optimización con restricción}
+\begin{frame}{Regulzar es equivalente a regresión con restricciones}
 
-Si bien el problema de MCR incluye una penalización sobre la norma de $\theta$, el problema también puede ser visto como el problema de MC con la restricción adicional que fija la norma del parámetro. \pause En efecto, dicho problema viene dado por:
+Si bien el problema de MCR incluye una penalización sobre la norma de $\theta$, el problema también puede ser visto como el problema de MC con la restricción adicional que fija la norma del parámetro. \pause En efecto, podemos expresar dicho problema mediante
 \begin{align*}
 	\min_\theta  \norm{Y-\tX\theta}_2^2\label{eq:dual_MCR1}
-	\quad\text{s.a.} \quad \ ||\theta||_p^p = \tau
+	\quad\text{s.a.} \quad \ ||\theta||_p^p = \tau,
 \end{align*}
 donde $\tau\geq0$ es una constante fija. \pause El lagrangiano del problema es el siguiente:
 \begin{equation*}
-	L(\theta,\lambda) = \norm{Y-\tX\theta}_2^2 + \lambda \left(||\theta||_p^p - \tau\right)
+	L(\theta,\lambda) = \norm{Y-\tX\theta}_2^2 + \lambda \left(||\theta||_p^p - \tau\right),
 \end{equation*}
 donde $\lambda$ es el multiplicador de Lagrange asociado al problema. \pause Usando la condición de primer orden se tiene que: 
 \begin{align*}
@@ -196,9 +198,9 @@ Para $p\leq1$, la forma de la curva de nivel permite que, usualmente, la soluci�
 
 \begin{frame}{LASSO y selección de características}
 
-El caso $p=1$ es conocido como LASSO y como se vio, posee la propiedad de selección de características.\\~\ \pause
+El caso $p=1$ (LASSO), tiene la propiedad de selección de características.\\~\ \pause
 
-Para ilustrar esta propiedad, se utilizará un dataset fijo, el cual tiene $N=569$ muestras y un dimensión de entrada de $M=30$ y se usarán 2/3 de los datos para entrenar y el 1/3 restante para calcular puntajes fuera de muestra. \\
+Para ilustrar esta propiedad, se utilizará el \emph{Breast Cancer Wisconsin Data Set}\footnote{\url{https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)}}, el cual tiene $N=569$ muestras y un dimensión de entrada de $M=30$ y se usarán 2/3 de los datos para entrenar y el 1/3 restante para calcular puntajes fuera de muestra. \\
 
 \begin{figure}[H]
 	\centering
@@ -209,6 +211,7 @@ Se observa la disminución en la norma de $\theta$ al usar MCR, así como tambi�
 
 \begin{table}[h]
 \centering
+\footnotesize
 	\begin{tabular}{ r|c|c } 
 		 & in-sample & out-of-sample \\
 		\hline
@@ -230,10 +233,10 @@ Para concluir esta sección, es importante tener en cuenta que:
 	\item Una posible variación de MCR consiste en utilizar la regularización LASSO y ridge al mismo tiempo, resultando en lo que se denomina \emph{elastic net regularization}, cuyo funcional de costo es
 
 \begin{equation*}
-	J_\rho = \norm{Y-\tX\theta}_2^2 + \lambda_1\norm{\theta}_2^2 + \lambda_2\norm{\theta}_1
+	J_\rho = \norm{Y-\tX\theta}_2^2 + \lambda_1\norm{\theta}_2^2 + \lambda_2\norm{\theta}_1.
 \end{equation*} \pause
 
-	\item Como se vio en la descomposición sesgo-varianza, el \emph{hiperparámetro} $\rho$ determina el balance entre regularización (cuán  sesgado) y ajuste (cuán bien replica  los datos de entrenamiento. en la práctica, para elegir este hiperparámetro se puede evaluar el desempeño fuera de muestra para distintos valores de $\rho$ con la finalidad de elegir un valor apropiado. Una manera de realizar la evaluación de desempeño para diferentes $\rho$ será vista al estudiar la \emph{validación cruzada}.
+	\item Como se vio en la descomposición sesgo-varianza, el \emph{hiperparámetro} $\rho$ determina el balance entre regularización (cuán  sesgado) y ajuste (cuán bien replica  los datos de entrenamiento). En la práctica, para elegir este hiperparámetro se puede evaluar el desempeño fuera de muestra para distintos valores de $\rho$ con la finalidad de elegir un valor apropiado. Una manera de realizar la evaluación de desempeño para diferentes $\rho$ será vista al estudiar la \emph{validación cruzada}.
 \end{itemize}
 
 	
