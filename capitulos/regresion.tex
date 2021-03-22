@@ -200,7 +200,7 @@ De la última expresión, es posible ver que el requerimiento de no colinealidad
 \end{lemma}
 
 \begin{proof}
-	El polinomio $q(\rho)=\det(A+\rho\eye)$ puede ser visto como el polinomio característico $p(\lambda)$ de la matriz $A$ con el cambio de variable $\lambda\mapsto -\rho$. Dado que el polinomio característico es de grado $n$ (i.e., no es constante), entonces $(\rho)=\det(A+\rho\eye)\to\infty$ cuando $\rho\to\infty$.
+	El polinomio $q(\rho)=\det(A+\rho\eye)$ puede ser visto como el polinomio característico $p(\lambda)$ de la matriz $A$ con el cambio de variable $\lambda\mapsto -\rho$. Dado que el polinomio característico es de grado $n$ (i.e., no es constante), entonces $|q(\rho)|=|\det(A+\rho\eye)|\to\infty$ cuando $\rho\to\infty$.
 \end{proof}
 
 Es relevante entender por qué una disminución en la norma de los parámetros, puede ayudar a ajustar \emph{mejores} modelos. A primera impresión, un podría pensar que el criterio de mínimos cuadrados regularizados (MCR) en ningún caso puede reportar mejores modelos que su contraparte MC, pues MCR es una variante restringida del problema original y consecuentemente solo puede \emph{en el mejor de los casos} alcanzar la solución óptima de MC. Esto es cierto si por \emph{mejor modelo} solo consideramos el error cuadrático medio sobre $\datos$, sin embargo, solo enfocarse en esta métrica no siempre es el mejor opción. Para ilustrar este concepto, tomemos las siguientes consideraciones: asumamos que efectivamente los datos cumplen la relación
