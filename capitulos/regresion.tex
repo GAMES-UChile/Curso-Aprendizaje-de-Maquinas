@@ -200,13 +200,8 @@ De la última expresión, es posible ver que el requerimiento de no colinealidad
 \end{lemma}
 
 \begin{proof}
-	Para una matriz $M$ fija, $M^{ij}$ representará la matriz $M$ sin la fila $i$ ni la columna $j$. De este modo se tiene que:
-	\begin{equation}
-		\det(A+\rho\eye) = \sum_{i=1}^n (A+\rho\eye)_{1i}\cdot \det\left((A+\rho\eye)^{1i}\right) = p\cdot\det\left((A+\rho\eye)^{11}\right) + \sum_{i=1}^n a_{1i}\cdot \det\left((A+\rho\eye)^{1i}\right).
-	\end{equation}
-	Además, en el caso base ($n=1$), $\det(A+\rho\eye)=a+\rho\to\infty$ cuando $\rho\to\infty$. Dado que el determinante es un polinomio en $\rho$ de grado menor o igual a la dimensión de la matriz, entonces, en el límite, el primer sumando dominará a la sumatoria (ya que está multiplicado por $p$). De este modo, $\det(A+\rho\eye)\to \infty$ cuando $\rho\to\infty$.
+	El polinomio $q(\rho)=\det(A+\rho\eye)$ puede ser visto como el polinomio característico $p(\lambda)$ de la matriz $A$ con el cambio de variable $\lambda\mapsto -\rho$. Dado que el polinomio característico es de grado $n$ (i.e., no es constante), entonces $(\rho)=\det(A+\rho\eye)\to\infty$ cuando $\rho\to\infty$.
 \end{proof}
-
 
 Es relevante entender por qué una disminución en la norma de los parámetros, puede ayudar a ajustar \emph{mejores} modelos. A primera impresión, un podría pensar que el criterio de mínimos cuadrados regularizados (MCR) en ningún caso puede reportar mejores modelos que su contraparte MC, pues MCR es una variante restringida del problema original y consecuentemente solo puede \emph{en el mejor de los casos} alcanzar la solución óptima de MC. Esto es cierto si por \emph{mejor modelo} solo consideramos el error cuadrático medio sobre $\datos$, sin embargo, solo enfocarse en esta métrica no siempre es el mejor opción. Para ilustrar este concepto, tomemos las siguientes consideraciones: asumamos que efectivamente los datos cumplen la relación
 \begin{equation}
