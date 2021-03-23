@@ -135,7 +135,7 @@ De esta forma, el parámetro $\rho$ juega el papel de balancear el sesgo y la va
 \begin{frame}{Ejemplo de ridge regression vs. mínimos cuadrados}
 
 \begin{itemize}
-	\item Sean $N=1000$ muestras rde un modelo lineal.\pause
+	\item Sean $N=1000$ muestras de un modelo lineal.\pause
 	\item Se utilizarán solo $N'=15$ muestras para entrenar el modelo usando MC, y RR con $\rho\in\{40,80\}$.\pause
 	\item Se repetirá el proceso 400 veces para analizar como se comportan los estimadores dentro de muestra (con respecto a los datos de entrenamiento) y fuera de muestra (con respecto a los $N-N'$ datos no usados para entrenar).\pause
 \end{itemize}
@@ -157,7 +157,7 @@ Por lo tanto, se observa que incluir un sesgo en el ajuste del modelo (RR) puede
 \end{frame}
 
 %Equivalencia con un problema de optimización con restricción.
-\begin{frame}{Regulzar es equivalente a regresión con restricciones}
+\begin{frame}{Regularizar es equivalente a regresión con restricciones}
 
 Si bien el problema de MCR incluye una penalización sobre la norma de $\theta$, el problema también puede ser visto como el problema de MC con la restricción adicional que fija la norma del parámetro. \pause En efecto, podemos expresar dicho problema mediante
 \begin{align*}

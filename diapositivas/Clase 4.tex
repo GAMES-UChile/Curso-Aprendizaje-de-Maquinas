@@ -1,11 +1,10 @@
-\documentclass[9pt]{beamer}
+\documentclass[handout, 9pt]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 4 - Máxima verosimilitud}
-\subtitle{Aprendizaje de Máquinas - MA5204}
-\date{\today}
+\title{Clase 4: Máxima verosimilitud}
+\subtitle{MA5204 Aprendizaje de Máquinas}\date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
 \begin{figure}[htp] 
@@ -33,7 +32,7 @@ Para el caso del problema de regresión, se considerarán distintos modelos que 
 \begin{equation*}
 	y|x,\theta \sim p(y|x,\theta),\label{eq:mod_gen}
 \end{equation*}
-donde enfatizamos que $y$ es  la única variable aleatoria y tanto el parámetro $\theta$ como la entrada $x$ son cantidades fijas (la primera desconocida y la segunda conocida u observable).
+donde enfatizamos que $y$ es  la única variable aleatoria y tanto el parámetro $\theta$ como la entrada $x$ son cantidades fijas (el parámetro $\theta$ es desconocido y la entrada $x$ es conocida u \emph{observada}).
 	
 \end{frame}
 
@@ -47,12 +46,12 @@ donde enfatizamos que $y$ es  la única variable aleatoria y tanto el parámetro
 	p(y_\star|\{y_i\}_{i=1}^N) 
 	\stackrel{\text{(prob. cond.)}}{=} \frac{p(y_\star,\{y_i\}_{i=1}^N)} {p(\{y_i\}_{i=1}^N)} 
 	\stackrel{\text{(indep.)}}{=} \frac{p(y_\star),p(\{y_i\}_{i=1}^N)} {p(\{y_i\}_{i=1}^N)}
-	=p(y_\star)
+	=p(y_\star).
 \end{equation*}
-es decir, las observaciones pasadas no aportarían para la predicción. \pause Por  el contrario, como nuestro supuesto es de \textbf{independencia condicional} la expresión correcta es  la siguiente: 
+Es decir, las observaciones pasadas $\{y_i\}_{i=1}^N$ no aportarían para la predicción. \pause Por  el contrario, como nuestro supuesto es de \textbf{independencia condicional} la expresión correcta es  la siguiente: 
 \begin{equation*}
 	p(y_\star|\{y_i\}_{i=1}^N,\theta)  
-	=p(y_\star|,\theta)
+	=p(y_\star|\theta),
 \end{equation*}\pause
 lo cual quiere decir que las  observaciones pasadas no son útiles para predecir el  futuro \textbf{solo si conozco el modelo}. Esto es evidente, pues si conozco el modelo, no necesito datos para saber de $y_\star$.
 
@@ -63,9 +62,9 @@ lo cual quiere decir que las  observaciones pasadas no son útiles para predecir
 %Caso particular: regresión lineal
 \begin{frame}{Caso particular: regresión lineal}
 	
-En particular, en el caso de la regresión lineal podemos considerar el siguiente modelo  generativo:
+En particular, en el caso de la regresión lineal podemos considerar el siguiente \textbf{modelo  generativo}:
 \begin{equation*}
-	y = a^\top x + b + \epsilon,\quad \epsilon\sim\cN(0,\sigma_\epsilon^2)
+	y = a^\top x + b + \epsilon,\quad \epsilon\sim\cN(0,\sigma_\epsilon^2),
 \end{equation*}
 el cual consta de una parte determinística (afín en $x$) y una parte aleatoria caracterizada por la variable aleatoria $\epsilon$.\\~\ \pause
 
@@ -77,30 +76,31 @@ donde $\theta=(a,b,\sigma_\epsilon^2)^\top$ representa todos los parámetros del
 
 \begin{itemize}
 	\item El supuesto de independencia condicional está garantizado al imponer que las realizaciones de $\epsilon\sim\cN(0,\sigma_\epsilon^2)$ sean iid.\pause
-	\item  Esto es  fundamental para poder aprender el modelo desde múltiples observaciones, pues intuitivamente todas las observaciones aportan evidencia no redundante sobre el parámetro en común $\theta$.\pause
-	\item  Por el contrario, si las observaciones fuesen condicionalmente dependientes, entonces la información que reportan para estimar $\theta$ sería redundante.
+	\item Es posible aprender el modelo desde múltiples observaciones, pues intuitivamente todas las observaciones aportan evidencia sobre el parámetro en común $\theta$. 
+	\item  Si, por el contrario, cada observación tuviese su propio parámetro, el aprendizaje no sería posible.
 \end{itemize}
+ \textbf{Nota:} estamos assumiendo la existencia de un patrón subjacente\pause
 	
 \end{frame}
 
 %Función de verosimilitud.
 \begin{frame}{Función de verosimilitud}
 
-Sean $\{y_i\}_{i=1}^N$ observaciones generadas por un modelo generativo definido mediante la densidad de  probabilidad  $y\sim p(y|\theta)$, donde $\theta\in\Theta$ es el parámetro (desconocido) del modelo.\pause
+Sean $\{y_i\}_{i=1}^N$ observaciones generadas por un \textbf{modelo generativo} definido mediante la densidad de  probabilidad  $y\sim p(y|\theta)$, donde $\theta\in\Theta$ es el parámetro (desconocido) del modelo.\pause
 	
 La dependencia de las observaciones cuando el modelo es desconocido permite introducir la siguiente definición:
 
 \begin{definition}[verosimilitud]
-Se define $L: \Theta \to [0,1]$ como la probabilidad de los datos observados condicional al parámetro $\theta$, es decir, 
+Se define $L: \Theta \to [0,\infty)$ como la densidad de probabilidad de los datos observados condicional al parámetro $\theta$, es decir, 
 \begin{equation*}
-			\theta   \mapsto L(\theta) :=  p(\{y_i\}_{i=1}^N | \theta)
+			\theta   \mapsto L(\theta) :=  p(\{y_i\}_{i=1}^N | \theta).
 \end{equation*}
 Dicho valor de $L$ se denomina \emph{verosimilitud} del modelo $p(y|\theta)$ o, equivalentemente, del  parámetro $\theta$. 
 \end{definition}\pause
 
-En algunos casos, consideraremos las notaciones $L_\y(\theta)$ o $L(\theta|\datos)$ para enfatizar que la verosimilitud es tomada con respecto a las observaciones  $\y$ del conjunto $\datos$.\\~\ \pause
+En algunos casos, consideraremos las notaciones $L_\y(\theta)$ o $L(\theta|\datos)$ para enfatizar que la verosimilitud es tomada con respecto a las observaciones  $\y$ o al conjunto $\datos$.\\~\ \pause
 	
-Es importante enfatizar que la función $L(\theta)$ no es una densidad de probabilidad ya que $p(\{y_i\}_{i=1}^N | \theta)$ integra 1 cuando se integra con respecto a los datos $y$, pero no necesariamente integra 1 cuando se integra con respecto a $\theta$.
+Es importante enfatizar que la función $L(\theta)$ \textbf{no es una densidad de probabilidad}, ya que si bien $p(\{y_i\}_{i=1}^N | \theta)$ integra 1 cuando se integra con respecto a los datos $y$, no necesariamente integra 1 cuando se integra con respecto a $\theta$.
 	
 \end{frame}
 
@@ -130,8 +130,9 @@ Definida la verosilimitud, surge la pregunta natural de cómo elegir $\theta$ a 
 
 Sea $D(p_1,p_2)$ alguna medida de discrepancia entre dos modelos $p_1,p_2$. Luego, se elegirá el $\hat\theta$ tal que $p(y|\hat\theta)$ es lo más \emph{cercano} posible al modelo real $p(y|\theta)$ con respecto a la discrepancia $D$, es decir, el que minimiza la expresión
 \begin{equation*}
-    	D(p(y|\theta),p(y|\hat\theta))
+    	D(p(y|\theta),p(y|\hat\theta)).
 \end{equation*} \pause
+---recordar: $y$ es la variable. Una notación alternativa es $D(p(\cdot|\theta),p(\cdot|\hat\theta))$\\~\
 
 Desafortunadamente, notemos que formular y resolver  este problema no es posible en el caso general, pues la expresión de arriba depende del parámetro real $\theta$, el cual no conocemos, con lo que no podríamos resolver dicho problema de optimización.\\~\
 
@@ -148,46 +149,48 @@ La medida de discrepancia que se utilizará se deriva de la teoría de la inform
  \end{equation*} \pause
 Si bien no es posible calcular dicha integral, observemos que esta es una esperanza con respecto a la densidad $p(y|\theta)$, por lo que se puede utilizar una aproximación de Monte Carlo usando las $N$ observaciones en $D$:
 \begin{equation*}
-	\KL( p(y|\theta),p(y|\hat\theta)) 	\approx \KL_N( p(y|\theta),p(y|\hat\theta)) = \frac{1}{N}\sum_{i=1}^N\log\left(\frac{p(y_i|\theta)}{p(y_i|\hat\theta)}\right).
+	\KL( p(y|\theta),p(y|\hat\theta)) 	\approx \KL_N( p(y|\theta),p(y|\hat\theta)) = \frac{1}{N}\sum_{i=1}^N\log\left(\frac{p(y_i|\theta)}{p(y_i|\hat\theta)}\right)
 \end{equation*}
+donde las muestras $\forall i, y_i\sim p(y|\theta)$ iid.
 	
 \end{frame}
 
 %Motivación de la máxima verosimilitud.
 \begin{frame}{Motivación de la máxima verosimilitud}
 
-Sea $\hat\theta_N$ el minimizante de la  expresión anterior:
+Observemos que el minimizante de la expresión anterior $\hat\theta_N$ verifica:
  \begin{align*}
  	\hat\theta_N & =  \argmin_{\hat\theta}  \sum_{i=1}^N\log\left(\frac{p(y_i|\theta)}{p(y_i|\hat\theta)}\right)\\
  				&= \argmin_{\hat\theta}  \sum_{i=1}^N  \log p(y_i|\theta) - \sum_{i=1}^N \log p(y_i|\hat\theta)\nonumber\\
  				&= \argmax_{\hat\theta}  \sum_{i=1}^N \log p(y_i|\hat\theta)\nonumber\\
- 				&= \argmax_{\hat\theta}  \prod_{i=1}^N p(y_i|\hat\theta),\nonumber
+ 				&= \argmax_{\hat\theta}  \prod_{i=1}^N p(y_i|\hat\theta).\nonumber
  \end{align*}\pause
-Observemos que si nuestras muestras son condicionalmente independientes, entonces la expresión anterior implica que $\hat\theta_N$ es también el maximizante de la función de verosimilitud:
+Es decir, si las muestras son condicionalmente independientes, entonces la expresión anterior implica que $\hat\theta_N$ es también el maximizante de la función de verosimilitud. En efecto,
  \begin{align*}
- 	\hat\theta_N &= \argmax_{\hat\theta}  \prod_{i=1}^N p(y_i|\hat\theta) = \argmax_{\hat\theta}  p(\y|\hat\theta) = \argmax_{\hat\theta}  L_\y(\theta),
+ 	\hat\theta_N &= \argmax_{\hat\theta}  \prod_{i=1}^N p(y_i|\hat\theta) = \argmax_{\hat\theta}  p(\y|\hat\theta) = \argmax_{\hat\theta}  L_\y(\theta). 
  \end{align*}
  
- Por lo tanto, el parámetro que minimiza la KL corresponde al estimador de máxima verosimilitud (EMV).
+ Por lo tanto, el parámetro que minimiza la KL corresponde al estimador de máxima verosimilitud (EMV) $\Rightarrow$ \textbf{aprendemos no solo parámetros sino que modelos.}
 	
 \end{frame}
 
 %EMV para el modelo lineal gaussiano.
-\begin{frame}{EMV para el modelo lineal gaussiano}
+\begin{frame}{EMV para el modelo lineal gaussiano (1)}
 
 Para el modelo lineal con ruido gaussiano $y=a^\top x + b + \epsilon$
 
 \begin{equation*}
 	y|x \sim p(y|x,\theta) = \cN(y;a^\top x + b ,\sigma_\epsilon^2),\label{eq:mod_lin_gau}
 \end{equation*}
-
-La verosimilitud viene dada por:
+la verosimilitud viene dada por:
 
 \begin{equation*}
 	L_\y(\theta) =  \prod_{i=1}^N \cN(y_i;a^\top x_i + b,\sigma_\epsilon^2) = \frac{1}{(2\pi\sigma_\epsilon^2)^{N/2}}  \exp\left(\frac{-\sum_{i=1}^N(y_i-a^\top x_i - b)^2}{2\sigma_\epsilon^2}\right) \label{eq:verosimilitud_lineal}
 \end{equation*}\pause
 
-Usualmente, se trabaja con el logaritmo de la verosimilitud, referido como \emph{log-verosimilitud}, $l(\theta) = \log L(\theta)$, por su facilidad de interpretación y optimización. De este modo, la log-verosimilitud del modelo lineal gaussiano está dada por
+Usualmente, se trabaja con el logaritmo de la verosimilitud, referido como \emph{log-verosimilitud}, $l(\theta) = \log L(\theta)$, por su facilidad de interpretación y optimización.\\~\
+
+ De este modo, la log-verosimilitud del modelo lineal gaussiano está dada por
 \begin{equation*}
 	l(\theta) 
 		= \underbrace{-N\log \sqrt{2\pi\sigma^2_\epsilon}}_{\text{dispersión}} + \underbrace{\frac{-1}{2\sigma_\epsilon^2} \sum_{i=1}^N (y_i-a^\top x_i - b)^2}_{\text{ajuste}},
@@ -196,7 +199,7 @@ Usualmente, se trabaja con el logaritmo de la verosimilitud, referido como \emph
 \end{frame}
 
 %EMV para el modelo lineal gaussiano.
-\begin{frame}{EMV para el modelo lineal gaussiano}
+\begin{frame}{EMV para el modelo lineal gaussiano (2)}
 	En particular, el estimador  de máxima verosimilitud para los parámetros de  la parte lineal (i.e., ignorando $\sigma^2_\epsilon$) está dado por:
 \begin{align*}
 	 [a^{\text{MV}} ,b^{\text{MV}} ]
@@ -209,17 +212,17 @@ Observemos que es posible identificar esta última expresión como el costo de M
 
 Además, recordemos que luego de determinar el estimador con criterio de MC, es posible calcular la varianza de los errores (error cuadrático medio) de nuestro modelo mediante 
 \begin{equation*}
-	\text{Varianza} = \frac{1}{N}\sum_{i=1}^N (y_i-\hat{a}^\top x_i -\hat{b})^2
+	\text{Varianza} = \frac{1}{N}\sum_{i=1}^N (y_i-\hat{a}^\top x_i -\hat{b})^2.
 \end{equation*}
 
 \end{frame}
 
 %EMV para el modelo lineal gaussiano.
-\begin{frame}{EMV para el modelo lineal gaussiano}
+\begin{frame}{EMV para el modelo lineal gaussiano (3)}
 	
 Por otra parte, en el contexto de máxima verosimilitud, la varianza es un parámetro del modelo por lo que puede ser calculado maximizando la log-verosimilitud al igual que para los parámetros $a$ y $b$:
 \begin{align*}
-	\sigma^2_{\text{MV}} &= \argmax \left(-\frac{N}{2} \log(\sigma_\epsilon^{2}) + \frac{-1}{2\sigma_\epsilon^2}\sum_{i=1}^N {(y_i-a^\top x_i -b)^2}\right) 
+	\sigma^2_{\text{MV}} &= \argmax \left(-\frac{N}{2} \log(\sigma_\epsilon^{2}) + \frac{-1}{2\sigma_\epsilon^2}\sum_{i=1}^N {(y_i-a^\top x_i -b)^2}\right).
 \end{align*}
 Dado que ya se optimizó sobre los parámetros $a$ y $b$, solo falta aplicar  la condición de primer orden sobre $\sigma_\epsilon^2$:
 \begin{align*}
@@ -227,7 +230,7 @@ Dado que ya se optimizó sobre los parámetros $a$ y $b$, solo falta aplicar  la
 \end{align*}
 Con lo cual se obtiene la misma expresión de la varianza que al usar mínimos cuadrados. \\~\
 
-Además, observemos que el estimador de MV de la varianza depende de los parámetros $a$ y $b$, pero no al revés.
+Además, observemos que el estimador de MV de la varianza del ruido depende de los parámetros $a$ y $b$, pero no al revés.
 	
 \end{frame}
 
