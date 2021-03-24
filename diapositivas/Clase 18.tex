@@ -1,0 +1,262 @@
+\documentclass[9pt]{beamer}
+
+\input{preambuloBeamer}
+\usetheme{simple}
+
+\title{Clase 18 - Redes neuronales (parte 2)}
+\subtitle{Aprendizaje de Máquinas - MA5204}
+\date{\today}
+\author{Felipe Tobar} 
+\titlegraphic{
+\begin{figure}[htp] 
+    \centering
+        \includegraphics[width=0.15\textwidth]{../img/Uchile.pdf}% 
+\end{figure}
+}
+\institute{Department of Mathematical Engineering \&\\ Center for Mathematical Modelling\\Universidad de Chile}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Entrenamiento de una Red Neuronal}
+
+\begin{frame}{Forward propagation}
+Al usar una red neuronal \textit{feedforward}, la información fluye a través de la red desde el ingreso de un input $x$ hasta producir un output $\hat{y}$. Esto se conoce como \textbf{forward propagation} y es la que durante el entrenamiento calcula el costo $J(X, \theta)$ \pause
+\newline 
+El algoritmo que la describe es el siguiente 
+\newline
+\hspace{0.5cm} \textbf{Requisitos: }   $W^{(k)} , b^{(k)} , f^{(k)} \hspace{0.2cm} k \in \{1,...,l\}$ , $U$ , $c$ , $g$ y $x$ input  \pause
+\begin{enumerate}
+  \item $h^{(0)} = x$ \pause
+  \item para $k = 1 , \dots , l$
+  \begin{itemize}
+    \item $u^{(k)} = h^{(k-1)}W^{(k)} + b^{(k)}$ \pause
+    \item $h^{(k)} = f^{(k)}(u^{(k)})$ \pause
+  \end{itemize}
+  \item $\hat{y} = g(h^{(l)}U + c)$ \pause
+  \item $J = L(\hat{y},y)$ \pause
+
+\end{enumerate}
+
+\begin{observacion}
+Los pesos y bias en la primera iteración del algoritmo son generados aleatoriamente
+
+\end{observacion}
+
+
+
+\end{frame}
+
+\begin{frame}{Backpropagation - Introducción}
+El algoritmo de $\textbf{backpropagation}$ permite que la información del costo fluya en sentido inverso a través de la red para calcular el gradiente de manera computacionalmente eficiente.  \pause 
+El gradiente se calculará de esta forma ya que, aunque es posible obtener una expresión analítica para este, evaluar la expresión puede ser muy caro computacionalmente. 
+\pause Luego de obtener el gradiente, otro algoritmo como descenso de gradiente estocástico realizará el aprendizaje usando la expresión que fue calculada. \pause
+
+\vspace{0.2cm}
+
+El algoritmo de backpropagation ha experimentatdo un resurgimiento en estas últimas décadas por su implementación en redes neuronales para tareas tales como reconocimiento de imágenes o procesamiento de lenguaje natural. \\
+Es considerado un algoritmo eficiente e implementaciones modernas de estas aprovechan el paralelismo de las GPU para mejorar su rendimiento. \pause
+
+\vspace{0.2cm}El gradiente se
+calculará de esta forma ya que, aunque es posible obtener una expresión analítica para este, evaluar
+la expresión puede ser muy caro computacionalmente.
+
+A continuación se describe brevemente el algoritmo: 
+
+\end{frame}
+
+\begin{frame}{Backpropagation - Preliminares}
+
+\begin{itemize}
+  \item Utilicemos la notación para el paso intermedio antes de aplicar la función de activación como $u = hW + b$ \pause
+
+  \item Supongamos además que el entrenamiento de la red se realiza con un paquete de datos (batch), es decir $(x^d)_{d=1}^N$  conjunto de $N$ inputs, luego $u_{dj}^{(k)}$ corresponde al valor de $u$ para el input $d$ en el nodo j para la capa $k$ \pause
+ 
+ \item Se verá el algoritmo de backpropagation para función de error MSE en un problema de regresión.  \pause
+
+\end{itemize} 
+\[
+J(X , \theta) = \frac{1}{2N}\sum_{d=1}^N(\hat{y}_d-y_d)^2
+\]
+Nuestro objetivo será actualizar todos los valores $w_{ij}^{(k)}$ (peso del nodo $i$ al nodo $j$ en la capa $k$). Es decir, para utilizar el método del descenso de gradiente es necesario calcular $\frac{\partial J(X , \theta) }{\partial w_{ij}^{(k)}}$ notemos que \pause
+\[
+\frac{\partial J(X , \theta) }{\partial w_{ij}^{(k)}} = \frac{1}{N}\sum_{d=1}^N \frac{\partial}{\partial w_{ij}^{(k)}} \left ( \frac{1}{2}(\hat{y}_d-y_d)^2 \right) = \frac{1}{N}\sum_{i=1}^N \frac{\partial J_d}{\partial w_{ij}^{(k)}}
+\]
+Veamos esto último
+\end{frame}
+
+\begin{frame}{Backpropagation - Preliminares}
+
+Utilizando la regla de la cadena 
+\[
+\frac{\partial J_d}{\partial w_{ij}^{(k)}} = \frac{\partial J_d}{\partial u_{dj}^{(k)}}\frac{\partial u_{dj}^{(k)}}{\partial w_{ij}^{(k)}}
+\] \pause
+La expresión $\frac{\partial J_d}{\partial u_{dj}^{(k)}}$ corresponde a un término de \textbf{error} y lo denotaremos \
+\[
+\delta_{dj}^{(k)} \equiv \frac{\partial J_d}{\partial u_{dj}^{(k)}}
+\] \pause
+Mientras que para el otro término tenemos que 
+\[
+\frac{\partial u_{dj}^{(k)}}{\partial w_{ij}^{(k)}} = \frac{\partial}{\partial w_{ij}^{(k)}} \left ( \sum_{a = 1}^{k_k}w_{aj}^{(k)}h_{da}^{(k-1)} + b_j^{(k)} \right) = h_{di}^{(k-1)}
+\] \pause
+y así 
+\[
+\frac{\partial J_d}{\partial w_{ij}^{(k)}} = \delta_{dj}^{(k)}  h_{di}^{(k-1)}
+\] \pause
+El gradiente total, será la suma de los $N$ gradientes y que expresaremos en su forma matricial
+\[\frac{\partial J}{\partial w_{ij}^{(k)}} = \sum_{d=1}^N \delta_{dj}^{(k)}  h_{di}^{(k-1)}  \Rightarrow  \frac{\partial J}{\partial W^{(k)}} = (h^{(k-1)})^T @ \hspace{0.1cm} \delta^{(k)}
+\]
+Omitiremos la constante $1/N$ hasta el final del algoritmo.
+\end{frame}
+\begin{frame}{Backpropagation - Capas ocultas}
+Nuevamente, de la regla de la cadena \pause
+\[
+\delta_{dj}^{(k)} = \frac{\partial J_d}{\partial u_{dj}^{(k)}} = \sum_{a=1}^{k_{k+1}} \frac{\partial J_d}{\partial u_{da}^{(k+1)}} \frac{\partial u_{da}^{(k+1)}}{\partial u_{dj}^{(k)}} = \sum_{a=1}^{k_{k+1}} \delta_{da}^{(k+1)} \frac{\partial u_{da}^{(k+1)}}{\partial u_{dj}^{(k)}}
+\] 
+\pause 
+no es difícil ver que
+
+\[
+\frac{\partial u_{da}^{(k+1)}}{\partial u_{dj}^{(k)}} = w_{ja}^{(k+1)}f'(u_{dj}^{(k)})  \Rightarrow  \delta_{dj}^{(k)} = f'(u_{dj}^{(k)})\sum_{a=1}^{k_{k+1}}w_{ja}^{(k+1)}\delta_{da}^{(k+1)}
+\]
+\pause
+Hemos encontrado una expresión para calcular el gradiente en una capa $k$ en base al gradiente de la siguiente capa $k+1$ (De aquí el nombre backward propagation).
+\newline \pause
+
+Lo anterior en su forma matricial
+\[
+\delta^{(k)} = f'(u^{(k)}) * \left ( \delta^{(k+1)} @ \hspace{0.1cm} (W^{(k+1)})^T \right )
+\] \pause
+Lo único que queda para presentar el algoritmo final es calcular los gradientes en la última capa (capa de output)
+
+\end{frame}
+
+\begin{frame}{Backpropagation - Capa de output}
+Estamos suponiendo un problema de regresión por lo que el output será de una sola salida y la función de error es MSE, entonces \pause
+\[
+\delta_{d1}^{(l)} = \frac{\partial J_d}{\partial u_{d1}^{(l)}} = (\hat{y}_d-y_d) (\hat{y}_d)' 
+\] \pause
+Además, la función de activación en el output será lineal y por tanto $(\hat{y}_d)' = 1$, finalmente el término de normalización $N$ se agrega en este paso.  La forma matricial queda en \pause
+\[
+\delta_{1}^{(l)} = \frac{1}{N}(\hat{y}-y)
+\]
+\pause
+\begin{propuesto}
+\begin{itemize}
+  \item Encontrar una expresión para el gradiente de los bias $(b^{(k)})_k$
+  \item Calcular el gradiente para un problema con unidad de output sigmoidal (problema de clasificación binario) o para un problema con unidad de output softmax (problema de clasificación multiclase) 
+\end{itemize}
+\end{propuesto}
+
+
+\end{frame}
+
+\begin{frame}{Backpropagation - Algoritmo}
+
+\begin{enumerate}
+  \item Calcular la fase de forward, guardar los valores ($\hat{y})_d$ , $(u_{ij}^{(k)})_{ijd}$ y $(h_{ij}^{(k)})_{ijd}$. \pause
+
+
+  \item Evaluar el error de la última capa $\delta_1^{(l)}$  utilizando las ecuaciones en la capa de output \pause
+
+  \item Para $k=1 \dots l-1$ capas de la red \pause
+
+  \begin{itemize}
+    \item Propagar hacia atrás y calcular el error $\delta^{(k)}$ de las ecuaciones en la capa oculta  \pause
+    \item Evaluar las derivadas parciales $\frac{\partial J}{\partial w_{ij}^{(k)}}$ y $\frac{\partial J}{\partial b_j^{(k)}}$ para todos los nodos de la capa $k$ mediante las ecuaciones preliminares, guardar los valores \pause
+
+  \end{itemize}
+
+  \item Actualizar los pesos y bias mediante descenso de gradiente 
+  \[
+  (w_{ij}^{(k)})' = w_{ij}^{(k)} - \lambda \frac{\partial J}{\partial w_{ij}^{(k)}}, \quad (b_{j}^{(k)})' = b_{j}^{(k)} - \lambda \frac{\partial J}{\partial b_{j}^{(k)}}, \quad \forall i,j,k
+  \]
+  \pause
+\end{enumerate}
+
+\begin{observacion}
+
+\begin{itemize}
+  \item Usualmente los datos son entregados en paquetes de datos (batch) y los pesos/bias actualizados mediante descenso de gradiente estocástico
+  \item La cantidad de veces que se pase por todos los datos de entrenamiento se conoce como \textbf{épocas}
+\end{itemize}
+
+\end{observacion}
+
+\end{frame}
+
+\section{Regularización para una Red Neuronal}
+
+\begin{frame}{Regularización}
+Las redes neuronales y algoritmos de deep learning son aplicados a tareas extremadamente complejas como lo son el procesamiento de imágenes, audio, y texto. Controlar la complejidad de un modelo no solo se reduce a encontrar el tamaño y cantidad de parámetros adecuados, como se ha visto para otros modelos de aprendizaje de máquinas, sino que en la práctica el modelo con el mejor ajuste por lo general será un modelo grande (profundo) que ha sido regularizado apropiadamente. \pause 
+
+El objetivo de las técnicas de regularización es el de reducir el \textit{error de generalización}, es decir, el error esperado al clasificar datos nunca antes vistos pero manteniendo la capacidad del modelo (profundidad, cantidad de nodos, funciones de activación, etc...) \pause 
+
+A continuación veremos algunas de ellas: 
+
+
+\end{frame}
+
+
+\begin{frame}{Técnicas de regularización}
+
+\begin{itemize}
+  \item \textbf{Regularización $L^2$} \\ \pause
+  Una regularización que se basa en limitar la norma de los parámetros del modelo es la ya conocida \textbf{regularización} $\bm{L}^{2}$ (o \textbf{ridge regression}), mediante la cual se obtiene la función objetivo regularizada $\tilde{J}$: \pause
+
+  \begin{equation*}
+  \tilde{J}(\bm{\theta};\bm{X},\bm{y}) = J(\bm{\theta};\bm{X},\bm{y}) + \frac{\alpha}{2}||\bm{\theta}||^{2}_{2}
+  \end{equation*} \pause
+
+  No es dificil ver que esta regularización es equivalente a la actualización de parámetros según gradiente estocástico de la forma \pause
+
+  \begin{equation*}
+  (w_{ij}^{(k)})' = (1-\beta) w_{ij}^{(k)} - \lambda \frac{\partial J}{\partial w_{ij}^{(k)}}, \quad \beta = \lambda \alpha
+  \end{equation*}
+  y por eso también es llamada \textit{'weight decay'} y es la forma en que se implementa
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+  \item \textbf{Dropout} \\ 
+
+  Esta técnica de regularización consiste en entrenar en cada iteración una fracción de los pesos mediante una elección aleatoria. Su implementación es bastante simple y basta con definir para cada capa $k$ la probabilidad $1-p_k$ de 'apagar' una neurona en particular. \pause
+
+    \[
+    h^{(k)} = f^{(k)}(h^{(k-1)}W^{(k)} + b^{(k)}) *  \frac{M^{(k)}}{p_k}, \quad M^{(k)}_i \sim \text{Bernoulli}(p_k) \hspace{0.2cm} \forall i,k
+    \]
+
+  Notar que al aplicar backward, también es necesario 'apagar' las neuronas que no participaron del forward para evitar que sean entrenadas. \pause
+
+  \item \textbf{Early Stopping} \pause
+
+  La cantidad de épocas disminuye el error de entrenamiento pero no siempre el de generalización, es más, con una cantidad grande de épocas, el error de generalización aumenta y esto es porque la red aprende con exactitud cada input en el conjunto de train y no sus características más importantes, a esto se le denomina \textbf{overfitting}. \\ \pause
+
+  La técnica de \textit{Early stopping} consiste en evitar esto, deteniendo el algoritmo antes de llegar al overfitting según un parámetro de decisión. Es importante destacar que esto se realiza evaluando sobre el conjunto de validación. \pause
+
+  \item Otras técnicas: \textbf{Bootstrap , data augmentation , noise injection}
+
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+
+
+
+%Quitar de comentarios apenas se agregue alguna referencia 
+%\bibliography{../capitulos/referencias} %Bibliografía
+%\bibliographystyle{apacite}
+\end{document} 
