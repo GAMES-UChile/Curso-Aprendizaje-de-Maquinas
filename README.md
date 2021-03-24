@@ -22,8 +22,8 @@ Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas 
 
 - Clase 1 (15 marzo): Introducción 				[[slides]][slides-c1] & [[video]][video-c1]
 - Clase 2 (17 marzo): Regresión lineal (parte 1)[[slides]][slides-c2] & [[video]][video-c2]
-- Clase 3: Regresión lineal (parte 2) 			[[slides]][slides-c3] 
-- Clase 4: Máxima verosimilitud 				[[slides]][slides-c4] 
+- Clase 3: Regresión lineal (parte 2) 			[[slides]][slides-c3] & [[video]][video-c3]
+- Clase 4: Máxima verosimilitud 				[[slides]][slides-c4] & [[video (1/2)]][video-c4]
 - Clase 5: Inferencia bayesiana (parte 1) 		[[slides]][slides-c5] 
 - Clase 6: Inferencia bayesiana (parte 2) 		[[slides]][slides-c6] 
 - Clase 7: Predicciones y regresión no lineal 	[[slides]][slides-c7] 
@@ -118,3 +118,5 @@ Además, todos los ayudantes desde 2016 han hecho posible este curso. Gracias:
 
 [video-c1]: https://youtu.be/WuPht7pwFAk
 [video-c2]: https://youtu.be/rbojC-SltCU
+[video-c3]: https://youtu.be/Ve69KFzhInA 
+[video-c4]: https://youtu.be/HjPLKFv_7yc
