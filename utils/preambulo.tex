@@ -2,54 +2,39 @@
 
 %preamble
 
- 
 \usepackage[letterpaper, portrait, margin=0.8in]{geometry}
+
 %language
 \usepackage[spanish,es-nodecimaldot]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{apacite}
-
-
 
 %packages
 \usepackage[Algoritmo]{algorithm}
 \usepackage{algorithmicx}
 \usepackage[noend]{algpseudocode}
 \usepackage{mathtools}
-\setlength {\marginparwidth }{2cm}
+\setlength {\marginparwidth}{2cm}
 \usepackage{todonotes}
 \usepackage{amsbsy}
 \usepackage{amssymb}
 \usepackage{amsmath,bm}
-
-\usepackage{xcolor}
-\providecommand{\sred}[1]{\textcolor{red}{#1}}
-\providecommand{\sblue}[1]{\textcolor{blue}{#1}}
-\providecommand{\red}[1]{\textcolor{red}{\text{#1}}}
-\providecommand{\blue}[1]{\textcolor{blue}{\text{#1}}}
-\providecommand{\redb}[1]{\textcolor{red}{\textbf{#1}}}
-\providecommand{\blueb}[1]{\textcolor{blue}{\textbf{#1}}}
+\usepackage{dsfont}
 \usepackage{graphicx}
 \usepackage{fancybox}
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{float}
-%\usepackage[longend,ruled,algochapter,linesnumbered,lined,boxed,commentsnumbered,spanish]{algorithm2e}
-%\usepackage[algo2e]{algorithm2e}
 \usepackage{amssymb}
 \usepackage{amstext}
 \usepackage{bm}
 \usepackage{wrapfig}
-\usepackage{subcaption} % para_unsupervised_chapter
-
-%formatting
-
-\usepackage[export]{adjustbox}
+\usepackage{subcaption}
+\usepackage[export]{adjustbox} %formatting
 
 %caption para figuras
 \captionsetup[figure]{width=.8\linewidth, font=small,labelfont={bf},name={Fig.},labelsep=period}
 \captionsetup[table]{width=.8\linewidth,font=small,labelfont={bf},name={Tabla},labelsep=period}
-
 
 
 \ifx\byn\undefined
@@ -62,8 +47,8 @@
     \definecolor{my_yellow}{HTML}{FFFFFF}
 \fi
 
-
 \usepackage[framemethod=TikZ]{mdframed}
+
 \mdfdefinestyle{discusion}{%
     %linecolor=black,
     %outerlinewidth=0pt,
@@ -76,7 +61,6 @@
 
 \colorlet{Green}{green!90}
 
-
 \mdfdefinestyle{ejemplo}{%
     %linecolor=black,
     %outerlinewidth=0pt,
@@ -87,17 +71,14 @@
     innerleftmargin=20pt,
     backgroundcolor=my_yellow}
 
-
 \mdfdefinestyle{pendiente}{%
     style = discusion, 
     backgroundcolor=my_red}
-
 
 \RequirePackage{url}
 
 %definitions
 \def\td{{\text d}}
-\def\R{{\mathbb R}}
 \def\cN{{\mathcal N}}
 \def\cX{{\mathcal X}} 
 \def\cC{{\mathcal C}} 
@@ -117,12 +98,8 @@
 \newcommand{\cvector}{\ensuremath{\mathbf{c}}}
 \newcommand{\e}{\ensuremath{\mathbf{e}}}
 \newcommand{\y}{\ensuremath{\mathbf{y}}}
-\newcommand{\bx}{\ensuremath{\textcolor{blue}{X}}}
-\newcommand{\by}{\ensuremath{\textcolor{blue}{Y}}}
-\newcommand{\rx}{\ensuremath{\textcolor{red}{X_*}}}
-
-
-
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -131,22 +108,19 @@
 \DeclareMathOperator{\KL}{\text{KL}}
 \DeclareMathOperator{\MVN}{\text{MVN}}
 \newcommand\deq{\stackrel{\mathclap{\normalfont\mbox{\tiny def}}}{=}}
-%\newcommand{\E}[1]{\mathbb E \left[#1\right]}
 \newcommand{\trace}[1]{\text{Tr} \left[#1\right]}
 
 
 \usepackage{amsthm}
-
-\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem}{Teorema}[section]
 \newtheorem{corollary}{Corollary}[theorem]
-\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{lemma}{Proposición}[theorem]
 \theoremstyle{definition}
 \newtheorem{definition}{Definición}[section]
 \newtheorem{remark}{Observación}[section]
+\renewcommand{\qedsymbol}{$\blacksquare$}
 
-
-
-%listing paackage para código
+%listing package para código
 \usepackage{listings}
 \usepackage{xcolor}
  
@@ -177,3 +151,5 @@
 }
  
 \lstset{style=mystyle}
+
+\numberwithin{equation}{section}

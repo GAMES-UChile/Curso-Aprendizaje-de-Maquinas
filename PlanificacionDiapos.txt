@@ -1,0 +1,277 @@
+Este será el punteo de las diapos, vamos a considerar que las clases tienen una duración de 1 hora aproximadamente.
+
+Clase 1: Introducción
+
+1- Presentación, aclaraciones sobre el curso y sistemas de evaluación (20 a 30 mins)
+	- Primera diapo se presenta al profesor.
+	- Segunda diapo se presenta a auxiliares y ayudantes 
+	- Tercera diapo se presenta el sistema de evaluaciones, ponderaciones y fechas para entregas de tareas. (En general todo el ámbito administrativo)
+
+2 - Introducción y Orígenes del aprendizaje de máquinas(30 mins)
+	- Analizar en función de lo que se considera importante mencionar.
+
+Clase 2: Regresión Lineal
+
+1- Regresión Lineal, Introducción (15 mins)
+	- Presentación del problema, gráfica con una regresión lineal y por qué es el primer caso que estudiamos  
+
+2 - Mínimos cuadrados, derivar el theta óptimo (25 mins)
+	- Presentación del criterio, notación y cambios de variable.
+	- Derivar el theta óptimo (Esto podría realizarse escribiendo sobre el beamer) 
+
+3 - Interpretación Geométrica (20 mins) 
+	- Por qué mínimos cuadrados, justificación conceptual y práctica.
+	- Justificación geométrica (Presentar el diagrama)
+	- Problemas del criterio de mínimos cuadrados (gráfica con/sin outliers)
+
+Clase 3: Regularización
+
+1 - Regularización, Introducción(20 mins)
+	- Motivación para utilizar regularizadores, por qué a pesar de aumentar el valor del MSE, sigue siendo útil ()
+	- Derivar el theta óptimo para p=2 (Solución cerrada)
+
+2 - Equivalencia con un problema de optimización 
+	- Comparar los regularizadores, mostrar curvas de nivel y hablar del efecto selección de variables (Gráfica con los histogramas)
+	
+Clase 4: Máxima Verosimilitud vs Mínimos Cuadrados
+
+1 - Máxima Verosimilitud (60 mins)
+	- Notación, función de verosimilitud, divergencia KL  
+	- Divergencia KL a max verosimilitud (Ojo con MonteCarlo, esto debería ser un apéndice del apunte)
+	- Estimador de max verosimilitud caso lineal es el que minimiza el error cuadrático  
+
+Comentario: El ejemplo de la verosimilitud del caso Gaussiano se presenta en una hoja del beamer sin mucho detalle (pura matraca)
+
+Comentario: La divergencia KL tiene una motivación de la teoría de la información que se podría mencionar explicitamente, podría mencionarse también que existen otras métricas que si son distancias entre distribuciones de probabilidad)
+Revisar: http://blog.thegrandlocus.com/2019/06/focus-on-the-kullback-leibler-divergence que tiene un gran discurso al respecto.
+Podría agregarse de apéndice también. 
+
+Clase 5 y 6: Inferencia Bayesiana 
+
+1 - Introducción 
+	- Problema de maximizar solo la verosimilitud, la necesidad de agregar conocimiento previo al problema.
+	- Fórmula de Bayes, theta pasa a ser una cantidad aleatoria un poco de historia
+2 - Elección de Prior: Conjugación 
+	- Def prior conjugado y ejemplo del modelo gaussiano mu y sigma conocido
+	- Ejemplo para la regresión Lineal
+3 - Máximo a posteriori 
+	- Definición y caso lineal equivale a utilizar regularizador p=1 y p=2
+
+Comentario: Podría dejarse el modelo binomial como lectura propia tanto en prior conjugado como en MAP
+
+Comentario: ¿mu y sigma^2 desconocido seguirá siendo tarea? (fue tarea el año pasado)
+
+Comentario: La normal multivariada no se ve en muchos de los cursos de probabilidades y estadística no dim, por lo que debería ser agregado como apéndice
+
+Clase 7: Predicciones y Regresión no Lineal 
+
+1 - Predicciones (30 mins)
+	- Definiciones, variables latentes
+	- Concepto de desintegración
+	- Mostrar gráficas para el caso lineal 
+
+2 - Regresión no Lineal (30 mins)
+	- Definiciones, seleccion de características y modelo lineal en los parámetros
+	- Ejemplos de transformaciones y ejemplo de predicción pasajeros aerolinea
+
+Clase 8: Clasificación (Año pasado era Clase 10)
+
+1 - Introducción (20 mins)
+	- Definiciones y clasificación lineal para 2 clases (parámetros a y b con respecto a la región de decisión)
+	- Caso multiclase, one-versus-one , one-versus-rest y construcción por argmax (Tarea del año pasado)
+
+2 - Ajuste por mínimos cuadrados (20 mins)
+	- One hot encoding
+	- Deducción de fórmulas, notación y problemáticas de este enfoque (En particular la presencia de outliers y que la estimación no es 'mas' o 'menos' correcta, aquí mostrar las gráficas)
+
+3 - Discriminante Lineal de Fisher (20 mins)
+	- Motivaciones, y reducción de dimensionalidad.
+	- Deducción de las fórmulas
+
+
+Comentario: r distancia entre x y el hiperplano de decisión no es estrictamente una distancia y más bien es una medida con signo. (Pues para que la descomposición tenga sentido para todo x es necesario que r pueda ser negativo)
+ 
+Comentario: Se puede quitar el discriminante lineal de fisher, introducirlo en otra clase y partir la clase 7 con las k-vecinos más cercanos. Esperaremos a que esté trabajado con mayor detalle. 
+
+Comentario: Podría trabajarse en una gráfica con mayor detalle de cómo funciona el discriminante lineal de fisher. (En particular la gráfica que tiene la proyección en la recta)
+
+Comentario: La deducción de fórmulas podría ser un problema de tarea, aunque más bien parece un problema de lineal jajaja
+
+
+Clase 9 y 10: Clasificación no Lineal
+
+1 - Clasificación no Lineal: El Perceptrón 
+	- Problemas de los modelos anteríores, introducción del perceptrón 
+	- Extracción de características y función de enlace
+	- Criterio del perceptrón, función objetivo y SGD
+
+2 - Clasificación Probabilística: Modelo Generativo 
+	- Interpretación probabilística y Bayes 
+	- Función y propiedades Sigmoide y Softmax 
+	- Modelamieto, deducción de fórmulas para el caso gaussiano y de 2 clases. 
+
+3 - Regresión vs Modelo Generativo 
+	- Optimizar directamente la verosimilitud, calcular el gradiente y método del descenso de gradiente.
+	- Similitud y diferencia con lo realizado para el perceptrón. 
+
+Clase 11 y 12: Selección de Modelos y validación cruzada
+
+Comentario: Selección de Modelos y validación cruzada antes de SVM o después?, propongo que sea después para no perder el hilo 
+
+Clase 13: Support Vector Machines
+
+1 - Motivación e introducción a las SVM (15 mins) 
+	- Idea general del modelo y  definiciones
+	- Problemáticas que resuelve
+
+2 - Formulación del Problema (30 mins)
+	- Deducción de fórmulas y el problema de optimización
+	- Problema dual y resolución 
+	- Propiedades y definiciones de ser necesarias (por ejemplo de ser definida positiva o lagrangiano, etc...)
+	- Observación fundamental con respecto a cómo optimizar el modelo (Sequential minimal optimization) y observación con respecto a la reducción de operaciones cuando la dimensión M de la entrada es grande. 
+
+3 - Soft Margin (15 mins)
+	- Problemas con el modelo anterior, comparación de gráficas en presencia de outliers 
+	- Utilización de variables de holgura ("Regularizador") 
+	- Lagrangiano asociado e interpretación.
+
+Clase 14: Support Vector Machines 2
+
+1 - Recuerdo de clase anterior (15 mins)
+
+2 - Método del Kernel (30 mins)
+	- Qué sucede cuando los datos no son linealmente separables ni están cerca de serlos 
+	- Ejemplo de extracción de características para "XOR"
+	- Basta calcular el producto entre características de los datos, hablar sobre la maldición de la dimensionalidad. 
+	- Definiciones y teorema de Mercer. Truco del Kernel
+
+3 - Distintos tipos de Kernel (15 mins)
+	- Kernel Polinomial, RBF, periódico 
+	- Kernel Ridge Regression
+	- Kernel SVM y conclusiones al respecto. 
+
+Clase 15: Aprendizaje no Supervisado 
+
+1 -  Definiciones 
+	- Reducción de dimensionalidad
+	- Maldición de la dimensionalidad
+2 - Análisis de componentes principales
+	- Motivación y Desarrollo PCA
+	- Kernel PCA 
+	- Probabilistic PCA 
+	- Discriminante lineal de fisher (Agregar una introducción adhoc)
+
+Comentario: En general pienso que esta sección no está desarrollada completamente y no deberíamos más que mencionarla, lo agregaré como clase 11.5 
+
+Comentario: Esperaré a que esté más trabajado, quedan cosas por agregar. 
+
+
+Clase 16: Clustering 
+
+1 - Algunos Clustering (30 mins)
+	- Hierarchical clustering y las distintos criterios de "similitud"
+	- k-means, formulación y algoritmo de optimización	
+
+2 - Mixture Models (20 mins)
+	- Definiciones y modelamiento
+	- Optimización mediante verosimilitud no es cerrada, se necesita de métodos de gradiente
+	- Entrenamiento de una GMM y resultados
+	- Expectation Maximization
+
+3 - DBSCAN (10 mins)
+	- Motivaciones y descripción
+	- Algoritmo y resultados
+
+Comentario: Se arregló la formulación de k-means
+
+Comentario: Esta clase debe ser dividida en 2 partes según como se desarrolle.
+
+-----------------------------------------
+Esto se está  trabajando actualmente, el contenido y cantidad de clases puede cambiar 
+
+Clase 17: Redes Neuronales parte I
+
+1 - Introducción a RN 
+	- Conceptos y definiciones
+	- El perceptrón
+	- Problemas clásicos que pueden ser resueltos mediante las redes neuronales 
+
+2 - Estructura de la Red 
+	- Qué es la arquitectura de la red
+	- Primeras capas (input, hidden,output)
+	- Ejemplo red para XOR 
+	- Teorema de aproximación universal
+
+3 - Funciones de costo y unidades de output 
+	- Función de costos, por qúé usar la entropía cruzada
+	- Linea, sigmoidal y softmax, Problemas con los que se relaciona y si se puede alguna deducción de fórmula. 
+	- Demostración para output lineal
+	
+
+Clase 18: Redes Neuronales parte II
+
+1 - Forward y Backward propagation (45 mins)
+	- Forward propagation 
+	- Introducción backward propagation
+	- Recordar la notación (@ para multiplicación de matrices , * para punto a punto)
+	- Deducción de fórmulas 
+
+2 - Regularización en Redes (15 mins)
+	- L2
+	- Dropout
+	- Otros métodos
+
+Comentario: Se hizo denuevo la deducción de fórmulas en backward propagation, queda pendiente revisar 
+
+Clase 19: Redes Neuronales parte III
+
+1 - Técnicas de optimización (30 mins)
+	- Minibatch
+	- SGD
+
+2 - Otros tipos de Redes Neuronales (30 mins)
+	- Convolucionales y problemas que resuelven
+	- Recurrentes y problemas que resuelven
+	- Autoencoders y problemas que resuelven
+	- GAN y problemas que resuelven
+
+Comentario: Si falta contenido en técnicas de regularización, se pueden agregar temas como Agrupación, bootstrap y  early stopping 
+
+Comentario: La sección de técnicas de optimización solo incluyen minibatch, se pueden mencionar los siguientes aspectos:
+Un dropout alto permite tener una mayor cantidad de neuronas por capa lo que acelera el entrenamiento, el SGD de por si es un algoritmo de optimización mientras que sus variantes son para mejorar el rendimiento!
+
+--------------------------------------
+
+Clase 20: Procesos Gaussianos parte I 
+
+1 - Introducción a los GP
+	- Modelos no paramétricos
+	- Definición proceso Gaussiano y caracterización
+
+2 - Muestreo de un Prior GP
+	- Como muestrear, kernel RBF e interpretación de hiperparámetros
+	- Incoroporando observaciones sin ruido, cálculo de la posterior que también es un GP 
+	- Gráficas correspondientes. 
+	- Incorporación de observaciones con ruido 
+
+
+Clase 21: Procesos Gaussianos parte II
+
+1 - Entrenamiento de un GP 
+	- Significado
+	- Optimizaciones y desventajas de optimizar el proceso con parámetros fijos. 
+
+2 - Complejidad computacional 
+
+3 - Distintos tipos de Kernel 
+	- Presentación de kernels, significado de sus hiperparámetros y gráficas correspondientes 
+	- Suma y multiplicación de kernels también corresponde a un kernel
+
+4 - Extensiones para un GP
+	- GP de clasificación y gráfica correspondiente
+	- Selección automática de relevancia 
+	- Multi output GP 
+	- Otros (Regresión lineal a GP, nota sobre RKHS)
+
+Comentario: Se omiten algunas secciones por incompletitud, continuar desarrollándolas 
+
