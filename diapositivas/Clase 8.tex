@@ -1,10 +1,11 @@
-\documentclass[9pt]{beamer}
+\documentclass[9pt, handout]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 8 - Clasificación (parte 1)}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 8: Clasificación (parte 1)}
+\subtitle{MA5204 Aprendizaje de Máquinas}
+\date{\today}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -29,7 +30,7 @@ El problema de clasificación dice relación con la identificación del conjunto
   \begin{column}{0.5\textwidth}
     En el contexto del aprendizaje supervisado, puede ser visto como un problema de regresión. \vspace{0.5cm} \pause
 
-    En efecto, basta suponer que $y$ variable de salida (o variable dependiente) es \emph{categórica} y usualmente denotada por $\{ 0 , 1 \}$ en el caso binario o para el caso multiclase $\{ 1 \dots K \}$ \vspace{0.5cm} \pause
+    En efecto, basta suponer que $y$ variable de salida (o variable dependiente) es \emph{categórica} y usualmente denotada por $\{ 0 , 1 \}$ en el caso binario o para el caso multiclase $\{ 1 \dots K \}$. \vspace{0.5cm} \pause
 
     Entre los métodos de clasificación existentes, trabajaremos en 
 
@@ -60,7 +61,7 @@ El problema de clasificación dice relación con la identificación del conjunto
 
 \begin{frame}{Clasificación Lineal - Binaria}
 
-Consideremos el caso binario K=2 clases, proponemos un modelo lineal para relacionar la variable independiente con su clase, es decir, $y(x) = a^Tx+b$ tal que  $x \in \cC_1$ si $y(x) \geq 0$, en caso contrario,  $x \in \cC_2$. \pause
+Consideremos el caso binario $K=2$ clases, proponemos un modelo lineal para relacionar la variable independiente con su clase, es decir, $y(x) = a^Tx+b$ tal que  $x \in \cC_1$ si $y(x) \geq 0$, en caso contrario,  $x \in \cC_2$. \pause
 
 Para encontrar los parámetros $a,b$ óptimos, sean $x_1$ y $x_2$ en la región de decisión $y(x)=0$ \pause  
 \begin{align*}
@@ -71,19 +72,25 @@ Para encontrar los parámetros $a,b$ óptimos, sean $x_1$ y $x_2$ en la región 
 \pause
 Además, observemos que para cualquier $x$ en la región de decisión se tiene que 
 \begin{equation*}
-  \norm{\text{proy}_a(x)} = \norm{x}cos(\theta) = \norm{x} \frac{a^\top x}{\norm{a}\cdot\norm{x}} = -\frac{b}{\norm{a}}
+  \norm{\text{proy}_a(x)} = \norm{x}\cos(\theta) = \norm{x} \frac{a^\top x}{\norm{a}\cdot\norm{x}} = -\frac{b}{\norm{a}}.
 \end{equation*}
 
 Con lo que tenemos una intepretación geométrica de ambos parámetros. 
 
 \end{frame}
 
-\begin{frame}{Clasificación Lineal - Binaria}
+\begin{frame}{Clasificación Lineal}
+\framesubtitle{Interpretación geométrica de la la región de decisión}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{../img/cap3_proy.pdf}
-    \caption{Proyección de un punto sobre la región de decisión. }
+    \vspace{2em}
+    \begin{itemize}
+      \item $a$ es perpendicular a la región de decisión
+      \item $b$ (junto con $||a||$) controla la distancia al origen
+    \end{itemize}
+
 \end{figure}
 
 
@@ -91,27 +98,33 @@ Con lo que tenemos una intepretación geométrica de ambos parámetros.
 
 \begin{frame}{Clasificación Lineal - Binaria}
 
-También es posible interpretar $y(x)$ como una distancia con signo entre un $x\in\R^M$ cualquiera y la superficie de decisión. \pause
+  También es posible interpretar $y(x)$ como una distancia con signo entre un $x\in\R^M$ cualquiera y la superficie de decisión. \\~\
 
-Para ver esto, consideremos $x\in\R^M$ y descompongámoslo en dos componentes: la primera denotada por $x_{\bot}$, la cual es la proyección ortogonal de $x$ en el hiperplano de  decisión, y la segunda que es perpendicular al hiperplano (y consecuentemente paralela al vector $a$) denotada por $r\frac{a}{\left \| a \right \|}$, donde $r$ denota la distancia (positiva o negativa) entre $x$ y el  hiperplano de  decisión. Expresamos entonces  \pause
+  Para ver esto, descompongamos $x\in\R^M$ y en dos componentes: 
+  \begin{itemize}
+    \item  $x_{\bot}$ la proyección ortogonal de $x$ en el hiperplano de  decisión, 
+    \item $r\frac{a}{\left \| a \right \|}$ perpendicular al hiperplano (y consecuentemente paralela al vector $a$), donde $r$ es la distancia (positiva o negativa) entre $x$ y el hiperplano de  decisión. 
+  \end{itemize}
 
-\begin{equation*}
-  x = x_{\bot}+r\frac{a}{\left \| a \right \|},
-\end{equation*}
+  Expresamos entonces:
 
-y observamos que \pause
+  \begin{equation*}
+    x = x_{\bot}+r\frac{a}{\left \| a \right \|},
+  \end{equation*}
 
-\begin{equation*}
-  y(x) 
-  = a^\top x+b 
-  =a^\top  \left( x_{\bot} + r\frac{a}{\left \| a \right \|} \right) +b 
-  = \underbrace{a^\top x_{\bot} +b }_{=0} +   r\frac{a^\top  a}{\left \| a \right \|}
-  = r||a||.
-\end{equation*}
+  y observamos que \pause
 
-\pause 
+  \begin{equation*}
+    y(x) 
+    = a^\top x+b 
+    =a^\top  \left( x_{\bot} + r\frac{a}{\left \| a \right \|} \right) +b 
+    = \underbrace{a^\top x_{\bot} +b }_{=0} +   r\frac{a^\top  a}{\left \| a \right \|}
+    = r||a||.
+  \end{equation*}
 
-Luego $r = \frac{y(x)}{\norm{a}}$ y como $r$ es una medida con signo, $y(x)$ también lo es. 
+  \pause 
+
+  Luego $r = \frac{y(x)}{\norm{a}}$ y como $r$ es una medida con signo, $y(x)$ también lo es. 
 
 
 \end{frame}
@@ -163,7 +176,7 @@ Este tipo de codificación  es conocida como \emph{one-hot  encoding.} \textbf{�
 Asumiendo entonces un modelo lineal para cada clase $\mathcal{C}_k$, se tiene que
 \begin{equation*}
   y_k(x) = a_k^\top x + b_k = \tilde{\theta}_k^\top\tx, \quad \text{donde } \tx = \left( \begin{matrix} x\\ 1 \end{matrix}\right)\in\R^{M+1} ,\quad
-  \tilde{\theta}_k = \left( \begin{matrix} a_k\\ b_k \end{matrix}\right)\in\R^{M+1}
+  \tilde{\theta}_k = \left( \begin{matrix} a_k\\ b_k \end{matrix}\right)\in\R^{M+1}.
 \end{equation*}
 \newline \pause
 Lo anterior se puede unir en un único sistema matricial:
@@ -181,7 +194,7 @@ Lo anterior se puede unir en un único sistema matricial:
 Con la notación establecida, ahora podemos enfocarnos en el entrenamiento del modelo.  Para esto consideremos un conjunto de entrenamiento $\{(x_n,t_n)\}_{n=1}^N$. El enfoque de entrenamiento será el correspondiente a mínimos cuadrados asociado al error de asignación:
 
 \begin{equation*}
-  J = \sum_{i=1}^N \norm{t_i - \tilde{\Theta}^\top\tx_i}_2^2
+  J = \sum_{i=1}^N \norm{t_i - \tilde{\Theta}^\top\tx_i}_2^2.
 \end{equation*}  \pause
 
 Por otra parte, definiendo las siguientes matrices:
@@ -196,7 +209,7 @@ Por otra parte, definiendo las siguientes matrices:
     t_1^\top\\
     \vdots\\
     t_N^\top
-  \end{matrix}\right)\in\R^{N\times (M+1)}
+  \end{matrix}\right)\in\R^{N\times (M+1)}.
 \end{equation*}
 
 \pause
@@ -246,7 +259,7 @@ Y dado que $J$ es estrictamente convexo, su mínimo se alcanza en su único punt
 Problemáticas conceptuales de este enfoque: 
 \begin{enumerate}
   \item Sensibilidad a presencia de puntos aislados (outliers) \pause
-  \item Intervención ''manual'' de las etiquetas \pause
+  \item Encuentra el promedio en vez de la región de decisión (más/menos correcto no tiene sentido en clasificación)\pause
 \end{enumerate}
 \begin{figure}[H]
   \centering
@@ -258,13 +271,4 @@ Problemáticas conceptuales de este enfoque:
 
 \end{frame}
 
-\begin{frame}
-  \titlepage
-\end{frame}
-
-
-
-%Quitar de comentarios apenas se agregue alguna referencia 
-%\bibliography{../capitulos/referencias} %Bibliografía
-%\bibliographystyle{apacite}
 \end{document} 
