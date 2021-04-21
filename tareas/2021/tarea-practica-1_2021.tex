@@ -236,7 +236,7 @@ Separe los datos en un conjunto de entrenamiento y otro de test. Considere que e
     
     \item Como podrá observar, no es posible capturar el movimiento periódico de los datos usando sólo un polinomio. Denotemos por $f^{pol}$ al polinomio que encontró en la parte anterior. Modelaremos la señal con el siguiente modelo: 
     $$
-    y = f^{pol} + \theta_1 \sin (\theta_2 x + \theta_3) + \eta,
+    y = f^{pol} + \theta_1  e^{\theta_4 x }  \sin (\theta_2 x + \theta_3) + \eta,
     $$
     con $\eta \sim N(0, \sigma_n^2) $. Ajuste $\theta_{1:4}$ usando máxima verosimilitud. Note que este modelo no es lineal en los parámetros, por lo que no se puede escribir una solución de forma exacta. Para encontrar los parámetros de máxima verosimilitud, construya la función de verosimilitud y optimice utilizando la función \texttt{minimize} de \texttt{scipy.optimize} usando el método BFGS. \\
     ¿Qué tan bueno es el ajuste encontrado?\\
