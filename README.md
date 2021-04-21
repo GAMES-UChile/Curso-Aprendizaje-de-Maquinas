@@ -27,8 +27,8 @@ Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas 
 - Clase 5 (31 marzo): Inferencia bayesiana (parte 1) 		[[slides]][slides-c5] & [[video]][video-c5]
 - Clase 6 (12 abril): Inferencia bayesiana (parte 2) 		[[slides]][slides-c6] & [[video]][video-c6]
 - Clase 7 (14 abril): Predicciones y regresión no lineal 	[[slides]][slides-c7] & [[video]][video-c7]
-- Clase 8 (19 abril): Clasificación (parte 1) 				[[slides]][slides-c8] 
-- Clase 9: Clasificación (parte 2) 				[[slides]][slides-c9] 
+- Clase 8 (19 abril): Clasificación (parte 1) 				[[slides]][slides-c8] & [[video]][video-c8]
+- Clase 9: Clasificación (parte 2) 				[[slides]][slides-c9] & [[video]][video-c9]
 - Clase 10: Clasificación (parte 3) 			[[slides]][slides-c10] 
 - Clase 11: Support vector machines (parte 1) 	[[slides]][slides-c11] 
 - Clase 12: Support vector machines (parte 2) 	[[slides]][slides-c12] 
@@ -124,3 +124,5 @@ Además, todos los ayudantes desde 2016 han hecho posible este curso. Gracias:
 [video-c5]: https://youtu.be/cc-NatELhcw
 [video-c6]: https://youtu.be/pTgx1NOqh3Q
 [video-c7]: https://youtu.be/fTFrrwdgZ3o
+[video-c8]: https://youtu.be/BWe-zQ68HbU
+[video-c9]: https://youtu.be/qFWh0-17xE4
