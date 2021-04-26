@@ -1,10 +1,10 @@
-\documentclass[9pt]{beamer}
+\documentclass[9pt, handout]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 10 - Clasificación (parte 3)}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 10: Clasificación (parte 3)}
+\subtitle{MA5204 Aprendizaje de Máquinas}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -120,8 +120,7 @@ Aplicando condiciones de primer orden
   \Rightarrow \quad & (1-\pi)\sum_{i=1}^Nt_i = \pi\sum_{i=1}^N(1-t_i)\nonumber\\
   \Rightarrow \quad & \sum_{i=1}^Nt_i=\pi N \quad\Rightarrow\quad \pi = \frac{\sum_{i=1}^Nt_i}{N} = \frac{N_1}{N_1+N_2} \label{eq:log_reg_pi}
   \end{align}
-  
-  Donde $N_i:=\text{Card}(x:x\in\mathcal{C}_i)$. Por lo tanto, el EMV de $pi$ colapsa a la regla de Laplace.
+donde $N_i:=\text{Card}(x:x\in\mathcal{C}_i)$. Por lo tanto, el EMV de $\pi$ colapsa a la regla de Laplace.
 
 \end{itemize}
 \end{frame}
@@ -136,7 +135,7 @@ Aplicando condiciones de primer orden
   &= \sum_{i=1}^N t_i(\Sigma^{-1}(x_i-\mu_1)) =
   \Sigma^{-1}\sum_{i=1}^N t_i(x_i-\mu_1) = 0\nonumber\\
   \Rightarrow\quad & \sum_{i=1}^Nt_ix_i= \mu_1\sum_{i=1}^N t_i
-  \quad\Rightarrow\quad \mu_1  = \frac{1}{N_1}\sum_{i=1}^Nt_ix_i = \frac{1}{N_1}\sum_{x_i\in \mathcal{C}_1}x_i \label{eq:log_reg_mu1}
+  \quad\Rightarrow\quad \mu_1  = \frac{1}{N_1}\sum_{i=1}^Nt_ix_i = \frac{1}{N_1}\sum_{x_i\in \mathcal{C}_1}x_i. \label{eq:log_reg_mu1}
   \end{align*}
   
   De forma análoga:
@@ -154,7 +153,7 @@ Aplicando condiciones de primer orden
 \begin{frame}{Regresión Logística v/s modelo generativo}
 Recordemos que los supuestos tomados sobre el modelo generativo para el problema de clasificación resultaron en:
 \begin{equation*}
-p(\mathcal{C}_1|x) = \sigma(w^\top x) = \frac{1}{1+e^{-w^\top x}}
+p(\mathcal{C}_1|x) = \sigma(w^\top x) = \frac{1}{1+e^{-w^\top x}},
 \end{equation*}
 donde por claridad de notación hemos elegido la representación lineal $(w^\top x)$ y no afín $(a^\top x + b)$. \pause
 En el caso anterior se ha entrenado el modelo generativo completo, es decir, $\pi, \mu_1,\mu_2, \Sigma$, lo cual tiene la ventaja de tener solución en forma cerrada, sin embargo, puede ser innecesario cuando solo necesitamos conocer el peso $w$ en la ecuación anterior. \pause
