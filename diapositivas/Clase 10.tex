@@ -181,11 +181,13 @@ si tomamos los  datos de ``a uno'' (método del gradiente estocástico).
 
 \end{frame}
 
-\begin{frame}{Regresión Logística v/s modelo generativo}
+\begin{frame}{Regresión Logística: entrenamiento}
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{../img/cap3_logistica.pdf}\\
+  \label{fig:log_reg}
   \caption{En gris la frontera de decisión: una nueva entrada $x_\star$ será asignada a la clase $\cC_1$ si $p(\cC_1|x_\star)>\frac{1}{2}$, en caso contrario, será asignada a $\cC_2$. Se observa que al entrenar con más muestras, $\norm{w}$ crece por lo que el parámetro se sobreajusta a los datos y el clasificador converge a una función indicatriz.}
+
 \end{figure}
 
 
