@@ -99,7 +99,7 @@ Es decir, $a$ es ortogonal a cualquier vector que esté contenido dentro de la r
 Donde se usó el hecho de que $\cos\left(\measuredangle(x,y)\right) = \frac{\langle x,y\rangle}{\norm{x}\norm{y}}$.
 
 
-Por lo tanto, se concluye que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión,  pues el lado izquierdo de la ecuación representa la distancia entre la región de decisión y el origen: $\norm{\text{proy}_a(x)} = d(\{x:a^\top x = 0\},0)$.\\
+Por lo tanto, se concluye que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión,  pues el lado izquierdo de la ecuación representa la distancia entre la región de decisión y el origen: $\norm{\text{proy}_a(x)} = d(\{x:a^\top x+b = 0\},0)$.\\
 
 Es posible  también interpretar $y(x)$ como una distancia con signo entre un $x\in\R^M$ cualquiera  y la superficie de decisión. Para ver esto, consideremos $x\in\R^M$ y descompongámoslo dos componentes: la primera denotada por $x_{\bot}$, la cual es la proyección ortogonal de $x$ en el hiperplano de  decisión, y la segunda que es perpendicular al hiperplano (y consecuentemente paralela al vector $a$) denotada por $r\frac{a}{\left \| a \right \|}$, donde $r$ denota la distancia entre $x$ y el  hiperplano de  decisión. Expresamos entonces  
 \begin{equation}
