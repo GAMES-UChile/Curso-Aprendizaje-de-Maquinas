@@ -18,48 +18,54 @@ En el capítulo de regresión lineal se estudió el método de mínimos cuadrado
 
 El objetivo de esta sección será probar dicha descomposición para un modelo general.
 
+%DESDE AQUÍ.
+
+
 \begin{definition}
-	Sea $\datos=\{(x_i,y_i)\}_{i=1}^n\subset\R^N\times\R$ un conjunto de observaciones generadas por una función desconocida $f:\R^N\to\R$ mediante $y=f(x)+\epsilon$ donde $\epsilon$ es una v.a. (ruido) con $\E(\epsilon)=0$ y $\text{Var}(\epsilon)=\sigma^2$. Sea $\hat{f}(\cdot|\datos)$ un estimador de $f$ determinado a partir de $\datos$, entonces, se tienen las siguientes definiciones:
+	Sea $\datos=\{(x_i,y_i)\}_{i=1}^n\subset\R^N\times\R$ un conjunto de observaciones generadas por una función desconocida $f:\R^N\to\R$ mediante $y=f(x)+\epsilon$ donde $\epsilon$ es una v.a. (ruido) con $\E(\epsilon)=0$ y $\text{Var}(\epsilon)=\sigma^2$. Sea $\hat{f}(\cdot|\datos)$ un estimador de $f$ determinado a partir de $\datos$, entonces, para un nuevo par $(x,y)$ se tienen las siguientes definiciones:
 	
 	\begin{itemize}
-		\item Error (cuadrático) esperado: $\E\left((y-\hat{f}(x|\datos))^2\right)$.
-		\item Sesgo del estimador: $\text{Bias}(\hat{f}(x|D)):=\E(\hat{f}\left(x|\datos) - y\right) = \E(\hat{f}(x|\datos)) - f(x)$.
-		\item Varianza del estimador: $\text{Var}(\hat{f}(x|D)) = \E\left(\left(\hat{f}(x|\datos)-\E(\hat{f}(x|\datos))\right)^2\right)$.
+		\item Error (cuadrático) esperado: $\E_\datos\left((y-\hat{f}(x|\datos))^2\right)$.
+		\item Sesgo del estimador: $\text{Bias}(\hat{f}(x|\datos)):= \E_\datos(\hat{f}(x|\datos)) - f(x) = \E_\datos(\hat{f}\left(x|\datos) - f(x)\right)$. Puede interpretarse como el error esperado del estimador.
+		\item Varianza del estimador: $\text{Var}(\hat{f}(x|\datos)) = \E_\datos\left(\left(\hat{f}(x|\datos)-\E_\datos(\hat{f}(x|\datos))\right)^2\right)$.
 		
 	\end{itemize}
 \end{definition}
 
+\begin{remark}
+Notar que el error cuadrático esperado $\E_\datos\left((y-\hat{f}(x|\datos))^2\right)$ no corresponde al error cuadrático medio (ECM) del estimador $\hat{f}(x|\datos)$ de $f(x)$, el cual viene dado por $\E_\datos\left((f(x)-\hat{f}(x|\datos))^2\right)$, más bien podría interpretarse como el ECM visto como un estimador de $y$, aunque esto no es del todo correcto ya que $y$ es aleatorio.
+\end{remark}
+
+\begin{remark}
+	En todas las definiciones anteriores, la esperanza es tomada con respecto a $\datos$, es decir, integra sobre los distintos $\{x_1,y_1\},\ldots,\{x_N,y_N\}$ generados a partir de la distribución conjunta $p(x,y)$.
+\end{remark}
+
+
 Bajo las definiciones anteriores, se tiene el siguiente teorema:
 
-\begin{theorem}[descomposición sesgo-varianza] Sea $\hat{f}(x|\datos)$ un estimador de $f$, entonces:
+\begin{theorem}[descomposición sesgo-varianza] Sea $\hat{f}(x|\datos)$ un estimador de $f(x)$, entonces:
 
 \begin{equation}
-	\E\left((y-\hat{f}(x|\datos))^2\right) = \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2
+	\E_\datos\left((y-\hat{f}(x|\datos))^2\right) = \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2
 \end{equation}
 	
 \end{theorem}
 
 \begin{proof}
 
-Para evitar sobrecargar la notación, se utilizará $\hat{f}=\hat{f}(x|D)$.
+Para evitar sobrecargar la notación, se utilizará $\hat{f}=\hat{f}(x|D)$, $f=f(x)$ y $\E=\E_\datos$. La demostración se hará forzando una completación de cuadrados y mostrando que los términos residuales son nulos para llegar a que $\E\left((y-\hat{f})^2\right) = \left(\E(\hat{f}) - f(x)\right)^2 + \E\left(\left(\hat{f}-\E(\hat{f})\right)^2\right) + \E\left(\left(\epsilon-\E(\epsilon)\right)^2\right)$.
 
 \begin{align*}
-&\E\left((y - \hat{f})^2\right) = \E\left((f+\epsilon  - \hat{f} )^2\right) \\
- & = \E\left((f+\epsilon  - \hat{f} +\E(\hat{f})-\E(\hat{f}))^2\right) \\
- & = \E\big[(f-\E(\hat{f}))^2\big]+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big] 
-+2\E\big[(f-\E(\hat{f}))\epsilon\big]
-+2\E\big[\epsilon(\E(\hat{f})- \hat{f})\big]
-+2\E\big[(\E(\hat{f})- \hat{f})(f-\E(\hat{f}))\big] \\
- & = (f-\E(\hat{f}))^2+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big] 
-+2(f-\E(\hat{f}))\E[\epsilon]
-+2\E[\epsilon]\E\big[\E(\hat{f})- \hat{f}\big]
-+2\E\big[\E(\hat{f})- \hat{f}\big](f-\E(\hat{f})) \\
- & = (f-\E(\hat{f}))^2+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big]\\
- & = (f-\E(\hat{f}))^2+\operatorname{Var}[\epsilon]+\operatorname{Var}\big[\hat{f}\big]\\
- & = \operatorname{Bias}(\hat{f})^2+\operatorname{Var}[\epsilon]+\operatorname{Var}\big[\hat{f}\big]\\
- & = \operatorname{Bias}(\hat{f})^2+\sigma^2+\operatorname{Var}\big[\hat{f}\big]
+	\E\left((y-\hat{f})^2\right) =& \E\left((f+\epsilon-\hat{f})^2\right) = \E\left(f^2+\epsilon^2+\hat{f}^2 +2f\epsilon - 2f\hat{f} - 2\epsilon \hat{f}\right)\\
+	=&\left(\E^2(\hat{f})-2f\E(\hat{f}) + f^2\right) + \E\left(\hat{f}^2-2\hat{f}\E(\hat{f})+\E^2(\hat{f})\right) + \E\left(\left(\epsilon-\E(\epsilon)\right)^2\right)\\
+	& - 2\E(\epsilon\hat{f})-2\E^2(\hat{f})+2\E(\hat{f})\E(\hat{f})\\
+	=& \left(\E(\hat{f}) - f(x)\right)^2 + \E\left(\left(\hat{f}-\E(\hat{f})\right)^2\right) + \E\left(\left(\epsilon-\E(\epsilon)\right)^2\right) - 2\E(\epsilon)\E(\hat{f})\\
+	= & \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2
 \end{align*}
-\end{proof}
+
+Donde se pudo usar $\E(\epsilon\hat{f})=\E(\epsilon)\E(\hat{f})$ debido a que $\hat{f}$ depende del espacio muestral $\datos$ y $\epsilon$ es el ruido asociado a una nueva muestra.
+
+\end{proof} 
 
 Esta descomposición muestra que la varianza intrínseca del ruido afectará directamente y de forma aditiva sobre el error de la predicción, imposibilitando realizar predicciones exactas bajo cualquier modelo aleatorio. Por otra parte, tal como se vio en mínimos cuadrados regularizados, se puede introducir sesgo en el modelo con el fin de disminuir la varianza y viceversa, lo cual crea la pregunta acerca de cuál es el par sesgo-varianza óptimo que minimiza el error total. Dicha pregunta se conoce como dilema sesgo-varianza (bias-variance tradeoff) y juega un papel importante en la selección de hiperparámetros del modelo.\\
 
