@@ -31,7 +31,7 @@ El problema de utilizar el modelo que mejor se ajuste a los datos en el entrenam
     \includegraphics[width = 0.8\linewidth]{../img/cap4_ajuste.pdf}
 \end{figure}\pause
 
-El problema de sobreajuste puede ser observado al elegir el grado en una regresión polinomial ya que para $n$ puntos siempre existirá un polinomio de grado menor a $n$ que pase exactamente por dichos puntos, por lo que es posible tener un error de ajuste nulo en los datos de entrenamiento, pero con un alto error de predicción en datos no vistos.
+El problema de sobreajuste puede ser observado al elegir el grado en una regresión polinomial ya que para $n$ puntos siempre existirá un polinomio de grado $m \geq n -1$ que pase exactamente por dichos puntos, por lo que es posible tener un error de ajuste nulo en los datos de entrenamiento, pero con un alto error de predicción en datos no vistos.
 
 \end{frame}
 
@@ -41,7 +41,7 @@ El problema de sobreajuste puede ser observado al elegir el grado en una regresi
 En el capítulo de regresión se probó que, si bien MCR introduce sesgo en el estimador, también disminuye la varianza del regresor, lo cual resultaba en una disminución del error esperado. El objetivo de esta parte será estudiar la descomposición sesgo-varianza para un modelo general.\pause
 
 \begin{definition}
-	Sea $\datos=\{(x_i,y_i)\}_{i=1}^n\subset\R^N\times\R$ un conjunto de observaciones generadas por una función desconocida $f:\R^N\to\R$ mediante $y=f(x)+\epsilon$ donde $\epsilon$ es una v.a. (ruido) con $\E(\epsilon)=0$ y $\text{Var}(\epsilon)=\sigma^2$. Sea $\hat{f}(\cdot|\datos)$ un estimador de $f$ determinado a partir de $\datos$, entonces, se tienen las siguientes definiciones:
+	Sea $\datos=\{(x_i,y_i)\}_{i=1}^n\subset\R^N\times\R$ un conjunto de observaciones generadas por una función desconocida $f:\R^N\to\R$ mediante $y=f(x)+\epsilon$ donde $\epsilon$ es una v.a. (ruido) con $\E(\epsilon)=0$ y $\text{Var}(\epsilon)=\sigma^2$. Sea $\hat{f}(\cdot|\datos)$ un estimador de $f$ determinado a partir de $\datos$. Como el estimador $\hat{f}(\cdot|\datos)$ es función de $\datos$, es aleatorio, con lo que se tienen las siguientes definiciones:
 	
 	\begin{itemize}
 		\item Error (cuadrático) esperado: $\E\left((y-\hat{f}(x|\datos))^2\right)$.\pause
@@ -61,7 +61,7 @@ En el capítulo de regresión se probó que, si bien MCR introduce sesgo en el e
 \begin{theorem}[descomposición sesgo-varianza] Sea $\hat{f}(x|\datos)$ un estimador de $f$, entonces:
 
 \begin{equation*}
-	\E\left((y-\hat{f}(x|\datos))^2\right) = \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2
+	\E\left((y-\hat{f}(x|\datos))^2\right) = \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2.
 \end{equation*}
 	
 \end{theorem}\pause
@@ -71,7 +71,7 @@ En el capítulo de regresión se probó que, si bien MCR introduce sesgo en el e
 \begin{column}{0.6\textwidth}
 
 \begin{itemize}
-	\item la varianza intrínseca del ruido imposibilita realizar predicciones exactas bajo cualquier modelo aleatorio. \pause
+	\item la varianza intrínseca del ruido $\sigma^2$ imposibilita realizar predicciones exactas bajo cualquier modelo aleatorio (EC = 0). \pause
 	\item se puede introducir sesgo en el modelo con el fin de disminuir la varianza y viceversa.\pause
 	\item La combinación sesgo-varianza crea un error total convexo tal como se puede observar en la figura.
 \end{itemize}
@@ -156,6 +156,8 @@ Esto se realiza ya que al considerar únicamente el desempeño en el conjunto de
 
 %Desventajas de la validación cruzada.
 \begin{frame}{Desventajas de la validación cruzada}
+
+La validación cruzada es usada para seleccionar modelos, por ejemplo, un modelo polinimial de orden 5 versos orden 6, en ese sentido, se está encontrando un parámetro que es difícil encontrar mediante máxima verosimilitud. Entonces ¿es posible ocupar entonces la verosimilitud para seleccionar modelos?\\~\
 
 Si bien la técnica de validación cruzada es bastante efectiva, tiene la limitación de requerir una gran cantidad de datos para poder realizar la partición de $\datos$.\\~\ 
 
