@@ -1,4 +1,4 @@
-%!TEX root = notas_de_clase.tex
+%!TEX root = ../notas_de_clase.tex
 
 \section{Selección y evaluación de modelos}
 
@@ -147,26 +147,26 @@ Por otra parte, realizando una expansión de Taylor de segundo orden sobre $\hat
 
 Usando el hecho de que $\hat{\theta}$ es punto crítico de $l(\cdot|\datos)$:
 \begin{equation}
-	\sum_{i=1}^N \nabla l(\theta_0|x_i) = \sum_{i=1}^N \nabla \left(l(\theta_0|x_i) - l(\hat{\theta}|x_i)\right) \approx \left(\sum_{i=1}^N \nabla l(\theta_0|x_i)\right) (\theta_0-\hat{\theta}) \approx N \E(H_l(\theta_0|x)) (\theta_0-\hat{\theta})
+	\sum_{i=1}^N \nabla l(\theta_0|x_i) = \sum_{i=1}^N \nabla \left(l(\theta_0|x_i) - l(\hat{\theta}|x_i)\right) \approx \left(\sum_{i=1}^N \nabla\nabla l(\theta_0|x_i)\right) (\theta_0-\hat{\theta}) \approx N \E(H_l(\theta_0|x_i)) (\theta_0-\hat{\theta}).
 \end{equation}
 
 Luego, sustituyendo en $\hat{l}$ y notando que $\sum\limits_{i=1}^N H_l(\theta_0|x_i) \approx N\E(H_l(\theta_0|x))$:
 
 \begin{align}
 	&\hat{l} \approx \sum_{i=1}^N l(\theta_0|x_i) + N(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\theta_0-\hat{\theta}) + \frac{N}{2}(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\hat{\theta}-\theta_0)\\
-	&\implies \E(R_\datos(\hat{\theta})) = -Nl_0(\theta_0) + \frac{N}{2} \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right)
+	&\implies \E(R_\datos(\hat{\theta})) = -Nl_0(\theta_0) + \frac{N}{2} \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right).
 \end{align}
 
 De este modo, el sesgo del riesgo empírico como estimador del riesgo real es:
 
 \begin{equation*}
-	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) = -N \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right)
+	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) = -N \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right).
 \end{equation*}
 
 Por otra parte, dado que $\sqrt{N}\left(\hat{\theta}-\theta_0\right)\approx\mathcal{N}\left(0,H_{l_0}(\theta_0)^{-1}\right)$, la forma cuadrática anterior puede ser aproximada por una distribución de Pearson: $N(\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\approx\mathcal{X}^2_d$, donde $\E(\mathcal{X}^2_d)=d$. De este modo,
 
 \begin{equation}
-	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) \approx -d
+	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) \approx -d.
 \end{equation}
 
 Por lo que corrigiendo $R_\datos(\hat{\theta})$ se obtiene un estimador asintóticamente insesgado del riesgo real: $R_\datos(\hat{\theta})+d$. De esta forma, se tiene la siguiente definición:
@@ -175,13 +175,12 @@ Por lo que corrigiendo $R_\datos(\hat{\theta})$ se obtiene un estimador asintót
 	Sea $M$ un modelo estadístico $d$-paramétrico y $\datos=(x_i)_{i=1}^N$ un conjunto de observaciones. El AIC del modelo (aproximado por $\datos$) se define como
 	
 	\begin{equation}
-		AIC(M,\datos):=2d-\log\left(\hat{L}(\datos)\right)
+		AIC(M,\datos):=2d-2\log\left(\hat{L}(\datos)\right),
 	\end{equation}
-	
-	Donde $\hat{L}(\datos)$ corresponde a la verosimilitud del EMV asociado a $\datos$, es decir:
+donde $\hat{L}(\datos)$ corresponde a la verosimilitud del EMV asociado a $\datos$, es decir:
 	
 	\begin{equation}
-		\hat{L}(\datos) = \prod_{i=1}^N p(x_i|\hat{\theta}),\text{ para } \hat{\theta} = \argmax_{\theta\in\Theta} L(\theta|\datos)
+		\hat{L}(\datos) = \prod_{i=1}^N p(x_i|\hat{\theta}),\text{ para } \hat{\theta} = \argmax_{\theta\in\Theta} L(\theta|\datos).
 	\end{equation}
 \end{definition}
 
@@ -194,13 +193,12 @@ De acuerdo a la derivación anterior, el AIC es una medida relativa de la pérdi
 Como se puede ver en la definición, el criterio de Akaike no se basa únicamente en la verosimilitud del modelo sino que agrega una penalización de acuerdo a la cantidad de parámetros, evitando elegir un modelo sobreajustado a los datos. 
 
 \begin{remark}
-	Una de las hipótesis de AIC es que el espacio muestral es infinito ya que se asume que el error de Taylor es despreciable. Para una cantidad finita de datos, se puede realizar una corrección del estimador dada por:
+	Una de las hipótesis de AIC es que el espacio muestral es infinito ya que se asume que el error de Taylor es despreciable. Para una cantidad finita de datos ($N$), se puede realizar una corrección del estimador dada por:
 	
 	\begin{equation}
-		AICc(M,\datos) := AIC(M,\datos) + \frac{2d(d+1)}{N-d-1}
+		AICc(M,\datos) := AIC(M,\datos) + \frac{2d(d+1)}{N-d-1}.
 	\end{equation}
-	
-	Es importante notar que cuando $N\to\infty$ se recupera el AIC original.
+Es importante notar que cuando $N\to\infty$ se recupera el AIC original.
 \end{remark}
 
 \subsubsection{Criterio de información bayesiano (BIC)}
@@ -208,7 +206,7 @@ Como se puede ver en la definición, el criterio de Akaike no se basa únicament
 Otro enfoque para la selección de modelos corresponde al criterio de información bayesiano (o criterio de Schwarz). Dada una familia de modelos $\mathcal{M}$, se define un prior $p(m)$ para cada modelo $m\in\mathcal{M}$. Además, se define un prior $p(\theta|m)$ sobre los parámetros de cada modelo. El criterio de información bayesiano (BIC) elige al mejor modelo de acuerdo a la posterior $p(m|\datos)$, la cual viene dada de acuerdo al teorema de Bayes:
 
 \begin{equation}
-	p(m|\datos)=\frac{p(\datos|m)p(m)}{p(\datos)}\propto p(\datos|m)p(m)
+	p(m|\datos)=\frac{p(\datos|m)p(m)}{p(\datos)}\propto p(\datos|m)p(m).
 \end{equation}
 
 De forma similar al criterio de Akaike, se puede calcular la verosimilitud del modelo $p(\datos|m)$ mediante aproximaciones de Taylor, probando que es independiente del prior. La derivación de $p(\datos|m)$ lleva a la siguiente definición:

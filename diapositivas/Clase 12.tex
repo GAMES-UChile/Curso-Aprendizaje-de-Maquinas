@@ -42,7 +42,7 @@ Sea $\datos=(x_i)_{i=1}^N$ un conjunto de observaciones generadas por una distri
 
 Bajo este modelo, se puede utilizar el estimador de máxima verosimilitud:
 \begin{equation*}
-	\hat{\theta} = \argmax_{\theta\in\Theta} L(\theta|\datos) =  \argmax_{\theta\in\Theta} l(\theta|\datos)
+	\hat{\theta} = \argmax_{\theta\in\Theta} L(\theta|\datos) =  \argmax_{\theta\in\Theta} l(\theta|\datos).
 \end{equation*}
 
 Una forma de evaluar el desempeño real de este estimador es mediante el \textbf{riesgo de predicción}, el cual se ve reflejado en la log-verosimilitud de $\hat{\theta}$ sobre todas las posibles observaciones: $\E(l(\hat{\theta}|x))$.\\~\ \pause
@@ -88,7 +88,7 @@ De esta forma, se tiene una aproximación de segundo orden para el riesgo real:
 
 De forma análoga se prueba que:
 \begin{equation*}
-	\hat{l} \approx \sum_{i=1}^N l(\theta_0|x_i) + N(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\theta_0-\hat{\theta}) + \frac{N}{2}(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\hat{\theta}-\theta_0)
+	\hat{l} \approx \sum_{i=1}^N l(\theta_0|x_i) + N(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x_i)) (\theta_0-\hat{\theta}) + \frac{N}{2}(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x_i)) (\hat{\theta}-\theta_0)
 \end{equation*}\pause
 
 Obteniendo una aproximación de segundo orden para el riesgo empírico:
