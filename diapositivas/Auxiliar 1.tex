@@ -242,21 +242,23 @@ De forma análoga a AIC, se aproxima la verosimilitud del modelo $p(\datos|m)$ p
 
 \begin{itemize}
 	\item Se considera el modelo lineal generativo usual $y = \theta^\top \tilde{x} + \epsilon$ con $\epsilon\sim\cN(0,\sigma^2)$.
-	\item Las observaciones $(x,y)$ vienen dadas por la distribución  $y|x \sim \cN(y;c^\top x,\sigma^2)$.
+	\item Las observaciones $(\tilde{x},y)$ vienen dadas por la distribución  $y|\tilde{x} \sim \cN(y;\theta^\top \tilde{x},\sigma^2)$.
 \end{itemize}
 
-Por lo tanto, si $\hat{\theta}$ y $\hat{\sigma}^2$ son los EMV asociados al conjunto de entrenamiento $\datos=(x_i)_{i=1}^N$, la máxima log-verosimilitud viene dada por:
+Por lo tanto, si $\hat{\theta}$ y $\hat{\sigma}^2$ son los EMV asociados al conjunto de entrenamiento $\datos=(\tilde{x}_i)_{i=1}^N$, la máxima log-verosimilitud viene dada por:
 
 \begin{equation*}
 	\hat{l}(\datos) = -\frac{N}{2}\log(2\pi) - \frac{N}{2}\log(\hat{\sigma}^2) - N = C(N)- \frac{N}{2}\log\left(\frac{1}{N}\text{RSS}(\datos)\right)
 \end{equation*}	
 
-Donde $\text{RSS}(\datos) := \sum_{i=1}^N \left(y_i - c^\top x_i\right)^2$ y $C(N)$ es una constante independiente del modelo por lo que puede ser omitida en la comparación de modelos. Por lo tanto, para el modelo lineal gaussiano:
+Donde $\text{RSS}(\datos) := \sum_{i=1}^N \left(y_i - \theta^\top \tilde{x}_i\right)^2$ y $C(N)$ es una constante independiente del modelo por lo que puede ser omitida en la comparación de modelos. Por lo tanto, para el modelo lineal gaussiano:
 
 \begin{itemize}
 	\item $AIC=2d-N\log(\frac{1}{N}\text{RSS}(\datos))$
 	\item $BIC = d\log(N) - N\log(\frac{1}{N}\text{RSS}(\datos))$
 \end{itemize}
+
+Donde $d=\dim(\theta)+\dim(\sigma^2)=M+2$.
 
 	
 \end{frame}
