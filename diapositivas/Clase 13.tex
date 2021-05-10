@@ -1,10 +1,10 @@
-\documentclass[9pt]{beamer}
+\documentclass[handout, 9pt]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 13 - Support vector machines (parte 1)}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 13: Support vector machines (parte 1)} 
+\subtitle{MA5204: Aprendizaje de Máquinas}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -55,7 +55,7 @@ Encontrar este clasificador tiene ventajas sobre los otros estudiados ya que:
 
 Dado un conjunto de entrenamiento $\{x_i\}_{i=1}^N$ linealmente separable, con clases $\{1,-1\}$, un hiperplano separador está definido mediante
 \begin{equation*}
-    \{x\in \R^n | w^\top x + b = 0 \}
+    \{x\in \R^n | w^\top x + b = 0 \}.
 \end{equation*}
 Donde si $w^\top x + b >0$ se le asignará a $x$ la clase 1, mientras que si $w^\top x + b <0$ se le asignará a $x$ la clase -1.\\~\ \pause
 
@@ -112,12 +112,12 @@ Además, el ancho del margen $m$ no depende explícitamente de los vectores sopo
 \begin{align*}
     m &= \frac{1}{2||w||} \left( (w^\top x_{+}) - (w^\top x_{-})\right)
     = \frac{1}{2||w||} \left((1-b) - (-1-b)\right)
-    = \frac{1}{||w||}
+    = \frac{1}{||w||}.
 \end{align*}\pause
 Por otra parte, se considerará la siguiente codificación para las clases:
 \begin{alignat*}{3}
     y_i&=+1 &&\Leftrightarrow w^\top x_i + b \geq +1 \\
-    y_i &=-1 &&\Leftrightarrow w^\top x_i + b \leq -1
+    y_i &=-1 &&\Leftrightarrow w^\top x_i + b \leq -1.
  \end{alignat*}\pause
  
 Por lo tanto, se puede formular el problema de clasificación de máximo margen mediante el siguiente problema de optimización:
@@ -150,13 +150,13 @@ Para evitar problemas de diferenciablidad, se considerará la siguiente formulac
 
 Este problema de optimización con restricciones puede ser resuelto mediante dualidad lagrangiana:
 \begin{equation*}
-    L(w,b,\alpha) = \frac{1}{2}||w||^2 + \sum\limits_{i=1}^{N} \alpha_i \left(1-y_i (w^\top x_i +b)\right)
+    L(w,b,\alpha) = \frac{1}{2}||w||^2 + \sum\limits_{i=1}^{N} \alpha_i \left(1-y_i (w^\top x_i +b)\right).
 \end{equation*}\pause
 	
 El lagrangiano dual del problema viene dado por $\theta(\alpha) = \inf\limits_{w,b} L(w,b,\alpha)$ y dado que $L$ es convexo, basta aplicar la condición de primer orden:
 \begin{align*}
 	&\frac{\partial L}{\partial w} = w^\top - \sum_{i=1}^N \alpha_i y_i x_i^\top = 0 \implies \overline{w} = \sum_{i=1}^N \alpha_i y_i x_i\\
-	&\frac{\partial L}{\partial b} = -\sum_{i=1}^N \alpha_i y_i = 0 \implies \sum_{i=1}^N \alpha_i y_i = 0
+	&\frac{\partial L}{\partial b} = -\sum_{i=1}^N \alpha_i y_i = 0 \implies \sum_{i=1}^N \alpha_i y_i = 0.
 \end{align*}
 
 	
@@ -204,9 +204,9 @@ La forma usual para resolver SVM es mediante la resolución de su problema dual.
  
 \item Por el teorema de holgura complementaria, para $\alpha$ óptimo se tiene que
 \begin{equation*}
-	\alpha_i \left(1-y_i (\overline{w}^\top x_i +b)\right) = 0,\quad \forall i\in\{1,\ldots,N\}
+	\alpha_i \left(1-y_i (\overline{w}^\top x_i +b)\right) = 0,\quad \forall i\in\{1,\ldots,N\}.
 \end{equation*}
-Por lo que $\alpha_i=0$ para todo $x_i$ fuera del margen y, consecuentemente, $x_i$ no aporta en la predicción $\hat{y}$.
+Por lo que $\alpha_i=0$ para todo $x_i$ fuera del margen y, consecuentemente, $x_i$ fuera del margen no aporta en la predicción $\hat{y}$.
 
 \end{itemize}
 	
