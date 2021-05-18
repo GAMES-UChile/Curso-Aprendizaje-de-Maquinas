@@ -255,22 +255,31 @@ Estamos suponiendo un problema de regresión por lo que el output será de una s
 Además, la función de activación en el output será lineal y por tanto $(\hat{y}_d)' = 1$, finalmente el término de normalización $N$ se agrega en este paso.  La forma matricial queda en 
 \begin{equation}
 \label{eq:capa_output}
-\delta_{1}^{(l)} = \frac{1}{N}(\hat{y}-y)
+\delta^{(l)} = \frac{1}{N}(\hat{y}-y) 
 \end{equation}
 
+Además de lo anterior, se puede probar también que 
+\begin{equation}
+	\frac{\partial J}{\partial b^{(k)}} = \text{Sum}_1 \left ( \delta^{(k)} \right ), \quad \frac{\partial J}{\partial U} = (h^{(l)})^T @ \delta^{(l)}, \quad \frac{\partial J}{\partial c} = \text{Sum}_1 \left ( \delta^{(l)}\right )
+\end{equation}
+
+Donde $\text{Sum}_1$ es la suma sobre la primera dimensión de la matriz, es decir  $\text{Sum}_1(A) = (\sum_{i}A_{ij})_j$. Con todo lo anterior ya estamos en condiciones de mostrar el algoritmo de backpropagation.
+
 \begin{algorithm}[H]
-	\caption{Backward Propagation - Regresión} \label{ML:Algorithm2}
+	\caption{Backward Propagation} \label{ML:Algorithm2}
 	\textbf{Requerir: } learning rate $\lambda$ para descenso de gradiente estocástico
 	\begin{algorithmic}[1]
-	\State Forward propagation, guardar  ($\hat{y})_d$ , $(u_{ij}^{(k)})_{ijd}$ y $(h_{ij}^{(k)})_{ijd}$.
-	\State Evaluar el error de la última capa $\delta_1^{(l)}$  utilizando las ecuaciones en la capa de output 
-	\For{$k = 1,...,l-1$:}
-		\For{$i,j$}
-			\State Propagar hacia atrás y calcular el error $\delta^{(k)}$ de las ecuaciones en la capa oculta 
-			\State Evaluar las derivadas parciales $\frac{\partial J}{\partial w_{ij}^{(k)}}$ y $\frac{\partial J}{\partial b_j^{(k)}}$
-			\State Actualizar $w_{ij}^{(k)} \gets w_{ij}^{(k)} - \lambda \frac{\partial J}{\partial w_{ij}^{(k)}}$
-			\State Actualizar $b_{j}^{(k)} \gets b_{j}^{(k)} - \lambda \frac{\partial J}{\partial b_{j}^{(k)}}, \quad$
-		\EndFor
+	\State Forward propagation, guardar  ($\hat{y})$ , $(u^{(k)})$ y $(h^{(k)})$.
+	\State Evaluar el error de la última capa $\delta_1^{(l)}$  según la unidad de output
+	\State  Actualizar $U \gets U - \lambda \frac{\partial J}{\partial U}$
+	\State Actualizar $c \gets c - \lambda \frac{\partial J}{\partial c}$
+	\For{$k = l-1,...,1$:}
+		
+		\State Calcular $\delta^{(k)}$ con las ecuaciones en las capas ocultas
+		\State Evaluar las derivadas parciales $\frac{\partial J}{\partial W^{(k)}}$ y $\frac{\partial J}{\partial b^{(k)}}$
+		\State Actualizar $W^{(k)} \gets W^{(k)} - \lambda \frac{\partial J}{\partial W^{(k)}}$
+		\State Actualizar $b^{(k)} \gets b^{(k)} - \lambda \frac{\partial J}{\partial b^{(k)}}, \quad$
+		
 	\EndFor
 
 	\end{algorithmic}
@@ -278,14 +287,14 @@ Además, la función de activación en el output será lineal y por tanto $(\hat
 \end{algorithm}
 
 \begin{remark}
-	El algoritmo anterior fue descrito para cada uno de los pesos $w_{ij}^{(k)}$ y bias $b_{j}^{(k)}$ pero en la práctica, se utilizan operaciones matriciales para actualizar los pesos en las capas.
-\end{remark}
-
-\begin{remark}
 	El algoritmo anterior debe ser aplicado para todos los batch del conjunto de entrenamiento, la cantidad de veces que se pase por todos los datos de entrenamiento, se conoce como \textbf{épocas}, en general un mayor número de épocas disminuye el error de entrenamiento, sin embargo, muchas épocas podrían reducir la capacidad de generalización debido al \textbf{overfitting}.	
 \end{remark}
 
 \section{Regularización}
+
+
+
+
 
 
 
