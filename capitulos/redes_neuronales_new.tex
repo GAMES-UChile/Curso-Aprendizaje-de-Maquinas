@@ -11,7 +11,7 @@ Una red neuronal es un modelo de aprendizaje de máquinas inspirado en el funcio
 
 Las redes neuronales son modelos computacionales basados en la conexión de múltiples unidades (neuronas) cuyo objetivo es aproximar una función $f^{*}$, más específicamente, definir un mapping $y = f(x;\theta)$ aprendiendo los parámetros $\theta$ que resultan en la mejor aproximación posible. Su gran ventaja radica en la posiblidad de entrenarlas con datos crudos, es decir, no es necesario extraer características relevantes de la data y en vez, se permite que el algoritmo aprenda cuales son. 
 
-Los modelos escenciales de redes nueronales se conocen como \textbf{feedforward neural networks}, o \textbf{multilayer perceptrons} (MLPs) y se conocen como redes ya que son típicamente el resultado de composiciones sucesivas de varios tipos de funciones $f^{(1)},f^{(2)},f^{(3)}, \dots f^{(l)} .$, se dice que $f^{(i)}$ es la i-ésima capa de la red, mientras que $l$, la cantidad de capas, se le conoce como \textbf{profundidad}. Las capas intermedias se les conocen como \textbf{capas ocultas} y el uso de redes neuronales con una múltiples capas se le conoce como \textbf{deep learning}, aunque este término se usa para problemas más específicos de aprendizaje de máquinas usando redes neuronales profunidas (ver sección 3.5).
+Los modelos escenciales de redes nueronales se conocen como \textbf{feedforward neural networks}, o \textbf{multilayer perceptrons} (MLPs) y se conocen como redes ya que son típicamente el resultado de composiciones sucesivas de varios tipos de funciones $f^{(1)},f^{(2)},f^{(3)}, \dots f^{(l)} .$, se dice que $f^{(i)}$ es la i-ésima capa de la red, mientras que $l$, la cantidad de capas, se le conoce como \textbf{profundidad}. Las capas intermedias se les conocen como \textbf{capas ocultas} y el uso de redes neuronales con una múltiples capas se le conoce como \textbf{deep learning}, aunque este término se usa para problemas más específicos de aprendizaje de máquinas usando redes neuronales profundas (ver sección 3.5).
 
 \begin{figure}[H]
 	\captionsetup{font=small,labelfont=small}
@@ -93,7 +93,7 @@ Como vimos anteriormente, no basta con una red arbitrariamente ancha para lograr
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=.5]{img/cap7_red}
-	\caption{Una red con mayor profundidad}
+	\caption{Una red de profundidad $l$}
 \end{figure}
 
 Vamos a utilizar la siguiente notación a partir de este punto 
@@ -148,11 +148,11 @@ Al usar una red neuronal \textit{feedforward}, la información fluye a través d
 El algoritmo que la describe es el siguiente:
 
 \begin{algorithm}[H] % H = forzar está posición 
-	\caption{Forward Propagation}\label{ML:Algorithm1}
+	\caption{Forward Propagation}
 	\textbf{Requerir}: Profundidad de la red, $l$ \\
 	\textbf{Requerir}: $\bm{W}^{(k)}, k \in \{1,...,l\}$, pesos de la red \\
 	\textbf{Requerir}: $\bm{b}^{(k)}, k \in \{1,...,l\}$, parámetros bias de la red \\
-	\textbf{Requerir}: $\bm{x}$, el input \\
+	\textbf{Requerir}: $\bm{x}$, el input y $\bm{y}$ el output \\
 	\textbf{Requerir}: $U,c,g$, matriz de peso, bias y función de output de la última capa respectivamente 
 	\begin{algorithmic}[1]
 		\State $\bm{h}^{(0)} \gets \bm{x}$
@@ -176,7 +176,7 @@ El gradiente se calculará de esta forma ya que, aunque es posible obtener una e
 Luego de obtener el gradiente, otro algoritmo como descenso de gradiente estocástico realizará el aprendizaje usando la expresión que fue calculada. 
 
 El algoritmo de backpropagation ha experimentatdo un resurgimiento en estas últimas décadas por su implementación en redes neuronales para tareas tales como reconocimiento de imágenes o procesamiento de lenguaje natural. 
-Es considerado un algoritmo eficiente e implementaciones modernas de estas aprovechan el paralelismo de las GPU para mejorar su rendimiento. 
+Es considerado un algoritmo eficiente e implementaciones modernas de estas aprovechan el paralelismo de las GPU para mejorar su rendimiento. \\
 
 Antes de comenzar a describir el algoritmo, debemos tener en cuenta que.   
 \begin{itemize}
@@ -186,7 +186,7 @@ Antes de comenzar a describir el algoritmo, debemos tener en cuenta que.
 	\item Es recurrente que en la etapa de entrenamiento de la red el conjunto de datos se entreguen en pequeños paquetes (\textbf{mini-batch}), es decir $(x^d)_{d=1}^N$  conjunto de $N$ inputs, luego $u_{dj}^{(k)}$ corresponde al valor de $u$ para el input $d$ en el nodo $j$ para la capa $k$. Todo esto con el fin de aprovechar lo más posible la optimización en operaciones de matrices que ofrecen las GPU.
 
    
-   \item Haremos la deducción del algoritmo de backpropagation para una función de error MSE en un problema de regresión.
+   \item Vamos a hacer la deducción del algoritmo de backpropagation para una función de error MSE en un problema de regresión.
    \[
 	J(X ,\theta) = \frac{1}{2N}\sum_{d=1}^N(\hat{y}_d-y_d)^2
 	\]	
@@ -263,17 +263,17 @@ Además de lo anterior, se puede probar también que
 	\frac{\partial J}{\partial b^{(k)}} = \text{Sum}_1 \left ( \delta^{(k)} \right ), \quad \frac{\partial J}{\partial U} = (h^{(l)})^T @ \delta^{(l)}, \quad \frac{\partial J}{\partial c} = \text{Sum}_1 \left ( \delta^{(l)}\right )
 \end{equation}
 
-Donde $\text{Sum}_1$ es la suma sobre la primera dimensión de la matriz, es decir  $\text{Sum}_1(A) = (\sum_{i}A_{ij})_j$. Con todo lo anterior ya estamos en condiciones de mostrar el algoritmo de backpropagation.
+Donde $\text{Sum}_1$ es la suma sobre la primera dimensión de la matriz, es decir  $\text{Sum}_1(A) = (\sum_{i}A_{ij})_j$. Con todo lo anterior ya estamos en condiciones para mostrar el algoritmo de backpropagation.
 
 \begin{algorithm}[H]
-	\caption{Backward Propagation} \label{ML:Algorithm2}
-	\textbf{Requerir: } learning rate $\lambda$ para descenso de gradiente estocástico
+	\caption{Backward Propagation} 
+	\textbf{Requerir: } Learning rate $\lambda$.
 	\begin{algorithmic}[1]
 	\State Forward propagation, guardar  ($\hat{y})$ , $(u^{(k)})$ y $(h^{(k)})$.
 	\State Evaluar el error de la última capa $\delta_1^{(l)}$  según la unidad de output
 	\State  Actualizar $U \gets U - \lambda \frac{\partial J}{\partial U}$
 	\State Actualizar $c \gets c - \lambda \frac{\partial J}{\partial c}$
-	\For{$k = l-1,...,1$:}
+	\For{$k = l,...,1$:}
 		
 		\State Calcular $\delta^{(k)}$ con las ecuaciones en las capas ocultas
 		\State Evaluar las derivadas parciales $\frac{\partial J}{\partial W^{(k)}}$ y $\frac{\partial J}{\partial b^{(k)}}$
@@ -292,7 +292,7 @@ Donde $\text{Sum}_1$ es la suma sobre la primera dimensión de la matriz, es dec
 
 \subsection{Regularización}
 
-Las redes neuronales y algoritmos de deep learning son aplicados a tareas extremadamente complejas como lo son el procesamiento de im\'agenes, audio, y texto. Controlar la complejidad de un modelo no solo se reduce a encontrar el tamaño y cantidad de parámetros adecuados, como se ha visto para otros modelos de aprendizaje de m\'aquinas, sino que en la pr\'actica el modelo con el mejor ajuste por lo general ser\'a un modelo grande (profundo) que ha sido regularizado apropiadamente. 
+Las redes neuronales y algoritmos de \textit{deep learning} son aplicados a tareas extremadamente complejas como lo son el procesamiento de im\'agenes, audio, y texto. Controlar la complejidad de un modelo no solo se reduce a encontrar el tamaño y cantidad de parámetros adecuados, como se ha visto para otros modelos de aprendizaje de m\'aquinas, sino que en la pr\'actica el modelo con el mejor ajuste por lo general ser\'a un modelo grande (profundo) que ha sido regularizado apropiadamente. 
 
 El objetivo de las técnicas de regularización es el de reducir el \textit{error de generalización}, es decir, el error esperado al clasificar datos nunca antes vistos pero manteniendo la capacidad del modelo (profundidad, cantidad de nodos, funciones de activación, etc...)
 
@@ -349,7 +349,6 @@ Esto se reduce a minimizar la esperanza del error sobre la distribuci\'on genera
 
 \begin{equation}
 J^{*}(\bm{\theta}) = \E_{(\bm{x},y)\sim {p}_{\textrm{data}}}L(f(\bm{x};\bm{\theta}),y)
-\label{gradiente_completo}
 \end{equation}
 
 Reemplazamos la expresión anterior por un problema sustituto, que consiste en escribir la funci\'on de costos como un promedio sobre el set de entrenamiento, como se puede observar la diferencia entre las dos expresiones radica en el hecho que se considera que los datos fueron generados por distribuciones de probabilidad distintas (${p}_{\textrm{data}}$ en la primera expresión, $\hat{p}_{\textrm{data}}$ en la segunda):
@@ -394,7 +393,7 @@ Con actualizaciones dadas por
 \[
 \theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{v_t + \epsilon}} * \frac{\partial J}{\partial \theta_t}
 \]
-Donde $\epsilon$ es un parámetro para estabilidad numérica
+Donde $\epsilon$ es un parámetro para estabilidad numérica.\\
 
 Otras generalizaciones populares son el algoritmo \textbf{RMSProp}, que modifica el algoritmo AdaGrad para tener un mejor desempe{\~{n}}o en funciones no convexas al cambiar la acumulaci\'on del gradiente por una media m\'ovil que decae exponencialmente.
 

@@ -27,16 +27,16 @@ Al usar una red neuronal \textit{feedforward}, la información fluye a través d
 \newline 
 El algoritmo que la describe es el siguiente 
 \newline
-\hspace{0.5cm} \textbf{Requisitos: }   $W^{(k)} , b^{(k)} , f^{(k)} \hspace{0.2cm} k \in \{1,...,l\}$ , $U$ , $c$ , $g$ y $x$ input  \pause
+\hspace{0.5cm} \textbf{Requisitos: }   $W^{(k)} , b^{(k)} , f^{(k)} \hspace{0.2cm} k \in \{1,...,l\}$ , $U$ , $c$ , $g$ , $x$ input e $y$ output  \pause
 \begin{enumerate}
-  \item $h^{(0)} = x$ \pause
+  \item $h^{(0)} \gets x$ \pause
   \item para $k = 1 , \dots , l$
   \begin{itemize}
-    \item $u^{(k)} = h^{(k-1)}W^{(k)} + b^{(k)}$ \pause
-    \item $h^{(k)} = f^{(k)}(u^{(k)})$ \pause
+    \item $u^{(k)} \gets h^{(k-1)}W^{(k)} + b^{(k)}$ \pause
+    \item $h^{(k)} \gets f^{(k)}(u^{(k)})$ \pause
   \end{itemize}
-  \item $\hat{y} = g(h^{(l)}U + c)$ \pause
-  \item $J = L(\hat{y},y)$ \pause
+  \item $\hat{y} \gets g(h^{(l)}U + c)$ \pause
+  \item $J \gets L(\hat{y},y)$ \pause
 
 \end{enumerate}
 
@@ -44,8 +44,6 @@ El algoritmo que la describe es el siguiente
 Los pesos y bias en la primera iteración del algoritmo son generados aleatoriamente
 
 \end{observacion}
-
-
 
 \end{frame}
 
@@ -59,10 +57,6 @@ El gradiente se calculará de esta forma ya que, aunque es posible obtener una e
 El algoritmo de backpropagation ha experimentatdo un resurgimiento en estas últimas décadas por su implementación en redes neuronales para tareas tales como reconocimiento de imágenes o procesamiento de lenguaje natural. \\
 Es considerado un algoritmo eficiente e implementaciones modernas de estas aprovechan el paralelismo de las GPU para mejorar su rendimiento. \pause
 
-\vspace{0.2cm}El gradiente se
-calculará de esta forma ya que, aunque es posible obtener una expresión analítica para este, evaluar
-la expresión puede ser muy caro computacionalmente.
-
 A continuación se describe brevemente el algoritmo: 
 
 \end{frame}
@@ -72,7 +66,7 @@ A continuación se describe brevemente el algoritmo:
 \begin{itemize}
   \item Utilicemos la notación para el paso intermedio antes de aplicar la función de activación como $u = hW + b$ \pause
 
-  \item Supongamos además que el entrenamiento de la red se realiza con un paquete de datos (batch), es decir $(x^d)_{d=1}^N$  conjunto de $N$ inputs, luego $u_{dj}^{(k)}$ corresponde al valor de $u$ para el input $d$ en el nodo j para la capa $k$ \pause
+  \item Supongamos además que el entrenamiento de la red se realiza con un paquete de datos (\textbf{mini-batch}), es decir $(x^d)_{d=1}^N$  conjunto de $N$ inputs, luego $u_{dj}^{(k)}$ corresponde al valor de $u$ para el input $d$ en el nodo j para la capa $k$ \pause
  
  \item Se verá el algoritmo de backpropagation para función de error MSE en un problema de regresión.  \pause
 
@@ -156,32 +150,36 @@ Además, la función de activación en el output será lineal y por tanto $(\hat
 \begin{frame}{Backpropagation - Algoritmo}
 
 \begin{enumerate}
-  \item Calcular la fase de forward, guardar los valores ($\hat{y})_d$ , $(u_{ij}^{(k)})_{ijd}$ y $(h_{ij}^{(k)})_{ijd}$. \pause
 
 
-  \item Evaluar el error de la última capa $\delta_1^{(l)}$  utilizando las ecuaciones en la capa de output \pause
+  \item Calcular la fase de forward, guardar los valores ($\hat{y}$) , $(u^{(k)})$ y $(h^{(k)})$. \pause
 
-  \item Para $k=1 \dots l-1$ capas de la red \pause
+
+  \item Evaluar el error de la última capa $\delta_1^{(l)}$ según la unidad de output \pause
+  
+  \item Actualizar $U \gets U - \lambda \frac{\partial J}{\partial U}$ \pause
+  
+  \item Actualizar $c \gets c - \lambda \frac{\partial J}{\partial c}$ \pause
+
+  \item Para $k=l, \dots ,1$ capas de la red \pause
 
   \begin{itemize}
     \item Propagar hacia atrás y calcular el error $\delta^{(k)}$ de las ecuaciones en la capa oculta  \pause
-    \item Evaluar las derivadas parciales $\frac{\partial J}{\partial w_{ij}^{(k)}}$ y $\frac{\partial J}{\partial b_j^{(k)}}$ para todos los nodos de la capa $k$ mediante las ecuaciones preliminares, guardar los valores \pause
+    \item Evaluar las derivadas parciales $\frac{\partial J}{\partial W^{(k)}}$ y $\frac{\partial J}{\partial b^{(k)}}$ para todos los nodos de la capa $k$ mediante las ecuaciones preliminares, guardar los valores \pause
+
+
+    \item Actualizar los pesos y bias mediante descenso de gradiente 
+    \[
+    W^{(k)} \gets W^{(k)} - \lambda \frac{\partial J}{\partial W^{(k)}}, \quad b^{(k)} \gets b^{(k)} - \lambda \frac{\partial J}{\partial b^{(k)}}
+    \] \pause 
 
   \end{itemize}
 
-  \item Actualizar los pesos y bias mediante descenso de gradiente 
-  \[
-  (w_{ij}^{(k)})' = w_{ij}^{(k)} - \lambda \frac{\partial J}{\partial w_{ij}^{(k)}}, \quad (b_{j}^{(k)})' = b_{j}^{(k)} - \lambda \frac{\partial J}{\partial b_{j}^{(k)}}, \quad \forall i,j,k
-  \]
-  \pause
 \end{enumerate}
 
 \begin{observacion}
 
-\begin{itemize}
-  \item Usualmente los datos son entregados en paquetes de datos (batch) y los pesos/bias actualizados mediante descenso de gradiente estocástico
-  \item La cantidad de veces que se pase por todos los datos de entrenamiento se conoce como \textbf{épocas}
-\end{itemize}
+ La cantidad de veces que se pase por todos los datos de entrenamiento se conoce como \textbf{épocas}
 
 \end{observacion}
 
@@ -190,7 +188,7 @@ Además, la función de activación en el output será lineal y por tanto $(\hat
 \section{Regularización para una Red Neuronal}
 
 \begin{frame}{Regularización}
-Las redes neuronales y algoritmos de deep learning son aplicados a tareas extremadamente complejas como lo son el procesamiento de imágenes, audio, y texto. Controlar la complejidad de un modelo no solo se reduce a encontrar el tamaño y cantidad de parámetros adecuados, como se ha visto para otros modelos de aprendizaje de máquinas, sino que en la práctica el modelo con el mejor ajuste por lo general será un modelo grande (profundo) que ha sido regularizado apropiadamente. \pause 
+Las redes neuronales y algoritmos de \textit{deep learning} son aplicados a tareas extremadamente complejas como lo son el procesamiento de imágenes, audio, y texto. Controlar la complejidad de un modelo no solo se reduce a encontrar el tamaño y cantidad de parámetros adecuados, como se ha visto para otros modelos de aprendizaje de máquinas, sino que en la práctica el modelo con el mejor ajuste por lo general será un modelo grande (profundo) que ha sido regularizado apropiadamente. \pause 
 
 El objetivo de las técnicas de regularización es el de reducir el \textit{error de generalización}, es decir, el error esperado al clasificar datos nunca antes vistos pero manteniendo la capacidad del modelo (profundidad, cantidad de nodos, funciones de activación, etc...) \pause 
 
@@ -213,9 +211,9 @@ A continuación veremos algunas de ellas:
   No es dificil ver que esta regularización es equivalente a la actualización de parámetros según gradiente estocástico de la forma \pause
 
   \begin{equation*}
-  (w_{ij}^{(k)})' = (1-\beta) w_{ij}^{(k)} - \lambda \frac{\partial J}{\partial w_{ij}^{(k)}}, \quad \beta = \lambda \alpha
+  W^{(k)} \gets (1-\beta) W^{(k)} - \lambda \frac{\partial J}{\partial W^{(k)}}, \quad \beta = \lambda \alpha
   \end{equation*}
-  y por eso también es llamada \textit{'weight decay'} y es la forma en que se implementa
+  y por eso también es llamada \textit{weight decay} y es la forma en que se implementa
 
 \end{itemize}
 
