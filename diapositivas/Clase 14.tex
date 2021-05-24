@@ -107,7 +107,7 @@ El nombre de la segunda propiedad derivada de su similitud con las matrices defi
 
 %Método del kernel: teorema de Mercer.
 \begin{frame}{Método del kernel: teorema de Mercer}
-	De esta forma, se tiene el siguiente teorema de analisis funcional que sustenta la utilización de kernels en los algoritmos de aprendizaje automático:
+	De esta forma, se tiene el siguiente teorema de análisis funcional que sustenta la utilización de kernels en los algoritmos de aprendizaje automático:
 
 \begin{theorem}[teorema de Mercer (simplificado)]
 	Sea $K: X\times X \to \R$ un Mercer kernel, entonces existe un espacio de Hilbert $\left(\mathcal{H},\langle,\rangle\right)$ y una función $\phi: X \to \mathcal{H}$ tal que:
@@ -227,12 +227,12 @@ La siguiente figura muestra la implementación de kernel SVM para dos kernels:
 %Kernel ridge regression.
 \begin{frame}{Kernel ridge regression}
 
-Otro método en el que se puede utilizar el truco del kernel es el método de regulación cuadrática usada en regresión lineal, el cual tiene solución
+Otro método en el que se puede utilizar el truco del kernel es el método de mínimos cuadrados usado en regresión lineal, el cual tiene solución
 \begin{equation*}
     \theta_{MCR} = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y.
 \end{equation*}\pause
 
-Si bien las entradas $\tx_i$ no aparecen en forma de producto interno, es posible reescribir la solución de otra forma mediante la fórmula de Woodburry. De este modo se obtiene que
+Si bien las entradas $\tx_i$ no aparecen en forma de producto interno, es posible reescribir la solución de otra forma mediante el lema de inversión de matrices de Woodbury. De este modo se obtiene que
 
 \begin{equation*}
 	\theta_{MCR} = \tX^\top\left(\tX\tX^\top + \rho\eye\right)^{-1}Y.
@@ -271,7 +271,7 @@ Luego, si $K$ es un kernel asociado a $\phi$: $K(x_i,x_j)=\langle\phi(x_i),\phi(
 
 
 \begin{equation*}
-    \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star  = Y^\top \left(K(\tX,\tX) + \rho\eye\right) ^{-1} K(\tX, x_\star),    
+    \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star  = Y^\top \left(K(\tX,\tX) + \rho\eye\right) ^{-1} K(\tX, x_\star),    \ \leftarrow\text{\bf familiar?}
 \end{equation*}
 
 donde se ha hecho abuso de notación al usar argumentos matriciales en el kernel:
