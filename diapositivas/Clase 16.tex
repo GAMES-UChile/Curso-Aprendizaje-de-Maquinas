@@ -1,10 +1,10 @@
-\documentclass[9pt]{beamer}
+\documentclass[handout, 9pt]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 16 - Aprendizaje no supervisado: clustering}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 16: Clustering}
+\subtitle{MA5204 Aprendizaje de Máquinas}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -23,10 +23,10 @@
 %Clustering: idea general.
 \begin{frame}{Clustering: idea general}
 	
-	Uno de los problemas principales del aprendizaje no supervisado es poder agrupar las entradas sin necesidad de que estas tengan etiquetas (como ocurre en los métodos de clasificación).\\~\
+	Uno de los objtivos principales en el aprendizaje no supervisado es la agrupación de datos sin  etiquetas etiquetas (como ocurre en los métodos de clasificación).\\~\
 	
 	\pause
-	La dificultad principal de esta tarea es que es necesario definir un concepto de similitud entre las distintas entradas para poder particionar los datos en grupos (clusters) de características similares.
+	La dificultad principal de esta tarea es que es necesario definir un concepto de \emph{similitud} 	entre las distintas entradas para poder particionar los datos en grupos (clusters) de características similares.
 	
 \end{frame}
 
@@ -38,8 +38,8 @@
  El algoritmo aglomerativo de clustering es el siguiente:
 
 \begin{enumerate}
-	\item Para comenzar, se considerarán $n$ clusters distintos. Asignar a cada elemento un cluster único.\pause
-	\item Buscar el par de clusters más similar (bajo algún criterio) y combinarlos en un solo cluster.\pause
+	\item Para comenzar, se considerarán $n$ clusters distintos. Es decir, tantos cluster como datos y se asigna cada dato con un unico cluster y viceversa.\pause
+	\item Buscar el par de clusters más \emph{similar} (bajo algún criterio) y combinarlos en un solo cluster.\pause
 	\item Repetir el paso anterior hasta tener $k$ clusters.
 \end{enumerate}
 \pause
@@ -53,7 +53,7 @@ Para dos clusters $A,B\subset\mathcal{D}$, los criterios de similitud más frecu
 
 Donde $d:\mathcal{D}\times \mathcal{D}\to \R_+$ es una métrica en $\mathcal{D}$. Elecciones distintas del criterio de similitud y/o métrica (generalmente euclidiana) pueden llevar a agrupaciones distintas.
 	
-	
+\textbf{-->Lo anterior es el enfoque \emph{aglomerativo}, también hay otro \emph{divisivo}.}	
 \end{frame}
 
 %k-means.
@@ -62,14 +62,14 @@ Donde $d:\mathcal{D}\times \mathcal{D}\to \R_+$ es una métrica en $\mathcal{D}$
 Otro método de clustering muy utilizado es $k$-means. Dado $k \in \mathbb{N}$ y un conjunto de observaciones $X = \{x_i\}_{i=1}$ con $x_i\in \mathbb{R}^D$ se busca separar los datos en $k$ grupos tal que:
 
 \begin{itemize}
-	\item A cada grupo se le asigna un centroide $\mu_k$.\pause
-	\item A cada elemento $x_i$ se le asigna el grupo que tenga el centroide más cercano.\pause
+	\item Cada grupo se representa por un centroide $\mu_k$.\pause
+	\item Cada elemento $x_i$ se asigna al grupo que tenga el centroide más \emph{cercano}.\pause
 \end{itemize}
 
-Sea $r_{ik}$ la asignación, esta estará definida por:
+La asignación del dato $x_i$ al centorude $\mu_k$, denotada $r_{ik}$, está definida por:
 \begin{align*}
 r_{ik} = \begin{cases}
-1 & \text{si } k = \text{argmin}||x_i-x_k||\\
+1 & \text{si } k = \text{argmin}||x_i-\mu_k||\\
 0 & \text{si no.}
 \end{cases}
 \end{align*}
@@ -77,7 +77,7 @@ r_{ik} = \begin{cases}
 \pause
 Es decir, para encontrar los centroides se debe minimizar el funcional:
 \begin{align*}
-J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-x_j||^2
+J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-\mu_k||^2.
 \end{align*}
 	
 \end{frame}
@@ -100,6 +100,8 @@ J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-x_j||^2
     \pause
     \item El algoritmo termina cuando los centroides ya no cambian.
 \end{itemize}
+\vspace{1em}
+\textbf{--> ¿Por qué estas etapas se llama E y M?}
 
 \end{frame}
 
@@ -129,7 +131,7 @@ El método de Forgy es preferido cuando se realiza k-means mediante el algoritmo
 	
 La asignación de cluster mediante el centroide más cecano provoca que cada par de centroides divida al espacio ambiente en dos semiespacios mediante el hiperplano simetral que pasa entre ambos puntos. \\~\ \pause
 
-Dado que la intersección finita de semiespacios genera un poliedro, se tiene que la partición generada por kmeans forma un diagrama de Voronoi:
+Dado que la intersección finita de semiespacios genera un poliedro, se tiene que la partición generada por $k$-means forma un diagrama de Voronoi:
 
 \begin{figure}[h]
   \centering
@@ -143,14 +145,15 @@ Dado que la intersección finita de semiespacios genera un poliedro, se tiene qu
 %Modelo de mezcla de gaussianas (GMM)
 \begin{frame}{Modelo de mezcla de gaussianas (GMM)}
 
-La mezcla de gaussianas (GMM) es un caso general de $k$-means, en donde los clusters pueden tener una forma anisotrópica modelada por una Gaussiana. Si bien su solución puede ser muy similar a $k$-means los supuestos subyacentes al modelo CMM son diferentes y obedecen a un enfoque de modelo generativo. \\~\ \pause
+La mezcla de gaussianas (GMM) es un caso general de $k$-means, en donde los clusters pueden tener una forma anisotrópica modelada por una Gaussiana. Si bien su solución puede ser muy similar a $k$-means los supuestos subyacentes al modelo GMM son diferentes y obedecen a un enfoque de modelo generativo. \\~\ \pause
 
 Una distribución de mezcla de gaussianas consiste en una combinación convexa de distribuciones gaussianas
 \begin{equation*}
-	p(\x) = \sum_{k=1}^K \pi_k \mathcal{N}(\x| \mu_k,\Sigma_k)
+	p(\x) = \sum_{k=1}^K \pi_k \mathcal{N}(\x| \mu_k,\Sigma_k),
 \end{equation*}
+donde $\sum_{k=1}^K \pi_k = 1$. \\~\
 
-Donde una muestra $x$ es generada mediante dos etapas: primero se elige un cluster al azar (de acuerdo a $\pi_k$) y luego, se genera una muestra aleatoria dentro del cluster. \pause Nos referiremos a los parámetros de este modelo como 
+Una muestra $x$ es generada mediante dos etapas: primero se elige un cluster al azar (de acuerdo a $\pi_k$) y luego, se genera una muestra aleatoria dentro del cluster. \pause Nos referiremos a los parámetros de este modelo como 
 
 \begin{itemize}
 	\item $\pi_k:$ coeficiente de mezcla del cluster  $k$ (probabilidad de venir del cluster $k$).
@@ -175,7 +178,7 @@ Hay una serie de complicaciones relacionados a la búsqueda de estos parámetros
 \begin{itemize}
 	\item \textbf{Singularidades:} cuando una muestra es exactamente igual a una de las medias, en cuyo caso un término de la log-verosimilitud es proporcional a $1/\sigma_k$, con lo que la maximización de $\sigma_k$ resulta en una log-verosimilitud infinita.\pause
 	\item \textbf{Redundancias de soluciones:} para cada máximo local de la log-verosimilitd existen $k!$ soluciones equivalente con la misma verosimilitud dadas por las permutaciones de las etiquetas de los clusters.\pause
-	\item \textbf{Funcional complejo:} la sumatoria aparece \emph{dentro} del logaritmo, consecuentemente, el logaritmo no actúa directamente en la gaussiana reduciendo el funcional de optimización a una solución en forma cerrada.
+	\item \textbf{Funcional complejo:} la sumatoria aparece \emph{dentro} del logaritmo, consecuentemente, el logaritmo no actúa directamente en la gaussiana reduciendo el funcional de optimización a una solución en forma cerrada (caso cuadrático).
 \end{itemize}
 
 Este último problema obliga a considerar métodos basados en gradientes.
@@ -194,7 +197,7 @@ Denotando $\gamma(z_k(\x_i)) = p(z_k(\x_i)=1|\x_i)$, se tiene el siguiente resul
 	\begin{align*}
     \mu_k & = \frac{1}{R_k}\sum_{i=1}^N \gamma(z_k(\x_i))\x_i\\
     \Sigma_k & = \frac{1}{R_k} \sum_{i=1}^N \gamma(z_k(\x_i))(\x_n - \mu_k)(\x_n - \mu_k)^\top\\
-    \pi_k & = \frac{R_k}{R}
+    \pi_k & = \frac{R_k}{R},
     \end{align*}
     donde $R_k = \sum\limits_{i=n}^N \gamma(z_k(\x_i))$ y $R = \sum\limits_{k=1}^K R_k$.
 \end{lemma}
@@ -205,7 +208,7 @@ Denotando $\gamma(z_k(\x_i)) = p(z_k(\x_i)=1|\x_i)$, se tiene el siguiente resul
 \begin{frame}
 Esto no constituye una solución en forma cerrada para los parámetros ya que la posterior $\gamma(z_k(\x_i))$ depende de todos los parámetros:
 \begin{align*}
-	p(z_k(\x)=1|\x) = \frac{p(\x|z_k(\x)=1)p(z_k(\x)=1)}{p(\x)} = \frac{\pi_k \cN(\x|\mu_k,\Sigma_k)}{\sum_{k=1}^K \pi_k \cN(\x|\mu_k,\Sigma_k)} 
+	p(z_k(\x)=1|\x) = \frac{p(\x|z_k(\x)=1)p(z_k(\x)=1)}{p(\x)} = \frac{\pi_k \cN(\x|\mu_k,\Sigma_k)}{\sum_{k=1}^K \pi_k \cN(\x|\mu_k,\Sigma_k)} .
 \end{align*} 
 \pause
 
