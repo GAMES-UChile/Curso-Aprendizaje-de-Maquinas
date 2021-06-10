@@ -1,10 +1,10 @@
-\documentclass[9pt]{beamer}
+\documentclass[9pt, handout]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 14 - Support vector machines (parte 2)}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 14: Support vector machines (parte 2)}
+\subtitle{MA5204 Aprendizaje de Máquinas}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -23,12 +23,12 @@
 %Método del kernel: motivación.
 \begin{frame}{Método del kernel: motivación}
 
-Si bien SVM tiene buenas propiedades de generalización, el método se cae cuando los datos no son linealmente separables. \\~\ \pause
+Si bien SVM tiene buenas propiedades de generalización, el método solo es apropiado cuando los datos son linealmente separables. \\~\ \pause
 
 Sin embargo, para la figura de la izquierda, es posible diseñar una característica particular donde los datos sí son linealmente separables. En efecto, consideremos el mapa desde  $\R^2$ a $\R^3$ definido mediante
 
 \begin{equation*}
-	\phi: [x_1, x_2]^\top \mapsto [x_1, x_2, x_1 x_2]^\top
+	\phi: [x_1, x_2]^\top \mapsto [x_1, x_2, x_1 x_2]^\top.
 \end{equation*}
 
 Esta nueva representación permite separar de forma lineal las clases mediante el plano $z=0$ en $\R^3$ tal como se observa en la figura derecha.
@@ -59,7 +59,7 @@ Esta nueva representación permite separar de forma lineal las clases mediante e
 
 En el caso general no es claro cuál debe ser ``el buen $\phi$''. A pesar de esto, notemos que en la formulación de SVM solo se requiere poder calcular los productos internos entre las características de cada entrada, es decir, si se considera un $\phi$ arbitrario para el problema de clasificación, solo se necesitaría calcular los productos internos de la forma
 \begin{equation*}
-    \langle \phi(x_i) , \phi(x_j) \rangle
+    \langle \phi(x_i) , \phi(x_j) \rangle.
 \end{equation*}
  \pause
 
@@ -107,7 +107,7 @@ El nombre de la segunda propiedad derivada de su similitud con las matrices defi
 
 %Método del kernel: teorema de Mercer.
 \begin{frame}{Método del kernel: teorema de Mercer}
-	De esta forma, se tiene el siguiente teorema de analisis funcional que sustenta la utilización de kernels en los algoritmos de aprendizaje automático:
+	De esta forma, se tiene el siguiente teorema de análisis funcional que sustenta la utilización de kernels en los algoritmos de aprendizaje automático:
 
 \begin{theorem}[teorema de Mercer (simplificado)]
 	Sea $K: X\times X \to \R$ un Mercer kernel, entonces existe un espacio de Hilbert $\left(\mathcal{H},\langle,\rangle\right)$ y una función $\phi: X \to \mathcal{H}$ tal que:
@@ -123,7 +123,7 @@ Es decir, existe un mapa de características $\phi$ tal que $K(x_1, x_2)$ repres
 \begin{frame}{Ejemplos de kernels}
 \textbf{Kernel polinomial:} este kernel está definido por
 \begin{equation*}
-       K_{pol} (x, y) = (c + x^\top y)^d
+       K_{pol} (x, y) = (c + x^\top y)^d,
 \end{equation*}
 donde $c\geq 0$ es un parámetro libre y $d\in\N$ es el orden del polinomio. \pause Para el caso $d=2$ se pueden reagrupar los términos para ver que el mapa de características que induce este kernel es
     
@@ -227,27 +227,27 @@ La siguiente figura muestra la implementación de kernel SVM para dos kernels:
 %Kernel ridge regression.
 \begin{frame}{Kernel ridge regression}
 
-Otro método en el que se puede utilizar el truco del kernel es el método de regulación cuadrática usada en regresión lineal, el cual tiene solución
+Otro método en el que se puede utilizar el truco del kernel es el método de mínimos cuadrados usado en regresión lineal, el cual tiene solución
 \begin{equation*}
-    \theta_{MCR} = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y
+    \theta_{MCR} = \left(\tX^\top\tX +\rho \eye\right)^{-1} \tX^\top Y.
 \end{equation*}\pause
 
-Si bien las entradas $\tx_i$ no aparecen en forma de producto interno, es posible reescribir la solución de otra forma mediante la fórmula de Woodburry. De este modo se obtiene que
+Si bien las entradas $\tx_i$ no aparecen en forma de producto interno, es posible reescribir la solución de otra forma mediante el lema de inversión de matrices de Woodbury. De este modo se obtiene que
 
 \begin{equation*}
-	\theta_{MCR} = \tX^\top\left(\tX\tX^\top + \rho\eye\right)^{-1}Y
+	\theta_{MCR} = \tX^\top\left(\tX\tX^\top + \rho\eye\right)^{-1}Y.
 \end{equation*}\pause
 
 Ahora $\tX\tX^\top$ sí corresponde a un producto externo de las entradas:
 
 \begin{equation*}
-	(\tX\tX^\top)_{ij}=\langle\tX_{i\cdot},\tX^\top_{\cdot j}\rangle=\langle\tX_{i\cdot},\tX_{j\cdot}\rangle = \langle \tx_i,\tx_j\rangle
+	(\tX\tX^\top)_{ij}=\langle\tX_{i\cdot},\tX^\top_{\cdot j}\rangle=\langle\tX_{i\cdot},\tX_{j\cdot}\rangle = \langle \tx_i,\tx_j\rangle.
 \end{equation*}\pause
 
 Además, para un nuevo input $x_\star$, su predicción está dada por
 
 \begin{equation*}
-	\hat{y}_\star = \theta_{MCR}^\top x_\star = Y^\top \left(\tX\tX^\top + \rho\eye\right)^{-1}\tX \tx_\star
+	\hat{y}_\star = \theta_{MCR}^\top x_\star = Y^\top \left(\tX\tX^\top + \rho\eye\right)^{-1}\tX \tx_\star,
 \end{equation*}
 
 donde $(\tX x_\star)_i = \langle \tilde{x}_i,x_\star\rangle$, lo cual muestra que las entradas solo aparecen en la predicción en forma de productos internos.
@@ -264,20 +264,20 @@ Dado un mapa de características $\phi$, se denotan las características por $\p
 		\phi_1^\top\\
 		\vdots\\
 		\phi_N^\top
-	\end{matrix}\right) \implies \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star
+	\end{matrix}\right) \implies \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star.
 \end{equation*}\pause
 
 Luego, si $K$ es un kernel asociado a $\phi$: $K(x_i,x_j)=\langle\phi(x_i),\phi(x_j)\rangle$, se tiene que
 
 
 \begin{equation*}
-    \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star  = Y^\top \left(K(\tX,\tX) + \rho\eye\right) ^{-1} K(\tX, x_\star),    
+    \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star  = Y^\top \left(K(\tX,\tX) + \rho\eye\right) ^{-1} K(\tX, x_\star),    \ \leftarrow\text{\bf familiar?}
 \end{equation*}
 
 donde se ha hecho abuso de notación al usar argumentos matriciales en el kernel:
 \begin{align*}
 	&K(\tX,\tX)_{ij} = (\Theta\Theta^\top)_{ij} = \langle\phi_i,\phi_j\rangle = K(x_i,x_j)\\
-	& K(\tX,x_\star)_i = (\Theta\phi_\star)_i = \langle\phi_i,\phi_\star\rangle = K(x_i,x_\star)
+	& K(\tX,x_\star)_i = (\Theta\phi_\star)_i = \langle\phi_i,\phi_\star\rangle = K(x_i,x_\star).
 \end{align*}
 	
 \end{frame}

@@ -1,10 +1,10 @@
-\documentclass[9pt]{beamer}
+\documentclass[9pt, handout]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 15 - Aprendizaje no supervisado: reducción de dimensionalidad}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 15: Reducción de dimensionalidad}
+\subtitle{MA5204 Aprendizaje de Máquinas}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -23,9 +23,9 @@
 %Reducción de dimensionalidad.
 \begin{frame}{Reducción de dimensionalidad}
 
-El problema de reducción de dimensionalidad consiste con construir una representación de dimensión estrictamente menor que los datos originales con la finalidad de interpretar de mejor forma la información contenida en nuestros datos así como también disminuir el costo computacional en el entrenamiento.\\~\ \pause
+El problema de reducción de dimensionalidad es parte del \textbf{aprendizaje no-supervisado} y consiste con construir una representación de dimensión estrictamente menor que los datos originales con la finalidad de interpretar de mejor forma la información contenida en nuestros datos así como también disminuir el costo computacional en el entrenamiento.\\~\ \pause
 
-En este curso, se trabajarán dos técnicas de reducción de dimensionalidad:
+Hoy veremos dos técnicas de reducción de dimensionalidad:
 
 \begin{itemize}
 	\item Análisis de componentes principales (PCA).
@@ -41,15 +41,17 @@ Consideremos un conjunto de observaciones de $\{\x_i\}_{i=1}^N\subset\R^M$, se d
 
 Cada observación puede descomponerse en la base canónica $\{\e_i\}_{i=1}^M$ de $\R^M$ de la forma 
 \begin{equation*}
-	\x_i = x_{i1}\e_1 +  x_{i2}\e_2 + \cdots + x_{iM}\e_M 		
+	\x_i = x_{i1}\e_1 +  x_{i2}\e_2 + \cdots + x_{iM}\e_M.	
 \end{equation*}\pause
 
 Notemos que es posible aproximar cada observación $\x_i$ mediante una cantidad $M'<M$ de términos, truncando la representación anterior, es decir,  
 \begin{equation*}
-	\x_i \approx \sum_{j=1}^{M'} x_{i\sigma(j)}\e_{\sigma(j)}
+	\x_i \approx \sum_{j=1}^{M'} x_{i\sigma(j)}\e_{\sigma(j)}.
 \end{equation*}
 
 donde $\sigma:\{1,2,\ldots,M\}\mapsto\{1,2,\ldots,M\}$ es una permutación que prioriza las coordenadas más representativas de los datos. Dichas aproximaciones son una versión de baja dimensión de las observaciones $\{\x_i\}_{i=1}^N$.\\~\ 
+
+$\star$ ¿qué es \textbf{más} representativa?
 \end{frame}
 
 %Análisis de componentes principales (PCA): criterio.
@@ -76,11 +78,11 @@ donde $\sigma:\{1,2,\ldots,M\}\mapsto\{1,2,\ldots,M\}$ es una permutación que p
 
 De esta forma, dado que $\langle\cvector,\x\rangle$ representa la proyección ortogonal de $\x$ sobre $\cvector$, el primer elemento de la nueva base estará dado por 
 \begin{equation*}
-	\cvector_1 = \argmax_{||\cvector||=1} {\langle\cvector,\x\rangle} \label{eq:PCA_max}
+	\cvector_1 = \argmax_{||\cvector||=1} {\langle\cvector,\x\rangle}. \label{eq:PCA_max}
 \end{equation*} \pause
 
 \begin{itemize}
-	\item la restricción $||\cvector_1||=1$ es necesaria ya que $\langle\lambda\cvector_1,\x\rangle = \lambda\langle\cvector_1,\x\rangle$ por lo que $\langle\cvector_1,\x\rangle$ puede crecer indefinidamente si no se fija una restricción sobre la norma de $\cvector$. \pause
+	\item La restricción $||\cvector_1||=1$ es necesaria ya que $\langle\lambda\cvector_1,\x\rangle = \lambda\langle\cvector_1,\x\rangle$ por lo que $\langle\cvector_1,\x\rangle$ puede crecer indefinidamente si no se fija una restricción sobre la norma de $\cvector$. \pause
 	\item Además, es importante estandarizar los datos:\\~\ \pause
 
 	\begin{enumerate}
@@ -93,7 +95,7 @@ De esta forma, dado que $\langle\cvector,\x\rangle$ representa la proyección or
 \end{frame}
 
 %Análisis de componentes principales (PCA): formulación.
-\begin{frame}{Análisis de componentes principales (PCA): formulación}
+\begin{frame}{PCA: Formulación}
 En general no contamos con la distribución de las observaciones $p(\x)$, por lo que se puede considerar una aproximación muestral de la varianza y resolver 
 \begin{align*}
 	\cvector_1 = \argmax_{||\cvector||=1} \sum_{i=1}^N \langle\cvector,\x_i\rangle^2.\label{eq:PCA_max2}
@@ -109,14 +111,14 @@ X=\begin{bmatrix}
         {x}_{11}    & \dots & {x}_{1M}  \\
         \vdots          & \ddots& \vdots        \\
         {x}_{N1}    & \dots & {x}_{NM}
-        \end{bmatrix}
+        \end{bmatrix},
 $$
 \pause
-Se puede reescribir el problema como
+se puede reescribir el problema como
 \begin{equation*}
 	\cvector_1 = \argmax_{||\cvector||=1} ||X\cvector||^2 
 			= \argmax_{||\cvector||=1} \cvector^\top X^\top X \cvector
-			= \argmax_{\cvector} \frac{\cvector^\top X^\top X \cvector}{\cvector^\top \cvector}
+			= \argmax_{\cvector} \frac{\cvector^\top X^\top X \cvector}{\cvector^\top \cvector}.
 			\label{eq:PCA_max3}
 \end{equation*}
 
@@ -124,7 +126,7 @@ Se puede reescribir el problema como
 
 
 %Análisis de componentes principales (PCA): cociente de Rayleigh.
-\begin{frame}{Análisis de componentes principales (PCA): cociente de Rayleigh}
+\begin{frame}{PCA: Cociente de Rayleigh}
 	
 Para el problema anterior, se tiene la siguiente propiedad:
 
@@ -133,10 +135,9 @@ Para el problema anterior, se tiene la siguiente propiedad:
 Sea $M\in\mathcal{M}_{nn}(\R)$ matriz cuadrada simétrica, entonces, para el cociente de Rayleigh
 
 \begin{equation*}
-	R(M,x):=\frac{x^\top Mx}{x^\top x}
+	R(M,x):=\frac{x^\top Mx}{x^\top x},
 \end{equation*}
-
-Su valor mínimo corresponde al menor valor propio de $M$, y es alcanzado en su vector propio asociado.
+se tiene que su valor mínimo corresponde al menor valor propio de $M$, y es alcanzado en su vector propio asociado.
 
 \end{lemma}
 \pause
@@ -144,13 +145,13 @@ De esta forma, dado que $X^\top X$ es simétrica, su cociente de Rayleigh es max
 
 Consecuentemente, la proyección de una observación $\x_i$ en la dirección de máxima varianza, o bien la \emph{primera componente principal}, está dada por 
 \begin{equation*}
-	\x_i^{(1)} = \langle \x_i, \cvector_1 \rangle
+	\x_i^{(1)} = \langle \x_i, \cvector_1 \rangle,
 \end{equation*}
 donde $\cvector_1$ es el vector propio asociado al mayor valor propio de la matriz de covarianza muestral $XX^\top$.\\	
 \end{frame}
 
 %Kernel PCA.
-\begin{frame}{Kernel PCA}
+\begin{frame}{Estudio personal: Kernel PCA}
 
 Es posible utilizar el truco del kernel en PCA. En ese sentido, en vez de calcular la matriz de covarianza empírica $X^\top X$, se utiliza la matriz de Gram dada por un kernel $K$ donde
 
@@ -180,9 +181,8 @@ Es posible interpretar el problema de clasificación como uno de \emph{reducció
 	\item Sin embargo, es posible ajustar el vector $a$ con la finalidad de obtener una proyección de $x$ que maximice el grado de separación entre clases.\pause
 	\item Para el problema de clasificación binaria de $x\in \R^M$, se proyecta $x$ en un espacio \textbf{unidimensional} con respecto a un vector $a\in\R^M$ de acuerdo a:
 \begin{equation*}
-	y = a^\top x
+	y = a^\top x,
 \end{equation*}
-
 donde se puede definir un umbral $b$ para asignar $x$ a $\cC_1$ si $y+b\geq 0$ y $x$ a $\cC_2$ en caso contrario. Esto recupera el modelo lineal para clasificación.
 \end{itemize}
 	
@@ -198,16 +198,15 @@ Se buscará un vector $a$ con la finalidad de obtener una proyección de $x$ que
 \begin{equation*}
 	\mu_1=\frac{1}{N_1}\sum_{n\in\mathcal{C}_1}x_n
 	\quad\quad\quad
-	\mu_2=\frac{1}{N_2}\sum_{n\in\mathcal{C}_2}x_n
+	\mu_2=\frac{1}{N_2}\sum_{n\in\mathcal{C}_2}x_n,
 \end{equation*}
 \pause
 	\item De esta forma, la medida más simple de separación entre las proyecciones de las clases sobre $a$ es la distancia entre las medias  de sus proyecciones:
 \begin{equation*}
-	m_1 - m_2 = a^\top(\mu_1-\mu_2)
+	m_1 - m_2 = a^\top(\mu_1-\mu_2),
 \end{equation*}
-
 donde $m_k= a^\top\mu_k$ corresponde al promedio de los elementos de  la clase $\mathcal{C}_k$ proyectado sobre el  vector $a$ (centro de masa sobre la recta).
-	
+	\item el $a$  que maximiza la expresión anterior es simplemente $a\propto (\mu_1-\mu_2)$
 \end{itemize}
 
 \end{frame}
@@ -239,13 +238,13 @@ Para resolver este problema, Fisher propuso el siguiente esquema:
 
  Como medida de dispersión, se define la varianza muestral proyectada de los elementos de la clase $\cC_k$ mediante
 \begin{align*}
-	s_k^2 &= \sum_{n\in \mathcal{C}_k}(a^\top(x_n-\mu_k))^2= \sum_{n\in \mathcal{C}_k}(y_n-m_k)^2
+	s_k^2 &= \sum_{n\in \mathcal{C}_k}(a^\top(x_n-\mu_k))^2= \sum_{n\in \mathcal{C}_k}(y_n-m_k)^2,
 \end{align*}
-Donde el factor de correción $\frac{1}{N_k-1}$ fue omitido ya que de lo contrario, todas las clases pesarían lo mismo sin importar la cantidad de elementos de la clase.\\~\ \pause
+donde el factor de correción $\frac{1}{N_k-1}$ fue omitido ya que de lo contrario, todas las clases pesarían lo mismo sin importar la cantidad de elementos de la clase.\\~\ \pause
 
 Lo anterior permite definir la siguiente función objetivo:
 \begin{equation*}
-J(a) = \frac{m_1-m_2}{s_1^2+s_2 ^2}
+J(a) = \frac{(m_1-m_2)^2}{s_1^2+s_2 ^2}.
 \end{equation*}
 
 \end{frame}
@@ -256,7 +255,7 @@ J(a) = \frac{m_1-m_2}{s_1^2+s_2 ^2}
 
 Se puede expresar este costo directamente como función del vector de proyección $a$:
 \begin{equation*}
-	J(a) = \frac{m_1-m_2}{s_1^2+s_2 ^2} = \frac{a^\top S_B a}{a^\top S_Wa}
+	J(a) = \frac{(m_1-m_2)^2}{s_1^2+s_2 ^2} = \frac{a^\top S_B a}{a^\top S_Wa},
 \end{equation*}
 donde la matriz de covarianza entre clases $S_B$ y matriz total de covarianza dentro de clases $S_W$ están dadas por
 \begin{align*}

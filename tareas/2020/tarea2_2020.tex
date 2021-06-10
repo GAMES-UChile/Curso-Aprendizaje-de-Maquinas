@@ -1,0 +1,166 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,includeheadfoot, top=0.5cm, bottom=3.0cm, right=1.5cm, left=1.5cm]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\renewcommand{\figurename}{Fig.}
+\usepackage{lmodern}% http://ctan.org/pkg/lm
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{subfig}
+\usepackage{listings} %Codigo
+\usepackage{selinput}                   % Compatibilidad con acentos
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\newcommand{\bR}{\ensuremath{\mathbb{R}}}
+\newcommand{\bN}{\ensuremath{\mathbb{N}}}
+\newcommand{\bZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\bP}{\ensuremath{\mathbb{P}}}
+\newcommand{\bE}{\ensuremath{\mathbb{E}}}
+\newcommand{\bD}{\ensuremath{\mathbb{D}}}
+\newcommand{\bV}{\ensuremath{\mathbb{V}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\m}{\ensuremath{\mathbf{m}}}
+\newboolean{pauta}
+\setboolean{pauta}{false}
+%\usepackage{tkz-graph}
+%\usetikzlibrary{arrows}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
+\lstset{language=C, tabsize=4,framexleftmargin=5mm,breaklines=true}
+
+\begin{document}
+
+% ·············· ENCABEZADO - PIE DE PAGINA ············
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{MA5204 Aprendizaje de Máquinas, 2020}}
+\rfoot{Page \thepage}
+%Encabezado
+
+% =============== Inicio Documento ===============
+%\rm
+\headheight = 14pt
+\begin{center}
+\large {\textbf{Tarea 2: Prior conjugado, MV y MAP}}\\
+\end{center}
+\textbf{Profesor:} Felipe Tobar\\ 
+\textbf{Auxiliares:} José Díaz, Diego Garrido, Jou-Hui Ho, Luis Muñoz\\
+\textbf{Consultas:} José Díaz, Jou-Hui Ho  (U-cursos)\\
+\textbf{Período:} 8/5/2020 --- 17/5/2020 \\
+
+\noindent\textbf{Formato entrega:} Informe en formato PDF, con una extensión máxima de 3 planas para la P2 y P3 (puede usar un formato de doble columna). \textbf{Para la P1 incluya una foto de su desarrollo en formato PDF}. El desarrollo debe ser \textbf{ordenado y legible}. Adicionalmente debe entregar el jupyter notebook o el código utilizado. Si trabaja en parejas, realice solo un envío de la tarea.
+
+\vspace{5mm}
+
+
+
+\vspace{5 mm}
+\noindent\textbf{P1. Prior conjugado} \textbf{(6.0 puntos)}
+\vspace{5 mm}
+
+    Para el modelo gaussiano de una v.a. $X|\mu, \sigma^2 \sim \mathcal{N}(\mu, \sigma^2)$, encuentre el prior conjugado para $\theta = [\mu, \sigma^2]$.
+    
+    
+% \noindent\textbf{P1. Regresión no lineal} \textbf{(6.0 puntos)}
+
+% \par Usualmente, un modelo lineal no es suficiente para poder representar los datos. Al cambiar el modelo por uno no lineal nos permite representar modelos más complejos. Para esta tarea, se pide modelar la variación de masa de hielo en Groenlandia, mediante MV. Estos datos los puede encontrar en Material Docente y tienen la forma $\{(x_i,y_i)\}_{i=1}^N$, con $x_i$ la fecha de la medición e $y_i$ la variación de masa en Gt. 
+% \par Considere el siguiente modelo para los datos:
+% $$
+% y = f_{\theta}(x) + \eta
+% $$
+% \noindent siendo $\eta \sim \mathcal{N}(0, \sigma^2) $  el ruido gaussiano y $\theta$ los parámetros de la función. Por lo tanto, denotamos los parámetros del modelo completo como $\theta^{*} = [\theta, \sigma^2]$.
+
+% %\vspace{5 mm}
+% \begin{itemize}
+%     \item[(a)] (1.5 puntos)
+%     	Cargue los datos de \texttt{greenland\_ice\_sheets\_data.csv} y divídalos en un conjunto de entrenamiento (el primer 80\%) y uno de validación (el 20\% restante). Grafique los datos en distintos colores y comente.
+    	
+%     \item[(b)] (1.5 puntos)
+%         Para empezar, suponga que los datos pueden ser modelados por un polinomio, es decir:
+%         $$
+%         y = f^{pol}_{\theta}(x) + \eta = \theta_0 + \theta_1 x + \theta_2 x^2  \cdot \cdot \cdot + \eta
+%         $$
+        
+%         ¿Qué grado de polinomio cree que aproxima el problema? \\
+%         En Python, defina $f^{pol}$ y su función de verosimilitud. Para encontrar los parámetros $\theta_{MV}$ necesitará utilizar un optimizador. Puede basarse en el notebook T2P1.ipynb encontrado en Material Docente. Grafique el nuevo modelo y comente sobre el ajuste obtenido. Dado el grado del polinomio que escogió, ¿podría reducir el grado y obtener resultados similares?. 
+        
+%     \item [(c)] (1.5 puntos)
+%         Usando su ojo experto, note que los datos tienen dos componentes sinusoidales, una de alta frecuencia y otra de baja. Para esta última se plantea el siguiente modelo:
+%         $$
+%         y = f^{pol-cos}_{\theta}(x) + \eta = f^{pol}(x) + \theta_0 cos(\theta_1 x + \theta_2)  + \eta
+%         $$
+%         \noindent siendo $f_{pol}$ la función polinomial de la parte anterior.\\
+%         Actualice la función y grafique el nuevo modelo con el nuevo $\theta_{MV}$. ¿Cómo se compara con la anterior?, ¿pudo usar alguna otra función para obtener un resultado similar? \\
+%         \textbf{Nota:} Si encuentra difícil ajustar los datos, pruebe modificando los límites y las condiciones iniciales.
+    
+%     \item [(d)] (1.0 punto) Ahora solo falta encontrar la componente de alta frecuencia. Agreguémoslo al modelo:
+%         $$
+%         y = f^{pol-cos-sin}_{\theta}(x) + \eta = f^{pol-cos}(x) + \theta_0 sin(\theta_1 x + \theta_2) + \eta
+%         $$    	
+%         Recuerde que los parámetros de $f^{pol-cos}$ ya los encontró. Grafique el modelo con el nuevo $\theta_{MV}$ y comente sobre los resultados. ¿Se le ocurre una forma de mejorar los resultados?, ¿qué pasaría si tratara de entrenar el modelo con todos los parámetros a la vez?, ¿cómo aproxima su modelo los datos del conjunto de validación?
+        
+%         % Pongamos esto en el foro mejor?
+%         % \textbf{Nota:} Si lleva mucho tiempo sin encontrar una solución, no tenga miedo de preguntar. No se complique ya que no necesita programar mas de 20 lineas de código (también pueden ser más, no se estrese). 
+% \end{itemize}
+
+
+% %% Se v-es largo, pero las partes (abcd) son 2 líneas cada una, y en (fgh) reciclan el mismo código, sólo modificando la función objetivo a minimizar.
+
+
+\vspace{5 mm}
+\noindent\textbf{P2. Máximo a posteriori} \textbf{(6.0 puntos)}
+\vspace{5 mm}
+
+En el procesamiento de señales de procesos aleatorios, generalmente se tiene que el valor de la señal depende de sus valores anteriores, donde nace la utilidad de los modelos basados en ecuaciones diferenciales. Esto es bajo el contexto de una señal continua. En el mundo discreto, se tiene su par análogo, donde un modelo se denomina \textbf{autoregresivo} cuando su variable de salida depende linealmente de sus valores anteriores. En particular, cuando solo depende del valor de una unidad de tiempo anterior, se habla del modelo \textbf{AR(1)}, dado por:
+
+\begin{equation*}
+    Y_t = c + \varphi Y_{t-1} + \epsilon_t
+\end{equation*}
+
+\noindent donde $Y_t$ es la variable de salida en el tiempo $t$, $\epsilon_t$ es el ruido blanco del sistema en el tiempo $t$, modelado como una v.a. i.i.d, con  $\epsilon_t \sim \mathcal{N}(0, \sigma^2)$, y $|\varphi| < 1$.
+
+En este tipo de modelos, se sabe además que:
+
+\begin{equation*}
+    \mathbb{E}(Y_t) = \dfrac{c}{1-\varphi}, \quad \mathbb{V}ar(Y_t) = \dfrac{\sigma^2}{1-\varphi^2}
+\end{equation*}
+\begin{itemize}
+    \item[(a)] (0.5 puntos) Sea $\theta = [c, \varphi, \sigma^2]^T$ el vector de parámetros (desconocidos) del modelo, calcule la verosimilitud sobre la observación $Y_1$. Considere condición inicial nula conocida.
+    \item[(b)] (0.8 puntos) Dado que se conoce la observación en $t=1$, explicite la distribución de $Y_2$. Con esto, calcule $L(\theta; Y_2|Y_1)$, es decir, la verosimilitud sobre $Y_2$, dado que se conoce el valor de $Y_1$.
+    \item[(c)] (0.7 puntos) Utilizando los resultados anteriores, calcule la verosimilitud sobre las primeras dos observaciones: ($Y_1, Y_2$). Con esto, generalice la expresión de la verosimilitud obtenida para $t$ observaciones: ($Y_1, Y_2 \dots Y_t$). \\
+    \textbf{Nota:} Para simplificar la notación, puede dejar expresados los términos que ya se conocen.
+    \item[(d)] (1.0 puntos) Genere una muestra de tamaño $T=100$ del modelo descrito, utilizando $c=1, \varphi=0.5$ y $\sigma^2=1$. Implemente la estimación por MV de los parámetros del modelo. \\
+    \textbf{Nota:} Puede utilizar funciones de optimización predefinidas de Python, pero usted debe definir la función la minimizar (que en este caso es la verosimilitud). Recuerde setear la semilla de aleatoriedad para que sus resultados sean replicables.
+    \item[(e)] (1.0 puntos) Suponga que no se tiene ninguna información sobre los parámetros, salvo el rango en el que los parámetros pueden tomar valores: $c \in [-3, 3], |\varphi|<1, \sigma^2 \in [0.5, 2]$. Obtenga el estimador MAP de $\theta$.
+    \item[(f)] (1.0 puntos) Para cada parámetro, un experto le indica el valor probable cerca del cual puede estar. Proponga una nueva distribución a priori y repita el paso anterior. Justifique las distribuciones a priori escogidas.
+    \item[(g)] (1.0 puntos) Como en realidad los datos son sintéticos, usted conoce $\theta$ real. Compare las tres estimaciones e interprete los resultados. Sin embargo, en el mundo real, $\theta$ es desconocido, entonces ¿cómo podría evaluar la calidad de la estimación realizada? Impleméntela si es posible.
+    
+\end{itemize}
+
+
+\vspace{5 mm}
+\noindent\textbf{P3. Proyecto del curso} %\textbf{(6.0 puntos)}
+\vspace{5 mm}
+
+
+\begin{itemize}
+	\item[(i)] Forme grupos de a lo más \textbf{3} personas (Si es de postgrado, máximo 1). Elijan una propuesta de proyecto y descríbalo.
+	\item[(ii)] Sobre el proyecto que piensa realizar, muestre y describa los datos que piensa utilizar.
+\end{itemize}
+
+\end{document}
+
+
+	\item[(i)] Forme grupos de a lo más \textbf{3} personas (Si es de postgrado, máximo 1). Como grupo elijan una propuesta de proyecto y descríbalo.
+

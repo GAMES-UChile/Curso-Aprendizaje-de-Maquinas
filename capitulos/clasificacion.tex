@@ -3,7 +3,7 @@
 \section{Clasificación}
 \label{cap:clasificacion}
 
-El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. En el contexto del aprendizaje supervisado, el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio donde la variable  $y$ (salida o variable dependiente) es \emph{categórico} y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,K\}$ para el caso de clasificación multiclase. 
+El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. En el contexto del aprendizaje supervisado, el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio en el que vive la variable $y$ (salida o variable dependiente) es \emph{categórico} y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,K\}$ para el caso de clasificación multiclase. 
 	
 \subsection{$k$ vecinos más cercanos (KNN)}
 Dado un conjunto de datos
@@ -43,7 +43,7 @@ Por otra parte, para el clasificador KNN se tiene el siguiente resultado:
 \begin{theorem}[desigualdad de Cover-Hart] sea $R^*$ el error (riesgo) del clasificador óptimo de Bayes y $R$ el error asintótico de KNN, entonces $R$ está acotado, más aún:
 
 \begin{equation}
-	R^*\leq R\leq R^*(1-R^*)
+	R^*\leq R\leq 2R^*(1-R^*)
 \end{equation}
 	
 \end{theorem}
@@ -99,7 +99,7 @@ Es decir, $a$ es ortogonal a cualquier vector que esté contenido dentro de la r
 Donde se usó el hecho de que $\cos\left(\measuredangle(x,y)\right) = \frac{\langle x,y\rangle}{\norm{x}\norm{y}}$.
 
 
-Por lo tanto, se concluye que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión,  pues el lado izquierdo de la ecuación representa la distancia entre la región de decisión y el origen: $\norm{\text{proy}_a(x)} = d(\{x:a^\top x = 0\},0)$.\\
+Por lo tanto, se concluye que el parámetro $b$ controla el desplazamiento (o ubicación) de la región de decisión,  pues el lado izquierdo de la ecuación representa la distancia entre la región de decisión y el origen: $\norm{\text{proy}_a(x)} = d(\{x:a^\top x+b = 0\},0)$.\\
 
 Es posible  también interpretar $y(x)$ como una distancia con signo entre un $x\in\R^M$ cualquiera  y la superficie de decisión. Para ver esto, consideremos $x\in\R^M$ y descompongámoslo dos componentes: la primera denotada por $x_{\bot}$, la cual es la proyección ortogonal de $x$ en el hiperplano de  decisión, y la segunda que es perpendicular al hiperplano (y consecuentemente paralela al vector $a$) denotada por $r\frac{a}{\left \| a \right \|}$, donde $r$ denota la distancia entre $x$ y el  hiperplano de  decisión. Expresamos entonces  
 \begin{equation}
@@ -142,7 +142,7 @@ Consideremos el  punto $x\in\R^M$ con clase $c\in\{\mathcal{C}_k\}_{k=1}^K$. Usa
 Este tipo de codificación  es conocida como \emph{one-hot  encoding.}  
 
 \begin{remark}
-Usamos esta codificación por  dos razones. Primero, para poder dar valores numéricos a la clase y que  podamos hablar de distancias entre ellos, pues si nuestras clases son ``peras y manzanas'' necesitamos poder determinar cuán cerca a cada una de ellas está nuestra estimación. En segundo  lugar, como los valores asignados al vector $t$ siempre serán puros 0's y un solo 1, entonces  todos los posibles  valores de $t$ están a la misma distancia unos de otros. De esta forma, si dos elementos tienen distintas clases, la distancia entre estas, cualquieras sean, será 0 (clases iguales), o bien $\sqrt{2}$ (clases distintas). Esto ayuda a no introduce sesgos en la representación de la clase que puedan alterar el aprendizaje del modelo.  	
+Usamos esta codificación por  dos razones. Primero, para poder dar valores numéricos a la clase y que  podamos hablar de distancias entre ellos, pues si nuestras clases son ``peras y manzanas'' necesitamos poder determinar cuán cerca a cada una de ellas está nuestra estimación. En segundo  lugar, como los valores asignados al vector $t$ siempre serán puros 0's y un solo 1, entonces  todos los posibles  valores de $t$ están a la misma distancia unos de otros. De esta forma, si dos elementos tienen distintas clases, la distancia entre estas, cualquieras sean, será 0 (clases iguales), o bien $\sqrt{2}$ (clases distintas). Esto ayuda a no introducir sesgos en la representación de la clase que puedan alterar el aprendizaje del modelo.  	
 \end{remark}
 
 Asumiendo entonces un modelo lineal para cada clase $\mathcal{C}_k$, se tiene que

@@ -1,0 +1,125 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,includeheadfoot, top=0.5cm, bottom=3.0cm, right=1.5cm, left=1.5cm]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\renewcommand{\figurename}{Fig.}
+\usepackage{lmodern}% http://ctan.org/pkg/lm
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{subfig}
+\usepackage{listings} %Codigo
+\usepackage{selinput}                   % Compatibilidad con acentos
+\newcommand{\bR}{\ensuremath{\mathbb{R}}}
+\newcommand{\bN}{\ensuremath{\mathbb{N}}}
+\newcommand{\bZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\bP}{\ensuremath{\mathbb{P}}}
+\newcommand{\bE}{\ensuremath{\mathbb{E}}}
+\newcommand{\bD}{\ensuremath{\mathbb{D}}}
+\newcommand{\bV}{\ensuremath{\mathbb{V}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\m}{\ensuremath{\mathbf{m}}}
+\newboolean{pauta}
+\setboolean{pauta}{false}
+%\usepackage{tkz-graph}
+%\usetikzlibrary{arrows}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
+\lstset{language=C, tabsize=4,framexleftmargin=5mm,breaklines=true}
+
+\begin{document}
+
+% ·············· ENCABEZADO - PIE DE PAGINA ············
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{MA5204: Aprendizaje de Máquinas 2019}}
+\rfoot{Page \thepage}
+%Encabezado
+
+% =============== Inicio Documento ===============
+%\rm
+\headheight = 14pt
+\begin{center}
+\large {\textbf{Tarea 3: Clasificación}}\\
+\end{center}
+\textbf{Profesor:} Felipe Tobar\\ 
+\textbf{Auxiliares:} José Díaz, Diego Garrido, Jou-Hui Ho, Luis Muñoz \\
+\textbf{Consultas:} Diego Garrido.\\
+\textbf{Fecha entrega:} 10/7/2019 \\
+\textbf{Formato entrega:} En grupos máximo dos integrantes entregue un informe en formato PDF con una \textbf{extensión máxima de 2 páginas solo las P1 y P2}. Este informe debe presentar y analizar sus resultados y detallar la metodología utilizada. Adicionalmente, usted debe entregar un Jupyter Notebook con los códigos que creó para resolver la tarea.\\
+% \vspace{5mm}
+
+
+\noindent\textbf{P1. Clasificador multiclase} (1.0 pto)\\ 
+En clases se vio que es posible extender la formulación de la clasificación lineal binaria para $k>2$ clases utilizando $k$ funciones lineales de la forma
+\begin{equation*}
+    y_k = a^\top x + b,
+\end{equation*}
+y luego asignar la clase a una muestra $x$ mediante $k^\star =\arg\max_k y_k$. 
+Muestre que este clasificador multiclase es coherente a diferencia de los métodos \emph{one-versus-all} y \emph{one-versus-one}. En particular, muestre que usando este clasificador propuesto:
+\begin{itemize}
+    \item No quedan regiones del espacio de entrada sin clasificar.
+    \item No existen regiones del espacio de entrada asignadas a más de una clase.
+    \item Eligiendo $k=2$, este criterio colapsa al presentado para el caso binario.
+    \item Muestre cómo es la región de decisión y el subconjunto correspondiente a cada clase.
+\end{itemize}
+
+
+% \noindent\textbf{P1. Regresión Logística - Modelo Generativo} (2 ptos)\\
+% En clases se vió que la regresión logística es una consecuencia de asumir un modelo generativo Gaussiano con distintas medias y con igual matriz de covarianza, así la probabilidad condicional de clase es $p(x|C_k)=\mathbb{N}(\mu_{k},\Sigma); k=1,2$. En la sección 4.5.1 del apunte se describe como obtener $\pi$ y $\mu_{k}$ a través del método de máxima verosimilitud, en esta pregunta se le pide despejar la matriz de covarianza $\Sigma$ e interprételo en función de los datos. \\
+% \textbf{Hint}:
+
+% \begin{itemize}
+%     \item use cambio de variable
+%     \item $tr(A) = \sum_{i=1}^{M}A_{ii}$
+%     \item $\frac{\partial}{\partial A}tr(BA) = B^{T}$
+%     \item  $\frac{\partial}{\partial A}log |A| = (A^{-1})^{T}$
+%     \item $tr(ABC)=tr(CAB)=tr(BCA)$
+% \end{itemize}
+
+\noindent\textbf{P2. Detección de barcos en imágenes satelitales} (4 ptos)
+\vspace{5mm}
+
+ El objetivo de esta pregunta es ayudar a abordar la difícil tarea de detectar la ubicación de grandes barcos usando imágenes satelitales. La importancia de esta tarea es múltiple, en particular, la detección automática de barcos podría facilitar el monitoreo de los niveles de actividad del puerto y el análisis de la cadena de suministro. El dataset disponible consiste de imágenes satelitales de barcos recopiladas en las áreas de la bahía de San Francisco y la bahía de San Pedro de California.  Este incluye 4000 imágenes 80x80 RGB, con la etiqueta "ship" (1) y "no-ship" (0). Más detalles sobre cómo cargar los datos y como extraer vectores de características a partir de una imagen en el notebook \textbf{tutorial.ipynb}. \textbf{Observación:} en el informe solo debe responder las preguntas planteadas, no adjunte código y debe ser lo más breve posible en los puntos a) y c).
+\begin{enumerate}
+
+\item[a)](0.5 ptos.) Cargue los datos y extraiga los vectores de características (vea \textbf{tutorial.ipynb}), pues las siguientes partes de esta pregunta serán todas en base a las características, no a las  \emph{entradas crudas}. Divida los datos de forma aleatoria en conjuntos de entrenamiento (70\%), validación (15\%) y testeo (15\%). 
+
+\textbf{Observación:} Le puede ser útil la función \textit{train\_test\_split} de \textit{sklearn}.
+
+\item[b)] (1.5 ptos.) Implemente la regresión logística bajo el método del descenso del gradiente estocástico (ver sección 4.5.2 del apunte). Su implementación debe incluir dos hiperparámetros:  la tasa de aprendizaje $\eta$, y el número de épocas de entrenamiento $e$, donde una época corresponde a una pasada por todo el conjunto de entrenamiento (pues recuerde que el gradiente estocástico solo usa una observación a la vez).  \\
+Grafique la log-verosimilitud normalizada por el número de observaciones (eje y) versus el número de épocas (eje x), tanto para el conjunto de entrenamiento como el de validación para distintas tasas de aprendizaje, para ello considere $\eta \in  \{0.01, 0.05, 0.1\}$ y {épocas} $e\in \{1,\ldots, 100\}$. Luego, en base a los gráficos responda la siguiente pregunta:
+¿Cuál es la configuración óptima de $\eta$ y \textit{épocas}? \textbf{Justifique su elección y explique qué pasa con tazas de aprendizaje muy grandes o pequeñas}.\\
+\textbf{Observaciones:} La clase anterior debe ser escrita usando el stack de Python y Numpy, no está permitido el uso de algún solver para optimizar la log-verosimilitud. El archivo \textbf{tutorial.ipynb} cuenta con una plantilla a modo de guía para su implementación.
+
+\item [c)] (1.0) Implemente el discriminante lineal de Fisher. En la sección 4.3 del apunte se describe cómo obtener $a$, con lo que luego podemos definir un umbral $b$ para asignar un $x$ a $\mathcal{C}_{1}$ si $a^{T}x\geq-b$ y a $\mathcal{C}_{2}$ en caso contrario. Para efectos de esta pregunta considere:
+\begin{equation*}
+    -b=a^{\top}\frac{1}{2}(\mu_{1}+\mu_{2})=\frac{1}{2}(m_{1}+m_{2})
+\end{equation*}.\\ 
+\textbf{Observaciones:} La clase anterior debe ser escrita usando el stack de Python y Numpy. El archivo \textbf{tutorial.ipynb} cuenta con una plantilla a modo de guía para su implementación. 
+
+\item[d)] (1.0 pts.) ¿Cuál modelo (regresión logística o  discriminante de Fisher) tiene mejor desempeño en el conjunto de testeo? Para responder esta pregunta proponga y justifique una métrica para evaluar el desempeño de un método general de clasificación, luego, evalúe ambos clasificadores usados y compárelos. ¿Por qué cree usted que es necesario comparar ambos modelos en el conjunto de testeo en vez de el conjunto de entrenamiento o validación?
+\\\textbf{Observaciones:} para el caso de la regresión logística considere la mejor configuración del punto b) y a la hora de escoger la métrica tenga en cuenta que las clases están \textbf{desbalanceadas}, i.e., la cantidad de elementos por clase es distinta.
+
+\end{enumerate}
+
+\noindent\textbf{P3. Proyecto curso} (1 pto)
+\vspace{5mm}
+
+
+Esta parte debe ser respondida por \textbf{un único} integrante del grupo, donde debe indicar los demás integrantes del grupo. Se habilitará una tarea aparte para su entrega en formato PDF cuya \textbf{extensión máxima es media página}.
+\begin{itemize}
+    \item[a)] (0.5 ptos) Enmarque su proyecto en algún tipo de aprendizaje (clasificación, regresión, clustering, aprendizaje, reforzado, etc.). Identifique según el caso el rol de sus variables, por ejemplo, si su proyecto es de clasificación, describa su variable independiente, sus características y sus clases. Si su proyecto no parece caber evidentemente en ninguno de estos casos, explíquelo en detalle y propongo cómo lo abordará desde el punto de Aprendizaje de Máquinas.
+    \item[b)] (0.5 ptos) Proponga al menos 2 métodos para resolver su problema, fundamentando brevemente su elección.
+\end{itemize}
+
+
+\end{document}

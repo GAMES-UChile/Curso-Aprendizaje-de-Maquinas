@@ -1,10 +1,10 @@
-\documentclass[9pt]{beamer}
+\documentclass[9pt, handout]{beamer}
 
 \input{preambuloBeamer}
 \usetheme{simple}
 
-\title{Clase 5 - Inferencia bayesiana (parte 1)}
-\subtitle{Aprendizaje de Máquinas - MA5204}
+\title{Clase 5: Inferencia bayesiana (parte 1)}
+\subtitle{MA5204 Aprendizaje de Máquinas}
 \date{\today}
 \author{Felipe Tobar} 
 \titlegraphic{
@@ -24,12 +24,14 @@
 \begin{frame}{Limitaciones del enfoque de máxima verosimilitud}
 
 \begin{itemize}
+	\setlength\itemsep{2em}
 	\item Una limitación del paradigma de MV es que no da la posibilidad de incorporar conocimiento experto, es decir, introducir sesgos sobre el parámetro al realizar inferencia.\pause
 	\item El paradigma bayesiano busca solucionar este problema interpretando el parámetro $\theta$ como variable aleatoria, donde la disponibilidad de datos se interpreta como un evento que aporta evidencia sobre el valor de $\theta$.\pause
 	\item Consecuentemente, el proceso de inferencia ahora se centra en encontrar la distribución condicional:
 	\begin{equation*}
-		p(\theta|\datos)
+		p(\theta|\datos),
 	\end{equation*}
+	y no simplemente $\arg\max_{\theta} p(\datos|\theta)$.
 \end{itemize}
 
 \end{frame}
@@ -37,22 +39,24 @@
 %Teorema de Bayes en el aprendizaje automático.
 \begin{frame}{Teorema de Bayes en el aprendizaje automático}
 
-Del curso de probabilidades, es sabido que el teorema de Bayes permite invertir la condicionalidad de una distribución. Asumiendo que el parámetro $\theta$ ahora es una variable aleatoria, de acuerdo a Bayes se tiene que:
+Del curso de probabilidades, es sabido que el teorema de Bayes permite invertir la condicionalidad de una distribución. Asumiendo que el parámetro  ahora es una variable aleatoria $\theta\sim p(\theta)$, de acuerdo a Bayes se tiene que:
 
 \begin{equation*}
 	p(\theta|x) = \frac{p(x|\theta)p(\theta)}{p(x)} \propto p(x|\theta)p(\theta),\label{eq:Bayes}
 \end{equation*}
-donde $x\in\cX$ es el valor de una observación y $\theta\in\Theta$ es un parámetro. \pause En la expresión anterior podemos identificar las siguientes cantidades:
+donde $x\in\cX$ es una observación, y $\theta\in\Theta$ es un parámetro. \pause En la expresión anterior podemos identificar las siguientes cantidades:
 \begin{itemize}
-	\item el prior o distribución a priori: $p(\theta)$. \pause
+	\item el prior o densidad a priori: $p(\theta)$. \pause
 	\item la verosimilitud: $p(x|\theta)$. \pause
-	\item la distribución posterior: $p(\theta|x)$. \pause
+	\item la densidad posterior: $p(\theta|x)$. \pause
 	\item la densidad marginal de $x$: $p(x) = \int_\Theta p(x|\theta)p(\theta)\d\theta$. \pause
 \end{itemize} 
 
-En el problema de inferencia, los datos (en este caso $x$) son conocidos y fijos, mientras que el parámetro es variable (en realidad desconocido). Por esta razón, se puede considerar una versión proporcional de la distribución posterior, omitiendo la distribución de los datos, pues solo importa la distribución posterior como función de $\theta$.\\~\ \pause
+En el problema de inferencia, los datos ($x$) son conocidos y fijos, mientras que el parámetro es desconocido (y por ende, aleatorio). Por esta razón, podemos considerar una versión proporcional de la posterior, omitiendo la distribución de los datos, pues solo importa la posterior como función de $\theta$.\\~\ \pause
 
-Es importante notar que, a diferencia de MV, aquí $\theta$ es aleatorio por lo que $\Theta$ debe ser un espacio de probabilidad.
+\textbf{Nota:} Incertidumbre epistemológica y aleatoria\\~\
+
+Notemos que, a diferencia de MV, aquí $\theta$ es aleatorio por lo que $\Theta$ debe ser un espacio de probabilidad.
 \end{frame}
 
 %Elementos de la inferencia bayesiana.
@@ -61,9 +65,12 @@ Es importante notar que, a diferencia de MV, aquí $\theta$ es aleatorio por lo 
 De la forma proporcional del teorema de Bayes, se reconocen dos elementos que constituyen el enfoque bayesiano:
 
 \begin{itemize}
+	\setlength\itemsep{1em}
 	\item \textbf{Verosimilitud $p(x|\theta)$:} que modela la aleatoriedad del modelo, el cual produce datos de forma aleatoria incluso cuando el modelo es perfectamente conocido. Este tipo de incertidumbre no puede ser reducida observando datos.\pause
 	\item \textbf{La distribución a priori $p(\theta)$:}  encapsula la incertidumbre epistemológica (lo que no sabemos) sobre el sistema, la cual pude ser reducida observando datos y calculando $p(\theta|x)$ mediante el Teorema de Bayes. Distintas distribuciones a priori llevarán a distintas distribuciones a posteriori, lo cual establece la subjetividad del enfoque bayesiano.\pause
 \end{itemize}
+\vspace{1em}
+\textbf{Nota:} $p(\theta, x) = p(x|\theta)p(\theta)$\\~\
 
 Uno de los problemas que tuvo este enfoque al comienzo viene dado por la subjetividad introducida en el prior $p(\theta)$. Si bien se podría proponer un prior uniforme $p(\theta)\propto 1$, este introduce sesgos de todas formas ya que no es invariante bajo transformaciones inyectivas. Actualmente, existen priors no informativos invariantes bajo inyecciones como por ejemplo el prior de Jeffreys.
 	
@@ -74,7 +81,7 @@ Uno de los problemas que tuvo este enfoque al comienzo viene dado por la subjeti
 
 El prior sobre el parámetro $p(\theta)$ encapsula toda la información experta que se le quiera dar al modelo. De esta forma, de acuerdo a $p(\theta|x) \propto p(x|\theta)p(\theta)$, el prior funciona como un ponderador de la verosimilitud de acuerdo a la importancia que se le dé a cada $\theta$. \\~\ \pause
 
-Con el modelo $p(D|\theta)$ acordado, solo  queda elegir la distribución a priori, los cual es guiado por dos objetivos:\pause
+Con el modelo $p(\datos|\theta)$ acordado, solo  queda elegir la distribución a priori, los cual es guiado por dos objetivos:\pause
 
 \begin{itemize}
 	\item  En primer lugar, debemos encapsular lo que efectivamente que sabemos del parámetro $\theta$.\pause
@@ -89,13 +96,17 @@ Con el modelo $p(D|\theta)$ acordado, solo  queda elegir la distribución a prio
 	
 El uso de un prior arbitrario resulta en que la posterior tenga una forma arbitraria también, con lo que, incluso si tanto el prior como la verosimilitud tienen formas \emph{conocidas}, no tenemos ninguna garantía de que el posterior también la tenga y consecuentemente sea difícil de interpretar y calcular.\\~\ \pause
 
- Una práctica usual es elegir un prior $p(\theta)$ tal que esté en la misma familia que la distribución posterior $p(\theta|D)$:
+ Una práctica usual es elegir un prior $p(\theta)$ tal que esté en la misma familia que la distribución posterior $p(\theta|\datos)$:
 
 \begin{definition}[prior conjugado]
-	Diremos que el prior $p(\theta)$ es \emph{conjugado} a la verosimilitud $p(D|\theta)$, cuando la posterior $p(\theta|D)$ está en la misma familia, es decir, tienen la misma distribución con parámetros distintos.   
+	Diremos que el prior $p(\theta)$ es \emph{conjugado} a la verosimilitud $p(D|\theta)$, cuando la posterior $p(\theta|\datos)$ está en la misma familia, es decir, tienen la misma distribución con parámetros distintos.   
 \end{definition}\pause
 
-Una ventaja de utilizar priors conjugados es que la actualización de prior a posterior al actualizar la verosimilitud debido a la incorporación de datos, es simplemente un cambio de parámetros, lo que permite poder interpretar los nuevos parámetros de acuerdo al modelo inicial.
+Una ventaja de utilizar priors conjugados es que la actualización de prior a posterior al actualizar la verosimilitud debido a la incorporación de datos, es simplemente un cambio de parámetros, lo que permite:
+\begin{itemize}
+		\item poder interpretar los nuevos parámetros de acuerdo al modelo inicial
+		\item que la actualización Bayesian sea equivalente a moverse en un espacio de dimensión fija (e.g. $\R^p$)
+\end{itemize} 
 
 \end{frame}
 
@@ -140,7 +151,7 @@ Consecuentemente, se prueba que el prior elegido era efectivamente conjugado con
 \end{frame}
 
 %Prior conjugado sobre el modelo gaussiano: mu es desconocido.
-\begin{frame}{prior conjugado sobre el modelo gaussiano: $\mu$ es desconocido}
+\begin{frame}{Prior conjugado sobre el modelo gaussiano: $\mu$ es desconocido}
 
 Se probó que la posterior está dada por la siguiente gaussiana:
   \begin{equation*}
@@ -157,7 +168,7 @@ Se observa que los parámetros de la posterior son combinaciones entre los pará
 \end{frame}
 
 %prior conjugado sobre el modelo gaussiano: sigma^2 es desconocido.
-\begin{frame}{prior conjugado sobre el modelo gaussiano: $\sigma^2$ es desconocido}
+\begin{frame}{Prior conjugado sobre el modelo gaussiano: $\sigma^2$ es desconocido}
 
 Ahora procedemos con el siguiente prior para la varianza, llamado gamma-inverso:
  \begin{equation*}

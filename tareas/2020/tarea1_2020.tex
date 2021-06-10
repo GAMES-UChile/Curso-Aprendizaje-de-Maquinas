@@ -1,0 +1,117 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,includeheadfoot, top=0.5cm, bottom=3.0cm, right=1.5cm, left=1.5cm]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\renewcommand{\figurename}{Fig.}
+\usepackage{lmodern}% http://ctan.org/pkg/lm
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{pdfpages}
+\usepackage{fancyhdr}
+\usepackage{subfig}
+\usepackage{listings} %Codigo
+\usepackage{selinput}                   % Compatibilidad con acentos
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\newcommand{\bR}{\ensuremath{\mathbb{R}}}
+\newcommand{\bN}{\ensuremath{\mathbb{N}}}
+\newcommand{\bZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\bP}{\ensuremath{\mathbb{P}}}
+\newcommand{\bE}{\ensuremath{\mathbb{E}}}
+\newcommand{\bD}{\ensuremath{\mathbb{D}}}
+\newcommand{\bV}{\ensuremath{\mathbb{V}}}
+\newcommand{\cN}{\ensuremath{\mathcal{N}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\m}{\ensuremath{\mathbf{m}}}
+\newboolean{pauta}
+\setboolean{pauta}{false}
+%\usepackage{tkz-graph}
+%\usetikzlibrary{arrows}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
+\lstset{language=C, tabsize=4,framexleftmargin=5mm,breaklines=true}
+
+\begin{document}
+
+% ·············· ENCABEZADO - PIE DE PAGINA ············
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{MA5204: Aprendizaje de Máquinas 2020}}
+\rfoot{Page \thepage}
+%Encabezado
+
+% =============== Inicio Documento ===============
+%\rm
+\headheight = 14pt
+\begin{center}
+\large {\textbf{Tarea 1}}\\
+\end{center}
+\textbf{Profesor:} Felipe Tobar\\ 
+\textbf{Auxiliares:} José Díaz, Diego Garrido, Jou-Hui Ho, Luis Muñoz, Diego Troncoso \\
+\textbf{Consultas:} Diego Garrido,  Diego R. Troncoso  (U-cursos)\\
+\textbf{Período:} 13/4/2020 --- 20/4/2020 \\
+
+\noindent\textbf{Formato entrega:} Informe en formato PDF, con una extensión máxima de 3 páginas (puede usar un formato de doble columna), presentando y analizando sus resultados, y detallando la metodología utilizada. Adicionalmente debe entregar el jupyter notebook (o el código que haya generado) con la resolución de la tarea.
+
+\vspace{5mm}
+
+\noindent\textbf{P1. Descomposición Sesgo-Varianza} \textbf{(2.0 puntos)}
+\vspace{5 mm}
+\begin{itemize}
+    \item[(a)] (0.5 puntos) Considere el conjunto de  observaciones  $D=\{(x_{i}, y_{i})\}_{i=1}^{N}$, relacionadas mediante el modelo lineal  
+    	\begin{equation*}
+    	    y_{i}=\theta^\top x_{i}+\epsilon_{i},
+    	\end{equation*}
+    	 donde $\{\epsilon_{i}\}_{i=1}^N$ son observaciones i.i.d con $\mathbb{E}[\epsilon]=0$ y $\text{var}(\epsilon)=\sigma^{2}$,  $\theta$ es un parámetro fijo y desconocido. Para un nuevo par, denotado $(x,y)$, no contenido en el conjunto de observaciones $D$, considere la predicción de $y$ mediante $\hat y=\hat\theta^\top x$, donde $\hat{\theta}$ es un estimador del  parámetro $\theta$ basado en $D$. Muestre que el costo cuadrático esperado de predecir $y$  con $\hat y$ (recuerde que las esperanzas se toman con   respecto a la ley de $\epsilon$) admite la siguiente  descomposición sesgo-varianza:
+    	\begin{equation*}
+    	    \mathbb{E}\left[(\hat{y}-y)^{2}\right] = \text{var}(\hat{y})+\text{sesgo}^{2}(\hat{y}) + \sigma^{2},
+    	\end{equation*}
+        donde: i) el primer término es la varianza de la variable aleatoria $\hat y$, con $\text{var}(\hat{y})=\mathbb{E}\left[(\hat{y}-\mathbb{E}[\hat{y}])^{2}\right]$ (recuerde que $\hat\theta$ es variable aleatoria, pues depende de $D$), ii) el segundo término es el sesgo al cuadrado de la variable aleatoria $\hat{y}$, con $\text{sesgo}(\hat{y})=E\left[\hat{y}-y\right]=E\left[\hat{y}\right]- \theta^\top x$, y  iii) $\sigma^2$ es la varianza de $\epsilon$.
+
+% 	\item[(a)] (0.5 puntos) Considere el conjunto de  observaciones  $D=\{(x_{i}, y_{i})\}_{i=1}^{N}$, relacionados mediante el modelo lineal  
+% 	\begin{equation}
+% 	    y_{i}=\theta^\top x_{i}+\epsilon_{i},
+% 	\end{equation}
+% 	 donde $\{\epsilon_{i}\}_{i=1}^N$ son observaciones i.i.d con $\text{var}(\epsilon)=\sigma^{2}$, y $\theta$ es un parámetro fijo y desconocido. Para un nuevo par, denotado $(x,y)$, no contenido en el conjunto de observaciones $D$, considere la predicción de $y$ mediante $\hat f=\hat\theta^\top x$, donde $\hat{\theta}$ es un estimador del  parámetro $\theta$ basado en $D$. Muestre que el costo cuadrático esperado de predecir $y$  con $\hat f$ (recuerde que las esperanzas se toman con   respecto a la ley de $\epsilon$) admite la siguiente  descomposición sesgo-varianza:
+% 	\begin{equation*}
+% 	    \mathbb{E}\left[(\hat{f}-y)^{2}\right] = \text{var}(\hat{y})+\text{sesgo}^{2}(\hat{y}) + \sigma^{2},
+% 	\end{equation*}
+%     donde: i) el primer término es la varianza de la variable aleatoria (VA) $\hat y$ (recuerde que $\hat\theta$ es VA, pues depende de $D$), ii) el segundo término es la diferencia de la esperanza de $\hat y$ y el valor real de la parte determinista de $y$, dado por $f=\theta^\top x$, y  iii) $\sigma^2$ es la varianza de $\epsilon$.
+	\item[(b)] (1.0 puntos) Para los parámetros de mínimos cuadrados $\theta_{MC} = (X^\top X) ^{-1}X^\top Y $  y de  mínimos cuadrados regularizados $\theta_{MCR} = (X^\top X + \rho I) ^{-1}X^\top Y$ calcule el sesgo y la varianza de la predicción.
+	\item[(c)] (1.0 puntos) Analice las expresiones anteriores. ¿Cuáles son las ventajas y desventajas de ambos estimadores? ¿Qué aseveraciones  puede hacer de la comparación de ambos criterios (MC y MCR) con respecto de  sus  sesgos y  varianzas?
+	
+\end{itemize}
+
+\vspace{5 mm}
+\noindent\textbf{P2. Regresión Lineal} \textbf{(4.0 puntos)}
+\vspace{5 mm}
+
+Como primer paso debe instalar \href{https://www.anaconda.com/distribution/}{Anaconda} una distribución de Python que proporciona el stack básico de Python para la ciencia de datos, debe descargar la versión Python 3.7. Anaconda incluye  \href{https://jupyter.org/}{Jupyter Notebook}, un entorno de desarrollo interactivo web.\\
+
+Para esta pregunta se pide implementar el estimador de mínimos cuadrados y de mínimos cuadrados regularizados con regularizador \textit{ridge} para un conjunto de datos. Para la implementación de los estimadores \textbf{solo está permitido el uso de operaciones de álgebra lineal}, para esto pueden utilizar el stack de numpy.\\
+
+Como base de datos del experimento se utilizará el archivo \textbf{Housing.csv}, este corresponde a un dataset que posee precios de casas de algunas localidades de USA. Este dataset consta de  una variable $X$, que corresponde al ingreso promedio de la población en esa área (\textit{Avg Area Income}), e $Y$, que corresponde al precio de las casas. El objetivo de esta pregunta es aprender una función lineal que relacione $X$ e $Y$, así un agente inmobiliario que no tiene información sobre el precio de las casas en una nueva localidad pueda fijarle un precio a estas en base al ingreso promedio del área. Para una correcta comparación de los estimadores la base de datos viene dividida en dos conjuntos, entrenamiento (\textit{in-sample}) y validación (\textit{out-of-sample}).
+
+Para esto deberá:
+\begin{itemize}
+	\item[(a)] (0.5 puntos) Cargar los datos desde el archivo \textbf{Housing.csv} y graficarlos.
+	\item[(b)] (1.0 puntos) Implemente el estimador de mínimos cuadrados regularizados usando regularización \textit{ridge} y obtenga el vector de parámetros $\theta$ para diferentes valores de $\rho \in [0, 10]$ incluyendo los límites. Para esto implemente la función \texttt{reg\_lineal(X,Y,rho)}. 
+	\item[(c)] (0.5 puntos) Grafique el valor de los parámetros estimados para los valores de $\rho$.
+	\item[(d)] (0.5 puntos) Grafique el error cuadrático medio y la varianza de la predicción para los valores de $\rho$ tanto en el conjunto de entrenamiento como en el de validación. 
+	\item[(e)] (0.5 puntos) Grafique la ecuación de la recta con los parámetros estimados para diferentes valores de $\rho$ junto a los datos de entrenamiento y validación.
+	\item[(f)] (1.0) Discuta cómo elegir  el valor apropiado de $\rho$ en base a los resultados obtenidos en los puntos anteriores.
+\end{itemize}
+
+ \textbf{No} se permite el uso de paquetes predefinidos para regresión lineal. Estos pueden ser considerados para contrastar los propios resultados pero no para resolver la pregunta. E.g., \texttt{numpy.polyfit},  \texttt{scipy.stats.linregress}, \texttt{sklearn.linear\_model.LinearRegression}.
+
+\end{document}
+
+

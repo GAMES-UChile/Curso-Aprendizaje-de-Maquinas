@@ -1,4 +1,4 @@
-%!TEX root = notas_de_clase.tex
+%!TEX root = ../notas_de_clase.tex
 
 \section{Selección y evaluación de modelos}
 
@@ -18,50 +18,57 @@ En el capítulo de regresión lineal se estudió el método de mínimos cuadrado
 
 El objetivo de esta sección será probar dicha descomposición para un modelo general.
 
+%DESDE AQUÍ.
+
+
 \begin{definition}
-	Sea $\datos=\{(x_i,y_i)\}_{i=1}^n\subset\R^N\times\R$ un conjunto de observaciones generadas por una función desconocida $f:\R^N\to\R$ mediante $y=f(x)+\epsilon$ donde $\epsilon$ es una v.a. (ruido) con $\E(\epsilon)=0$ y $\text{Var}(\epsilon)=\sigma^2$. Sea $\hat{f}(\cdot|\datos)$ un estimador de $f$ determinado a partir de $\datos$, entonces, se tienen las siguientes definiciones:
+	Sea $\datos=\{(x_i,y_i)\}_{i=1}^n\subset\R^N\times\R$ un conjunto de observaciones generadas por una función desconocida $f:\R^N\to\R$ mediante $y=f(x)+\epsilon$ donde $\epsilon$ es una v.a. (ruido) con $\E(\epsilon)=0$ y $\text{Var}(\epsilon)=\sigma^2$. Sea $\hat{f}(\cdot|\datos)$ un estimador de $f$ determinado a partir de $\datos$, entonces, para un nuevo par $(x,y)$ se tienen las siguientes definiciones:
 	
 	\begin{itemize}
-		\item Error (cuadrático) esperado: $\E\left((y-\hat{f}(x|\datos))^2\right)$.
-		\item Sesgo del estimador: $\text{Bias}(\hat{f}(x|D)):=\E(\hat{f}\left(x|\datos) - y\right) = \E(\hat{f}(x|\datos)) - f(x)$.
-		\item Varianza del estimador: $\text{Var}(\hat{f}(x|D)) = \E\left(\left(\hat{f}(x|\datos)-\E(\hat{f}(x|\datos))\right)^2\right)$.
+		\item Error (cuadrático) esperado: $\E_\datos\left((y-\hat{f}(x|\datos))^2\right)$.
+		\item Sesgo del estimador: $\text{Bias}(\hat{f}(x|\datos)):= \E_\datos(\hat{f}(x|\datos)) - f(x) = \E_\datos(\hat{f}\left(x|\datos) - f(x)\right)$. Puede interpretarse como el error esperado del estimador.
+		\item Varianza del estimador: $\text{Var}(\hat{f}(x|\datos)) = \E_\datos\left(\left(\hat{f}(x|\datos)-\E_\datos(\hat{f}(x|\datos))\right)^2\right)$.
 		
 	\end{itemize}
 \end{definition}
 
+\begin{remark}
+Notar que el error cuadrático esperado $\E_\datos\left((y-\hat{f}(x|\datos))^2\right)$ no corresponde al error cuadrático medio (ECM) del estimador $\hat{f}(x|\datos)$ de $f(x)$, el cual viene dado por $\E_\datos\left((f(x)-\hat{f}(x|\datos))^2\right)$, más bien podría interpretarse como el ECM visto como un estimador de $y$, aunque esto no es del todo correcto ya que $y$ es aleatorio.
+\end{remark}
+
+\begin{remark}
+	En todas las definiciones anteriores, la esperanza es tomada con respecto a $\datos$, es decir, integra sobre los distintos $\{x_1,y_1\},\ldots,\{x_N,y_N\}$ generados a partir de la distribución conjunta $p(x,y)$.
+\end{remark}
+
+
 Bajo las definiciones anteriores, se tiene el siguiente teorema:
 
-\begin{theorem}[descomposición sesgo-varianza] Sea $\hat{f}(x|\datos)$ un estimador de $f$, entonces:
+\begin{theorem}[descomposición sesgo-varianza] Sea $\hat{f}(x|\datos)$ un estimador de $f(x)$, entonces:
 
 \begin{equation}
-	\E\left((y-\hat{f}(x|\datos))^2\right) = \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2
+	\E_\datos\left((y-\hat{f}(x|\datos))^2\right) = \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2
 \end{equation}
 	
 \end{theorem}
 
 \begin{proof}
 
-Para evitar sobrecargar la notación, se utilizará $\hat{f}=\hat{f}(x|D)$.
-
+Para evitar sobrecargar la notación, se utilizará $\hat{f}=\hat{f}(x|D)$, $f=f(x)$ y $\E=\E_\datos$. La demostración se hará forzando una completación de cuadrados y mostrando que los términos residuales son nulos para llegar a que $\E\left((y-\hat{f})^2\right) = \left(\E(\hat{f}) - f(x)\right)^2 + \E\left(\left(\hat{f}-\E(\hat{f})\right)^2\right) + \E\left(\left(\epsilon-\E(\epsilon)\right)^2\right)$.
 \begin{align*}
-&\E\left((y - \hat{f})^2\right) = \E\left((f+\epsilon  - \hat{f} )^2\right) \\
- & = \E\left((f+\epsilon  - \hat{f} +\E(\hat{f})-\E(\hat{f}))^2\right) \\
- & = \E\big[(f-\E(\hat{f}))^2\big]+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big] 
-+2\E\big[(f-\E(\hat{f}))\epsilon\big]
-+2\E\big[\epsilon(\E(\hat{f})- \hat{f})\big]
-+2\E\big[(\E(\hat{f})- \hat{f})(f-\E(\hat{f}))\big] \\
- & = (f-\E(\hat{f}))^2+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big] 
-+2(f-\E(\hat{f}))\E[\epsilon]
-+2\E[\epsilon]\E\big[\E(\hat{f})- \hat{f}\big]
-+2\E\big[\E(\hat{f})- \hat{f}\big](f-\E(\hat{f})) \\
- & = (f-\E(\hat{f}))^2+\E[\epsilon^2]+\E\big[(\E(\hat{f})- \hat{f})^2\big]\\
- & = (f-\E(\hat{f}))^2+\operatorname{Var}[\epsilon]+\operatorname{Var}\big[\hat{f}\big]\\
- & = \operatorname{Bias}(\hat{f})^2+\operatorname{Var}[\epsilon]+\operatorname{Var}\big[\hat{f}\big]\\
- & = \operatorname{Bias}(\hat{f})^2+\sigma^2+\operatorname{Var}\big[\hat{f}\big]
+	\E\left((y-\hat{f})^2\right) =& \E\left((f+\epsilon-\hat{f})^2\right) = \E\left(f^2+\epsilon^2+\hat{f}^2 +2f\epsilon - 2f\hat{f} - 2\epsilon \hat{f}\right)\\
+	=&\left(\E^2(\hat{f})-2f\E(\hat{f}) + f^2\right) + \E\left(\hat{f}^2-2\hat{f}\E(\hat{f})+\E^2(\hat{f})\right) + \E\left(\left(\epsilon-\E(\epsilon)\right)^2\right)\\
+	& - 2\E(\epsilon\hat{f})-2\E^2(\hat{f})+2\E(\hat{f})\E(\hat{f})\\
+	=& \left(\E(\hat{f}) - f(x)\right)^2 + \E\left(\left(\hat{f}-\E(\hat{f})\right)^2\right) + \E\left(\left(\epsilon-\E(\epsilon)\right)^2\right) - 2\E(\epsilon)\E(\hat{f})\\
+	= & \text{Bias}^2(\hat{f}(x|\datos)) + \text{Var}(\hat{f}(x|\datos)) + \sigma^2
 \end{align*}
-\end{proof}
 
-Esta descomposición muestra que la varianza intrínseca del ruido afectará directamente y de forma aditiva sobre el error de la predicción, imposibilitando realizar predicciones exactas bajo cualquier modelo aleatorio. Por otra parte, tal como se vio en mínimos cuadrados regularizados, se puede introducir sesgo en el modelo con el fin de disminuir la varianza y viceversa, lo cual crea la pregunta acerca de cuál es el par sesgo-varianza óptimo que minimiza el error total. Dicha pregunta se conoce como dilema sesgo-varianza (bias-variance tradeoff) y juega un papel importante en la selección de hiperparámetros del modelo.\\
+Donde se pudo usar $\E(\epsilon\hat{f})=\E(\epsilon)\E(\hat{f})$ debido a que $\hat{f}$ depende del espacio muestral $\datos$ y $\epsilon$ es el ruido asociado a una nueva muestra.
+
+\end{proof} 
+
+Esta descomposición muestra que la varianza intrínseca del ruido afectará directamente y de forma aditiva sobre el error de la predicción, imposibilitando realizar predicciones exactas bajo cualquier modelo aleatorio. Por otra parte, tal como se vio en mínimos cuadrados regularizados, se puede introducir sesgo en el modelo con el fin de disminuir la varianza y viceversa, lo cual crea la pregunta acerca de cuál es el par sesgo-varianza óptimo que minimiza el error total. Dicha pregunta se conoce como dilema sesgo-varianza (bias-variance tradeoff) y juega un papel importante en la selección de hiperparámetros del modelo.
+
+\newpage
 
 De esta forma, la combinación sesgo-varianza crea un error total convexo tal como se puede observar en la siguiente figura:
 
@@ -140,26 +147,26 @@ Por otra parte, realizando una expansión de Taylor de segundo orden sobre $\hat
 
 Usando el hecho de que $\hat{\theta}$ es punto crítico de $l(\cdot|\datos)$:
 \begin{equation}
-	\sum_{i=1}^N \nabla l(\theta_0|x_i) = \sum_{i=1}^N \nabla \left(l(\theta_0|x_i) - l(\hat{\theta}|x_i)\right) \approx \left(\sum_{i=1}^N \nabla l(\theta_0|x_i)\right) (\theta_0-\hat{\theta}) \approx N \E(H_l(\theta_0|x)) (\theta_0-\hat{\theta})
+	\sum_{i=1}^N \nabla l(\theta_0|x_i) = \sum_{i=1}^N \nabla \left(l(\theta_0|x_i) - l(\hat{\theta}|x_i)\right) \approx \left(\sum_{i=1}^N \nabla\nabla l(\theta_0|x_i)\right) (\theta_0-\hat{\theta}) \approx N \E(H_l(\theta_0|x_i)) (\theta_0-\hat{\theta}).
 \end{equation}
 
 Luego, sustituyendo en $\hat{l}$ y notando que $\sum\limits_{i=1}^N H_l(\theta_0|x_i) \approx N\E(H_l(\theta_0|x))$:
 
 \begin{align}
 	&\hat{l} \approx \sum_{i=1}^N l(\theta_0|x_i) + N(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\theta_0-\hat{\theta}) + \frac{N}{2}(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\hat{\theta}-\theta_0)\\
-	&\implies \E(R_\datos(\hat{\theta})) = -Nl_0(\theta_0) + \frac{N}{2} \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right)
+	&\implies \E(R_\datos(\hat{\theta})) = -Nl_0(\theta_0) + \frac{N}{2} \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right).
 \end{align}
 
 De este modo, el sesgo del riesgo empírico como estimador del riesgo real es:
 
 \begin{equation*}
-	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) = -N \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right)
+	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) = -N \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right).
 \end{equation*}
 
 Por otra parte, dado que $\sqrt{N}\left(\hat{\theta}-\theta_0\right)\approx\mathcal{N}\left(0,H_{l_0}(\theta_0)^{-1}\right)$, la forma cuadrática anterior puede ser aproximada por una distribución de Pearson: $N(\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\approx\mathcal{X}^2_d$, donde $\E(\mathcal{X}^2_d)=d$. De este modo,
 
 \begin{equation}
-	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) \approx -d
+	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) \approx -d.
 \end{equation}
 
 Por lo que corrigiendo $R_\datos(\hat{\theta})$ se obtiene un estimador asintóticamente insesgado del riesgo real: $R_\datos(\hat{\theta})+d$. De esta forma, se tiene la siguiente definición:
@@ -168,13 +175,12 @@ Por lo que corrigiendo $R_\datos(\hat{\theta})$ se obtiene un estimador asintót
 	Sea $M$ un modelo estadístico $d$-paramétrico y $\datos=(x_i)_{i=1}^N$ un conjunto de observaciones. El AIC del modelo (aproximado por $\datos$) se define como
 	
 	\begin{equation}
-		AIC(M,\datos):=2d-\log\left(\hat{L}(\datos)\right)
+		AIC(M,\datos):=2d-2\log\left(\hat{L}(\datos)\right),
 	\end{equation}
-	
-	Donde $\hat{L}(\datos)$ corresponde a la verosimilitud del EMV asociado a $\datos$, es decir:
+donde $\hat{L}(\datos)$ corresponde a la verosimilitud del EMV asociado a $\datos$, es decir:
 	
 	\begin{equation}
-		\hat{L}(\datos) = \prod_{i=1}^N p(x_i|\hat{\theta}),\text{ para } \hat{\theta} = \argmax_{\theta\in\Theta} L(\theta|\datos)
+		\hat{L}(\datos) = \prod_{i=1}^N p(x_i|\hat{\theta}),\text{ para } \hat{\theta} = \argmax_{\theta\in\Theta} L(\theta|\datos).
 	\end{equation}
 \end{definition}
 
@@ -187,13 +193,12 @@ De acuerdo a la derivación anterior, el AIC es una medida relativa de la pérdi
 Como se puede ver en la definición, el criterio de Akaike no se basa únicamente en la verosimilitud del modelo sino que agrega una penalización de acuerdo a la cantidad de parámetros, evitando elegir un modelo sobreajustado a los datos. 
 
 \begin{remark}
-	Una de las hipótesis de AIC es que el espacio muestral es infinito ya que se asume que el error de Taylor es despreciable. Para una cantidad finita de datos, se puede realizar una corrección del estimador dada por:
+	Una de las hipótesis de AIC es que el espacio muestral es infinito ya que se asume que el error de Taylor es despreciable. Para una cantidad finita de datos ($N$), se puede realizar una corrección del estimador dada por:
 	
 	\begin{equation}
-		AICc(M,\datos) := AIC(M,\datos) + \frac{2d(d+1)}{N-d-1}
+		AICc(M,\datos) := AIC(M,\datos) + \frac{2d(d+1)}{N-d-1}.
 	\end{equation}
-	
-	Es importante notar que cuando $N\to\infty$ se recupera el AIC original.
+Es importante notar que cuando $N\to\infty$ se recupera el AIC original.
 \end{remark}
 
 \subsubsection{Criterio de información bayesiano (BIC)}
@@ -201,7 +206,7 @@ Como se puede ver en la definición, el criterio de Akaike no se basa únicament
 Otro enfoque para la selección de modelos corresponde al criterio de información bayesiano (o criterio de Schwarz). Dada una familia de modelos $\mathcal{M}$, se define un prior $p(m)$ para cada modelo $m\in\mathcal{M}$. Además, se define un prior $p(\theta|m)$ sobre los parámetros de cada modelo. El criterio de información bayesiano (BIC) elige al mejor modelo de acuerdo a la posterior $p(m|\datos)$, la cual viene dada de acuerdo al teorema de Bayes:
 
 \begin{equation}
-	p(m|\datos)=\frac{p(\datos|m)p(m)}{p(\datos)}\propto p(\datos|m)p(m)
+	p(m|\datos)=\frac{p(\datos|m)p(m)}{p(\datos)}\propto p(\datos|m)p(m).
 \end{equation}
 
 De forma similar al criterio de Akaike, se puede calcular la verosimilitud del modelo $p(\datos|m)$ mediante aproximaciones de Taylor, probando que es independiente del prior. La derivación de $p(\datos|m)$ lleva a la siguiente definición:
@@ -225,6 +230,8 @@ En este caso, se vuelve a elegir el modelo que presente el menor BIC. Se observa
 \end{equation}
 	
 \end{remark}
+
+\newpage
 
 \begin{mdframed}[style=pendiente, frametitle={\center AIC y BIC para la regresión lineal}]
 
@@ -300,6 +307,8 @@ Finalmente, una última extensión de este estadístico es cuando se puede tener
 
 \subsection{Promedio de modelos}
 Hay veces que no queremos elegir un solo modelo, puesto que quizás nos interesan las estimaciones de dos o más modelos. Para estos casos, se puede utilizar la técnica de \emph{model averaging}, la cual consiste en utilizar una combinación lineal de distintos modelos.\\
+
+\newpage
 
 Sea $\mathcal{M}$ un conjunto de modelos donde cada modelo $m\in\mathcal{M}$ tiene asociada una distribución $\mu_m$ sobre el espacio muestral. Un promedio de modelos $\hat{\mu}$ es una combinación convexa de los modelos de $\mathcal{M}$, es decir:
 

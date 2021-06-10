@@ -1,0 +1,261 @@
+\documentclass[letterpaper,11pt]{article}
+\oddsidemargin -1.0cm \textwidth 16.5cm
+%\usepackage[latin1]{inputenc}
+%\usepackage[spanish]{babel}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsfonts,setspace}
+\usepackage{amsmath}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{comment}
+%\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{bbm} 
+\usepackage{dsfont}
+\usepackage{anysize}
+\usepackage{multicol}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[left=2cm,top=2cm,right=2cm, bottom=2cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\pagestyle{fancy}
+
+%Teoremas, Lemas, etc.
+\theoremstyle{plain}
+\newtheorem{teo}{Teorema}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposici\'on}
+\newtheorem{cor}{Corolario}
+\theoremstyle{definition}
+\newtheorem{defi}{Definici\'on}
+\newtheorem{eje}{Ejemplo}
+\newtheorem{obs}{Observaci\'on}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\tiende}{\rightarrow}
+\newcommand{\borel}{\mathcal{B}}
+\newcommand{\proba}{\mathbb{P}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\partes}{\mathcal{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\mathbb{V}}
+\newcommand{\1}{\mathbbm{1}}
+\newcommand{\Et}[1]{\mathbb{E}_\theta \left(#1\right)}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+\begin{document}
+\begin{minipage}{4cm}
+\thispagestyle{empty}
+%\includegraphics[scale=0.6]{logo}
+\end{minipage}
+
+
+\begin{minipage}{15cm}
+\textsf{\small Departamento de Ingenier\'ia Matem\'atica}\\
+\textsf{\tiny FACULTAD  DE  CIENCIAS F\'ISICAS Y MATEM\'ATICAS}\\
+\textsf{\tiny UNIVERSIDAD  DE  CHILE}
+\par\noindent\rule{\textwidth}{0.4pt}
+\textsf{\footnotesize {\textbf{Curso:} Aprendizaje de Máquinas, MA5204}}\\
+\textsf{\footnotesize {\textbf{Profesor:} Felipe Tobar}}\\
+\textsf{\footnotesize {\textbf{Profesores Auxiliares}: V. Faraggi, F. Fêtis, B. Moreno, F. Vásquez, A. Wortsman}}\\
+\textsf{\footnotesize {\textbf{Fecha de publicación:} 12/04/21}}\\
+\end{minipage}
+\begin{center}\textsc{Tarea Práctica \#1}\end{center}
+\begin{center}\textsc{Dedicación recomendada: 10 horas}\end{center}
+\begin{center}\textsc{Fecha de entrega: 26 de abril}\end{center}
+\begin{flushleft}
+\textbf{Instrucciones:} La tarea es grupal, en grupos de 2 o 3 integrantes, ni más ni menos. En caso de ser un grupo de 2 personas, deben realizar P1 y P2, en el caso de 3 personas, deben realizar P1, P2 y P3. El formato de entrega es un reporte en \texttt{.pdf} de máximo 4 planas sin anexos, con doble columna, abstract, título e integrantes. Si hace su reporte en \LaTeX, utilice el template de la conferencia ICML  \href{https://es.overleaf.com/latex/templates/icml2021-template/dsftnbmjgyhv}{disponible en este enlace}, o bien uno de formato similar. También debe entregar los códigos utilizados en formato \texttt{.html}, los cuales puede obtener descargando directamente desde \textit{Jupyter} su notebook en ese formato. 
+\end{flushleft}
+
+
+\thispagestyle{empty}
+
+% https://www.cs.toronto.edu/~rgrosse/courses/csc311_f20/homeworks/hw3/hw3.pdf
+
+
+\begin{enumerate}
+
+
+\item [P1.]\textbf{[Modelo de Naïve Bayes\footnote{Los modelos de Naïve Bayes hacen referencia a varios modelos que se derivan de forma similar a lo mostrado, que utilizan la condición o premisa de independencia condicional dado una clase. En esta pregunta se verá un caso puntual de estos.}[30\%]]}\\
+Naïve Bayes Classifier es un modelo de probabilidades condicionales para clasificación, donde se asume que las categorías o atributos son mutuamente independientes dado el valor de la clase. Este modelo utiliza fuertemente el teorema de Bayes. Formalmente, el modelo se desarrolla de la siguiente forma: Considere $C_i\in C$, donde $C$ son las clases, y $C_i$ es la $i$-ésima clase con $i\in \{1,\ldots,K\}$, con $K$ el número de clases. Además, considere $X=(x_1,\ldots,x_n)^\top$ el vector de atributos para un dato con $n$ atributos. Para un vector de atributos $X$ y una clase $C_i$ dada, tenemos que, por el teorema de Bayes, la probabilidad de $C_i$ se puede escribir como:
+
+\begin{equation}
+    \mathbb{P}(C_i|x_1,...,x_n) = \frac{\mathbb{P}(C_i)\mathbb{P}(x_1,...,x_n|C_i)}{\mathbb{P}(x_1,...,x_n)}. \label{eq:classif}
+\end{equation}
+
+Sin embargo, la premisa de independencia condicional de Naïve Bayes establece que:
+
+\[\mathbb{P}(x_j|C_i,x_j,...,x_{j-1},x_{j+1},...,x_n) = \mathbb{P}(x_j|C_i),\]
+para $j\in \{1,...,n\}$. Consecuentemente, la ecuación \eqref{eq:classif}  se puede reescribir como:
+
+\[\mathbb{P}(C_i|x_1,...,x_n) = \frac{\mathbb{P}(C_i)\prod\limits_{j=1}^{n} \mathbb{P}(x_j|C_i)}{\mathbb{P}(x_1,...,x_n)}.\]
+
+Recordando la Teoría de Bayes, tenemos que $\mathbb{P}(x_1,...,x_n)$ es difícilmente computable, además de ser constante para cada clase $C_i$. Entonces, como en verdad queremos derivar el estimador MAP, proporcionalmente se obtiene que:
+
+\[\mathbb{P}(C_i|x_1,...,x_n)\propto\mathbb{P}(C_i)\prod\limits_{j=1}^{n} \mathbb{P}(x_j|C_i), \]
+
+y considerando el MAP obtenemos:
+
+\begin{equation}
+    \hat{K} = \underset{i}{\text{argmax } }\mathbb{P}(C_i)\prod\limits_{j=1}^{n} \mathbb{P}(x_j|C_i).
+    \label{eq:argmax}
+\end{equation}
+de donde la clase predicha será $\hat{C} = C_{\hat{K}}$.\\
+
+El objetivo de esta pregunta es implementar el Naïve Bayes Classifier. Considere la base de datos de golf de \texttt{data\_golf\_train.csv}, donde la clase a predecir es \textit{Play} y sus atributos son 2 variables categóricas (\textit{Outlook} y \textit{Windy}) y dos numéricas (\textit{Temperature} y \textit{Humidity}). Se pide lo siguiente:
+
+\begin{enumerate}
+    \item Implemente el Naïve Bayes Classifier. Para implementar el algoritmo, debe encontrar las probabilidades $\mathbb{P}(x_j|C_i)$, $\forall i \in \{1,2\}, \forall j\in \{1,...,n\}$. Para las variables categóricas, se deben encontrar las tablas de probabilidades condicionales, mientras que para las variables numéricas, debe asumir que $x_j|C_i\sim \mathcal{N}(\mu,\sigma^2)$, y estimar $\mu$ y $\sigma$ para cada clase con los estimadores usuales.
+    
+    \item Obtenga la predicción de las clases para los datos de \texttt{data\_golf\_test.csv}, comente brevemente sobre los valores dentro del máximo de (\ref{eq:argmax}) y la diferencia de los atributos de los datos de testeo. Haga una predicción de su clasificador para los datos de entrenamiento y reporte los resultados obtenidos. 
+    
+    \item Implemente un modelo de Regresión Logit. Utilice la librería \texttt{sklearn}. Prediga las clases para los datos de entrenamiento y testeo. Compare los resultados obtenidos con el modelo de Naïve Bayes. Reporte el valor de los coeficientes obtenidos en la Regresión Logit y comente, complemente con los resultados observados de Naïve Bayes. ¿Cuál modelo es mejor?, ¿según cuál métrica?, ¿Por qué utilizó tal métrica?, ¿Se puede decir algo sobre la cantidad de los datos y el rendimiento de los modelos?.
+    % \item (por si acaso) Utilice el \texttt{IrisDataset} e implemente el modelo de Naïve Bayes Gaussiano. Separe el dataset en entrenamiento (80\%) y testeo (20\%) con la función \texttt{train\_test\_split} de  \texttt{sklearn.model\_selection}, entrene el modelo y compare los resultados obtenidos. Reporte la matriz de confusión obtenida en la predicción de los datos de testeo.
+\end{enumerate}
+
+
+
+
+%% Solo de nota:
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width = 0.8\textwidth]{data_golf.png}
+%     \caption{Data, solo de nota, debe ser subido en csv}
+% \end{figure}
+
+
+
+
+\item [P2.] \textbf{MCO, LASSO y RR [40\%]}\\
+
+Se considera el modelo lineal con una variable dependiente $y\in\mathbb{R}$ con una independiente $\widetilde{x}\in\mathbb{R}^{d+1}$ mediante la relación $y = \theta^\top \widetilde{x}$ en donde $\widetilde{x} = (1,x)^\top$ con $x = (x_1,...,x_d)$ donde $d$ es la cantidad de atributos y $\theta\in\mathbb{R}^{d+1}$. En base a un conjunto de observaciones de la forma $\{(\widetilde{x_i}, y_i)\}_{i=1}^n$, existen distintos estimadores puntuales de $\theta$ los cuales se derivan de aplicar distintas penalizaciones en los problemas de regresión, los cuales son codificadas en la función de costo. Un criterio estándar de penalización es el basado en la norma de los parámetros, el cual está dado por:
+
+\begin{equation}
+    J_\rho = || Y-\widetilde{X}\theta ||^2_2  + \rho ||\theta||^p_p, \quad p\geq 0, \quad \rho\geq 0,
+    \label{eq:regresion}
+\end{equation}
+
+donde $||\cdot||_p$ denota la norma $\mathbb{\ell}_p$. Se estudiarán 3 estimadores puntuales, los cuales son: Mínimos Cuadrados Ordinarios (MCO), Regresión Ridge (RR) y Regresión LASSO (LASSO). Cada estimador se puede obtener de la ecuación \eqref{eq:regresion}: cuando $\rho = 0$ se tiene MCO, $p=2$ es RR y $p=1$ recupera LASSO. A cada parámetro $\theta$ obtenido desde estos problemas de optimización  les denominará, respectivamente,  $\theta_{MCO}$, $\theta_{RR}$ y $\theta_{LASSO}$. \\
+
+El objetivo de esta pregunta es interpretar las regresiones desde un punto de vista bayesiano. Considerando entonces que la relación entre la variable dependiente e independiente viene dada por:
+
+\begin{align}
+    y|\theta,\widetilde{x}&\sim\mathcal{N}(y;\theta^\top \widetilde{x}, \sigma^2)\\
+    \theta&\sim\pi(\theta),
+\end{align}
+donde $\sigma$ es conocido y $\pi(\theta)$ denota la distribución a priori de $\theta$. Trabajaremos con la estimación puntual definida \emph{máximo a posteriori} (MAP), definida mediante:
+
+\begin{equation}
+    \theta^{MAP} = \arg\max_\theta p(Y|\widetilde{X},\theta )\pi(\theta).
+    \label{eq:map}
+\end{equation}
+
+Observe que $\theta^{MAP}$ es el estimador puntual de cada uno de los casos descritos arriba: Para MCO, se debe considerar una distribución prior uniforme, la cual es impropia (por ejemplo $\pi(\theta)=1$). En el caso de RR, se debe considerar que $\pi(\theta) \sim\mathcal{N}(0,\frac{\sigma^2}{\rho} I_{d+1} )$. Por último, para recuperar el estimador LASSO, se debe considerar que $\theta_i\sim \text{Laplace} (0,\frac{2\sigma^2}{\rho})$.\\
+
+
+\begin{enumerate}
+    \item Se pide que implemente MCO, LASSO y RR en la base de datos \textit{California Housing}.  Utilice \texttt{sklearn}, el cual le permitirá implementar todos los modelos en unas pocas líneas, su código debería empezar de la siguiente forma:
+
+\begin{lstlisting}[language=Python]
+from sklearn.datasets import fetch_california_housing
+data = fetch_california_housing()
+print(data.keys()) #1era es input y 2da es output
+print(data.feature_names) #variables de entrada
+# importar modelos
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import Lasso
+\end{lstlisting}
+
+\item Analice los resultados obtenidos basados en las métricas $R^2$ y RMSE. Complemente sus análisis en base a los valores de $\theta$ encontrados por cada método, grafique los parámetros obtenidos para cada atributo con su nombre. En particular, ¿Qué puede decir de la magnitud de los elementos de $\theta$ en cada método? Interprete los modelos obtenidos, en base a su derivación por el enfoque bayesiano y los criterios estándar de penalización, discuta sobre las características de $\theta$ que promueve cada prior y cómo se realiza la penalización en la ecuación  \eqref{eq:regresion}.
+
+\item Separe el dataset en entrenamiento (80\%) y testeo (20\%) con la función \texttt{train\_test\_split} de  \texttt{sklearn.model\_selection}. Entrene los 3 modelos con los datos de entrenamiento y prediga los output de los datos de testeo. Reporte las métricas $R^2$ y RMSE. ¿Qué tan distinto fue el ajuste de los parámetros con respecto a la parte anterior?, ¿A qué se puede deber lo anterior?.
+
+\item \textbf{(Bonus, para esta pregunta).} Estudie la variable de respuesta, identifique un potencial problema de esta variable y plantee una forma de resolverlo. Realice una eliminación de outliers (en base a percentiles) de los atributos y escale los datos (con el método que le parezca mejor). Ajuste nuevamente los 3 modelos, estudie las métricas obtenidas en sus predicciones y diga qué regresión obtiene el mejor rendimiento. Haga un nexo entre el rendimiento obtenido y el enfoque del modelo.  
+
+\end{enumerate}
+
+
+\item [P3.] \textbf{Más sobre regresiones [30\%]}\\
+
+En el archivo \texttt{data\_p3.txt} están los datos de la cantidad de pasajeros de una aerolínea medidos de forma mensual. Los datos son de la forma $\left \{(x_i,y_i)\right \}_{i=1}^{n}$ donde $x_i$ representa un mes, e $y_i$ la cantidad de pasajeros transportados en el mes correspondiente.\\
+
+El objetivo de esta pregunta es modelar la cantidad de pasajeros ($y$) respecto al tiempo ($x$). Para esto, se asumirá el siguiente modelo: 
+$$
+y = f_{\theta}(x) + \eta,
+$$
+donde $\theta$ son los parámetros de la función $f$ que se deben ajustar, y $\eta \sim N(0, \sigma_n^2) $ es ruido gaussiano. \\
+
+Separe los datos en un conjunto de entrenamiento y otro de test. Considere que el 75\% de los datos son para entrenar (primeros 9 años) y el 25\% es de test. 
+\begin{enumerate}
+    \item  Cargue y grafique los datos de forma que  los conjuntos de entrenamiento y de test sean fácilmente identificables.
+    \item Utilice la función \texttt{polyfit} de \texttt{numpy} para ajustar un modelo polinomial de grado 1,2,3 y 4. Encuentre el modelo que mejor se ajuste a los datos.
+    
+    % Se considera un prior gaussiano sobre los parámetros $\theta_i$, con lo cual el valor de los parámetros según el estimador MAP vienen dados por el estimador RR. Con esto, el estimador de $\theta$ está dado por...
+    
+    % ¿Cuál es el grado del polinomio que generó los datos con mayor probabilidad? 
+    
+    \item Como podrá observar, no es posible capturar el movimiento periódico de los datos usando sólo un polinomio. Denotemos por $f^{pol}$ al polinomio que encontró en la parte anterior. Modelaremos la señal con el siguiente modelo: 
+    $$
+    y = f^{pol} + \theta_1    \sin (\theta_2 x + \theta_3)e^{\theta_4 x } + \eta,
+    $$
+    con $\eta \sim N(0, \sigma_n^2) $. Ajuste $\theta_{1:4}$ usando máxima verosimilitud. Note que este modelo no es lineal en los parámetros, por lo que no se puede escribir una solución de forma exacta. Para encontrar los parámetros de máxima verosimilitud, construya la función de verosimilitud y optimice utilizando la función \texttt{minimize} de \texttt{scipy.optimize} usando el método BFGS. \\
+    ¿Qué tan bueno es el ajuste encontrado?\\
+    
+    \textbf{Indicación: } Puede ser útil ocupar $\theta_4 = 0.01$ como condición inicial. 
+    
+    \item El comportamiento de los datos no es sólo sinusoidal, por lo que agregaremos una última componente. Denotemos por $f^{pol-sin}$ a la función $f_{\theta}$ encontrada en la parte anterior. Agregue una segunda componente sinusoidal modulada por una exponencial al modelo, es decir: 
+    $$
+    y= f_{\theta} +\eta = f^{pol-sin} + \theta_1 \sin(\theta_2 x + \theta_3) e^{\theta_4 x} + \eta.
+    $$
+    Considere los parámetros de $f^{pol-sin}$ fijos e iguales a su resultado de la parte anterior. Nuevamente use máxima verosimilitud para encontrar $\theta_{1:4}$, optimizando con \texttt{minimize} y BFGS. Evalúe su solución prediciendo el 25\% restante de los datos. \\
+    
+    \textbf{Indiciación: } Nuevamente, puede ser útil ocupar $\theta_4 = 0.01$ como condición inicial. 
+    
+    Presente sus resultados y discuta el método en que los obtuvo, en particular, explique el rol de cada una de las componentes del modelo final. ¿Habría sido posible entrenar el modelo final de una vez? Evalúe los modelos ajustados en función de su verosimilitud y del error de predicción en el conjunto de evaluación.
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+\end{document}

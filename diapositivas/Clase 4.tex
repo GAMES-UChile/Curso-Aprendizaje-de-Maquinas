@@ -132,7 +132,7 @@ Sea $D(p_1,p_2)$ alguna medida de discrepancia entre dos modelos $p_1,p_2$. Lueg
 \begin{equation*}
     	D(p(y|\theta),p(y|\hat\theta)).
 \end{equation*} \pause
----recordar: $y$ es la variable. Una notación alternativa es $D(p(\cdot|\theta),p(\cdot|\hat\theta))$\\~\
+\textbf{Recordar:} $y$ es la variable, na notación alternativa es $D(p(\cdot|\theta),p(\cdot|\hat\theta))$\\~\
 
 Desafortunadamente, notemos que formular y resolver  este problema no es posible en el caso general, pues la expresión de arriba depende del parámetro real $\theta$, el cual no conocemos, con lo que no podríamos resolver dicho problema de optimización.\\~\
 
@@ -149,7 +149,7 @@ La medida de discrepancia que se utilizará se deriva de la teoría de la inform
  \end{equation*} \pause
 Si bien no es posible calcular dicha integral, observemos que esta es una esperanza con respecto a la densidad $p(y|\theta)$, por lo que se puede utilizar una aproximación de Monte Carlo usando las $N$ observaciones en $D$:
 \begin{equation*}
-	\KL( p(y|\theta),p(y|\hat\theta)) 	\approx \KL_N( p(y|\theta),p(y|\hat\theta)) = \frac{1}{N}\sum_{i=1}^N\log\left(\frac{p(y_i|\theta)}{p(y_i|\hat\theta)}\right)
+	\KL( p(y|\theta),p(y|\hat\theta)) 	\approx \KL_N( p(y|\theta),p(y|\hat\theta)) = \frac{1}{N}\sum_{i=1}^N\log\left(\frac{p(y_i|\theta)}{p(y_i|\hat\theta)}\right),
 \end{equation*}
 donde las muestras $\forall i, y_i\sim p(y|\theta)$ iid.
 	
@@ -185,7 +185,7 @@ Para el modelo lineal con ruido gaussiano $y=a^\top x + b + \epsilon$
 la verosimilitud viene dada por:
 
 \begin{equation*}
-	L_\y(\theta) =  \prod_{i=1}^N \cN(y_i;a^\top x_i + b,\sigma_\epsilon^2) = \frac{1}{(2\pi\sigma_\epsilon^2)^{N/2}}  \exp\left(\frac{-\sum_{i=1}^N(y_i-a^\top x_i - b)^2}{2\sigma_\epsilon^2}\right) \label{eq:verosimilitud_lineal}
+	L_\y(\theta) =  \prod_{i=1}^N \cN(y_i;a^\top x_i + b,\sigma_\epsilon^2) = \frac{1}{(2\pi\sigma_\epsilon^2)^{N/2}}  \exp\left(\frac{-\sum_{i=1}^N(y_i-a^\top x_i - b)^2}{2\sigma_\epsilon^2}\right). \label{eq:verosimilitud_lineal}
 \end{equation*}\pause
 
 Usualmente, se trabaja con el logaritmo de la verosimilitud, referido como \emph{log-verosimilitud}, $l(\theta) = \log L(\theta)$, por su facilidad de interpretación y optimización.\\~\
@@ -193,7 +193,7 @@ Usualmente, se trabaja con el logaritmo de la verosimilitud, referido como \emph
  De este modo, la log-verosimilitud del modelo lineal gaussiano está dada por
 \begin{equation*}
 	l(\theta) 
-		= \underbrace{-N\log \sqrt{2\pi\sigma^2_\epsilon}}_{\text{dispersión}} + \underbrace{\frac{-1}{2\sigma_\epsilon^2} \sum_{i=1}^N (y_i-a^\top x_i - b)^2}_{\text{ajuste}},
+		= \underbrace{-N\log \sqrt{2\pi\sigma^2_\epsilon}}_{\text{dispersión}} + \underbrace{\frac{-1}{2\sigma_\epsilon^2} \sum_{i=1}^N (y_i-a^\top x_i - b)^2}_{\text{ajuste}}.
 \end{equation*}
 	
 \end{frame}
