@@ -29,3 +29,7 @@
 *.nav
 *.run.xml
 *.snm
+*.pth
+*.tar.gz
+/demos/data/
+
