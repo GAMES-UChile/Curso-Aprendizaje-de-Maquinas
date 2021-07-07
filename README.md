@@ -2,6 +2,8 @@
 
 Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas (Universidad de Chile).
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/stepp1/Curso-Aprendizaje-de-Maquinas/master)
+
 ### Contenidos
 1. Introducción: ¿qué es la Inteligencia Artificial y cómo se relaciona con el AM?
 2. Regresión
