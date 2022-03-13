@@ -1,6 +1,6 @@
 # Aprendizaje de Máquinas 2022
 
-Este repositorio contiene el material del curso MA5204 Aprendizaje de Máquinas (Universidad de Chile).
+Este repositorio contiene el material del curso MDS7104 (ex MA5204, MA5203) Aprendizaje de Máquinas del programa de Master of Data Science de la Universidad de Chile.
 
 ### Contenidos
 1. Introducción: ¿qué es la Inteligencia Artificial y cómo se relaciona con el AM?
