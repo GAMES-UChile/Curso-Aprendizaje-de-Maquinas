@@ -24,7 +24,7 @@ donde $\sigma:\{1,2,\ldots,M\}\mapsto\{1,2,\ldots,M\}$ es una permutación que p
 	\centering
 	\includegraphics[width=0.6\textwidth]{img/cap6_pca.pdf}
 	\caption{Base ortogonal de $\R^2$ formada por las componentes principales de los datos. Se observa en este caso que ninguna de las componentes principales corresponde a un vector de la base canónica. El eje que cruza los cuadrantes 1 y 3 corresponde a $\cvector_1$ y el otro, a $\cvector_2$.}
-	\label{fig:ej_fda}
+	\label{fig:ej_fda_1}
 \end{figure}
 
 La respuesta a la primera pregunta es, en la mayoría de los casos, negativa. Esto es porque los elementos de la base canónica, por sí solos, conllevan poca información estructural que puede ser encontrada en los vectores observados. En particular, consideremos el caso en donde solo se dispone de dos observaciones $\{\x_1, \x_2\}$, si $M'=2$, entonces una descomposición que garantiza error nulo es simplemente elegir $\x_1$ y $\x_2$ como bases de la nueva descomposición, donde los coeficientes estarían dados por $[1,\ 0]^\top$ y $[0,\ 1]^\top$.\\
@@ -209,7 +209,7 @@ Una desventaja de este enfoque, en el cual se ha ignorado la dispersión de las 
 	\centering
 	\includegraphics[width=0.6\textwidth]{img/cap6_fisher.pdf}
 	\caption{Superposición de las proyecciones al considerar únicamente la recta que une las medias de clase. La recta roja determina la región de decisión y la recta segmentada muestra un posible hiperplano separador.}
-	\label{fig:ej_fda}
+	\label{fig:ej_fda_2}
 \end{figure}
 
 Para resolver este problema, Fisher propuso maximizar no solo distancia entre las (medias de las) clases proyectadas, sino que adicionalmente minimizar la dispersión de los elementos de una misma clase, con el objetivo de disminuir el traslape entre las proyecciones de las clases. Como medida de dispersión, definimos la varianza muestral proyectada de los elementos de la clase $\cC_k$ mediante
@@ -240,14 +240,108 @@ Sin embargo, notemos que la norma del vector  $a$ es irrelevante, solo interesa 
 	a \propto S_W^{-1}(\mu_1-\mu_2).
 \end{equation}
 
-La Figura \ref{fig:ej_fda} muestra el  discriminador lineal que solo considera los promedios a la  izquierda y la corrección de Fisher a la derecha. Observemos cómo el incluir una medida de la dispersión de los datos es clave para lograr un mejor discriminador.
+La Figura \ref{fig:ej_fda_1} muestra el  discriminador lineal que solo considera los promedios a la  izquierda y la corrección de Fisher a la derecha. Observemos cómo el incluir una medida de la dispersión de los datos es clave para lograr un mejor discriminador.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{img/cap6_dos_clases_proyeccion.pdf}
 	\caption{Discriminador lineal considerando solo la media entre clases (izquierda) y  su extensión mediante la corrección de Fisher que incorpora la varianza muestral de los datos.}
-	\label{fig:ej_fda}
+	\label{fig:ej_fda_3}
 \end{figure}
+
+\subsubsection{Compressed Sensing }
+
+\textit{Compressed Sensing} es una técnica de reducción de dimensionalidad basada en la hipótesis previa de que el vector original de los datos es \textit{sparse} en alguna base. \\
+
+Como motivación, sea $x \in \R^d$ con a lo más $s$ coordenadas distintas de $0$. Es decir: 
+$$
+\| x \|_0 = | \left \{i: x_i \not = 0 \right \} \leq s.
+$$
+
+En esta situación, $x$ puede ser comprimido si es representado por $s$ pares de la forma \textit{(índice, valor)}. Además, esta compresión no tiene pérdidas sobre la información de $x$, pues este vector se puede reconstruir exactamente en base a estos pares.\\ 
+
+Ahora, dada $U$ una matriz ortonormal fija, supongamos que $x = U \alpha$, con $\alpha$ un vector sparse, i.e $\| \alpha \|_0 \leq s$. Entonces, estamos suponiendo que existe otra base de $\R^d$ bajo la cual $x$ es un vector \textit{sparse}. Si bien esta suposición puede parecer ingenua en un inicio, muchos vectores resultan cumplir esta propiedad. Ahora, en este caso ¿Es posible comprimir $x$ usando sólo $s$ pares como los mencionados anteriormente? \\
+
+Una forma simple de hacer lo anterior es multiplicar $x$ por $U^{T}$, y luego representar el vector resultante $\alpha $ por los pares deseados. Sin embargo, este proceso requiere primero guardar $x$, y luego multiplicar por $U^{T}$, lo que naturalmente levanta la pregunta de si es realmente necesario guardar una gran cantidad de información que luego será desechada. ¿Será posible medir lo que no será desechado y trabajar con esta parte de $x$ directamente?\\
+
+La respuesta es si, y está basada en un resultado clave: Una transformación lineal $x$ puede comprimir $x$ sin pérdida de información. Para profundizar esto, se requiere la siguiente definición: 
+
+\begin{definition}
+Una matriz $U \in \R^{n \times d}$ es $(\epsilon,s)$- RIP (\textit{Restricted Isoperimetric Property}) si para todo $x \not =0$, tal que $\|x\|_0 \leq s$, se cumple: 
+$$
+\left |\dfrac{\| Ux\|^{2}_2}{\|x\|_2^{2}} - 1 \right | \leq \epsilon 
+$$
+\end{definition}
+
+Teniendo en cuenta lo anterior, el siguiente Teorema es la razón por la cuál esta técnica tiene sentido.
+
+\begin{theorem}
+Sea $\epsilon <1$ y $U \in \R^{n \times d}$ una matriz $(\epsilon, 2s)$-RIP. Sea $x \not = 0$ un vector en $\R^d$ tal que $\| x \|_0 \leq s$, e $y = Ux$ la compresión de $x$. Entonces el vector reconstruído: 
+$$
+\bar{x} \in \underset{v: Wv = y}{\argmin}
+$$
+cumple $\bar{x} = x$. 
+\end{theorem}
+
+Luego, basándonos el Teorema anterior, es posible comprimir $x$ sin pérdida alguna, siempre y cuando logremos encontrar la matriz $U$ adecuada. 
+
+
+\subsubsection{PCA vs. Compressed Sensing}
+
+Teniendo en cuenta los dos métodos de reducción de dimensionalidad aquí mencionados, es natural preguntarse cuál de ellos se debe usar en diferentes situaciones.  \\
+
+En primer lugar, es importante recordar que si se cumplen las suposiciones de cada técnica, es posible reconstruir perfectamente la información de dimensión reducida. \\
+
+La pregunta clave es qué es lo que se quiere comprimir. Si son vectores que cumplen con tener una gran cantidadad de $0$, compressed sensing será probablemente una ejor opción que PCA. Un ejemplo podría ser trabajar con vectores canónicos en $\R^d$. Por otra parte, si no se tiene mucha información con respecto a lo que se quiere comprimir, es mejor ocupar PCA pues es un método más efectivo cuando los datos tienen ruido. Por otra parte, si tenemos $N$ datos que están exactamente en un subespacio de dimensión $n$ (por ejemplo un hiperplano), PCA es la alternativa recomendada pues nada asegura que se cumplan las condiciones para hacer comressed sensing. 
+
+
+\subsubsection{Otros métodos de reducción de dimensionalidad}
+
+\begin{itemize}
+    \item \textbf{Escalamiento Multidimensional}
+    
+    Se busca reducir la dimensión intentando preservar la distancia entre las instancias. \\
+    
+    En términos prácticos, se comienza con  $x_1, ..., x_n \in \R^{N}$, y $d_{ij}$ la distancia entre $x_i$ y $x_j$. Frecuentemente esta distancia es la distancia euclidiana, sin embargo se pueden elegir también medidas de disimilitud entre los inputs. \\
+    
+    El escalamiento multidimensional busca encontrar $z_1, ... z_k \in \R^p$ que minimicen la función de stress: 
+    $$
+    S_M(z_1,...z_k) = \sum_{i \not = j} (d_{ij} - \|z_i - z_j\|)^2.
+    $$
+    Este escalamiento se conoce como de mínimos cuadrados o de Kruskal–Shephard. Es importante notar que la forma de la función de stress sugiere que un algoritmo de descenso de gradiente es una buena herramienta para minimizarla.
+    
+    \item \textbf{t-Distributed Stochastic Neighbor Embedding (t-SNE)}
+    
+    Se busca reducir la dimensionalidad buscando dejar instancias similares cerca y distancias disimilares lejos. Se suele ocupar para visualización, sobre todo para visualizar clusters en data de altas dimensiones. \\
+    
+    Este método consta, a grandes rasgos, de dos pasos: 
+    \begin{enumerate}
+        \item En primer lugar, se genera una distribución sobre parejas de inputs, de forma tal que parejas de puntos que se encuentren cerca tengan alta probabilidad. 
+        \item Se usa la divergencia de Kullback-Liebler para intantar reproducir la distribución del espacio de alta dimensión en el espacio de baja dimensión.
+    \end{enumerate}
+    
+    \item \textbf{Random Projections}
+    
+    Otra forma de reducir la dimensionalidad del conjunto de datos es usando proyecciones aleatorias. \textit{A priori} esta idea pareciera no tener sentido, sin embargo el Teorema de Johnson-Lindestrauss indica justo lo contrario: Es altamente probable que al usar una proyección aleatoria se preserve la distancia entre puntos cercanos. \\
+    
+    \begin{theorem}[Teorema de Johsnon-Lindestrauss] 
+    Sea $V$ un conjunto finito de vectores en $\R^d$. Sea $\delta \in (0,1)$ y $n$ un entero tal que
+    $$
+    \epsilon = \sqrt{\dfrac{6 \log(2 |V|\delta)}{n}}  \leq 3.
+    $$
+    Entonces con probabilidad al menos $1-\delta$, si se elige aleatoriamente una matriz $U$ con cada coordenada distribuida como una normal $\mathcal{N}(0, \frac{1}{n})$ se cumple: 
+    $$
+    \underset{x \in V}{\sup} \left | \dfrac{\|Ux\|_2^2}{\|x\|_2} -1 \right | < \epsilon 
+    $$
+    
+    \end{theorem}
+    
+    \begin{remark}
+    Este método suele ser útil cuando se intenta pasar de dimensiones ''muy altas'' a dimensiones ''medianas'', pero no así para pasar a dimensiones "bajas". 
+    \end{remark}
+\end{itemize}
+
+
 
 \subsection{Clustering}
 
@@ -275,7 +369,7 @@ Para dos clusters $A,B\subset\mathcal{D}$, los criterios de similitud más frecu
 
 Donde $d:\mathcal{D}\times \mathcal{D}\to \R_+$ es una métrica en $\mathcal{D}$. Elecciones distintas del criterio de similitud y/o métrica (generalmente euclidiana) pueden llevar a agrupaciones distintas.
 
-\subsubsection{$k$-means}
+\subsubsection{\texorpdfstring{$k$}-means}
 Dado un entero $k \in \mathbb{N}$ y un conjunto de observaciones $X = \{x_i\}_{i=1}$ con $x_i\in \mathbb{R}^D$ queremos separar los datos en k grupos, donde cada grupo se le asigna un centroide $\mu_k$ y cada elemento $x_i$ se le asigna el grupo que tenga el centroide más cercano.
 
 Sea $r_{ik}$ la asignación, esta estará definida por:
@@ -320,13 +414,13 @@ Para los centroides iniciales, se tienen dos posibles inicializaciones:
 
 El método de Forgy es preferido cuando se realiza k-means mediante el algoritmo de Lloyd.\\
 
-\underline{\textbf{Ejemplo:}} En la figura \ref{fig:kmeans} se observa un ejemplo de clustering utilizando kmeans. Los clusters creados por kmeans son circulares, puesto que se utiliza distancia euclidiana hace el centro del cluster.\\
+\underline{\textbf{Ejemplo:}} En la figura \ref{fig:kmeans_1} se observa un ejemplo de clustering utilizando kmeans. Los clusters creados por kmeans son circulares, puesto que se utiliza distancia euclidiana hace el centro del cluster.\\
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.7\textwidth]{img/cap6_k_medias}
   \caption{(Izquierda) Datos reales con sus etiquetas correctas. (Derecha) Clusters encontrados por k-means.}
-  \label{fig:kmeans}
+  \label{fig:kmeans_1}
 \end{figure}
 
 Por otra parte, la asignación de cluster mediante el centroide más cecano provoca que cada par de centroides divida al espacio ambiente en dos semiespacios mediante el hiperplano simetral que pasa entre ambos puntos. Luego, dado que la intersección finita de semiespacios genera un poliedro, se tiene que la partición generada por kmeans forma un diagrama de Voronoi.
@@ -335,7 +429,7 @@ Por otra parte, la asignación de cluster mediante el centroide más cecano prov
   \centering
   \includegraphics[width=0.6\textwidth]{img/cap6_voronoi}
   \caption{Partición de $\mathbb{R}^2$ inducida por los centroides.}
-  \label{fig:kmeans}
+  \label{fig:kmeans_2}
 \end{figure}
 
 
@@ -515,3 +609,33 @@ La figura \ref{fig:dbscan} muestra un ejemplo de clustering utilizando DBSCAN. A
   \caption{Datos reales con sus etiquetas correctas (izquierda) y clusters encontrados por DBSCAN (derecha).}
   \label{fig:dbscan}
 \end{figure}
+
+\subsubsection{Aprendizaje Semi-Supervisado}
+
+Como el lector debe haber notado a este punto, todos los modelos anteriores son útiles siempre y cuando las características que se den como input al modelo permitan resumir y estudiar los datos de buena manera. Sin embargo, esta tarea no es nada fácil: Muchas veces los \textit{features} que permiten llegar a un modelo son desconocidos o muy difíciles de encontrar. \\
+
+Una propuesta para solucionar la problemática anterior es usar métodos de aprendizaje no supervisado para obtener \textit{features}, y usarlos como input de un modelo supervisado. En otras palabras, se ocupa un modelo no supervisado para pre-procesar los datos. Es así que surge así el término de aprendizaje semi-supervisado. \\
+
+Existen casos en la bibliografía donde modelos supervisados generalizan mejor cuando hay preprocesamiento mediante métodos no supervisados. \\
+
+En particular, es muy común ocupar K-Means como preprocesamiento. Este proceso se sintetiza en los siguientes pasos: 
+
+\begin{enumerate}
+    \item Encontrar un número de clusters óptimos para el conjunto de entrenamiento.
+    \item Calcular la distancia a cada cluster para todo el conjunto de entrenamiento. 
+    \item Usar las distancias a cada clusters como input a un modelo supervisado (por ejemplo, una regesión logística). 
+\end{enumerate}
+
+\subsubsection{Otros Algoritmos de Clustering}
+
+Los algoritmos de clustering que fueron presentados son sólo los más comunes. Sin embargo, existen otros algoritmos que pueden ser útiles en la práctica. En esta sección mencionaremos brevemente algunos de ellos. 
+
+\begin{itemize}
+    \item \textbf{BIRCH}: 
+    
+    El algoritmo BIRCH  (\textit{Balanced Iterative Reducing and Clustering using Herarchies}) fue diseñado específicamente para datsets muy grandes. Es más rápido que K-Means con batches, y con resultados parecidos con una cantidad de features baja ($< 20$). Su innovación es en el uso de memoria para asignar un dato a un cluster en particular.
+    \item \textbf{Spectral Clustering}:
+    Este algoritmo crea una matriz de similitud entre los datos, y reduce su dimensionalidad. Luego de esto, se ocupa otro algoritmo de clustering (por ejemplo, K-Means) en este espacio de dimensión baja. \\
+    
+    Este algoritmo puede encontrar relaciones muy complejas en los datos, sin embargo no escala bien a grandes cantidades de datos, ni tampoco se comporta bien cuando los clusters están desbalanceados. 
+\end{itemize}

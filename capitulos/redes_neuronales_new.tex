@@ -7,11 +7,13 @@
 
 \subsubsection{Conceptos básicos}
 
-Una red neuronal es un modelo de aprendizaje de máquinas inspirado en el funcionamiento de las neuronas en nuestro cerebro, sin embargo, a medida que se ha desarrollado la teoría en torno a las redes neuronales, este modelo se ha ido alejando progresivamente de su semejante biológico. Es más, investigadores argumentan que se debería dejar de lado el concepto de neurona puues es demasiado restrictivo en cuanto a los sistemas que podemos crear. 
+Una red neuronal es un modelo de aprendizaje de máquinas que ,en sus inicios, estaba inspirado en el funcionamiento de las neuronas en nuestro cerebro. A medida que se ha desarrollado la teoría en torno a las redes neuronales, este modelo se ha ido alejando progresivamente de su semejante biológico. Es más, investigadores argumentan que se debería dejar de lado el concepto de neurona pues es demasiado restrictivo en cuanto a los sistemas que podemos crear. 
 
-Las redes neuronales son modelos computacionales basados en la conexión de múltiples unidades (neuronas) cuyo objetivo es aproximar una función $f^{*}$, más específicamente, definir un mapping $y = f(x;\theta)$ aprendiendo los parámetros $\theta$ que resultan en la mejor aproximación posible. Su gran ventaja radica en la posiblidad de entrenarlas con datos crudos, es decir, no es necesario extraer características relevantes de la data y en vez, se permite que el algoritmo aprenda cuales son. 
+Las redes neuronales son modelos que sirven tanto para clasificación como para regresión. Para ambos objetivos, su funcionamiento es el mismo. 
 
-Los modelos escenciales de redes nueronales se conocen como \textbf{feedforward neural networks}, o \textbf{multilayer perceptrons} (MLPs) y se conocen como redes ya que son típicamente el resultado de composiciones sucesivas de varios tipos de funciones $f^{(1)},f^{(2)},f^{(3)}, \dots f^{(l)} .$, se dice que $f^{(i)}$ es la i-ésima capa de la red, mientras que $l$, la cantidad de capas, se le conoce como \textbf{profundidad}. Las capas intermedias se les conocen como \textbf{capas ocultas} y el uso de redes neuronales con una múltiples capas se le conoce como \textbf{deep learning}, aunque este término se usa para problemas más específicos de aprendizaje de máquinas usando redes neuronales profundas (ver sección 3.5).
+La base de las redes neuronales reside en la conexión de múltiples unidades, llamadas neuronas, cuyo objetivo es aproximar una función $f^{*}$, más específicamente, definir un mapping $y = f(x;\theta)$ aprendiendo los parámetros $\theta$ que resultan en la mejor aproximación posible. Su gran ventaja radica en la posibilidad de entrenarlas con datos crudos, es decir, no es necesario extraer características relevantes de la data y en vez, se permite que el algoritmo aprenda cuales son.
+
+Los modelos esenciales de redes neuronales se conocen como \textbf{feedforward neural networks}, o \textbf{multilayer perceptrons} (MLPs) y se conocen como redes ya que son típicamente el resultado de composiciones sucesivas de varios tipos de funciones $f^{(1)},f^{(2)},f^{(3)}, \dots f^{(l)} .$, se dice que $f^{(i)}$ es la i-ésima capa de la red, mientras que $l$, la cantidad de capas, se le conoce como \textbf{profundidad}. A las capas intermedias se les conoce como \textbf{capas ocultas} y el uso de redes neuronales con una múltiples capas se le conoce como \textbf{deep learning}, aunque este término se usa para problemas más específicos de aprendizaje de máquinas usando redes neuronales profundas (ver sección 3.5).
 
 \begin{figure}[H]
 	\captionsetup{font=small,labelfont=small}
@@ -25,7 +27,7 @@ Como se puede apreciar en la figura, los coeficientes ${\bm{W}}$ y $w$ se usan p
 
 \subsubsection{El perceptrón y funciones de activación}
 
-El \textit{perceptrón} corresponde a la forma más básica de una red neuronal, esta recibe un input numérico $x = (x_i)_{i=1}^n \in \R^n$ y computa la suma ponderada $u = x_1w_1 + x_2w_2 + \dots + w_nx_n + b$ donde $W = (w_i)_{i=1}^n \in \R^n$ corresponden a los \textbf{pesos} (weights) y $b \in \R$ el \textbf{sesgo} (bias). 
+El \textit{perceptrón} corresponde a la forma más básica de una red neuronal. Este recibe un input numérico $x = (x_i)_{i=1}^n \in \R^n$ y computa la suma ponderada $u = x_1w_1 + x_2w_2 + \dots + w_n x_n + b$ donde $W = (w_i)_{i=1}^n \in \R^n$ corresponden a los \textbf{pesos} (weights) y $b \in \R$ el \textbf{sesgo} (\textit{bias}). 
 A continuación, se aplica una función de activación $f$ y se entrega un output $h = f(u)$.  
 \begin{figure}[H]
   \centering
@@ -33,7 +35,7 @@ A continuación, se aplica una función de activación $f$ y se entrega un outpu
   \caption{Algunos ejemplos de funciones de activación}
 \end{figure}
 
-Un conjunto de perceptrones interconectados forman las capas de la red (de ahí el nombre multilayer perceptrons), las funciones de activación son en general transformaciones no lineales que buscan dar la flexibilidad necesaria al modelo para aprender funciones extremadamente complejas, lo anterior se sustenta en el siguiente teorema 
+Esta idea de tomar combinaciones lineales del input, y luego aplicar una función no lineal se puede extender para interconectar perceptrones. Esto es lo que se conoce como \textit{multilayer perceptrons}. Las funciones de activación son en general transformaciones no lineales que buscan dar la flexibilidad necesaria al modelo para aprender funciones extremadamente complejas. Esto se sustenta en el siguiente teorema 
 
 
 \begin{theorem}[UAT - Ancho arbitrario (Horniket al., 1989; Cybenko, 1989)]
@@ -45,7 +47,8 @@ Un conjunto de perceptrones interconectados forman las capas de la red (de ahí 
 	\]
 \end{theorem} 
 
-Es decir, para una red de una sola capa escondida con la suficiente cantidad de perceptrones, es posible aproximar una función objetivo razonable tan finamente como se desee. Notar que lo anterior es un resultado que considera el ancho (cantidad de perceptrones en la capa) y que este podría ser arbitrariamente grande además, la red podría tener una baja capacidad de generalización dependiendo de la complejidad de los datos con los que se pretende trabajar. Es por esto que surge la necesidad de arquitecturas más complejas, es decir, con mayor cantidad de capas (mayor profundidad) pero menor cantidad de perceptrones y por suerte, UAT para profunidad arbitraria también es valido. 
+Es decir, para una red de una sola capa escondida con la suficiente cantidad de unidades, es posible aproximar una función objetivo razonable tan finamente como se desee. Notar que lo anterior es un resultado que considera el ancho (cantidad de perceptrones en la capa) y que este podría ser arbitrariamente grande. Además, la red podría tener una baja capacidad de generalización dependiendo de la complejidad de los datos con los que se pretende trabajar. Es por esto que surge la necesidad de arquitecturas más complejas, es decir, con mayor cantidad de capas (mayor profundidad) pero menor cantidad de perceptrones y por suerte, UAT para profunidad arbitraria también es valido. 
+
 
 Veamos el siguiente ejemplo: 
 
@@ -86,9 +89,11 @@ Donde $U$ y $c$ corresponden al peso y bias de la última capa respectivamente, 
 %    1 & 1 & 0 \\ \hline
 %\end{tabular}. 
 
+Es importante notar que UAT indica que es posible aproximar una función objetivo razonable, pero no entrega una receta para ello. Es por ello que definir la arquitectura de una red neuronal no es un problema trivial. Si bien existen heurísticas para definir estas arquitecturas para distintos problemas, no existe (hasta el momento) una receta que permita encontrar la arquitectura correcta. 
+
 \subsubsection{Arquitectura de una red neuronal}
 
-Como vimos anteriormente, no basta con una red arbitrariamente ancha para lograr el objetivo de aproximar $f^{*}$ con una alta capacidad de generalización, la \textbf{arquitectura} de una red neuronal se refiere a la totalidad de su estructura, es decir, la cantidad de capas, perceptrones por capa, conexión entre unidades, funciones de activación, etc... 
+Como se vió anteriormente, no basta con una red arbitrariamente ancha para lograr el objetivo de aproximar $f^{*}$ con una alta capacidad de generalización. La \textbf{arquitectura} de una red neuronal se refiere a la totalidad de su estructura, es decir, la cantidad de capas, perceptrones por capa, conexión entre unidades, funciones de activación, etc... 
 
 \begin{figure}[H]
 	\centering
@@ -109,15 +114,17 @@ Donde $g$ es la función aplicada en la capa de output y es la que define la $\t
 
 \subsubsection{Función de costos y unidades de output}
 
-Una de las principales diferencias entre los modelos lineales antes vistos y una red neuronal, es que el uso de ciertas funciones de activaci\'on hacen que la funci\'on de costos no sea convexa, esto hace que el entrenamiento realizado en base a descenso de gradiente no entregue garant\'ias de que se alcanzar\'a el \'optimo global, o una buena solución en términos generales, ya que el algoritmo podría estancarse en un optimo local que entregue resultados pobres. 
+Una de las principales diferencias entre los modelos lineales antes vistos y una red neuronal, es que el uso de ciertas funciones de activaci\'on hacen que la funci\'on de costos no sea convexa. Esto hace que el entrenamiento realizado en base a descenso de gradiente no entregue garant\'ias de que se alcanzar\'a el \'optimo global, o una buena solución en términos generales. Esto pues el algoritmo podría estancarse en un optimo local que entregue resultados pobres. 
 
-En la mayor\'ia de los casos, el modelo param\'etrico define una distribuci\'on $p(y|\bm{x}; \bm{\theta})$, por lo que los par\'ametros del modelo se estimar\'an usando m\'axima verosimilitud, as\'i, se optimizar\'a la log-verosimilitud negativa, es decir, la \textbf{funci\'on de costos} a usar ser\'a la \textbf{cross-entropy}:
+Si bien ocupar mínimos cuadrados como función de costos para este tipo de modelos es posible, se suelen ocupar otras funciones de costo. 
+
+En la mayor\'ia de los casos, el modelo param\'etrico define una distribuci\'on $p(y|\bm{x}; \bm{\theta})$, por lo que los par\'ametros del modelo se estimar\'an usando m\'axima verosimilitud, as\'i, se optimizar\'a la log-verosimilitud negativa. Así, en estos casos la \textbf{funci\'on de costos} a utilizar puede ser la llamada \textbf{Cross-Entropy Loss}:
 
 \begin{equation}
 J(\bm{\theta}) = -\E_{\bm{x},\bm{y}\sim \hat{p}_{\textrm{data}}}(\textrm{log}\; p_{\textrm{modelo}}(\bm{y}|\bm{x}))
 \end{equation}
 
-De esta forma la elecci\'on de la \textbf{unidad de output} definir\'a la forma que toma la funci\'on de costos, pero no ser\'a necesario definir una funci\'on especifica para cada problema; en general siempre se resolver\'a el problema por m\'axima verosimilitud. La elecci\'on en la unidad de output depender\'a del tipo de problema que se quiera resolver, por ejemplo
+Como se puede observar,  la elecci\'on de la \textbf{unidad de output} definir\'a la forma que toma la funci\'on de costos, pero no ser\'a necesario definir una funci\'on especifica para cada problema. En general se resolver\'a el problema por m\'axima verosimilitud. La elecci\'on en la unidad de output depender\'a del tipo de problema que se quiera resolver, por ejemplo
 
 \begin{enumerate}
   \item Unidad de output lineal $\hat{\bm{y}} = h^{(l)}U + c$ 
@@ -169,9 +176,9 @@ El algoritmo que la describe es el siguiente:
 
 \subsubsection{Backward Propagation - Preliminares}
 
-El algoritmo de $\textbf{backpropagation}$ permite que la información del costo fluya en sentido inverso a través de la red para calcular el gradiente de manera computacionalmente eficiente. 
+El algoritmo de $\textbf{backpropagation}$ permite que la información del costo fluya en sentido inverso a través de la red para calcular el gradiente de la función de pérdida.
 
-El gradiente se calculará de esta forma ya que, aunque es posible obtener una expresión analítica para este, evaluar la expresión puede ser muy caro computacionalmente. 
+Aunque es posible obtener una expresión analítica para el gradiente, evaluar la expresión puede ser muy caro computacionalmente.  Es por esto que las librerías que tienen implementadas redes neuronales utilizan diferenciación automática para poder calcularlo, logrando hacerlo de forma mucho más eficiente. Muchos autores indican que este último hecho es uno de los que permitió todo el avance que ha habido en este campo durante los últimos años.  
 
 Luego de obtener el gradiente, otro algoritmo como descenso de gradiente estocástico realizará el aprendizaje usando la expresión que fue calculada. 
 
@@ -183,7 +190,7 @@ Antes de comenzar a describir el algoritmo, debemos tener en cuenta que.
 
 	\item Utilizaremos la notación para el paso intermedio antes de aplicar la función de activación como $u = hW + b$
   
-	\item Es recurrente que en la etapa de entrenamiento de la red el conjunto de datos se entreguen en pequeños paquetes (\textbf{mini-batch}), es decir $(x^d)_{d=1}^N$  conjunto de $N$ inputs, luego $u_{dj}^{(k)}$ corresponde al valor de $u$ para el input $d$ en el nodo $j$ para la capa $k$. Todo esto con el fin de aprovechar lo más posible la optimización en operaciones de matrices que ofrecen las GPU.
+	\item Es recurrente que en la etapa de entrenamiento de la red el conjunto de datos se entreguen en pequeños paquetes (\textbf{mini-batch}), es decir $(x^d)_{d=1}^N$  conjunto de $N$ inputs, luego $u_{dj}^{(k)}$ corresponde al valor de $u$ para el input $d$ en el nodo $j$ para la capa $k$. Todo esto con el fin de aprovechar lo más posible la optimización en operaciones de matrices que ofrecen las GPU, y de poder tener una convergencia más uniforme en el algoritmo de descenso  de gradiente estocástico.
 
    
    \item Vamos a hacer la deducción del algoritmo de backpropagation para una función de error MSE en un problema de regresión.
@@ -296,7 +303,7 @@ Las redes neuronales y algoritmos de \textit{deep learning} son aplicados a tare
 
 El objetivo de las técnicas de regularización es el de reducir el \textit{error de generalización}, es decir, el error esperado al clasificar datos nunca antes vistos pero manteniendo la capacidad del modelo (profundidad, cantidad de nodos, funciones de activación, etc...)
 
-\subsubsection{Regularización ${L}^{2}$}
+\subsubsection{Regularización \texorpdfstring{${L}^{2}$}{L2}}
 
 Una regularizaci\'on que se basa en limitar la norma de los parámetros del modelo es la ya conocida \textbf{regularizaci\'on} $\bm{L}^{2}$ (o \textbf{ridge regression}), mediante la cual se obtiene la funci\'on objetivo regularizada $\tilde{J}$:
 
@@ -306,7 +313,7 @@ Una regularizaci\'on que se basa en limitar la norma de los parámetros del mode
 
 en donde el hiperpar\'ametro $\alpha \in [0,\infty[\ $ indica qué tanta importancia se le da al termino de regularización sobre el objetivo, no habrá regularizaci\'on cuando $\alpha = 0$ y se observará un mayor efecto regularizador a medida que $\alpha$ crece. Cabe destacar que t\'ipicamente en una regularizaci\'on por la norma solo se regularizan los \textit{pesos}, dejando los t\'erminos de \textit{bias} sin regularizar. Esto ya que cada t\'ermino de \textit{bias} controla el comportamiento de solo una variable implicando que no se introduce mucha varianza al dejarlos sin regularizar, por otro lado, regularizar los \textit{bias} puede inducir un alto nivel de \textit{underfitting}.
 
-No es dificil ver que esta regularización es equivalente a la actualización de parámetros según gradiente estocástico de la forma 
+No es difícil ver que esta regularización es equivalente a la actualización de parámetros según gradiente estocástico de la forma 
 
 \begin{equation*}
 W^{(k)} \gets (1-\beta) W^{(k)} - \lambda \frac{\partial J}{\partial W^{(k)}}, \quad \beta = \lambda \alpha
@@ -315,7 +322,9 @@ y por eso también es llamada \textit{weight decay} y es la forma en que se impl
 
 \subsubsection{Dropout}
 
-\textbf{Bagging} consiste en entrenar m\'ultiples modelos y evaluarlos en cada dato del set de testeo. Esto no es pr\'actico para redes neuronales, ya que un solo modelo puede ser muy caro de entrenar y evaluar. \textbf{Dropout} provee una aproximaci\'on barata (computacionalmente) para entrenar y evaluar \textit{bagged} ensambles compuestos por una cantidad exponencial de redes neuronales.
+El método de \textbf{Bagging} consiste en entrenar m\'ultiples modelos y evaluarlos en cada dato del set de testeo. Esto no es pr\'actico para redes neuronales, ya que un solo modelo puede ser muy caro de entrenar y evaluar. 
+
+Sin embargo, el método de \textbf{Dropout} provee una aproximaci\'on barata computacionalmente para entrenar y evaluar \textit{bagged} ensambles compuestos por una cantidad exponencial de redes neuronales.
 
 Esta técnica de regularización consiste en entrenar en cada iteración una fracción de los pesos mediante una elección aleatoria. Su implementación es bastante simple y basta con definir para cada capa $k$ la probabilidad $1-p_k$ de 'apagar' una neurona en particular. Esto corresponde a la aplicación de una máscara binaria $M^{(k)}$ de la siguiente forma:
 
@@ -408,13 +417,40 @@ y actualiza
 
 Finalmente  el algoritmo \textbf{Adam}, es aquel que combina RMSProp con momentum (con algunas distinciones importantes). Hasta el momento no hay un algoritmo que tenga un desempe{\~{n}}o superior al de los dem\'as en distintos escenarios (Schaul et al., 2014), por lo que se recomienda usar el algoritmo de optimizaci\'on con el que el usuario se sienta m\'as c\'omodo al momento de ajustar los hiperpar\'ametros.
 
+\subsection{Obstáculos en el entrenamiento de redes neuronales}
+
+Como ya se mencionó, el entrenamiento de redes neuronales suele ser un problema no convexo. Esto sumado al hecho de que estos modelos suelen estar \textit{sobre-parametrizados}, genera obstáculos muchas veces difíciles de sobrepasar en el entrenamiento de redes neuronales. En esta sección exploraremos algunos de ellos y sus posibles soluciones. 
+
+\subsubsection{Valores Iniciales}
+
+La inicialización de los pesos de la red neuronales es muy importante para el entrenamiento, ya que comenzar desde el punto incorrecto puede significar que el entrenamiento no logre llegar a los mínimos deseados de la función de pérdida. 
+
+Como se puede observar en las distintas funciones de activación, tener pesos cercanos a $0$ genera que este modelo actuar de forma bastante similar a un modelo lineal en el límite. Lo que se suele hacer es partir con pesos generados aleatoriamente cercanos a $0$, y así con el entrenamiento converger de un modelo más parecido a uno lineal, a otro no lineal. 
+
+Es importante notar que inicializar los pesos en $0$ genera que las derivadas parciales de la función de pérdida sean $0$, y por lo tanto estos no se moverán durante el entrenamiento. Por otra parte, inicializar los pesos muy lejos del $0$ suele llevar a malos resultados. 
+
+\subsubsection{Overfitting}
+
+Dada la gran cantidad de parámetros que suelen tener las redes neuronales, es muy fácil hacer overfitting en el conjunto de entrenamiento. Tanto \textit{early stopping} como \textit{weight-decay} son buenos métodos para sobrepasar este obstáculo. 
+
+\subsubsection{Cantidad de neuronas en las capas escondidas}
+
+Determinar la cantidad de neuronas en las capas escondidas define qué tipo de funciones podremos ajustar con el modelo. Sin embargo, no es trivial determinar esta cantidad. 
+
+En general, es mejor tener muchas neuronas a tener pocas. Con pocas neuronas, es posible que no se logre captar completamente la no-linealidad de un modelo. Por otra parte, con muchas neuronas, se esperaría que los pesos que sean innecesarios converjan a $0$ en el entrenamiento. 
+
+
 \subsection{Deep Learning y otros tipos de redes neuronales}
 
-El t\'ermino \textbf{deep learning} se asocia a resolver problemas m\'as intuitivos (y f\'aciles) para los humanos que hasta hace solo algunos a{\~{n}}os eran extremadamente dif\'iciles para una m\'aquina, como lo son el reconocimiento de objetos en im\'agenes (visi\'on de computadores), la traducci\'on de texto desde un lenguaje a otro (machine translation), reconocimiento de voz, entre otros. Los problemas m\'as dif\'iciles para los humanos ya se han estado resolviendo hace mucho tiempo antes del deep learning, como divisar una estrategia ganadora en ajedrez (\url{https://en.wikipedia.org/wiki/Deep_Blue_versus_Garry_Kasparov}), aunque las redes neuronales profundas han seguido progresando en resolver este tipo de problemas (\url{https://deepmind.com/research/alphago/}). Las arquitecturas principales que han permitido resolver estos problemas en los \'ultimos a{\~{n}}os (sumado a los avances en poder de computaci\'on y cantidad de datos que existen hoy) se presentan en esta secci\'on: las \textbf{redes convolucionales} para procesamiento de im\'agenes, y las \textbf{redes recurrentes} para modelar series de tiempo (e.g., texto, audio). Tambi\'en se presentan otras arquitecturas que son tema activo de investigaci\'on en deep learning.: los \textbf{autoencoders} y las \textbf{redes generativas adversariales}.
+El t\'ermino \textbf{deep learning} se asocia a resolver problemas m\'as intuitivos (y f\'aciles) para los humanos que hasta hace solo algunos a{\~{n}}os eran extremadamente dif\'iciles para una m\'aquina, como lo son el reconocimiento de objetos en im\'agenes (visi\'on de computadores), la traducci\'on de texto desde un lenguaje a otro (machine translation), reconocimiento de voz, entre otros, mediante redes neuronales de dos o más capas.\\
+
+Los problemas m\'as dif\'iciles para los humanos ya se han estado resolviendo hace mucho tiempo antes del deep learning, como divisar una estrategia ganadora en ajedrez (Por ejemplo en \href{https://en.wikipedia.org/wiki/Deep_Blue_versus_Garry_Kasparov}{ajedrez}), aunque las redes neuronales profundas han seguido progresando en resolver este tipo de problemas (el ejemplo más famoso es el de  \href{https://deepmind.com/research/alphago/}{Deep Mind}). \\
+
+Las arquitecturas principales que han permitido resolver estos problemas en los \'ultimos a{\~{n}}os (sumado a los avances en poder de computaci\'on y cantidad de datos que existen hoy) se presentan en esta secci\'on: las \textbf{redes convolucionales} para procesamiento de im\'agenes, y las \textbf{redes recurrentes} para modelar series de tiempo (e.g., texto, audio). Tambi\'en se presentan otras arquitecturas que son tema activo de investigaci\'on en deep learning: los \textbf{autoencoders} y las \textbf{redes generativas adversariales}.
 
 \subsubsection{Redes neuronales convolucionales}
 
-Las \textbf{redes neuronales convolucionales} (o \textbf{CNNs}) son un tipo de redes neuronales que fueron dise{\~{n}}adas para procesar datos con una tipolog\'ia tipo-\textit{grid} (grilla). Una serie de tiempo que tiene observaciones en intervalos regulares de tiempo se puede pensar como un \textit{grid} de 1 dimensi\'on. Las im\'agenes se pueden pensar como \textit{grids} de 2-D de pixeles. El nombre de esta arquitectura hace referencia a que usan una operaci\'on matem\'atica conocida como convoluci\'on.
+Las \textbf{redes neuronales convolucionales} (o \textbf{CNNs} por su sigla en inglés) son un tipo de redes neuronales que fueron dise{\~{n}}adas para procesar datos con una tipolog\'ia tipo-\textit{grid} (grilla). Una serie de tiempo que tiene observaciones en intervalos regulares de tiempo se puede pensar como un \textit{grid} de 1 dimensi\'on. Las im\'agenes se pueden pensar como \textit{grids} de 2-D de pixeles. El nombre de esta arquitectura hace referencia a que usan una operaci\'on matem\'atica conocida como convoluci\'on.
 
 La operaci\'on de \textbf{convoluci\'on} se define como:
 
@@ -559,6 +595,7 @@ Esto motiva a que el discriminador aprenda a clasificar correctamente entre mues
 \centering
 \includegraphics[scale=.75]{img/cap7_gans.PNG}
 \end{figure}
+
 
 
 

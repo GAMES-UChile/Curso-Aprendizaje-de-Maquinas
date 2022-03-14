@@ -43,7 +43,7 @@ Hasta el momento hemos hablado del espacio de entrada $\mathcal{X}$ como genéri
 
 Otro punto a notar es que como estamos hablando de una colección (no necesariamente finita) de variables aleatorias, es necesario que se cumpla la propiedad de marginalización (o llamada consistencia\footnote{Para más detalles puede ver el teorema de consistencia de Kolmogorov}). Esta propiedad se refiere a que si un $\gp$ define una distribución multivariada para digamos dos variables $(y_1, y_2) \sim \mathcal{N}(\mu, \Sigma)$ entonces también debe definir $y_1 \sim \mathcal{N}(\mu_1, \Sigma_{11})$ donde $\mu_1$ es la componente respectiva del vector $\mu$ y $\Sigma_{11}$ la submatriz correspondiente de $\Sigma$. En otras palabras, el tomar un subconjunto más grande de puntos no cambia la distribución de un subconjunto más pequeño. Y podemos notar que esta condición se cumple si tomamos la función de covarianza definida anteriormente.
 
-\subsection{Muestreo de un prior $\gp$}
+\subsection{Muestreo de un prior \texorpdfstring{$\gp$}{GP}}
 
 Como fue mencionado, un $\gp$ define un \textit{prior} sobre funciones, por lo que, antes de ver ningún dato se podría obtener una muestra de este proceso dado una función de media y covarianza. Un supuesto común es asumir la función de media $m(\cdot)=0$ por lo que solo nos queda definir una función de covarianza o kernel, un ejemplo de kernel es el \textit{Exponencial Cuadrático} (Square Exponential), también conocido como RBF (Radial Basis function) o Kernel Gaussiano (en general se evita este nombre porque este kernel no tiene relación con la distribución de los datos).
 
@@ -153,11 +153,11 @@ Si tomamos el mismo ejemplo anterior, pero añadimos el ruido al modelo, obtenem
 	\label{fig:gp_3}
 \end{figure}
 
-\subsection{Entrenamiento y optimización de un $\gp$}
+\subsection{Entrenamiento y optimización de un \texorpdfstring{$\gp$}{GP}}
 
 hasta el momento nos hemos dado la función de covarianza y sus parámetros, por lo que aún no hemos hecho realizado el \textit{aprendizaje} de nuestro $\gp$, que es lo que haremos a continuación.
 
-\subsubsection{¿Qué es entrenar un $\gp$?}
+\subsubsection{¿Qué es entrenar un \texorpdfstring{$\gp$}{GP}?}
 
 Vimos que dada una función de covarianza podemos representar el proceso, y podemos encontrar analíticamente la densidad posterior de nuestra función $f(\cdot)$ condicionando a las observaciones. Pero la forma que tendrá la posterior y la función fuera de las observaciones dependerá fuertemente en nuestra función kernel escogida, en este sentido, para un kernel dado nos gustaría encontrar los parámetros de este que mejor representen nuestra función a estimar.\\
 
@@ -314,10 +314,10 @@ Un teorema importante para las funciones de covarianza en procesos débilmente e
 
 Donde $i$ es la unidad imaginaria. $S(\xi)$ es conocida como la densidad espectral de potencia (PSD), en otras palabras, la función de covarianza $k(\tau)$ y la PSD $S(\xi)$ son duales de Fourier el uno del otro. Esto es extremadamente útil a la hora de diseñar funciones de covarianza pues este puede ser llevado a cavo en el dominio de la frecuencia y luego llevado a una función de covarianza usando la transformada inversa de Fourier.
 
-\subsection{Extensiones para un $\gp$}
+\subsection{Extensiones para un \texorpdfstring{$\gp$}{GP}}
 A continuación veremos un número de extensiones que se le pueden hacer a un $\gp$ para abordar distintos tipos de problemas.
 
-\subsubsection{$\gp$ de clasificación}
+\subsubsection{\texorpdfstring{$\gp$}{GP}de clasificación}
 
 \begin{wrapfigure}{r}{0.35\textwidth}
 \centering
@@ -337,7 +337,7 @@ Si tomamos el kernel de la Ec.(\ref{eq:gp_ard}) vemos que es una multiplicación
 \end{equation}
 
 
-\subsubsection{Multi output $\gp$}
+\subsubsection{Multi output \texorpdfstring{$\gp$}{GP}}
 Hasta el momento solo hemos hablado de $\gp$ cuando nuestro proceso es solo una dimensión de salida. Se pueden extender los procesos Gaussianos a funciones de más de una salida o canal, donde ahora la función de covarianza $k(x, x')$ no entrega un escalar sino una matriz definida positiva, donde la diagonal corresponde a la covarianza del canal o autocovarianza y los elementos fuera de la diagonal corresponden a las covarianzas cruzadas o cross-covarianza. Este tipo de procesos Gaussianos aumentan considerablemente de complejidad al diseñar funciones de covarianza.\\ 
 
 Dado un número $m$ de canales, se tendrán $m$ funciones de autocovarianza y ahora $m(m-1)/2$ funciones de covarianza y $k(x, x')$ será una matriz de $m\times m$. El desafio está en diseñar o escoger estas funciones de tal forma que para cualquier par de puntos $x$, $x'$ la matriz $k(x, x')$ sea definida positiva.
@@ -345,9 +345,9 @@ Dado un número $m$ de canales, se tendrán $m$ funciones de autocovarianza y ah
 Una opción simple es asumir que los canales son independientes entre sí, lo que equivale a entrenar independientemente $m$ procesos Gaussianos, uno para cada canal, esto facilita el diseño de las funciones de covarianza pero hace que se pierdan relaciones entre los canales.
  
 
-\subsection{Diferentes interpretaciones de un $\gp$}
+\subsection{Diferentes interpretaciones de un \texorpdfstring{$\gp$}{GP}}
 
-\subsubsection{De regresión lineal a $\gp$}
+\subsubsection{De regresión lineal a \texorpdfstring{$\gp$}{GP}}
 
 Partiendo de la regresión lineal donde el modelo es:
 

@@ -10,7 +10,9 @@ Dado un conjunto de datos, existen muchos posibles modelos para poder realizar e
     \label{fig:overfitting}
 \end{figure}
 
-El problema de sobreajuste ocurre, por ejemplo, en el ajuste polinomial (donde se debe elegir un cierto grado de regresión para los datos) ya que es sabido, de acuerdo al teorema de interpolación polinómica de Lagrange, que para $n$ puntos siempre existirá un polinomio de grado menor a $n$ que pase exactamente por dichos puntos, por lo que es posible tener un error de ajuste nulo en los datos de entrenamiento, pero con un alto error de predicción en datos no vistos.
+El problema de sobreajuste ocurre, por ejemplo, en el ajuste polinomial (donde se debe elegir un cierto grado de regresión para los datos) ya que es sabido, de acuerdo al teorema de interpolación polinómica de Lagrange, que para $n$ puntos siempre existirá un polinomio de grado menor a $n$ que pase exactamente por dichos puntos, por lo que es posible tener un error de ajuste nulo en los datos de entrenamiento, pero con un alto error de predicción en datos no vistos.\\
+
+Teniendo en cuenta lo anterior, se hace natural escoger el modelo que mejor se ajuste a datos de un conjunto de test, es decir, que no hayan estado en el conjunto de entrenamiento. Así, buscamos el modelo que logre \textbf{generalizar} lo aprendido en el entrenamiento a datos desconocidos. Aún teniendo en cuenta, se hace necesario definir métricas para determinar \textit{qué} es un buen modelo. Es esta la pregunta que se intentará resolver en este capítulo.
 
 \subsection{Descomposición sesgo-varianza}
 
@@ -40,8 +42,13 @@ Notar que el error cuadrático esperado $\E_\datos\left((y-\hat{f}(x|\datos))^2\
 	En todas las definiciones anteriores, la esperanza es tomada con respecto a $\datos$, es decir, integra sobre los distintos $\{x_1,y_1\},\ldots,\{x_N,y_N\}$ generados a partir de la distribución conjunta $p(x,y)$.
 \end{remark}
 
+De las definiciones anteriores, es posible notar que la pregunta que buscamos responder en este capítulo tiene dos tipos de respuestas: 
+\begin{itemize}
+    \item \textbf{Selección de Modelos}: Estimar el rendimiento de distintos modelos para elegir el mejor.
+    \item \textbf{Validación de Modelos}: Habiendo elegido un modelo, estimar su error esperado en data desconocida. 
+\end{itemize}
 
-Bajo las definiciones anteriores, se tiene el siguiente teorema:
+Para lograr estudiar ambas respuestas, es de gran utilidad el siguiente teorema:
 
 \begin{theorem}[descomposición sesgo-varianza] Sea $\hat{f}(x|\datos)$ un estimador de $f(x)$, entonces:
 
@@ -82,7 +89,7 @@ De esta forma, la combinación sesgo-varianza crea un error total convexo tal co
 
 \subsection{Validación cruzada}
 
-Una primera forma de elegir y evaluar un modelo fuera de muestra, consiste en particionar el conjunto de datos $\mathcal{D}$ en dos, donde con el primer conjunto se realizará el entrenamiento y con el segundo se medirá el rendimiento del modelo de acuerdo a algún criterio predefinido (por ejemplo, ECM). Con el fin de evitar posibles sesgos provocados por una partición en específico, la evaluación de desempeño se debe realizar varias veces sobre conjuntos de validación distintos. De esta forma, al promediar los rendimientos de cada partición se obtiene un rendimiento estimado fuera de muestra, lo cual permite finalmente elegir un modelo, quedándose con aquel que reporte el menor error out-sample. Las distintas formas de mezclar y particionar los datos se conocen como validación cruzada.
+Una primera forma de elegir y evaluar un modelo fuera de muestra, consiste en particionar el conjunto de datos $\mathcal{D}$ en dos: un primer conjunto donde se realizará el entrenamiento, y otro donde se medirá el rendimiento del modelo de acuerdo a algún criterio predefinido (por ejemplo, el error cuadrático medio). Con el fin de evitar posibles sesgos provocados por una partición en específico, la evaluación de desempeño se debe realizar varias veces sobre conjuntos de validación distintos. De esta forma, al promediar los rendimientos de cada partición se obtiene un rendimiento estimado fuera de muestra, lo cual permite finalmente elegir un modelo, quedándose con aquel que reporte el menor error \textit{out-sample}. Las distintas formas de mezclar y particionar los datos se conocen como validación cruzada.
 
 \subsubsection{Validación cruzada exhaustiva}
 
@@ -110,6 +117,8 @@ Si bien no hay una regla estándar que indique cómo particionar el conjunto, un
 
 Si bien la técnica de validación cruzada es bastante efectiva, tiene la limitación de requerir una gran cantidad de datos para poder realizar la partición de $\datos$. Para los casos que en los que no se cuenta con una cantidad considerable de observaciones, se requieren herramientas más sofisticadas para poder tomar una decisión acerca de qué modelo elegir. Los dos criterios más usuales corresponden al criterio de información de Akaike y al criterio de información bayesiano.\\
 
+
+
 \subsubsection{Criterio de información de Akaike (AIC)}
 
 
@@ -126,50 +135,6 @@ Una forma de evaluar el desempeño real de este estimador es mediante el \emph{r
 	\item \textbf{Riesgo real:} $R(\hat{\theta})=-\E(N\cdot l_0(\hat{\theta}))$, donde $l_0(\theta)=\E(l(\theta|x))$ corresponde a la log-verosimilitud de $\theta$ sobre todo el espacio muestral. Notar que se multiplica por $N$ ya que en el riesgo empírico no se normalizó por $N$.
 \end{itemize}
 
-Para poder obtener el $AIC$ se analizará el sesgo asintótico del riesgo empírico con respecto al riesgo real. Para esto, se utilizarán aproximaciones sobre ambos riesgos, asumiendo que a medida que $N$ crece, el EMV empírico tiende al EMV global (por LGN), por lo que el residuo de Taylor tenderá a 0.\\
-
-Sea $\theta_0 = \argmax_{\theta\in\Theta} l_0(\theta)$ el EMV sobre todo el espacio muestral. Utilizando una aproximación de Taylor de segundo orden sobre $l_0$ alrededor de $\theta_0$:
-\begin{align}
-	l_0(\hat{\theta})&\approx l_0(\theta_0) + (\hat{\theta}-\theta_0)^\top \nabla l_0(\theta_0) + \frac{1}{2}(\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\\
-	&= l_0(\theta_0) + \frac{1}{2}(\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)
-\end{align}
-
-Donde se usó que $\nabla l_0(\theta_0)=0$ ya que $\theta_0$ es un punto crítico de $l_0$. De esta forma, se tiene una aproximación de segundo orden para el riesgo real:
-
-\begin{equation*}
-	R(\hat{\theta}) \approx -N \cdot l_0(\theta_0) - \frac{N}{2}\E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right)
-\end{equation*}
-
-Por otra parte, realizando una expansión de Taylor de segundo orden sobre $\hat{l}$ alrededor de $\theta_0$:
-\begin{equation}
-	\hat{l} = \sum_{i=1}^N l(\hat{\theta}|x_i) \approx \sum_{i=1}^N l(\theta_0|x_i) + (\hat{\theta}-\theta_0)^\top \sum_{i=1}^N \nabla l(\theta_0|x_i) + \frac{1}{2}(\hat{\theta}-\theta_0)^\top \sum_{i=1}^N H_l(\theta_0|x_i) (\hat{\theta}-\theta_0)
-\end{equation}
-
-Usando el hecho de que $\hat{\theta}$ es punto crítico de $l(\cdot|\datos)$:
-\begin{equation}
-	\sum_{i=1}^N \nabla l(\theta_0|x_i) = \sum_{i=1}^N \nabla \left(l(\theta_0|x_i) - l(\hat{\theta}|x_i)\right) \approx \left(\sum_{i=1}^N \nabla\nabla l(\theta_0|x_i)\right) (\theta_0-\hat{\theta}) \approx N \E(H_l(\theta_0|x_i)) (\theta_0-\hat{\theta}).
-\end{equation}
-
-Luego, sustituyendo en $\hat{l}$ y notando que $\sum\limits_{i=1}^N H_l(\theta_0|x_i) \approx N\E(H_l(\theta_0|x))$:
-
-\begin{align}
-	&\hat{l} \approx \sum_{i=1}^N l(\theta_0|x_i) + N(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\theta_0-\hat{\theta}) + \frac{N}{2}(\hat{\theta}-\theta_0)^\top \E(H_l(\theta_0|x)) (\hat{\theta}-\theta_0)\\
-	&\implies \E(R_\datos(\hat{\theta})) = -Nl_0(\theta_0) + \frac{N}{2} \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right).
-\end{align}
-
-De este modo, el sesgo del riesgo empírico como estimador del riesgo real es:
-
-\begin{equation*}
-	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) = -N \E\left((\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\right).
-\end{equation*}
-
-Por otra parte, dado que $\sqrt{N}\left(\hat{\theta}-\theta_0\right)\approx\mathcal{N}\left(0,H_{l_0}(\theta_0)^{-1}\right)$, la forma cuadrática anterior puede ser aproximada por una distribución de Pearson: $N(\hat{\theta}-\theta_0)^\top H_{l_0}(\theta_0) (\hat{\theta}-\theta_0)\approx\mathcal{X}^2_d$, donde $\E(\mathcal{X}^2_d)=d$. De este modo,
-
-\begin{equation}
-	\E(R_\datos(\hat{\theta})) - R(\hat{\theta}) \approx -d.
-\end{equation}
-
-Por lo que corrigiendo $R_\datos(\hat{\theta})$ se obtiene un estimador asintóticamente insesgado del riesgo real: $R_\datos(\hat{\theta})+d$. De esta forma, se tiene la siguiente definición:
 
 \begin{definition}[AIC]
 	Sea $M$ un modelo estadístico $d$-paramétrico y $\datos=(x_i)_{i=1}^N$ un conjunto de observaciones. El AIC del modelo (aproximado por $\datos$) se define como
@@ -183,23 +148,6 @@ donde $\hat{L}(\datos)$ corresponde a la verosimilitud del EMV asociado a $\dato
 		\hat{L}(\datos) = \prod_{i=1}^N p(x_i|\hat{\theta}),\text{ para } \hat{\theta} = \argmax_{\theta\in\Theta} L(\theta|\datos).
 	\end{equation}
 \end{definition}
-
-\begin{remark}
-El AIC corresponde al estimador asintóticamente insesgado del riesgo real multiplicado por 2. Esta ponderación es realizada por motivos históricos (Model selection and multimodel inference, Burnham \& Anderson).
-\end{remark}
-
-De acuerdo a la derivación anterior, el AIC es una medida relativa de la pérdida de información de un modelo de acuerdo a un conjunto de entrenamiento $\datos$. De esta forma, para un conjunto de posibles modelos, se debe elegir el modelo que presente el menor valor AIC ya que será el que minimice el riesgo de predicción.\\
-
-Como se puede ver en la definición, el criterio de Akaike no se basa únicamente en la verosimilitud del modelo sino que agrega una penalización de acuerdo a la cantidad de parámetros, evitando elegir un modelo sobreajustado a los datos. 
-
-\begin{remark}
-	Una de las hipótesis de AIC es que el espacio muestral es infinito ya que se asume que el error de Taylor es despreciable. Para una cantidad finita de datos ($N$), se puede realizar una corrección del estimador dada por:
-	
-	\begin{equation}
-		AICc(M,\datos) := AIC(M,\datos) + \frac{2d(d+1)}{N-d-1}.
-	\end{equation}
-Es importante notar que cuando $N\to\infty$ se recupera el AIC original.
-\end{remark}
 
 \subsubsection{Criterio de información bayesiano (BIC)}
 
@@ -223,34 +171,7 @@ De forma similar al criterio de Akaike, se puede calcular la verosimilitud del m
 
 En este caso, se vuelve a elegir el modelo que presente el menor BIC. Se observa que, al igual que AIC, BIC contiene una penalización sobre el número de parámetros por lo que también evita el sobreajuste a los datos.
 
-\begin{remark}[Stone (1977) - Shao (1997)] Para una familia de modelos, minimizar el AIC es asintóticamente equivalente a realizar LOOCV. Por otra parte, minimizar el BIC es asintóticamente equivalente a realizar leave $p$ out cross validation para
-
-\begin{equation}
-	p=\left\lfloor N\left(1-\frac{1}{\log(N)-1}\right)\right\rfloor
-\end{equation}
-	
-\end{remark}
-
-\newpage
-
-\begin{mdframed}[style=pendiente, frametitle={\center AIC y BIC para la regresión lineal}]
-
-Al igual que en máxima verosimilitud, se puede considerar un modelo generativo para la regresión lineal de la forma $ y = c^\top x + \epsilon$, donde $\epsilon\sim\cN(0,\sigma^2)$ y por lo tanto, $y|x \sim \cN(y;c^\top x,\sigma^2)$. Sean $\hat{c}$ y $\hat{\sigma}^2$ los EMV del modelo (calculados en el capítulo de regresión), entonces la log-verosimilitud máxima viene dada por:
-\begin{align}
-	\hat{l}(\datos) &= \frac{-N}{2}\log(2\pi\hat{\sigma}^2) - \frac{1}{2\hat{\sigma}^2} \sum_{i=1}^N( y_i-\hat{c}^\top x_i)= -\frac{N}{2}\log(2\pi) - \frac{N}{2}\log(\hat{\sigma}^2) - \frac{1}{2\hat{\sigma}^2}  N\hat{\sigma}^2\\
-	&= C(N) - \frac{N}{2}\log(\hat{\sigma}^2) = C(N)- \frac{N}{2}\log\left(\frac{1}{N}\text{RSS}(\datos)\right)
-\end{align}	
-
-Donde $C(N) = -\frac{N}{2}\log(2\pi) - N$ y $\text{RSS}(\datos)$ corresponde a la suma de cuadrados residuales: $\text{RSS}(\datos) := \sum_{i=1}^N \left(y_i - c^\top x_i\right)^2$. Dado que $C(N)$ es una constante independiente del modelo, puede ser omitida en la comparación de modelos, por lo tanto:
-
-\begin{itemize}
-	\item $AIC=2d-N\log(\frac{1}{N}\text{RSS}(\datos))$
-	\item $BIC = d\log(N) - N\log(\frac{1}{N}\text{RSS}(\datos))$
-\end{itemize}
-
-\end{mdframed}
-
-Si bien existen otros métodos de selección de modelo (DIC, WAIC, entre otros), estos tienen una formulación más compleja que se escapa del alcance de este curso ya que se requieren herramientas adicionales como MCMC para el cálculo de distribuciones posteriores.
+Si bien existen otros métodos de selección de modelo (DIC, WAIC, entre otros), estos tienen una formulación más compleja que se escapa del alcance de este curso ya que se requieren herramientas adicionales como MCMC para el cálculo de distribuciones posteriores. Una derivación de AIC y BIC se puede encontrar en el apunte de Estadística.
 
 \subsection{Evaluación de modelos}
 Una vez elegido el mejor modelo de acuerdo a un criterio establecido (AIC o BIC), es deseable poder conocer el desempeño de dicho modelo. Existen varias formas de evaluar un modelo, una de ella podría ser simplemente evaluar la precisión de sus predicciones. A veces es natural fijarse en la precisión, como en los problemas de pronóstico. Otras veces la precisión es importante para evaluar diferentes modelos y elegir uno de ellos. En esta sección presentaremos dos maneras distintas de evaluar modelos, cada forma sirve en distintos escenarios, los cuales se discutirán a través de la predicción puntal, que resume la predicción de un conjunto de datos en una solo valor.

@@ -37,8 +37,8 @@ donde $w\in \R^n$ es el vector perpendicular al hiperplano y $b\in \R$ es el \em
 
 El problema de clasificación consiste en encontrar dichos parámetros de acuerdo a algún criterio, en este caso es el criterio del máximo margen. Notemos en primer lugar que este problema no tiene solución única, pues si $(w,b)$ son solución entonces $(\lambda w, \lambda b)$, $\lambda>0$ también lo son. Para evitar esta \emph{invarianza} con tal de que el problema tenga solución única, podemos imponer una restricción sobre los bordes del margen. Denotando vectores soporte de cada clase mediante $x_{+}$ y $x_{-}$, se impone que para todo vector soporte $x_+$, $x_-$, estos pertenezcan a su respectiva clase, es decir:
 \begin{align}
- 	w^\top x_{+} + b &= 1 \label{ec:borde_svm1}\\
- 	w^\top x_{-} + b &=  -1\label{ec:borde_svm2}
+    w^\top x_{+} + b &= 1 \label{ec:borde_svm1}\\
+    w^\top x_{-} + b &=  -1\label{ec:borde_svm2}
  \end{align}
  donde estos vectores soportes puede no ser únicos. Observemos que si bien aún no sabemos cuales son los vectores de soporte, podemos imponer esta restricción de todas formas, las que se van a traducir en las restricciones del problema de optimización que definirá la solución del problema de clasificación.\\
  
@@ -101,14 +101,14 @@ El lagrangiano del problema anterior está dado por:
 \end{equation}
 donde hemos denotado los multiplicadores de Lagrange mediante $\alpha = (\alpha_1,\ldots,\alpha_N)^\top$. El lagrangiano dual del problema viene dado por $\theta(\alpha) = \inf\limits_{w,b} L(w,b,\alpha)$ y dado que $L$ es convexo, basta aplicar la condición de primer orden:
 \begin{align}
-	&\frac{\partial L}{\partial w} = w^\top - \sum_{i=1}^N \alpha_i y_i x_i^\top = 0 \implies \overline{w} = \sum_{i=1}^N \alpha_i y_i x_i\\
-	&\frac{\partial L}{\partial b} = -\sum_{i=1}^N \alpha_i y_i = 0 \implies \sum_{i=1}^N \alpha_i y_i = 0
+    &\frac{\partial L}{\partial w} = w^\top - \sum_{i=1}^N \alpha_i y_i x_i^\top = 0 \implies \overline{w} = \sum_{i=1}^N \alpha_i y_i x_i\\
+    &\frac{\partial L}{\partial b} = -\sum_{i=1}^N \alpha_i y_i = 0 \implies \sum_{i=1}^N \alpha_i y_i = 0
 \end{align}
 
 Por lo tanto, el lagrangiano dual tiene la siguiente forma:
 \begin{align}
-	\theta(\alpha) &= L(\overline{w},\overline{b},\alpha) = \frac{1}{2} \left\langle \sum_{i=1}^N \alpha_i y_i x_i,\sum_{j=1}^N \alpha_j y_j x_j \right\rangle + \sum_{i=1}^N \alpha_i - \sum_{i=1}^N \alpha_i y_i \left\langle\sum_{j=1}^N \alpha_j y_j x_j , x_i \right\rangle - b\sum_{i=1}^N \alpha_i y_i  \\
-	&= \frac{1}{2} \sum_{i,j=1}^N \alpha_i y_i \alpha_j y_j \langle x_i,x_j\rangle + \sum_{i=1}^N \alpha_i - \sum_{i,j=1}^N \alpha_i y_i \alpha_j y_j \langle x_j,x_i\rangle = \sum_{i=1}^N \alpha_i - \frac{1}{2} \sum_{i,j=1}^N \alpha_i \alpha_j y_i y_j \langle x_i,x_j\rangle
+    \theta(\alpha) &= L(\overline{w},\overline{b},\alpha) = \frac{1}{2} \left\langle \sum_{i=1}^N \alpha_i y_i x_i,\sum_{j=1}^N \alpha_j y_j x_j \right\rangle + \sum_{i=1}^N \alpha_i - \sum_{i=1}^N \alpha_i y_i \left\langle\sum_{j=1}^N \alpha_j y_j x_j , x_i \right\rangle - b\sum_{i=1}^N \alpha_i y_i  \\
+    &= \frac{1}{2} \sum_{i,j=1}^N \alpha_i y_i \alpha_j y_j \langle x_i,x_j\rangle + \sum_{i=1}^N \alpha_i - \sum_{i,j=1}^N \alpha_i y_i \alpha_j y_j \langle x_j,x_i\rangle = \sum_{i=1}^N \alpha_i - \frac{1}{2} \sum_{i,j=1}^N \alpha_i \alpha_j y_i y_j \langle x_i,x_j\rangle
 \end{align}
 
 Donde en la penúltima igualdad se usó el hecho de que $\sum\limits_{i=1}^N \alpha_i y_i = 0$ de acuerdo a la segunda CPO sobre $L$.\\
@@ -135,24 +135,24 @@ La primera restricción se heredó de la CPO impuesta sobre $L$ al calcular $\th
 Donde $\Lambda\in\R^{N\times N}$ corresponde a una matriz de Gram (en alguna base) por lo que es definida positiva ya que para $\alpha\neq 0$:
 
 \begin{equation}
-	\alpha^\top \Lambda \alpha = \sum\limits_{i,j=1}^{N}   \langle   \alpha_i y_i x_i,  \alpha_j y_jx_j\rangle = \left\langle\sum\limits_{i=1}^{N}      \alpha_i y_i x_i,  \sum\limits_{j=1} \alpha_j y_jx_j\right\rangle = \norm{\sum\limits_{i=1} \alpha_i y_i x_i}^2 = \norm{\overline{w}}^2>0 
+    \alpha^\top \Lambda \alpha = \sum\limits_{i,j=1}^{N}   \langle   \alpha_i y_i x_i,  \alpha_j y_jx_j\rangle = \left\langle\sum\limits_{i=1}^{N}      \alpha_i y_i x_i,  \sum\limits_{j=1} \alpha_j y_jx_j\right\rangle = \norm{\sum\limits_{i=1} \alpha_i y_i x_i}^2 = \norm{\overline{w}}^2>0 
 \end{equation}
 
 Además, se tiene la siguiente propiedad:
 
 \begin{lemma}
-	$A$ es definida positiva si y solo si $f(x)= x^\top Ax + b^\top x + c$ es estrictamente convexa.
+    $A$ es definida positiva si y solo si $f(x)= x^\top Ax + b^\top x + c$ es estrictamente convexa.
 \end{lemma}
 
 \begin{proof}
-	Basta verlo para la forma cuadrática $f(x)=x^\top Ax$. Sea $\lambda\in (0,1)$ y $x,y\in\R^n$ con $x\neq y$, entonces:
+    Basta verlo para la forma cuadrática $f(x)=x^\top Ax$. Sea $\lambda\in (0,1)$ y $x,y\in\R^n$ con $x\neq y$, entonces:
 \begin{align*}
-	&\left(\lambda x+(1-\lambda)y\right)^\top A \left(\lambda x+(1-\lambda)y\right) <\lambda x^\top Ax + (1-\lambda)y^\top Ay\\
-			\iff &\lambda^2 x^\top Ax + (1-\lambda)^2 y^\top Ay + \lambda(1-\lambda)x^\top Ay + \lambda(1-\lambda)y^\top Ax < \lambda x^\top Ax+(1-\lambda)y^\top Ay\\
-			\iff & \lambda(1-\lambda)x^\top Ax+\lambda(1-\lambda)y^\top Ay-\lambda(1-\lambda)y^\top Ay> 0\\
-			\iff & x^\top Ax+y^\top Ay-x^\top Ay-y^\top Ax> 0\\
-			\iff & (x-y)^\top A(x-y)> 0, \forall x,y\in \R^n:x\neq y\\
-			\iff &A \text{ es definida positiva}
+    &\left(\lambda x+(1-\lambda)y\right)^\top A \left(\lambda x+(1-\lambda)y\right) <\lambda x^\top Ax + (1-\lambda)y^\top Ay\\
+            \iff &\lambda^2 x^\top Ax + (1-\lambda)^2 y^\top Ay + \lambda(1-\lambda)x^\top Ay + \lambda(1-\lambda)y^\top Ax < \lambda x^\top Ax+(1-\lambda)y^\top Ay\\
+            \iff & \lambda(1-\lambda)x^\top Ax+\lambda(1-\lambda)y^\top Ay-\lambda(1-\lambda)y^\top Ay> 0\\
+            \iff & x^\top Ax+y^\top Ay-x^\top Ay-y^\top Ax> 0\\
+            \iff & (x-y)^\top A(x-y)> 0, \forall x,y\in \R^n:x\neq y\\
+            \iff &A \text{ es definida positiva}
 \end{align*}
 \end{proof}
 
@@ -160,12 +160,12 @@ Luego, el funcional de SVM es estríctamente cóncavo, lo cual implica que el m�
 
  Una vez resuelta la formulación dual (i.e., se han encontrado los valores óptimos para $\alpha$), la predicción de un nuevo punto $x_\star$ es de la forma 
 \begin{equation}
- 	\hat{y}(x_\star)= \text{sgn} (\overline{w}^\top x_\star + b) = \text{sgn}\left(\left[\sum\limits_{i=1}^{N} \alpha_i y_i \langle x_i, x_\star\rangle\right] + b\right)
+    \hat{y}(x_\star)= \text{sgn} (\overline{w}^\top x_\star + b) = \text{sgn}\left(\left[\sum\limits_{i=1}^{N} \alpha_i y_i \langle x_i, x_\star\rangle\right] + b\right)
  \end{equation}
  
 Finalmente, por el teorema de holgura complementaria, para $\alpha$ óptimo se tiene que
 \begin{equation}
-	\alpha_i \left(1-y_i (\overline{w}^\top x_i +b)\right) = 0,\quad \forall i\in\{1,\ldots,N\}\implies \alpha_i=0\text{ para todo $x_i$ fuera del margen.}
+    \alpha_i \left(1-y_i (\overline{w}^\top x_i +b)\right) = 0,\quad \forall i\in\{1,\ldots,N\}\implies \alpha_i=0\text{ para todo $x_i$ fuera del margen.}
 \end{equation}
 
 y consecuentemente, $x_i$ no aporta en la predicción $\hat{y}$. Esta propiedad es la que mencionábamos al principio: la predicción de clase solo depende de los vectores soporte, i.e., los que están en el margen. Esto ayuda a resolver el problema de optimización de manera más rápida, ya que en realidad solo algunas variables duales $\alpha_i$ serán no nulas (las correspondiente a los vectores que están en el borde del margen). Normalmente se ocupan heurísticas para encontrar y descartar rápidamente que vectores no son de soporte y así resolver un problema mas simple (ver, por ejemplo, el método de \emph{Sequential Minimal Optimization}). 
@@ -265,7 +265,7 @@ para todo $x_i,x_j$ en el conjunto de entrenamiento.
 
 Podemos entonces aplicar la siguiente intuición: seguramente no podemos encontrar el $\phi$ exclusivo de cada problema, sino que podemos utilizar uno (o una clase) que sea muy general, complejo, o ``universal''. Esperamos que esta característica general nos sirva para una gran cantidad de problemas, donde tenemos la garantía de que lo podremos usar como parte de SVM si somos capaces de calcular su producto interno. Además, por ``general'' podemos entender ``de alta dimensión'': podríamos pensar que para un problema en el cual no sabemos el buen $\phi$, podemos considerar incorporar e incorporar características, con lo cual tendríamos una ``característica agregada'' de alta dimensión, esperando que alguno de los términos agregados sea el que efectivamente separa las clases. Si bien no está garantizada la separabilidad lineal al combinar características, al agregar dimensiones los datos están cada vez más separados debido a la maldición de la dimensionalidad y se puede probar que en dimensión infinita, siempre se podrá separar linealmente.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.45\textwidth]{img/cap5_kernelSVM}
     \caption{Separación lineal en un espacio de dimensión mayor. Imagen obtenida de MIT OpenCourseWare (MIT 15.097 course).}
@@ -291,8 +291,8 @@ De esta forma, se tiene el siguiente teorema de analisis funcional que sustenta 
 
 
 \begin{theorem}[teorema de Mercer (simplificado)]
-	Sea $K: X\times X \to \R$ un Mercer kernel, entonces existe un espacio de Hilbert $\left(\mathcal{H},\langle,\rangle\right)$ y una función $\phi: X \to \mathcal{H}$ tal que:
-	\begin{equation}
+    Sea $K: X\times X \to \R$ un Mercer kernel, entonces existe un espacio de Hilbert $\left(\mathcal{H},\langle,\rangle\right)$ y una función $\phi: X \to \mathcal{H}$ tal que:
+    \begin{equation}
     K(x_1, x_2) = \langle \phi(x_1) , \phi(x_2) \rangle
 \end{equation}
 \end{theorem}
@@ -352,37 +352,37 @@ Veamos que es directo kernelizar el método de mínimos cuadrados regularizados 
 \begin{lemma} La solución de mínimos cuadrados es equivalente a
 
 \begin{equation}
-	\theta_{MCR} = \tX^\top\left(\tX\tX^\top + \rho\eye\right)^{-1}Y
-	\label{eq:RR_soln2}
+    \theta_{MCR} = \tX^\top\left(\tX\tX^\top + \rho\eye\right)^{-1}Y
+    \label{eq:RR_soln2}
 \end{equation}
 
 \end{lemma}
 
 \begin{proof}
-	Usando la fórmula de Woodburry (ver anexos)
-	
-	\begin{equation}
-		(A+UCV)^{-1} = A^{-1} - A^{-1}U(C^{-1}+VA^{-1}U)^{-1}VA^{-1}
-	\end{equation}
-	
+    Usando la fórmula de Woodburry (ver anexos)
+    
+    \begin{equation}
+        (A+UCV)^{-1} = A^{-1} - A^{-1}U(C^{-1}+VA^{-1}U)^{-1}VA^{-1}
+    \end{equation}
+    
 considerando $A=\rho\eye$, $U=\tX^\top$, $C=\eye$ y $V=\tX$, se tiene que:
 \begin{align}
-	\theta_{MCR} &= \left(\frac{1}{\rho}\eye- \frac{1}{\rho}\tX^\top\left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\frac{\tX}{\rho}\right)\tX^\top Y=\frac{1}{\rho}\tX^\top \left(\eye- \left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\frac{\tX\tX^\top}{\rho}\right)Y\\
-	&= \frac{1}{\rho}\tX^\top \left(\eye- \left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\left(\eye+\frac{1}{\rho}\tX\tX^\top\right) + \left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\right)Y\\
-	&= \frac{1}{p}\tX^\top\left(\eye+\frac{\tX\tX^\top}{\rho}\right)^{-1}Y= \tX^\top\left(\tX\tX^\top + \rho\eye\right)^{-1}Y
+    \theta_{MCR} &= \left(\frac{1}{\rho}\eye- \frac{1}{\rho}\tX^\top\left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\frac{\tX}{\rho}\right)\tX^\top Y=\frac{1}{\rho}\tX^\top \left(\eye- \left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\frac{\tX\tX^\top}{\rho}\right)Y\\
+    &= \frac{1}{\rho}\tX^\top \left(\eye- \left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\left(\eye+\frac{1}{\rho}\tX\tX^\top\right) + \left(\eye+\frac{1}{\rho}\tX\tX^\top\right)^{-1}\right)Y\\
+    &= \frac{1}{p}\tX^\top\left(\eye+\frac{\tX\tX^\top}{\rho}\right)^{-1}Y= \tX^\top\left(\tX\tX^\top + \rho\eye\right)^{-1}Y
 \end{align}
 \end{proof}
 
 Donde ahora $\tX\tX^\top$ sí corresponde a un producto externo de las entradas:
 
 \begin{equation}
-	(\tX\tX^\top)_{ij}=\langle\tX_{i\cdot},\tX^\top_{\cdot j}\rangle=\langle\tX_{i\cdot},\tX_{j\cdot}\rangle = \langle \tx_i,\tx_j\rangle
+    (\tX\tX^\top)_{ij}=\langle\tX_{i\cdot},\tX^\top_{\cdot j}\rangle=\langle\tX_{i\cdot},\tX_{j\cdot}\rangle = \langle \tx_i,\tx_j\rangle
 \end{equation}
 
 Además,
 
 \begin{equation}
-	\hat{y}_\star = \theta_{MCR}^\top x_\star = Y^\top \left(\tX\tX^\top + \rho\eye\right)^{-1}\tX \tx_\star
+    \hat{y}_\star = \theta_{MCR}^\top x_\star = Y^\top \left(\tX\tX^\top + \rho\eye\right)^{-1}\tX \tx_\star
 \end{equation}
 
 donde $(\tX x_\star)_i = \langle \tilde{x}_i,x_\star\rangle$, lo cual muestra que las entradas solo aparecen en la predicción en forma de productos internos.
@@ -394,11 +394,11 @@ Como $\tX\in\R^{N\times M}$, donde $N$ es la cantidad de datos y $M$ es la dimen
 Por otro lado, sea $\phi$ un mapa de características (i.e., una función que recupera las características de una entrada $x$), denotando las características por $\phi_i=\phi(x_i)$ y $\phi_\star = \phi(x_\star)$, se puede hacer la regresión sobre las características:
 
 \begin{equation}
-	\Theta=\left(\begin{matrix}
-		\phi_1^\top\\
-		\vdots\\
-		\phi_N^\top
-	\end{matrix}\right) \implies \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star
+    \Theta=\left(\begin{matrix}
+        \phi_1^\top\\
+        \vdots\\
+        \phi_N^\top
+    \end{matrix}\right) \implies \hat{y}_\star = Y^\top \left(\Theta\Theta^\top + \rho\eye\right)^{-1}\Theta \phi_\star
 \end{equation}
 
 Luego, si $K$ es un kernel asociado al mapa de características $\phi$, es decir $K(x_i,x_j)=\langle\phi(x_i),\phi(x_j)\rangle$, se tiene que
@@ -410,7 +410,7 @@ Luego, si $K$ es un kernel asociado al mapa de características $\phi$, es decir
 
 donde se ha hecho abuso de notación al usar argumentos matriciales en el kernel:
 \begin{equation}
-	K(\tX,\tX)_{ij} = (\Theta\Theta^\top)_{ij} = \langle\phi_i,\phi_j\rangle = K(x_i,x_j)\qquad K(\tX,x_\star)_i = (\Theta\phi_\star)_i = \langle\phi_i,\phi_\star\rangle = K(x_i,x_\star)
+    K(\tX,\tX)_{ij} = (\Theta\Theta^\top)_{ij} = \langle\phi_i,\phi_j\rangle = K(x_i,x_j)\qquad K(\tX,x_\star)_i = (\Theta\phi_\star)_i = \langle\phi_i,\phi_\star\rangle = K(x_i,x_\star)
 \end{equation}
 
 Alternativamente, esta predicción puede ser reordenada para dar 
@@ -473,7 +473,7 @@ Podemos ocupar el truco del kernel para parametrizar directamente el producto in
 Esta formulación, al igual que el SVM lineal original, es un QP  con solución única, pues  el kernel $K$ es definido positivo y por ende el funcional de optimización es cuadrático y cóncavo. Consecuentemente, una vez calculadas las $N(N+1)/2$ evaluaciones de la forma $K(x_i, x_j)$, lo único que queda es resolver un problema QP.  Es particularmente relevante ver que kernel SVM tiene el mismo orden de complejidad computacional que el SVM lineal.
 \end{remark}
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=0.75\textwidth]{img/cap5_svm_2kernels}
     \caption{Clasificación usando kernel SVM (margen suave) con distinto kernels: polinomial a la izquierda y RBF a la derecha.}
