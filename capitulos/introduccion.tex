@@ -59,7 +59,18 @@ o bien lo más cercano posible de acuerdo a una medida de error apropiada. El no
 \noindent Si todos los humanos sobre la faz de la tierra se uniesen para programar dicha rutina y cada uno pudiese escribir 10 de estas instrucciones por segundo, nos tomaría $4\times10^{21}$ años, esto es casi un billón ($10^{12}$) de veces la edad de la tierra ($4.54\times10^9$), lo cual hace impracticable adoptar un enfoque clásico de programación. Una alternativa basada en AM es un programa simple en el cual la máquina explora distintos posibles escenarios del tablero e inicialmente toma decisiones aleatorias de qué acción ejecutar para luego registrar si dicha movida llevó a ganar o perder el juego; este enfoque de programación no pretende programar la máquina para “jugar ajedrez” sino para “aprender a jugar ajedrez”. Una implementación exitosa de este concepto usando aprendizaje reforzado y redes neuronales profundas para el juego de Go puede verse en \cite{silver_2016}.
 
 
-\textbf{AM, Knowledge Discovery in Databases (KDD) y minería de datos.} KDD \cite{fayyad_1996} es “el proceso no trivial de identificar patrones potencialmente válidos, novedosos, útiles y explicativos en datos”, y consta de 5 etapas: selección, preparación, transformación, minería e interpretación de datos. La etapa de minería de datos  consiste en extraer información desde datos disponibles, por ejemplo, agruparlos en subconjuntos afines o identificar situaciones anómalas. Para esto generalmente se consideran herramientas de AM, especialmente de aprendizaje no-supervisado debido a la cantidad de los datos que deben ser analizados en aplicaciones de KDD, los cuales en general no están no etiquetados y existe poco conocimiento \emph{a priori} de su naturaleza. 
+\textbf{AM, Knowledge Discovery in Databases (KDD) y minería de datos.} KDD \cite{fayyad_1996} es “el 
+proceso no trivial de identificar patrones 
+potencialmente válidos, novedosos, útiles y 
+explicativos en datos”, y consta 
+de 5 etapas: selección, preparación, transformación, minería e interpretación 
+de datos. La etapa de minería de datos  consiste en extraer información desde 
+datos disponibles, por ejemplo, agruparlos en subconjuntos afines o identificar situaciones 
+anómalas. Para esto generalmente se consideran herramientas de AM, especialmente de aprendizaje no-supervisado debido a la cantidad de los datos 
+que deben ser analizados en aplicaciones de KDD, 
+los cuales en general no están
+no etiquetados y existe poco conocimiento 
+\emph{a priori} de su naturaleza. 
 
 \textbf{AM y Data Science.} En línea con sus orígenes en la inteligencia artificial, el objetivo del AM es encontrar relaciones entre datos y hacer predicciones prescindiendo de la intervención humana, es decir, con poco o nada de conocimiento \emph{a priori}. Sin embargo, las técnicas de AM pueden ser complementadas con el conocimiento de un problema específico, en donde especialistas en AM colaboran con especialistas de (i) el área en cuestión, (ii) minería de datos, y (iii) visualización. Esto es \emph{Data Science}, una disciplina colaborativa donde especialistas de variadas áreas trabajan de forma conjunta para hacer un análisis detallado de los datos, con la finalidad de resolver un problema en particular. El perfil del \emph{Data Scientist} es muy completo, pues debe tener conocimiento de AM, estadística, programación, minería de datos, interactuar con especialistas y entender el impacto comercial del análisis. De hecho, la posición de \emph{Data Scientist} ha sido considerada la más sexy del siglo XXI según \emph{Harvard Business Review} \cite{harvard_DS}.
 

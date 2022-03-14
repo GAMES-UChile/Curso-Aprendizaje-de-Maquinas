@@ -3,14 +3,16 @@
 \section{Clasificación}
 \label{cap:clasificacion}
 
-El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características}. En el contexto del aprendizaje supervisado, el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio en el que vive la variable $y$ (salida o variable dependiente) es \emph{categórico} y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,K\}$ para el caso de clasificación multiclase. 
+El problema de clasificación dice relación con la identificación del conjunto, categoría o \emph{clase} a la cual pertenece un elemento en base a sus \emph{características} o \textit{features}. En el contexto del aprendizaje supervisado, el problema de clasificación puede ser visto como un caso particular del problema de regresión, donde el espacio en el que vive la variable $y$ (salida o variable dependiente) es \emph{categórico} y usualmente denotado por $\{0,1\}$, para el caso binario, o bien $\{1,2,\ldots,K\}$ para el caso de clasificación multiclase. 
 	
-\subsection{$k$ vecinos más cercanos (KNN)}
+\subsection{\texorpdfstring{$k$} vecinos más cercanos (KNN)}
 Dado un conjunto de datos
 \begin{equation}
 	 	\datos = \{(x_i,c_i)\}_{i=1}^N\subset\R^M\times\{\cC_i\}_{i=1}^K
 \end{equation}
-donde, al igual que en el problema de regresión, $x$ es la variable independiente y $c$ es la variable dependiente o \emph{clase}, una forma natural de clasificar una nueva entrada $x_\star$ será asignarle la clase correspondiente a los datos observados más similares a $x_\star$. De esta forma, KNN funciona bajo la hipótesis de que entradas similares tienen salidas similares. Bajo este modelo, la formulación del problema de clasificación es la siguiente:\\
+donde, al igual que en el problema de regresión, $x$ es la variable independiente y $c$ es la variable dependiente o \emph{clase}, una forma natural de clasificar una nueva entrada $x_\star$ será asignarle la clase correspondiente a los datos observados más similares a $x_\star$. 
+
+Así, el modelo KNN funciona bajo esta lógica:  que entradas similares tienen salidas similares. Bajo este modelo, la formulación del problema de clasificación es la siguiente:\\
 
 Sea $N_k(x_\star)\subset \mathcal{D}$ conjunto de los $k$ vecinos más cercanos a $x_\star$, es decir:
 
