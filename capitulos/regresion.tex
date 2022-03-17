@@ -17,7 +17,7 @@ la regresión lineal busca encontrar un modelo lineal, es decir, una función $f
   x &\mapsto f(x)=a^\top x + b,\quad a\in\R^M,b\in\R
    \label{eq:reg_lin_fn} 
 \end{align}
-que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, en base a las las observaciones contenidas en el conjunto $\datos$ de la ec.~\eqref{eq:training_set}. Antes de proceder a definir un criterio de \emph{mejor representación}, el siguiente recuadro justifica la elección de modelos lineales. 
+que \emph{mejor represente} la forma en que la variable $y$ depende de la variable $x$, en base a las observaciones contenidas en el conjunto $\datos$ de la ec.~\eqref{eq:training_set}. Antes de proceder a definir un criterio de \emph{mejor representación}, el siguiente recuadro justifica la elección de modelos lineales. 
 
 \begin{mdframed}[style=discusion, frametitle={\center ¿Por qué consideramos el caso lineal en particular?}]
 	Existen distintas razones para estudiar los modelos lineales. En primer lugar, con el criterio de mínimos cuadrados que veremos a continuación, el modelo lineal es el único que admite resolución de forma explícita (o, como diremos alternativamente, \emph{tiene forma cerrada}). Además de calcular dicha solución, la existencia de su forma cerrada nos permite interpretar las propiedades de dicha solución. En segundo lugar, los resultados que obtendremos a continuación requieren linealidad solo en los parámetros ---ver ec.~\eqref{eq:reg_lin_fn}--- y no necesariamente en la variable independiente $x$. Por esta razón, el estudio del modelo lineal también incluye modelos no lineales del tipo
