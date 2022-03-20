@@ -46,7 +46,7 @@ Donde hemos sido enfáticos en que el costo depende del conjunto de entrenamient
 Debido a la forma afín de $f$, resolver este problema de optimización es equivalente a encontrar los parámetros $a$ y $b$ en la ec.~\eqref{eq:reg_lin_fn}, es decir: 
 \begin{equation}
 	a^\star,b^\star = \argmin_{a,b} \sum_{i=1}^N(y_i-a^
-	\top x_i - b)^2
+	\top x_i - b)^2.
 	\label{eq:lin_least_squares}
 \end{equation}
 
@@ -54,7 +54,7 @@ Observemos que el costo en la  ec.~\eqref{eq:lin_least_squares} es cuadrático e
 \begin{equation}
   \tx_i = \left( \begin{matrix}x_i \\  1\end{matrix}\right) \in\R^{M+1},\quad
   \theta = \left( \begin{matrix}a \\  b\end{matrix}\right)\in\R^{M+1} \implies J(\datos,\theta) = \sum_{i=1}^N(y_i-\theta^
-	\top \tx_i)^2
+	\top \tx_i)^2.
  \label{eq:truco_reg_lin} 
 \end{equation}
 
@@ -62,17 +62,15 @@ Una forma común y natural de representar los datos es mediante matrices, transf
 
 \begin{equation}
   \tX = \left( \begin{matrix}\tx_1^\top \\\vdots \\ \tx_N^\top \end{matrix}\right)\in\R^{N\times (M+1)} ,\quad
-  Y = \left( \begin{matrix}y_1 \\\vdots \\y_N \end{matrix}\right) \in\R^{N} \implies J = \norm{Y-\tX\theta}_2^2
+  Y = \left( \begin{matrix}y_1 \\\vdots \\y_N \end{matrix}\right) \in\R^{N} \implies J = \norm{Y-\tX\theta}_2^2,
  \label{eq:matrices_X} 
 \end{equation}
-
-Donde $\tX$ se denomina matriz de diseño o matriz de regresión. De esta forma, dado que el funcional $J$ es convexo, puede ser minimizado utilizando condiciones de primer orden:
-
+donde $\tX$ se denomina matriz de diseño o matriz de regresión. De esta forma, dado que el funcional $J$ es convexo, puede ser minimizado utilizando condiciones de primer orden:
 \begin{align}
 	&\nabla_\theta J= 2(Y-\tX\theta)^\top(-\tX)=0\nonumber \\
 	& \iff Y^\top\tX -\theta^\top\tX^\top\tX = 0\nonumber\\
 	& \iff \theta^\top = Y^\top \tX(\tX^\top\tX)^{-1}\nonumber\\
-	& \iff \theta = (\tX^\top\tX)^{-1}\tX^\top Y \label{eq:sol_mse}
+	& \iff \theta = (\tX^\top\tX)^{-1}\tX^\top Y. \label{eq:sol_mse}
 \end{align}
 
 Con los parámetros del modelo regresión lineal encontrados con el criterio de mínimos cuadrados, es posible implementar la solución y compararla visualmente con los datos. La Figura \ref{fig:reg_lin_1} muestra la regresión lineal correspondiente a chirridos de grillos por segundo en función de la temperatura \cite{insects}. 
@@ -96,32 +94,32 @@ Al tratar de invertir una matriz de forma computacional, probablemente hemos obt
 
 \noindent\textbf{Caso 1:} Consideremos la matriz 
 \begin{equation*}
-	A = \left[ \begin{matrix}10^{50} & 1 \\  10^{50}  & 2\end{matrix}\right]
+	A = \left[ \begin{matrix}10^{50} & 1 \\  10^{50}  & 2\end{matrix}\right],
 \end{equation*}
 dicha matriz es claramente invertible y su inversa puede ser calculada mediante
 \begin{equation*}
 	A^{-1} = \frac{1}{10^{50} \cdot 2 - 10^{50}\cdot 1}\left[ \begin{matrix}2 & -1 \\  -10^{50}  & 10^{50}\end{matrix}\right]
-	=\left[ \begin{matrix}2\cdot10^{-50} & -10^{-50} \\  -1  & 1\end{matrix}\right]
+	=\left[ \begin{matrix}2\cdot10^{-50} & -10^{-50} \\  -1  & 1\end{matrix}\right],
 \end{equation*}
 donde las entradas difieren en 50 órdenes de magnitud. Sin embargo, la representación usual que consideramos cuando programamos es la de punto flotante de precisión simple, la cual considera a $2^{-127}\approx 10^{-38}$ como el menor valor positivo. Consecuentemente, los valores más pequeños que este límite serán aproximados por el elemento más cercano, es decir, cero. Utilizando la inversa aproximada, denotada $\tilde{A}^{-1}$, resulta en errores como el siguiente:
 \begin{equation*}
-	A\tilde{A}^{-1} = \left[ \begin{matrix}10^{50} & 1 \\  10^{50}  & 2\end{matrix}\right] \left[ \begin{matrix} 0 & 0 \\  -1  & 1\end{matrix}\right] = \left[ \begin{matrix} -1 & 1 \\  -2  & 2\end{matrix}\right] \neq \eye
+	A\tilde{A}^{-1} = \left[ \begin{matrix}10^{50} & 1 \\  10^{50}  & 2\end{matrix}\right] \left[ \begin{matrix} 0 & 0 \\  -1  & 1\end{matrix}\right] = \left[ \begin{matrix} -1 & 1 \\  -2  & 2\end{matrix}\right] \neq \eye.
 \end{equation*}
 
 \noindent\textbf{Caso 2:} Consideremos
 \begin{equation*}
-	A = \left[ \begin{matrix} a  & a \\  b  & b + \epsilon\end{matrix}\right]
+	A = \left[ \begin{matrix} a  & a \\  b  & b + \epsilon\end{matrix}\right],
 \end{equation*}
 la cual también es invertible para $a,\epsilon>0$, pues su determinante está dado por
 \begin{equation*}
-	\det{A} = a(b+\epsilon) - ab = a\epsilon>0,
+	\det{A} = a(b+\epsilon) - ab = a\epsilon>0.
 \end{equation*}
 Sin embargo, si $\epsilon\ll1$, entonces el cálculo de la inversa puede sufrir inestabilidades numéricas como en el caso anterior. Sin embargo, observe para un $\eta>0$ suficientemente grande, la matriz $A+\eta I$ puede tener un determinante arbitrariamente grande (ver sección \ref{sub:min_cuad_reg}).
 \end{mdframed}
 
 Es relevante reflexionar por qué consideramos mínimos cuadrados como la métrica de error relacionada al problema de regresión. Existen varias razones de por qué lo hacemos, tanto técnicas como conceptuales, como también diversas desventajas de este criterio que es importante identificar.  Desde del punto de vista técnico, el costo estrictamente convexo de un modelo lineal (en los parámetros) define un problema de optimización que también es estrictamente convexo y por ende tiene una solución única. Además, en el caso particular del costo cuadrático, este óptimo puede ser determinado de forma explícita (lo cual es fuertemente deseado), pues está dado únicamente por la inversión de una matriz y no mediante, e.g., una búsqueda iterativa.\\
 
-Desde un punto interpretativo, el exponente 2 busca penalizar mayormente grandes diferencias (mayores que 1) entre la predicción y el valor real, mientras que le quita importancia a errores de predicción pequeños (menores que 1). Si bien es posible utilizar otros exponentes bajo el mismo razonamiento de penalización, se utiliza mayormente la minimización de cuadrados ya que tiene propiedades matemáticas muy favorables en cuanto al análisis técnico por lo permite obtener conclusiones teóricas más fuertes.\\
+Desde un punto de vista, el exponente 2 busca penalizar mayormente grandes diferencias (mayores que 1) entre la predicción y el valor real, mientras que le quita importancia a errores de predicción pequeños (menores que 1). Si bien es posible utilizar otros exponentes bajo el mismo razonamiento de penalización, se utiliza mayormente la minimización de cuadrados ya que tiene propiedades matemáticas muy favorables en cuanto al análisis técnico por lo permite obtener conclusiones teóricas más fuertes.\\
 
 Desde un punto de vista conceptual, otra justificación para usar la medida del  error cuadrático es que este representa la varianza muestral. Es decir, si considerásemos que $x_i$ e $y_i$ son observaciones iid de variables aleatorias $X$ e $Y$ respectivamente, entonces el error cuadrático medio (asociado a la función $f$) definido por
 \begin{equation}
@@ -224,7 +222,7 @@ Podemos evaluar el sesgo y la varianza para el estimador de mínimos cuadrados, 
 \begin{theorem} Bajo la hipótesis de ruido aditivo sobre un modelo lineal, el estimador de mínimos cuadrados cumple que:
 	\begin{align}
 	\text{Sesgo}(\hat f_\star) &= 0\\
-	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX)^{-1}	\tx_\star
+	\text{Varianza}(\hat f_\star) &= \sigma^2 \tx_\star^\top (\tX^\top\tX)^{-1}	\tx_\star.
 \end{align}
 \end{theorem}
 
@@ -269,7 +267,7 @@ Si bien el problema de mínimos cuadrados regularizados incluye en su función o
 	\min_\theta & \norm{Y-\tX\theta}_2^2\label{eq:dual_MCR1}\\
 	\text{s.a.} &\ ||\theta||_p^p = \tau,\label{eq:dual_MCR2}
 \end{align}
-donde $\tau\geq0$ es una constante fijada. Este problema puede ser resuelto mediante multiplicadores de lagrange:
+donde $\tau\geq0$ es una constante fijada. Este problema puede ser resuelto mediante multiplicadores de Lagrange:
 \begin{equation}
 	L(\theta,\lambda) = \norm{Y-\tX\theta}_2^2 + \lambda \left(||\theta||_p^p - \tau\right),
 	\label{eq:MC_restriccion}
