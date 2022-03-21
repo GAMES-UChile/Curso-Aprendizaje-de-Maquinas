@@ -16,9 +16,9 @@ Este repositorio contiene el material del curso MDS7104 (ex MA5204, MA5203) Apre
 
 *Nota: todo el material de clases, tanto el apunte como las diapositivas, están en constante evolución, especialmente antes de cada clase. Por esta razón, de necesitar imprimirlo, se recomienda solo imprimir el material que se va a leer.* 
 
-**Apunte**: Los contenidos del curso están presentado en el apunte, el cual se ha construido desde las notas de clase durante los últimos años. La últiva versión está disponible [aquí][link-apunte]. 
+**Apunte**: Los contenidos del curso están presentado en el apunte, el cual se ha construido desde las notas de clase durante los últimos años. La última versión está disponible [aquí][link-apunte]. 
 
-**Diapositivas**: Estarán disponibles en este repositorio antes de cada clase. Con la finalidad de entregar ejemplos e implementaciones de la teoría presentada en el curso, el código para reproducir todas las figuras del apunte está disponible y puede ser revisado [aquí][link-notebook].
+**Diapositivas**: Estarán disponibles en este repositorio antes de cada clase. Con la finalidad de entregar ejemplos e implementaciones de la teoría presentada en el curso, el código para reproducir todas las figuras del apunte está disponible y puede ser revisado [aquí][slides-2022].
 
 
 
@@ -77,4 +77,6 @@ Además, todos los ayudantes desde 2016 han hecho posible este curso. Gracias:
 [CMM-link]: https://www.cmm.uchile.cl/
 
 [slides-2021]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/diapositivas/2021/
+
+[slides-2022]: https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas/blob/master/diapositivas/
 
