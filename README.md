@@ -37,8 +37,9 @@ Universidad de Chile
 
 **Ayudantes:** 
 
-- Por definir
-
+- David Molina
+- Tomás Valencia
+- Alonso Vargas
 
 
 ### Agradecimentos
