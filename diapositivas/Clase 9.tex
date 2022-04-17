@@ -1,0 +1,216 @@
+\documentclass[handout, 9pt]{beamer}
+
+\input{preambuloBeamer}
+\usetheme{simple}
+
+\title{Clase 9: Clasificación (parte 2)}
+\subtitle{MDS7104 Aprendizaje de Máquinas}
+\date{\today}
+\author{Felipe Tobar} 
+\titlegraphic{
+\begin{figure}[htp] 
+    \centering
+        \includegraphics[width=0.15\textwidth]{../img/Uchile.pdf}% 
+\end{figure}
+}
+\institute{Iniciativa de Datos e Inteligencia Artificial\\Universidad de Chile}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{El perceptrón}
+
+\begin{frame}{El perceptrón - Introducción}
+Las nociones básicas que hemos visto hasta ahora para lidiar con el problema de clasificación tienen dos problemas conceptuales. \pause
+\begin{enumerate}
+  \item Falta de una métrica correcta \pause
+  \item No existe una \emph{función de verosimilitud} apropiada \pause
+\end{enumerate}
+
+La incorporación de un función que \emph{conecte} al modelo lineal con la clase, resulta en un \emph{modelo lineal generalizado}, es decir, un modelo lineal concatenado con una función no-lineal que llamaremos \emph{función de enlace}.\\~\ \pause
+
+Sin embargo, el desafío más importante en esta construcción es que el modelo resultante ya no es lineal, \textbf{ni en la entrada ni en los parámetros}, pues una verosimilitud (función de enlace) lineal nunca nos llevará desde un espacio de características  (hemos asumido $\R^M$) al espacio de categorías $\{\cC_1,\cC_2,\ldots,\cC_k\}$. Consecuentemente, necesitamos una no-linealidad \textbf{después} de la parte lineal \\~\
+
+Una forma de resolver estas problemáticas es mediante el uso del \textbf{Perceptrón} \cite{rosenblatt_1958}, un modelo de clasificación binario que tuvo mucha importancia en el área de reconocimiento de patrones.
+
+\end{frame}
+
+\begin{frame}{El Perceptrón}
+
+El Perceptrón es una función no lineal (fija) que recibe un vector de características\footnote{En este caso consideramos no linealidad antes y después de la parte lineal, sin embargo, considerar la entrada como $x$ o  como $\phi(x)$ es  equivalente en base a lo  visto en los modelos lineales en los parámetros. } de $x$, $\phi(x)\in\R^D$, y le asigna un valor $\{+1,-1\}$ de la siguiente forma:
+\begin{align*}
+  y(x) &= f(\theta^\top\phi(x))\\
+  f(u) &= \left\{\begin{matrix}
+  +1,\quad u\geq 0\\
+  -1,\quad u<0.
+  \end{matrix}\right.
+\end{align*} \pause
+El Perceptrón entonces asigna $x$ a la clase $\mathcal{C}_1$ si $y(x)=+1$ y asignará $x$ a la clase $\mathcal{C}_2$ cuando $y(x)=-1$. Notemos que  para  el caso que $\phi$ es lineal, este es el mismo clasificador presentado en la Sección de clasificación lineal, pero en este caso el criterio para asignar la clase es \textbf{parte del modelo}. \\~\
+
+Representando las etiquetas mediante la codificación $t\in\{+1,-1\}$, la condición de asignación puede ser cubierta por la expresión:
+\begin{equation*}
+  \theta^\top\phi(x_n)t_n > 0,\quad \forall (x_n,t_n) \in \datos.
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{El Perceptrón}
+Podemos entonces satisfacer esta restricción mediante el ``criterio del perceptrón'', el cual se basa en examinar  los elementos de $\datos$ que fueron clasificados incorrectamente.\\~\ 
+
+ Este criterio asocia a los puntos clasificados correctamente error 0 y a los puntos mal clasificados error $-\theta^\top\phi(x)t>0$. De esta forma, si denotamos $\mathcal{M}$ el conjunto de puntos mal clasificados, se debe minimizar la siguiente función objetivo: 
+\begin{align*}
+  J_\text{P}(\theta,x) &= \E\left(-\theta^\top\phi(x)t(x)\mathds{1}_{\theta^\top\phi(x)t(x)\leq 0} \right) \\
+&\approx -\sum_{(x_i,t_i)\in \mathcal{D}}\theta^\top\phi(x_i)t_i \mathds{1}_{\theta^\top\phi(x_i)t_i\leq 0} \\
+&= -\sum_{(x_i,t_i)\in \mathcal{M}}\theta^\top\phi(x_i)t_i.
+\end{align*} 
+
+Para el problema de minimización del funcional del perceptrón, se puede utilizar el método del gradiente estocástico.
+
+\end{frame}
+
+\begin{frame}{Método del gradiente estocástico}
+
+
+En aprendizaje de máquinas por lo general se busca un parámetro óptimo que minimice el error de ajuste de acuerdo a una función de pérdida $J$. Dicho problema puede ser escrito de la forma: \pause
+  
+  \begin{equation*}
+    \hat{\theta} = \argmin_\theta \sum_{i=1}^n J(y_i,\hat{y}_\theta(x_i)) = \argmin_\theta \frac{1}{n} \sum_{i=1}^n J(y_i,\hat{y}_\theta(x_i)).
+  \end{equation*} \pause 
+  
+  Donde $y_i$ corresponde a la salida de $x_i$ mientras que $\hat{y}_\theta(x_i)$ representa la predicción de la salida de $x_i$ mediante un modelo de parámetro(s) $\theta$.\\~\
+  
+En el caso general, el óptimo no puede ser enconrado de forma analítica o bien, el algoritmo del gradiente (clásico) se queda atrapado en mínimos locales. Una forma distinta de ver el problema es considerar que $(x_i,y_i)\sim\mu$ iid para una distribución $\mu$ desconocida. Desde ese punto de vista, el problema se reduce a minimizar $\E\left(J(y,\hat{y}_\theta(x))\right)$. Este tipo de problemas puede ser escrito en general como \pause 
+  
+  \begin{equation*}
+    \min_\theta \E(f(\theta,X)),\quad X\sim \mu\text{ desconocida}.
+  \end{equation*} 
+
+
+
+
+\end{frame}
+
+
+\begin{frame}{Método del gradiente estocástico }
+Una alternativa al método del gradiente clásico $\theta^{\tau+1} = \theta^\tau - \beta_{\tau+1}\nabla_\theta \E(f(\theta^\tau,X))$ consiste en utilizar las observaciones iid $(x_i)_{i\geq 1}\sim\mu$ al momento de iterar, considerando una observación por iteración en vez del funcional $\E(f(\theta^\tau,X))$ completo, es decir: \pause 
+
+\begin{equation*}
+  \theta^{\tau+1} = \theta^\tau - \eta_{\tau+1}\nabla_\theta f(\theta^\tau,x_{\tau+1}).
+\end{equation*} \pause 
+
+Notar que en cada iteración se necesita evaluar una sola vez $\nabla_\theta f$ y no hace falta calcular su esperanza, más aún, este algoritmo permite entrenar modelos con datos a medida que van llegando (actualización a tiempo real) \\~\
+
+Este algoritmo es conocido como método del \textbf{gradiente descendente estocástico (SGD)}, donde el término $\nabla_\theta f(\theta^\tau,x_{\tau+1})$ puede ser visto como un gradiente exacto perturbado o una realización del gradiente (que es una variable aleatoria): \pause 
+
+\begin{equation*}
+  \nabla_\theta f(\theta^\tau,x_{\tau+1}) = \nabla_\theta\E(f(\theta^\tau,X)) + \Delta_t
+\end{equation*} \pause 
+donde $\Delta_t = \nabla_\theta f(\theta^\tau,x_{\tau+1}) - \nabla_\theta \E( f(\theta^\tau,X))$ cumple que $\E(\Delta_t)=0$ ya que de acuerdo a la regla integral de Leibniz, $\nabla_\theta \E( f(\theta^\tau,X)) =  \E(\nabla_\theta f(\theta^\tau,X))$.\\~\
+
+
+\textbf{Nota:} El gradiente estocástico provee robustez a mínimos locales \textbf{¿por qué?}
+
+
+\end{frame}
+
+\begin{frame}{Método del gradiente estocástico}
+
+\begin{figure}[H]
+  \centering
+  \visible<1->{\includegraphics[width=0.5\textwidth]{../img/cap3_sgd.pdf}}\\
+  \caption{Posibles iteraciones del algoritmo SGD. El algoritmo del gradiente clásico hubiese quedado atrapado en $\theta_2$ ya que en dicho punto el gradiente es nulo por lo que no hay desplazamiento.}
+\end{figure} \pause 
+
+\begin{theorem}[Robbins-Siegmund] Bajo hipótesis razonables sobre $f$ (regularidad en $\theta$, integrabilidad de $\nabla_\theta f$ y cotas) y tasas de aprendizaje suficientemente pequeñas (por ejemplo, $\eta_\tau = 1/\tau$), la sucesión $(\theta^\tau)_{\tau\geq 1}$ converge c.s. al conjunto de puntos críticos de $\E(f(\theta,X))$.\\   
+  \end{theorem}
+
+
+
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{El perceptrón}
+
+En este caso, el algoritmo iterativo tiene la siguiente estructura: \pause
+\begin{align*}
+  \theta^{\tau+1} &= \theta^\tau - \eta_\tau \nabla_\theta J_\text{P}(\theta^\tau,x_i)\nonumber\\
+  &= \theta^\tau + \eta_\tau \phi(x_i)t_i.\label{eq:percetron_rule}
+\end{align*}\pause
+Es importante notar que al actualizar el vector $\theta$, el conjunto de puntos mal clasificados $\mathcal{M}$ va a cambiar, pues (esperamos que) en cada iteración los elementos del conjunto de puntos mal clasificados vaya disminuyendo.\\
+
+Por lo tanto, el algoritmo de entrenamiento para el perceptrón es el siguiente: \pause
+
+\begin{itemize}
+  \item[i)] para cada punto en el conjunto de entrenamiento $\{x_i\}_{i=1}^N$, \pause
+  \item[ii)] si el punto $x_i$ fue clasificado correctamente el vector de pesos de mantiene igual \pause
+  \item[iii)] si $x_i$ fue clasificado incorrectamente, el vector $\theta^\tau$ es actualizado según la ecuación anterior con $\eta=1$ mediante
+  \begin{equation*}
+   \theta^{\tau+1} = \theta^\tau + \phi(x_i)t_i.
+  \end{equation*} 
+\end{itemize}
+\pause
+Es decir, el parámetro $\theta$ está paso a paso modificado en la dirección de las características $\phi(x_i)$ con multiplicador $\pm1$ en base a la clase verdadera de $x_i$ hasta  que todos los puntos de $\datos$ están bien clasificados.
+
+
+\end{frame}
+\section{Clasificación probabilística: modelo generativo}
+
+\begin{frame}{Modelo generativo}
+Los modelos que hemos revisado hasta este punto son del tipo \emph{discriminativo}, es decir, modelan directamente la función $f:x\mapsto c$. Con una interpretación probabilística, esto es equivalente a modelar la probabilidad condicional $\mathbb{P}(\mathcal{C}_k|x)$, es decir, dado que conozco el input (o características de) $x$, cuál es la distribución de probabilidad sobre las clases. Sin embargo, hemos considerado métodos determinísticos, que solo asignan probabilidad 1 a una sola clase. \pause
+\vspace{0.5cm}
+
+Un paradigma alternativo es considerar es un enfoque \emph{generativo}, en el cual modelamos dos  objetos: en primer lugar la ``probabilidad condicional de clase'' la cual representa cómo distribuyen los valores de los inputs $x$ cuando la  clase es, por  ejemplo, $\cC_k$, denotada por $\mathbb{P}(x|\mathcal{C}_k)$. En segundo lugar las ``probabilidades de clase'', o el prior sobre clases, denotada $\mathbb{P}(\mathcal{C}_k)$. Luego, podemos calcular la densidad posterior sobre las clases dado un input $x$ usando el Teorema de Bayes de acuerdo a 
+\begin{equation*}
+  \mathbb{P}(\mathcal{C}_k|x) = \frac{\mathbb{P}(x|\mathcal{C}_k)\mathbb{P}(\mathcal{C}_k)}{\mathbb{P}(x)}.
+\end{equation*}
+
+\end{frame}
+
+\begin{frame}{Modelo generativo}
+Para el caso de 2 clases, se tiene el siguiente desarrollo: \pause 
+\begin{align*}
+  \mathbb{P}(\mathcal{C}_1|x) 
+  &= \frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x)}\nonumber\\
+  &= \frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)+\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)}\nonumber\\
+  &=\frac{1}{1+\frac{\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)}{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}}\nonumber\\
+  &=\frac{1}{1+\exp(-r)} = \sigma(r).\label{eq:logistic1}
+\end{align*} \pause 
+Donde hemos introducido la notación $r = r(x) =\ln\left(\frac{\mathbb{P}(x|\mathcal{C}_1)\mathbb{P}(\mathcal{C}_1)}{\mathbb{P}(x|\mathcal{C}_2)\mathbb{P}(\mathcal{C}_2)}\right)$  y la  función logística definida mediante $\sigma(r) = \frac{1}{1+e^{-r}}$, la cual  tiene propiedades que serán útiles en el entrenamiento, en particular: \pause
+\begin{align*}
+  \text{reflejo: }\sigma(-r)&=1-\sigma(r)\\
+  \text{derivada: }\frac{d}{dr}\sigma(r)&=\sigma(r)(1-\sigma(r))\\
+  \text{inversa: }r(\sigma)&=\ln\left(\frac{\sigma}{1-\sigma}\right).
+\end{align*}
+
+
+\end{frame}
+
+\begin{frame}{Modelo generativo}
+Si bien la expresión de la distribución condicional en la ecuación anterior parece una presentación antojadiza para hacer aparecer la  función logística (sigmoide), pues $r=r(x)$ puede ser cualquier cosa. Sin embargo, veremos que existe una elección particular de las distribuciones condicionales de clase que lleva a un $r$ que es efectivamente lineal en $x$. En general, nos  referiremos a este clasificador como \textbf{regresión logística} en dicho caso, es decir, cuando $r(x) = a^\top x  + b$. \pause
+
+Podemos ahora considerar el caso de múltiples clases $\{\cC_1,\ldots,\cC_K\}$, donde un desarrollo similar al anterior resulta en:  
+\begin{equation*}
+  \mathbb{P}(\mathcal{C}_i | x) = \frac{\mathbb{P}(x | \mathcal{C}_i)\mathbb{P}(\mathcal{C}_i)}{\sum_{j}\mathbb{P}(x | \mathcal{C}_j)\mathbb{P}(\mathcal{C}_j)} = \frac{\exp(s_i)}{\sum_{j}\exp(s_j)},\label{eq:softmax1}  
+\end{equation*}
+\pause
+donde hemos denotado $s_i = \log\left(\mathbb{P}(x | \mathcal{C}_i)\mathbb{P}(\mathcal{C}_i)\right)$. La función que aparece al lado derecho de la ecuación se conoce como \emph{exponencial normalizada} o \emph{softmax}, y corresponde a una generalización de la función logística a múltiples clases. \\Además, esta función tiene la propiedad de ser una aproximación suave de la función máximo y convertir cualquier vector $s=[s_1,\ldots,s_k]$ en una distribución de probabilidad, donde podemos hablar de ``la probabilidad de ser clase $\cC_k$''.
+
+
+\end{frame}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%Quitar de comentarios apenas se agregue alguna referencia 
+\bibliography{../capitulos/referencias} %Bibliografía
+\bibliographystyle{apacite}
+\end{document} 
