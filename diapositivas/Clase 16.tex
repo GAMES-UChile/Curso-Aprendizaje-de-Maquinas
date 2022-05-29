@@ -38,7 +38,7 @@
  El algoritmo aglomerativo de clustering es el siguiente:
 
 \begin{enumerate}
-	\item Para comenzar, se considerarán $n$ clusters distintos. Es decir, tantos cluster como datos y se asigna cada dato con un unico cluster y viceversa.\pause
+	\item Para comenzar, se considerarán $n$ clusters distintos. Es decir, tantos cluster como datos y se asigna cada dato con un único cluster y viceversa.\pause
 	\item Buscar el par de clusters más \emph{similar} (bajo algún criterio) y combinarlos en un solo cluster.\pause
 	\item Repetir el paso anterior hasta tener $k$ clusters.
 \end{enumerate}
@@ -66,7 +66,7 @@ Otro método de clustering muy utilizado es $k$-means. Dado $k \in \mathbb{N}$ y
 	\item Cada elemento $x_i$ se asigna al grupo que tenga el centroide más \emph{cercano}.\pause
 \end{itemize}
 
-La asignación del dato $x_i$ al centorude $\mu_k$, denotada $r_{ik}$, está definida por:
+La asignación del dato $x_i$ al centroide $\mu_k$, denotada $r_{ik}$, está definida por:
 \begin{align*}
 r_{ik} = \begin{cases}
 1 & \text{si } k = \text{argmin}||x_i-\mu_k||\\
@@ -87,13 +87,13 @@ J = \sum_{i=1}^N \sum_{k=1}^K r_{ik} ||x_i-\mu_k||^2.
 	El algoritmo más frecuente usado para k-means es el algoritmo de Lloyd:\pause
 
 \begin{itemize}
-    \item \textbf{E-step:} En este paso, se calculan (actualizan) las asignaciones $r_{ik}$, dejando fijos $\mu_k$. Lo que corresponde a asignar el dato $x_i$ al centroide más cercano.\pause
-    \item \textbf{M-step:} El siguiente paso corresponde a actualizar los centroides $\mu_k$ dejando fijo las asignaciones $r_{ik}$.\\~\
+    \item \textbf{E-step:} En este paso, se calculan (actualizan) las asignaciones $r_{ik}$, dejando fijas las medias $\mu_k$. Lo que corresponde a asignar el dato $x_i$ al centroide más cercano.\pause
+    \item \textbf{M-step:} El siguiente paso corresponde a actualizar los centroides $\mu_k$ dejando fijas las asignaciones $r_{ik}$.\\~\
     \pause
     
-    Como J es cuadrática en $\mu_k$, entonces podemos utilizar la condición de primer orden:
+    Como $J$ es cuadrática en $\mu_k$, entonces podemos utilizar la condición de primer orden:
     \begin{align*}
-        \mu_k = \frac{\sum_{i=1}^N r_{ik}x_i}{\sum_{i=1}^N r_{ik}}
+        \mu_k = \frac{\sum_{i=1}^N r_{ik}x_i}{\sum_{i=1}^N r_{ik}}.
     \end{align*}
     
     Lo que corresponde a asignar el centro del cluster al promedio de todas las muestras asignadas al antiguo cluster.
@@ -137,7 +137,7 @@ Dado que la intersección finita de semiespacios genera un poliedro, se tiene qu
   \centering
   \includegraphics[width=0.5\textwidth]{../img/cap6_voronoi}
   \caption{Partición de $\mathbb{R}^2$ inducida por los centroides.}
-  \label{fig:kmeans}
+  \label{fig:kmeans_voronoi}
 \end{figure}
 
 \end{frame}
@@ -173,7 +173,7 @@ Una muestra $x$ es generada mediante dos etapas: primero se elige un cluster al 
 \begin{equation*}
 	\log p(\x_1,\ldots,\x_N) = \sum_{n=1}^N \log p(\x_n) = \sum_{n=1}^N \log \sum_{k=1}^K  \pi_k\cN(\x_n|\mu_k,\Sigma_k) \label{eq:GMM_like}	
 \end{equation*}\pause
-Hay una serie de complicaciones relacionados a la búsqueda de estos parámetros mediante MV:
+Hay una serie de complicaciones relacionadas a la búsqueda de estos parámetros mediante MV:
 
 \begin{itemize}
 	\item \textbf{Singularidades:} cuando una muestra es exactamente igual a una de las medias, en cuyo caso un término de la log-verosimilitud es proporcional a $1/\sigma_k$, con lo que la maximización de $\sigma_k$ resulta en una log-verosimilitud infinita.\pause
@@ -193,7 +193,7 @@ Veamos las condiciones de primer orden sobre la log-verosimilitud para encontrar
 
 Denotando $\gamma(z_k(\x_i)) = p(z_k(\x_i)=1|\x_i)$, se tiene el siguiente resultado:
 
-\begin{lemma} Para el modelo GGM, los parámetros óptimos son
+\begin{lemma} Para el modelo GMM, los parámetros óptimos son
 	\begin{align*}
     \mu_k & = \frac{1}{R_k}\sum_{i=1}^N \gamma(z_k(\x_i))\x_i\\
     \Sigma_k & = \frac{1}{R_k} \sum_{i=1}^N \gamma(z_k(\x_i))(\x_n - \mu_k)(\x_n - \mu_k)^\top\\
