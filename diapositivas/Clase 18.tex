@@ -23,9 +23,9 @@
 \section{Entrenamiento de una Red Neuronal}
 
 \begin{frame}{Forward propagation}
-En una red neuronal \textit{feedforward}, la información fluye a través de la red desde la \emph{entrada} $x$ hasta la \emph{salida} $\hat{y}$. Esto se conoce como \textbf{forward propagation} y es la forma en que, durante el entrenamiento, se calcula el costo $J(X, \theta)$ \pause
-\newline 
-El algoritmo para \textbf{forward propagation} es el siguiente 
+En una red neuronal \textit{feedforward}, la información fluye a través de la red desde la \emph{entrada} $x$ hasta la \emph{salida} $\hat{y}$. Esto se conoce como \textbf{forward propagation} y es la forma en que, durante el entrenamiento, se calcula el costo $J(X, \theta)$\\
+\vfill
+El algoritmo para \textbf{forward propagation} es el siguiente. 
 \newline
 \hspace{0.5cm} \textbf{Requisitos: }   $W^{(k)} , b^{(k)} , f^{(k)} \hspace{0.2cm} k \in \{1,...,l\}$ , $U$ , $c$ , $g$ , $x$ input e $y$ output  \pause
 \begin{enumerate}
@@ -47,12 +47,13 @@ En la primera iteración del entrenamiento, los pesos son generados aleatoriamen
 \end{frame}
 
 \begin{frame}{Backpropagation - Introducción}
-El algoritmo de $\textbf{backpropagation}$ consiste en transmitir la *información* en sentido inverso, es decir, desde la salida hasta la entrada. La utilidad de esto es el cálculo eficiente de cómo cada peso (o parámetro) afecta a la función de costo, donde *eficiente* es en este caso *recursivo*. Específicamente, se calculará el gradiente del función de costo con respecto de cada parámetro, donde la recursión es natural debido a la forma composicional de la red. Evaluar el gradiente sin la recursión es computacionalmente demandante e implica un cálculo innecesario de términos redundantes.\\~\
-
-
 \begin{itemize}
-\item gradiente estocástico
-\item GPU, paralelización
+  \item El algoritmo de $\textbf{backpropagation}$ consiste en transmitir la *información* en sentido inverso, es decir, desde la salida hasta la entrada. 
+  \item La utilidad de esto es el cálculo eficiente de cómo cada peso (o parámetro) afecta a la función de costo, donde *eficiente* es en este caso *recursivo*. 
+  \item Específicamente, se calculará el gradiente del función de costo con respecto de cada parámetro, donde la recursión es natural debido a la forma composicional de la red. 
+  \item Evaluar el gradiente sin la recursión es computacionalmente demandante e implica un cálculo innecesario de términos redundantes.
+  \item La implementación de backpropagation es fundamental para gradiente estocástico
+  \item Como veremos, backpropagation es principalmente operaciones lineales con lo que el uso de GPUs acelera dramáticamente el entrenamiento
 \end{itemize}
 
 
