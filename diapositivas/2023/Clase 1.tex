@@ -1,0 +1,300 @@
+\documentclass[9pt]{beamer}
+
+\input{preambuloBeamer}
+\usetheme{simple}
+
+\title{Clase 1: Introducción}
+\subtitle{MDS7104 Aprendizaje de Máquinas}
+\date{\today}
+\author{Felipe Tobar}  
+\titlegraphic{
+\begin{figure}[htp] 
+    \centering
+        \includegraphics[width=0.15\textwidth]{../img/Uchile.pdf}% 
+\end{figure}
+}
+\institute{Iniciativa de Datos e Inteligencia Artificial\\Universidad de Chile}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Logística y presentación del curso}
+\begin{frame}{Organización del curso}
+
+\begin{itemize}
+  \item 2 clases por semana de 1.5 horas: lunes y viernes de 10:15 a 11:45 
+  \item 1 clase auxiliar por semana: martes de 12:00 a 13:30
+  \item Sala: Q23 para cátedra y S05 para clase auxiliar
+  \item Evaluaciones: 
+  \begin{itemize}
+    \item 3 tareas teórico-prácticas 
+    \item 1 trabajo final: lectura de artículo 
+  \end{itemize}
+  \item Además de Ucursos, la página con el material del curso es: \href{https://github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas}{\tt github.com/GAMES-UChile/Curso-Aprendizaje-de-Maquinas}
+  \item Apunte del curso y diapositivas disponible. Material experimental \textbf{que no reemplaza la clase}
+  \item Canal de consultas oficial es el foro de U-cursos
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Objetivos del curso}
+
+\red{Principal:} Conocer y entender las principales herramientas de AM para: 
+
+
+\begin{itemize}
+  \item Saber qué herramienta usar en cada situación 
+  \item Identificar sus  ventajas y desventajas en la resolución de un problema particular
+  \item Entender los supuestos tomados
+  \item Implementarlas en un escenario tanto simulado como real
+  \item Continuar estudios que permitan mejorar dichas herramientas 
+\end{itemize}
+\vfill
+
+Además de los elementos teórico y prácticos, otros objetivos del curso incluyen
+
+ \begin{itemize}
+  \item Explicar, en lenguaje propio, los conceptos que justifican los métodos vistos  
+  \item Presentar de forma clara y concisa sus resultados 
+  \item Seguir indicaciones de formato y extensión de reportes de resultados
+  \item Poder cumplir las fechas de entrega de las evaluaciones
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Enfoque y contenidos del curso}
+
+El curso ofrece una perspectiva probabilista al AM, lo cual incluye la presentación de modelos estadísticos como también una interpretación probabilista de otros modelos. El foco del curso no son los modelos profundos, pero de todas formas éstos se incluye como contenido en el contexto de la perspectiva del curso.\\
+\vspace{2em}
+Contenidos:
+
+\begin{enumerate}
+  \item Introducción: ¿qué es la Inteligencia Artificial y cómo se relaciona con el AM? 
+  \item Regresión
+  \item Clasificación
+  \item Selección y evaluación de modelos
+  \item Máquinas de soporte vectorial
+  \item Aprendizaje no supervisado
+  \item Redes neuronales
+  \item Procesos Gaussianos 
+\end{enumerate}
+\vfill
+
+
+\end{frame}
+
+
+\begin{frame}{Formato clases y material disponible}
+
+
+\begin{itemize}
+  \item Tendremos 2 clases de 1 hora a la semana, más una clase auxiliar de apoyo. 
+  \item Se asume dominio de elementos básicos de probabilidades y de programación. Si alguno/a necesita repasar dicho contenidos, se indicará el material para poder hacerlo pero no serán parte de la clase. 
+  \item Debido a los perfiles variados de lo/as estudiantes, se espera estudio personal en complemento a las clases. Para lo cual también se indicará las fuentes para hacerlo
+  \item Apunte y diapositivas disponible desde el comienzo del curso (en contante mejora)
+  \item Tareas y demos disponibles a medida avanza el curso
+\end{itemize}
+\vfill
+
+
+\end{frame}
+
+
+\begin{frame}{Cuerpo docente}
+
+\textbf{Profesor:} Felipe Tobar
+\begin{itemize}
+  \item Ingeniero Eléctrico (DIE, 2010) 
+  \item Académico: Iniciativa Datos e Inteligencia Artificial 
+  \item Coordinador Master of Data Science 
+  \item Investigador: Centro del Modelamiento Matemático 
+  \item Áreas de Investigación: AM \& procesamiento de señales
+  \item E-mail: \url{ftobar@dim.uchile.cl}
+  \item Website: \href{http://www.dim.uchile.cl/~ftobar/}{\tt dim.uchile.cl/~ftobar/} 
+  \item Oficina: 606 Beauchef 851 Torre Oriente
+  \item Horario de consultas: Lunes 1530h
+\end{itemize}
+
+\vfill
+\textbf{Auxiliares:}
+\begin{itemize}
+  \item por definir
+\end{itemize}
+
+
+\end{frame}
+\section{Inteligencia Artificial}
+
+
+\begin{frame}
+\centerline{\large Empecemos: AI y AM}
+\thispagestyle{empty}
+\end{frame}
+
+
+
+
+\begin{frame}{¿Qué es la Inteligencia Artificial?}
+\textbf{def. RAE:} Disciplina científica que se ocupa de crear programas
+informáticos que ejecutan operaciones comparables a las que realiza
+la mente humana, como el aprendizaje o el razonamiento lógico.\\
+\vspace{2em}
+
+\textbf{def. Russell \& Norvig:} entender entes inteligentes para aprender
+de ellos y construir máquinas inteligentes: interesantes en sí mismos
+y útiles en una infinidad de aplicaciones
+\vspace{2em}
+
+
+\textbf{Filosofía de la IA}
+\begin{itemize}
+  \item La inteligencia es crucial para los seres humanos: a diferencia del resto del reino animal, nosotros no necesitamos evolucionar para adaptarnos.
+  \item ¿Puede una máquina actuar inteligentemente?
+  \item Si pueden, ¿Cómo es esta inteligencia diferente de la inteligencia humana?
+  \item ¿Cuán arraigada en lo humano es la inteligencia?
+  \item Inteligencia implica consciencia de sí mismos o tener "mente"
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Tipos de AI}
+    \textbf{Según su naturaleza (J. Searle, 1980):}
+    \begin{itemize}
+      \item Fuerte: indistinguible de la conciencia humana  
+      \item Débil:  indistinguible del actuar humano  
+    \end{itemize}
+    \vfill
+    \textbf{Según su aplicación:}
+    \begin{itemize}
+      \item General: aplicaciones generales  
+      \item Particular: aplicaciones específica  
+    \end{itemize}
+    \vfill
+    \textbf{Definiciones de AI\footnote{(Russel \& Norvig, 2003)}}
+    \begin{table}[]
+      \scriptsize
+      \centering
+      \begin{tabular}{|l|c|c|}
+        \hline
+         & \textbf{Human}     & \textbf{Rational}  \\ \hline
+          \textbf{Think}                     & \begin{tabular}[c]{@{}c@{}}``{[}automation of{]} activities associated \\ with human thinking, activities such \\ as descision-making, problem solving,\\  learning" (Bellman, 1978)\end{tabular} & \begin{tabular}[c]{@{}c@{}}``Study of mental faculties \\ through the use of computational \\ models" (Charniak et al., 1985)\end{tabular} \\ \hline
+          \multicolumn{1}{|c|}{\textbf{Act}} & \begin{tabular}[c]{@{}c@{}}``The art of creating machines that \\ perform functions that require \\ intelligence when performed \\ by people" (Kurzweil, 1990)\end{tabular} & \begin{tabular}[c]{@{}c@{}}``Study and design of intelligent \\ agents" (Poole et al., 1998)\end{tabular}\\ \hline
+        \end{tabular}
+      \end{table}
+  \end{frame}
+
+\frame[t]{
+  \begin{textblock}{1}(1.5,0)
+    \includegraphics[width=13\textwidth]{../img/cap0_AT}
+  \end{textblock}
+  \begin{textblock}{1}(13.3,2)
+    \includegraphics[width=2\textwidth]{../img/cap0_ATp}
+  \end{textblock}
+  \begin{textblock}{1}(6,12)
+    \includegraphics[width=3.5\textwidth]{../img/cap0_turing}
+  \end{textblock}
+}
+
+\frame[t]{\frametitle{Requerimientos para aprobar el test de Turing}
+  \begin{itemize}
+    \item \blue{Procesamiento de lenguaje natural:} Habilidad de comunicarse
+    \item \blue{Representación de información:} Almacenamiento de \textit{conocimiento}
+    \item \blue{Razonamiento:} usar información para concluir
+    \item \red{Aprendizaje de máquinas:} construir conocimiento y adaptarse
+    \item \blue{Visión computacional$^*$:} percibir el entorno
+    \item \blue{Robótica$^*$:} Interactuar con el entorno
+  \end{itemize}
+  \vfill
+  \textbf{$\star$ AM no es un recurso solo al servicio de la IA, sino que se ha convertido en un fin en sí mismo con aplicaciones en variadas disciplinas.}
+} 
+
+\section{¿Cómo hacemos la inteligencia artificial posible?}
+
+\begin{frame}{GOFAI: Good old fashion artificial intelligence}
+  \begin{itemize}
+    \item Introduzcamos nuestra forma de actuar en una máquina, esto es conocido como sistemas basados en reglas, sistemas expertos o GOFAI.
+    \item Lo bueno: el código de máquinas es interpretable por humanos. 
+    \item Lo malo: impracticable más allá de casos de juguete
+  \end{itemize}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../img/cap0_arbol}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{GOFAI para jugar ajedrez}
+Un cálculo rápido
+  \begin{itemize}
+    \item Asumamos que sabemos jugar ajedrez (bien)
+    \item El tablero tiene del orden de $10^{43}$ configuraciones distintas
+    \item Reglas son: para la configuración $P$, mueve la pieza $q$ de la posición C1 a la C2
+    \item Asumamos que podemos escribir 10 reglas por segundo, i.e., $315\cdot 10^{6}$ reglas/año
+    \item Todos los humanos ($7.5\cdot10^9$) nos ayudan
+    \item Nos tomaría \#instrucciones / (velocidad $\cdot$ \#programadores) = $4.2\cdot 10^{24}$ años escribir este programa, es decir, $10^{15}$ veces la edad del universo
+  \end{itemize}
+
+  \begin{figure}
+    \centering
+   % \includegraphics[width=0.9\textwidth]{../img/cap0_arbol}
+  \end{figure}
+\end{frame}
+
+
+
+\begin{frame}{Alternativa: AM para jugar ajedrez}
+
+  \begin{itemize}
+    \item En AM, la máquina se programa para aprender a jugar, no para jugar
+    \item Consecuentemente, el \emph{output} del proceso no es el juego, es el algoritmo
+    \item De esta forma, esperamos que la máquina desarrolle su propia representación
+    \item Se fuerza el resultado, no el procedimiento. aprende a jugarAsumamos que sabemos jugar ajedrez (bien)
+  \end{itemize}
+  \vfill
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{../img/cap0_chess_ml_diag}\hfill \includegraphics[width=0.52\textwidth]{../img/cap0_chess_ml_code}
+  \end{figure}
+  \textbf{P: ¿Cómo aprendemos?}\\ R: Buscando 
+\end{frame}
+
+\begin{frame}{Tipos de AM}
+
+  \begin{itemize}
+    \item Aprendizaje supervisado: 
+    Datos de la forma $\{(x_i,y_i)\}_{i=1}^n$, objetivo es encontrar $f$ tal que
+    \begin{align}
+    x \mapsto y = f(x)
+    \end{align}
+    \item Aprendizaje no supervisado: Datos de la forma $\{x_i\}_{i=1}^n$, y el objetivo es encontrar patrones en común entre ellos
+    \item Aprendizaje reforzado: un \emph{agente}  toma acciones en un \emph{ambiente} con la finalidad de maximizar una función de recompensa
+  \end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}{Otros términos}
+
+  \begin{itemize}
+    \item Aprendizaje de Máquinas
+    \item Inteligencia Artificial
+    \item Ciencia de Datos
+    \item Minería de Datos
+    \item Internet de las Cosas
+    \item Big Data
+    \item \emph{Analytics}
+  \end{itemize}
+  \vfill
+\textbf{Lectura recomendada:} \href{https://inverseprobability.com/2017/07/17/what-is-machine-learning}{\tt inverseprobability.com/2017/07/17/what-is-machine-learning}
+
+\end{frame}
+
+
+%Quitar de comentarios apenas se agregue alguna referencia 
+\bibliography{../capitulos/referencias} %Bibliografía
+\bibliographystyle{apacite}
+\end{document} 
