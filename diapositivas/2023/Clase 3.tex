@@ -100,7 +100,7 @@ Donde los 3 sumandos de la descomposición corresponden a:\pause
  	\item $\sigma^2$ es la varianza de \emph{ruido} $\epsilon$ y no puede ser controlada por la elección de $\hat\theta$.\pause
  \end{itemize}
  
- Es decir, al momento de ajustar un parámetro hay que preocuparse en su sesgo y en su varianza.
+ Es decir, al momento de ajustar un parámetro hay que preocuparse de su sesgo y de su varianza.
 
 \end{frame}
 
@@ -200,14 +200,14 @@ Para $p\leq1$, la forma de la curva de nivel permite que, usualmente, la soluci�
 
 El caso $p=1$ (LASSO), tiene la propiedad de selección de características.\\~\ \pause
 
-Para ilustrar esta propiedad, se utilizará el \emph{Breast Cancer Wisconsin Data Set}\footnote{\url{https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)}}, el cual tiene $N=569$ muestras y un dimensión de entrada de $M=30$ y se usarán 2/3 de los datos para entrenar y el 1/3 restante para calcular puntajes fuera de muestra. \\
+Para ilustrar esta propiedad, se utilizará el \emph{Breast Cancer Wisconsin Data Set}\footnote{\url{https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)}}, el cual tiene $N=569$ muestras y un dimensión de entrada de $M=30$. Usaremos  2/3 de los datos para entrenar y el 1/3 restante para calcular puntajes fuera de muestra. \\
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../../img/cap2_OLS_RR_LASSO.pdf}
 \end{figure} \pause
 
-Se observa la disminución en la norma de $\theta$ al usar MCR, así como también la selección de características realizada por LASSO.\pause
+De la figura, se observa la disminución en la norma de $\theta$ al usar MCR, así como también la selección de características realizada por LASSO.\pause
 
 \begin{table}[h]
 \centering
