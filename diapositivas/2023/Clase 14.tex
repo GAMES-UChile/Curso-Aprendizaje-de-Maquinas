@@ -167,12 +167,12 @@ El mapa de características que induce es de dimensión infinita y las fronteras
 %Kernel SVM.
 \begin{frame}{Kernel SVM}
 
-Dado un mapa de características $\phi$, en la formulación de SVM se pueden reemplazar las entadas por las características inducidas por $\phi$. De este modo, el problema primal es:
+Dado un mapa de características $\phi$, en la formulación de SVM se pueden reemplazar las entradas por las características inducidas por $\phi$. De este modo, el problema primal es:
 \begin{equation*}
 \begin{aligned}
 (P)\quad & \underset{w,b}{\text{min}}
 & & \frac{1}{2}||w||^2 + c\sum\limits_{i=1}^{N} \xi_i\\
-& \text{s.a}
+& \text{s.a.}
 & & y_i (w^\top \phi(x_i) +b) \geq 1- \xi_i, \; i = 1, \ldots, N.
 \end{aligned}
 \end{equation*}\pause
@@ -181,7 +181,7 @@ Mientras que su formulación dual tiene la forma
 \begin{aligned}
 (D)\quad & \underset{\alpha}{\text{max}}
 & & \sum\limits_{i=1}^{N}\alpha_i - \frac{1}{2} \sum\limits_{i=1}^{N} \alpha_i \alpha_j y_i y_j \langle\phi(x_i), \phi(x_j)\rangle\\
-& \text{s.a}
+& \text{s.a.}
 & & \sum\limits_{i=1}^{N} \alpha_i y_i= 0 \\
 & &  &0 \leq \alpha_i \leq c
 \end{aligned}
@@ -199,7 +199,7 @@ Con esto, el problema de optimización en el dual se convierte en
 \begin{aligned}
 & \underset{\alpha}{\text{max}}
 & & \sum\limits_{i=1}^{N}\alpha_i - \frac{1}{2} \sum\limits_{i=1}^{N} \alpha_i \alpha_j y_i y_j K(x_i, x_j)\\
-& \text{s.a}
+& \text{s.a.}
 & & \sum\limits_{i=1}^{N} \alpha_i y_i= 0 \\
 & &  &0 \leq \alpha_i \leq c
 \end{aligned}
