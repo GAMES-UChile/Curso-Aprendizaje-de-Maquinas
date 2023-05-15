@@ -88,7 +88,7 @@ donde $\x$ es la VA cuya realización son los datos.
 	\item Además, es importante estandarizar los datos:\\~\ \pause
 
 	\begin{enumerate}
-	\item \textbf{Características de media nula:} la matriz $X$ debe tener columnas con media $0$. El objetivo de este ajuste es poder centrar los datos.\\~\ \pause
+	\item \textbf{Características de media nula:} la matriz $X$ debe tener columnas con media $0$. El objetivo de este ajuste es centrar los datos para que las componentes principals capturen la disersión de los datos y no su posición.\\~\ \pause
 	\item \textbf{Varianzas marginales unitarias:} si una dimensión tiene una varianza marginal mayor que el resto, esta será más importante en la determinación de la dirección de máxima varianza solo por su magnitud y no por la relación entre variables.
 	\end{enumerate}
 \end{itemize}
@@ -98,7 +98,7 @@ donde $\x$ es la VA cuya realización son los datos.
 
 %Análisis de componentes principales (PCA): formulación.
 \begin{frame}{PCA: Formulación}
-En general no contamos con la distribución de las observaciones $p(\x)$, por lo que se puede considerar una aproximación muestral de la varianza y resolver 
+En la práctica, consideramos el costo agregado para todas las muestras disponibles, es decir, maximizamos la siguiente aproximación muestral de la varianza: 
 \begin{align*}
 	\cvector_1 = \argmax_{||\cvector||=1} \sum_{i=1}^N \langle\cvector,\x_i\rangle^2.\label{eq:PCA_max2}
 \end{align*} \pause
@@ -149,7 +149,7 @@ Consecuentemente, la proyección de una observación $\x_i$ en la dirección de 
 \begin{equation*}
 	\x_i^{(1)} = \langle \x_i, \cvector_1 \rangle,
 \end{equation*}
-donde $\cvector_1$ es el vector propio asociado al mayor valor propio de la matriz de covarianza muestral $XX^\top$.\\	
+donde $\cvector_1$ es el vector propio asociado al mayor valor propio de la matriz de covarianza muestral $X^\top X$.\\	
 \end{frame}
 
 %Kernel PCA.
