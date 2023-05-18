@@ -4,15 +4,109 @@
 \subsection{Introducción}
 \label{sec:intro_adap}
 
+Esta sección se refiere a una familia general de modelos que llamaremos modelos de \textbf{función de base adaptativa}, que tienen la forma:
+\begin{equation}
+    f(x) = w_0 + \sum^K_{k=1} w_k \phi_k(x) \,. 
+\end{equation}
+A la función $\phi_k(x)$ se le dice la $m$-ésima función de base, la cual variará en función de los datos. Esta familia general de modelos incluye los modelos a estudiar en está sección: árboles, bosques, modelos basados en bagging y boosting, como también las redes neuronales y las sumas generales de modelos.
+
 
 \subsection{Árboles}
 \label{sec:arbol}
 
 \subsubsection{Motivación con caso regresión}
 
+Antes de definir árboles de manera formal, construiremos una intuición para el caso de regresión. Consideremos una función se una variable. Una idea, de aproximar tal función es hacer una interpolación usando funciones constantes.
+
+% insertar imagen regresión
+
+Una manera más bien voraz es realizar la interpolación con todos los puntos. Esto resultará con seguridad en un sobreajuste de los datos. Una manera más inteligente consiste en agrupar ciertos puntos y hacer una interpolación usando la media de estos. Un caso extremo es tomar la media de todos los puntos de entrenamiento como aproximación.
+
+El desafío es encontrar una partición conveniente del dominio de los datos de modo que al predecir un punto de nuestra función, tomar la media de los datos de entrenamiento para el subconjunto correspondiente resulte en una buena aproximación.
+
+% insertar imagen regresión sobreajustada
+
+% insertar imagen arbol regresion
+
+
 \subsubsection{Algoritmo \textit{CART}}
 
+Los árboles (de regresión) corresponden a ejecutar lo anterior de manera recursiva. Primero, necesitamos una algún criterio que nos indique si realizar un corte vale o no la pena. Para esto podemos definir el costo para un conjunto $D$ de datos como sigue:
+
+\begin{equation}
+    cost(D) = \sum_{i \in D} (y_i - \bar y)^2 \,,
+\end{equation}
+
+con $\bar y = \frac{1}{|D|} \sum_{i \in D} y_i $. Notemos como este costo es proporcional a la varianza empírica del conjunto D, con lo cual pedir bajo costo en los grupos de una partición se traduce en pedir que los datos estén cercanos a la media de tal subconjunto. Con esto podemos armar un algoritmo de base recursivo que genere un árbol de regresión.
+
+
+\begin{algorithm}[H]
+  \caption{Ajuste de árboles (CART)
+    \label{DBSCAN}}
+  \begin{algorithmic}[1]
+    \Function{ajusteArbol}{$nodo, D, profundidad$}
+      \State $j^*, t^* = \arg\min_{j \in \{1,\dots,m\}, t \in \Gamma_j} \left[ cost(D_L(j,t)) + cost(D_R(j,t)) \right]$
+
+        $D_L(j,t) = \{(x^{(i)}, y^{(i)}) : x_j^{(i)} \leq t \}$, $D_R(j,t) = \{(x^{(i)}, y^{(i)}) : x_j^{(i)} < t \}$
+      
+      \If{criterio\_de\_parada($costo, profundidad, D_I, D_D$)}:
+        \Return{nodo}
+      \Else
+        \State $nodo$.izquierda = ajusteArbol($nodo, D_I, profundidad + 1$)
+        \State $nodo$.derecha = ajusteArbol($nodo, D_R, profundidad + 1$)
+        \Return{nodo}
+    \EndFunction
+  \end{algorithmic}
+\end{algorithm}
+
+Nótese que esto no necesariamente encontrará el árbol binario óptimo. Se prefiere este método voraz pues ajustar un árbol binario óptimo es un problema NP completo. En particular notemos como vamos separando coordenada por coordenada, lo cual nos hace ganar en interpretabilidad. Por otro lado, el 
+ criterio de parada lo discutiremos más adelante.
+
+Siguiendo el algoritmo anterior obtendremos una partición. Podemos enumerar los nodos de 1 hasta K. Con lo cual podemos recuperar la forma de base adaptativa:
+
+\begin{equation}
+    f(x) = \mathbb{E}[y | x] = \sum^K_{k=1} w_k \phi_k(x) \,,
+\end{equation}
+
+con $\phi_k(x) = \mathbf{1}_{D_k}(x)$ y $w_k = \frac{1}{|D_k|} \sum_{x^{(i) \in D_k}} y^{(i)}$. Como se señaló en la intuición, escogeremos la media de los datos en el subconjunto como predicción. Esto se justifica pues aquel valor es el que minimiza el error cuadrático. Podríamos también aprender un modelo simple (por ejemplo un regresor de mínimos cuadrados) de manera local en cada partición, sin embargo como hemos escogido la partición de manera que minimice la varianza, es razonable pensar que la media será una aproximación suficientemente buena.
+
+
 \subsubsection{Criterios de corte para clasificación}
+
+En el algoritmo CART hicimos uso de la función costo, que nos mostraba cuánto variaban los miembros de un intervalo respecto de la media. Podemos generalizar este mismo principio para clasificación, donde intentaremos caracterizar la impureza de etiquetas para un conjunto de manera adecuada. Primero tomemos el vector de probabilidades de pertenencia a una clase, condicionado a estar en un nodo. Sea $\mathcal{C}$ el conjunto de clases,
+
+\begin{equation}
+    \hat \pi_c (D) = \frac{1}{|D|} \sum_{x^{(i) \in D}} \mathbf{1}_{y=c}(y^{(i)}) \hspace{1cm} \, \forall c \in \mathcal{C} \,.
+\end{equation}
+
+Usando esto, para predecir la probabilidad de que un punto pertenezca a cada clase estará dado por el vector de fracciones empírica $\hat \pi$ correspondiente al nodo al cual pertenezca el dato en cuestión. Usemos este mismo vector para definir los criterios de impureza por nodo (ignoraremos la dependencia de D en el vector de probabilidades para simplificar la notación).
+
+\begin{itemize}
+    \item \textbf{Tasa de error} \\
+    Sea $\hat y = \arg\max_{c \in \mathcal{C}} \hat \pi_c$ la clase más probable. El error estará dado por
+    \begin{equation}
+        cost(D) = \frac{1}{|D|} \sum_{x^{(i) \in D}} \mathbf{1}_{y = \hat \y}(y^{(i)}) = 1 - \hat \pi_{\hat y}
+    \end{equation}
+    El problema de este criterio es su poca sensibilidad a cambios en el vector de probabilidad. Los siguientes dos criterios mejoran esta situación.
+
+    \item \textbf{Gini} \\
+    Corresponde a la tasa de error esperado:
+    \begin{equation}
+        cost(D) = \sum_{c \in \mathcal{C}} \hat \pi_c (1 - \hat \pi_c) = 1 - \sum_{c \in \mathcal{C}} \hat \pi_c^2
+    \end{equation}
+
+    \item \textbf{Entropía} \\
+    También llamada log-pérdida y muchas veces denotada por $H(\hat \pi)$, esta métrica está dada por:
+    \begin{equation}
+        cost(D) = - \sum_{c \in \mathcal{C}} \hat \pi_c log(\hat \pi_c) \,.
+    \end{equation}
+    Esta elección de perdida tiene justificación en la Teoría de la Información. En particular, su uso como criterio de corte equivale a la minimización de la entropía cruzada.
+\end{itemize}
+
+En la figura...
+
+% insertar figura
+
 
 \subsubsection{Evitar sobreajuste: detención temprana y poda}
 
