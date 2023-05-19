@@ -16,17 +16,29 @@ A la función $\phi_k(x)$ se le dice la $m$-ésima función de base, la cual var
 
 \subsubsection{Motivación con caso regresión}
 
-Antes de definir árboles de manera formal, construiremos una intuición para el caso de regresión. Consideremos una función se una variable. Una idea, de aproximar tal función es hacer una interpolación usando funciones constantes.
+Antes de definir árboles de manera formal, construiremos una intuición para el caso de regresión. Consideremos una función se una variable. Una idea, de aproximar tal función es hacer una interpolación usando funciones constantes. Una primera idea puede ser aproximar la función entera simplemente por su media.
 
-% insertar imagen regresión
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth, height=4.5cm]{img/capN_arbol_trivial.png}\\
+	\caption{Aproximación de una función usando su media (árbol trivial no ajustado).}
+\end{figure}
 
-Una manera más bien voraz es realizar la interpolación con todos los puntos. Esto resultará con seguridad en un sobreajuste de los datos. Una manera más inteligente consiste en agrupar ciertos puntos y hacer una interpolación usando la media de estos. Un caso extremo es tomar la media de todos los puntos de entrenamiento como aproximación.
+Otra manera, más bien voraz, de enfrentar el problema es realizar la interpolación con todos los puntos. Esto resultará con seguridad en un sobreajuste de los datos.
 
-El desafío es encontrar una partición conveniente del dominio de los datos de modo que al predecir un punto de nuestra función, tomar la media de los datos de entrenamiento para el subconjunto correspondiente resulte en una buena aproximación.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth, height=4.5cm]{img/capN_sobreajuste_arbol.png}\\
+	\caption{Aproximación de una función usando todos los puntos de entrenamiento (árbol sobreajustado).}
+\end{figure}
 
-% insertar imagen regresión sobreajustada
+Una manera más inteligente consiste en agrupar ciertos puntos y hacer una interpolación usando la media de estos. El desafío es encontrar una partición conveniente del dominio de los datos de modo que al predecir un punto de nuestra función, tomar la media de los datos de entrenamiento para el subconjunto correspondiente resulte en una buena aproximación.
 
-% insertar imagen arbol regresion
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\textwidth, height=4.5cm]{img/capN_buen_arbol.png}\\
+	\caption{Aproximación de una función con un árbol de profundidad adecuada.}
+\end{figure}
 
 
 \subsubsection{Algoritmo \textit{CART}}
