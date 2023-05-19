@@ -115,7 +115,9 @@ Usando esto, para predecir la probabilidad de que un punto pertenezca a cada cla
     Esta elección de perdida tiene justificación en la Teoría de la Información. En particular, su uso como criterio de corte equivale a la minimización de la entropía cruzada.
 \end{itemize}
 
-En la figura se grafican los costos en función de la probabilidad de una clase en el caso clasificación binaria. Notemos que para las tres el máximo está cuando tenemos 50/50 de datos para cada clase en el nodo en cuestión, que es justamente el caso de mayor heterogeneidad de los datos. Por el contrario, los valores son cero cuando el conjunto tiene miembros de una sola clase. La sensibilidad antes mencionada se desprende del gráfico anterior. En el caso de clases impuras, el error de clasificación está siempre por debajo de los otros criterios, que castigan más fuertemente la impureza.
+% En la figura se grafican los costos en función de la probabilidad de una clase en el caso clasificación binaria. 
+Consideremos el ejemplo de clasificación binaria.  % TO DO: agregar imagen, descomentar linea anterior y borrar esta
+Notemos que para las tres el máximo está cuando tenemos 50/50 de datos para cada clase en el nodo en cuestión, que es justamente el caso de mayor heterogeneidad de los datos. Por el contrario, los valores son cero cuando el conjunto tiene miembros de una sola clase. La sensibilidad antes mencionada se desprende de esto. En el caso de clases impuras, el error de clasificación está siempre por debajo de los otros criterios, que castigan más fuertemente la impureza.
 
 % insertar figura
 
@@ -215,9 +217,15 @@ donde $<$ denota la relación ``ser subárbol''. Además tenemos una sucesión $
 
 Nos hemos restringido al ajuste de un árbol, sin embargo es útil pensar en las ventajas que puede tener este tipo de modelos respecto a otros vistos en el curso. Por su naturaleza, los árboles tienen una buena capacidad de interpretabilidad. % Para graficar esto tomemos un ejemplo.
 
-% insertar ejemplo
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{img/capN_interpretacion_arbol.png}\\
+	\caption{Visualización de un árbol de clasificación para el dataset \textit{mnist}.}
+\end{figure}
 
 Usando las variables que se usaron para cortar cada nodo y los valores para el corte óptimo, podemos explicar la diferencia en estimaciones obtenidas. A esto lo llamamos capacidad de interpretación, y es importante a la hora de usar aprendizaje de máquinas para decisiones con repercusión en el mundo real.
+
+En este caso se ha ajustado un árbol para clasificar imágenes de dígitos escritos a mano (dataset \textit{mnist}). Acá, cada variable corresponde a un pixel en particular, que en la figura están detacados en rojo. Cuando se llegan a hojas del árbol se logra, en muchos casos, distinguir dígitos. Por otro lado, nodos intermedios denotan conjuntos impuros (con varios dígitos posibles), de los cuales es necesario realizar un corte. Se visulumbran entonces que pixeles son más importantes a la hora de distinguir dígitos y que desencadenan en la decisión tomada por el árbol de clasificación.
 
 
 \subsection{Bagging}
