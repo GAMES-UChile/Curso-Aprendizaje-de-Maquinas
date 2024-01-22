@@ -67,6 +67,7 @@ con $\bar y = \frac{1}{|D|} \sum_{i \in D} y_i $. Notemos como este costo es pro
         \State $nodo$.izquierda = ajusteArbol($nodo, D_I, profundidad + 1$)
         \State $nodo$.derecha = ajusteArbol($nodo, D_R, profundidad + 1$)
         \Return{nodo}
+      \EndIf
     \EndFunction
   \end{algorithmic}
 \end{algorithm}
@@ -180,6 +181,7 @@ A continuación el algoritmo de poda, luego del cual podemos enunciar los result
                 \EndIf
         \EndIf
     \EndFor
+    \EndFunction
   \end{algorithmic}
 \end{algorithm}
 
@@ -217,9 +219,9 @@ donde $<$ denota la relación ``ser subárbol''. Además tenemos una sucesión $
 
 Nos hemos restringido al ajuste de un árbol, sin embargo es útil pensar en las ventajas que puede tener este tipo de modelos respecto a otros vistos en el curso. Por su naturaleza, los árboles tienen una buena capacidad de interpretabilidad. % Para graficar esto tomemos un ejemplo.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width=\textwidth]{img/capN_interpretacion_arbol.png}\\
+	\includegraphics[width=0.9\textwidth]{img/capN_interpretacion_arbol.png}\\
 	\caption{Visualización de un árbol de clasificación para el dataset \textit{mnist}.}
 \end{figure}
 
