@@ -8,7 +8,7 @@ Esta sección se refiere a una familia general de modelos que llamaremos modelos
 \begin{equation}
     f(x) = w_0 + \sum^K_{k=1} w_k \phi_k(x) \,. 
 \end{equation}
-A la función $\phi_k(x)$ se le dice la $m$-ésima función de base, la cual variará en función de los datos. Esta familia general de modelos incluye los modelos a estudiar en está sección: árboles, bosques, modelos basados en bagging y boosting, como también las redes neuronales y las sumas generales de modelos.
+A la función $\phi_k(x)$ se le dice la $m$-ésima función de base, la cual variará en función de los datos. Esta familia general de modelos incluye los modelos a estudiar en está sección: árboles, bosques, modelos basados en bagging y boosting, como también las redes neuronales y las sumas generales de modelos \cite{pml1Book}.
 
 
 \subsection{Árboles}
@@ -93,7 +93,7 @@ En el algoritmo CART hicimos uso de la función costo, que nos mostraba cuánto 
     \hat \pi_c (D) = \frac{1}{|D|} \sum_{x^{(i) \in D}} \mathbf{1}_{y=c}(y^{(i)}) \hspace{1cm} \,, \forall c \in \mathcal{C} \,.
 \end{equation}
 
-Usando esto, predecir la probabilidad de que un punto pertenezca a cada clase estará dado por el vector de fracciones empírica $\hat \pi$ correspondiente al nodo al cual pertenezca el dato en cuestión. Usemos este mismo vector para definir los criterios de impureza por nodo (ignoraremos la dependencia de D en el vector de probabilidades para simplificar la notación).
+Usando esto, predecir la probabilidad de que un punto pertenezca a cada clase estará dado por el vector de fracciones empírica $\hat \pi$ correspondiente al nodo al cual pertenezca el dato en cuestión. Usemos este mismo vector para definir los criterios de impureza por nodo (ignoraremos la dependencia de D en el vector de probabilidades para simplificar la notación) \cite{breiman_1984}.
 
 \begin{itemize}
     \item \textbf{Tasa de error} \\
@@ -158,7 +158,7 @@ Dado el árbol original $T_0$, el objetivo será construir una sucesión de árb
 
 Este punto se encuentra guardando los costos y tamaños de subárboles dados por podar en algún nodo. Cuando podemos esto consistirá en deshacer la separación hecha en el nodo en cuestión, con lo cual nos quedará la estimación que teníamos para el subconjunto original sin separar partes derecha e izquierda. La idea es encontrar iterativamente el nodo más débil que podamos podar.
 
-A continuación el algoritmo de poda, luego del cual podemos enunciar los resultados que lo justifican. Precisemos que $T_t$ se refiere al subárbol cuya raíz (nodo del cual salen todas las ramas) es el nodo $t$.
+A continuación el algoritmo de poda \cite{ripley}, luego del cual podemos enunciar los resultados que lo justifican. Precisemos que $T_t$ se refiere al subárbol cuya raíz (nodo del cual salen todas las ramas) es el nodo $t$.
 
 \begin{algorithm}[H]
   \caption{Poda de costo-complejidad
@@ -226,7 +226,7 @@ En este caso se ha ajustado un árbol para clasificar imágenes de dígitos escr
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.58\textwidth]{img/capN_interpretacion_arbol.png}\\
+    \includegraphics[width=0.57\textwidth]{img/capN_interpretacion_arbol.png}\\
     \caption{Visualización de un árbol de clasificación para el dataset \textit{mnist}.}
     \label{fig:arbol_interpretabilidad}
 \end{figure}
@@ -235,7 +235,7 @@ En este caso se ha ajustado un árbol para clasificar imágenes de dígitos escr
 \subsection{Bagging}
 \label{sec:bagging}
 
-Esta sección tiene como objetivo mostrar un método para ensamblar modelos generales. Antes de discutirlo, necesitamos la noción del concepto \textit{bootstrapping}.
+Esta sección tiene como objetivo mostrar un método para ensamblar modelos generales \cite{bagging}. Antes de discutirlo, necesitamos la noción del concepto \textit{bootstrapping}.
 
 \subsubsection{Método Bootstrapping}
 
@@ -319,7 +319,7 @@ a diferencia del caso i.i.d., para el cual la varianza final es
 
 $$ \frac{1}{B}\sigma^2 \,. $$
 
-En ambos casos la varianza se reduce al aumentar $B$, sin embargo el término $\rho \sigma^2$ nos restringe la reducción de varianza. La idea de los bosques aleatorios (conocidos como \textit{random forest} en inglés) será reducir la correlación de los estimadores para reducir la varianza sin afectar fuertemente el sesgo, y de esta forma reducir el error. Haremos esto seleccionando aleatoriamente variables con las cuales aprender cada árbol, como se señala en Algoritmo \ref{alg:RF}.
+En ambos casos la varianza se reduce al aumentar $B$, sin embargo el término $\rho \sigma^2$ nos restringe la reducción de varianza. La idea de los bosques aleatorios (conocidos como \textit{random forest} en inglés) será reducir la correlación de los estimadores para reducir la varianza sin afectar fuertemente el sesgo, y de esta forma reducir el error. Haremos esto seleccionando aleatoriamente variables con las cuales aprender cada árbol, como se señala en Algoritmo \ref{alg:RF} \cite{breiman2001random}.
 
 \begin{algorithm}[H]
   \caption{Bosques Aleatorios
@@ -357,7 +357,7 @@ Una alternativa a los bosques aleatorios es usar un promedio de modelos pero apr
     \item Usar un subconjunto aleatorio de variables (como en bosques aleatorios).
     \item Para cada variable del subconjunto generar cortes de modo aleatorio, en vez de seleccionar el mejor de todos. De aquellos cortes generados, se escoge el mejor de acuerdo al criterio empleado.
 \end{itemize}
-A este método se le denomina árboles extremadamente aleatorios (\textit{ExtraTrees} en inglés). Aparte de la decorrelación de los estimadores, \textit{ExtraTrees} tiene una mejor eficiencia computacional que los árboles clásicos.
+A este método se le denomina árboles extremadamente aleatorios (\textit{ExtraTrees} en inglés). Aparte de la decorrelación de los estimadores, \textit{ExtraTrees} tiene una mejor eficiencia computacional que los árboles clásicos \cite{geurts2006extremely}.
 
 
 \subsection{Boosting}
@@ -367,7 +367,7 @@ En las sección \textit{bagging} aprendimos como mejorar conjuntamente una colec
 
 \subsubsection{Motivación: algoritmos fuertes versus débiles}
 
-Antes de adentrar en detalles, recordemos las preguntas teóricas cuyas respuestas decantaron en el método final. En el análisis matemático de modelos predictivos es usual trabajar en el marco conceptual PAC, que significa \textbf{p}robablemente \textbf{a}proximadamente \textbf{c}orrecto. En tal contexto, solemos seleccionar estimadores que con alta probabilidad tengan un bajo error de generalización (que sean aproximadamente correctos). En términos matemáticos, solemos tomar $\epsilon > 0$, $0 < \delta < 1$ de modo que nuestro algoritmo se dirá PAC-aprendible si logra tener un error de a lo más $\epsilon$ con probabilidad $1-\delta$.
+Antes de adentrar en detalles, recordemos las preguntas teóricas cuyas respuestas decantaron en el método final. En el análisis matemático de modelos predictivos es usual trabajar en el marco conceptual PAC, que significa \textbf{p}robablemente \textbf{a}proximadamente \textbf{c}orrecto. En tal contexto, solemos seleccionar estimadores que con alta probabilidad tengan un bajo error de generalización (que sean aproximadamente correctos). En términos matemáticos, solemos tomar $\epsilon > 0$, $0 < \delta < 1$ de modo que nuestro algoritmo se dirá PAC-aprendible si logra tener un error de a lo más $\epsilon$ con probabilidad $1-\delta$ \cite{schapire2012boosting}.
 
 Por otro lado, podemos considerar un paradigma alternativo en el cual dado $\gamma > 0$ exijamos un modelo que tenga un error $\frac{1}{2} - \gamma$ con probabilidad menor a $\delta$. Dicho de otro modo, en vez de pedir una alta probabilidad de precisión arbitraria, pedimos que la probabilidad de que nuestro algoritmo sea peor que 50\% sea baja. A un algoritmo que cumpla esto se le llamará débilmente PAC-aprendible (en contraste con PAC-aprendible, que también se le denomina fuertemente PAC-aprendible en este contexto).
 
@@ -409,7 +409,7 @@ donde definimos $w_i^{(m)} = e^{-y_i \phi_m(x_i)}$ para $i = 1,\dots,N$, que lo 
     donde  $\epsilon_m = \displaystyle \frac{ \sum_{y_i \neq \phi_m(x_i)} w_i}{\sum_{i=1}^N w_i} $.
 \end{lemma}
 
-El desarrollo anterior resulta en el algoritmo \ref{alg:AdaBoost}. Se demostró que puede convertir clasificadores débiles en un clasificador débil (para el caso binario).
+El desarrollo anterior resulta en el algoritmo \ref{alg:AdaBoost} \cite{freund1997decision,ESLbook}. Se demostró que puede convertir clasificadores débiles en un clasificador débil (para el caso binario).
 
 \begin{algorithm}[H]
   \caption{AdaBoost
@@ -451,7 +451,7 @@ Notemos que esta cota depende de $\gamma_m$. Recordemos que $\epsilon_m$ es la t
 
 \subsubsection{Modelamiento aditivo por etapas}
 
-La justificación teórica que nos lleva al algoritmo de AdaBoost es en realidad un caso particular del método de modelamiento aditivo por etapas hacia adelante (\textit{forward stagewise additive modelling} en inglés). En efecto, este método toma un modelo de base (cuyos parámetros son a determinar) y genera iterativamente un modelo sumando el modelo de base ponderado por algún factor. Optimizamos tanto los parámetros del modelo como el factor en cada iteración. Esto es, partiendo de $f_0(x) = 0$, repetimos:
+La justificación teórica que nos lleva al algoritmo de AdaBoost es en realidad un caso particular del método de modelamiento aditivo por etapas hacia adelante (\textit{forward stagewise additive modelling} en inglés) \cite{ESLbook}. En efecto, este método toma un modelo de base (cuyos parámetros son a determinar) y genera iterativamente un modelo sumando el modelo de base ponderado por algún factor. Optimizamos tanto los parámetros del modelo como el factor en cada iteración. Esto es, partiendo de $f_0(x) = 0$, repetimos:
 
 \begin{itemize}
     \item Para $m = 1 , \dots, M$ resolver
@@ -492,7 +492,7 @@ $$ \nabla L(\tilde f)_i = \left( \frac{\partial L(y_i,f(x_i))}{\partial f(x_i)} 
 
 Es importante que nuestra función de costo sea diferenciable para aplicar este método. Cuando tenemos una forma cerrada para la derivada podemos simplemente evaluar en el punto de dato en cuestión.
 
-Tenemos entonces una manera de actualizar las evaluaciones de nuestra función, sin embargo esto no nos da una expresión que podamos actualizar a un nuevo input arbitrario. Es por esto que usaremos estos $N$ puntos para ajustar nuestro modelo débil. Para la función inicial, basta con ajustar un modelo débil con los datos originales como lo haríamos usualmente. El método se resume en el algoritmo \ref{alg:GB}.
+Tenemos entonces una manera de actualizar las evaluaciones de nuestra función, sin embargo esto no nos da una expresión que podamos actualizar a un nuevo input arbitrario. Es por esto que usaremos estos $N$ puntos para ajustar nuestro modelo débil. Para la función inicial, basta con ajustar un modelo débil con los datos originales como lo haríamos usualmente. El método se resume en el algoritmo \ref{alg:GB} \cite{pml1Book}.
 
 \begin{algorithm}[H]
 \caption{GradientBoosting
@@ -516,9 +516,7 @@ Si nuestra elección de pérdida es el error cuadrático, entonces basta notar q
 
 $$ r_i = \frac{\partial L(y_i, \phi(x_i))}{\partial \phi(x_i)} = y_i - \phi(x_i) $$
 
-para obtener nuevamente el ajuste de nuestro modelo al residuo del modelo anterior. Esto es consistente con usar el modelamiento aditivo por etapas y se le denomina L2boosting, correspondiente a una de las muchas variantes de \textit{boosting}.
-
-Como aplicación particular de la idea de \textit{Gradient boosting} observemos el algoritmo \ref{alg:GTB}, llamado \textit{Gradient tree boosting}:
+para obtener nuevamente el ajuste de nuestro modelo al residuo del modelo anterior. Esto es consistente con usar el modelamiento aditivo por etapas y se le denomina L2boosting, correspondiente a una de las muchas variantes de \textit{boosting} \cite{ESLbook}.
 
 \begin{algorithm}[H]
 \caption{GradientTreeBoosting
@@ -528,7 +526,7 @@ Como aplicación particular de la idea de \textit{Gradient boosting} observemos 
         \State Ajustar un árbol $\phi_0$ en los datos $\mathcal{D}$.
         \For{$m = 1, \dots, M$}
             \State Calcular 
-            $$ r_{im} = - \left[ \frac{\partial L(y_i, \phi(x_i))}{\partial \phi(x_i)} \right]_{\phi(x_i) = \phi_{m-1}(x_i)} $$
+            $ r_{im} = - \left[ \frac{\partial L(y_i, \phi(x_i))}{\partial \phi(x_i)} \right]_{\phi(x_i) = \phi_{m-1}(x_i)} . $
             \State Ajustar un árbol $\phi_m$ en $\{r_{im}\}^N_{i=1}$\,.
             \State Fijar $R_{jm}$ como los conjuntos correspondientes a los nodos, enumerados de $1$ hasta $J_m$.
             \For{$j\in 1,\dots,J_m$}
@@ -542,7 +540,7 @@ Como aplicación particular de la idea de \textit{Gradient boosting} observemos 
     \end{algorithmic}
 \end{algorithm}
 
-La principal diferencia con usar \textit{Gradient boosting} con árboles como modelo de base es que ajustamos el factor multiplicativo en cada hoja del árbol y lo usamos para reemplazar derechamente la estimación para ese subconjunto en cuestión. Esto hace que se ponderen más el aporte de aquellos nodos importantes para mejorar la predicción del ensamblaje. Este modelo fue considerado por Leo Breinman como el mejor modelo \textit{off-the-shelf} en el caso de clasificación, i.e., un modelo confiable para variadas tareas de clasificación, usualmente logrando muy buenas métricas.
+Como aplicación particular de la idea de \textit{Gradient boosting} observemos el algoritmo \ref{alg:GTB}, llamado \textit{Gradient tree boosting}. La principal diferencia con usar \textit{Gradient boosting} con árboles como modelo de base es que ajustamos el factor multiplicativo en cada hoja del árbol y lo usamos para reemplazar derechamente la estimación para ese subconjunto en cuestión. Esto hace que se ponderen más el aporte de aquellos nodos importantes para mejorar la predicción del ensamblaje. Este modelo fue considerado por Leo Breinman como el mejor modelo \textit{off-the-shelf} en el caso de clasificación, i.e., un modelo confiable para variadas tareas de clasificación, usualmente logrando muy buenas métricas.
 
 
 \subsubsection{Aspectos prácticos}
@@ -585,7 +583,7 @@ Esta pérdida tiene el mismo minimizador de población que la pérdida exponenci
 
 $$ p(y=1|x) = \frac{1}{1+e^{-2\phi(x)}} \,.$$
 
-Además, los errores son penalizados severamente con la pérdida exponencial. Por el contrario la \textit{Logloss} castiga linealmente los errores. Usarla deriva en el algoritmo \textit{LogitBoost}.
+Además, los errores son penalizados severamente con la pérdida exponencial. Por el contrario la \textit{Logloss} castiga linealmente los errores. Usarla deriva en el algoritmo \textit{LogitBoost} \cite{ESLbook}.
 
 Más variaciones pueden surgir del uso de estrategias para evitar el sobreajuste, entre las cuales encontramos:
 
