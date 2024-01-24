@@ -8,9 +8,10 @@ Este repositorio contiene el material del curso MDS7104 (ex MA5204, MA5203) Apre
 3. Clasificación
 4. Selección y evaluación de modelos
 5. Máquinas de soporte vectorial
-6. Aprendizaje no supervisado
-7. Redes neuronales
-8. Process Gaussianos
+6. Modelos ensemble y árboles
+7. Aprendizaje no supervisado
+8. Redes neuronales
+9. Process Gaussianos
 
 ### Material de Estudio
 
