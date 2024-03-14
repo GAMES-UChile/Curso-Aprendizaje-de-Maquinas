@@ -1,0 +1,195 @@
+%!TEX root = ../notas_de_clase.tex
+
+%preamble
+
+%language
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{apacite}
+\usepackage[absolute,overlay]{textpos}
+
+%packages
+\usepackage[Algoritmo]{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{mathtools}
+\setlength {\marginparwidth}{2cm}
+\usepackage{todonotes}
+\usepackage{amsbsy}
+\usepackage{amssymb}
+\usepackage{amsmath,bm}
+\usepackage{dsfont}
+
+\usepackage{comment}
+
+\usepackage{xcolor}
+\providecommand{\sred}[1]{\textcolor{red}{#1}}
+\providecommand{\sblue}[1]{\textcolor{blue}{#1}}
+\providecommand{\red}[1]{\textcolor{red}{\text{#1}}}
+\providecommand{\blue}[1]{\textcolor{blue}{\text{#1}}}
+\providecommand{\redb}[1]{\textcolor{red}{\textbf{#1}}}
+\providecommand{\blueb}[1]{\textcolor{blue}{\textbf{#1}}}
+\usepackage{graphicx}
+\usepackage{fancybox}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{float}
+%\usepackage[longend,ruled,algochapter,linesnumbered,lined,boxed,commentsnumbered,spanish]{algorithm2e}
+%\usepackage[algo2e]{algorithm2e}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{bm}
+\usepackage{wrapfig}
+\usepackage{subcaption} % para_unsupervised_chapter
+
+%formatting
+
+\usepackage[export]{adjustbox}
+
+%caption para figuras
+\captionsetup[figure]{width=.8\linewidth, font=small,labelfont={bf},name={Fig.},labelsep=period}
+\captionsetup[table]{width=.8\linewidth,font=small,labelfont={bf},name={Tabla},labelsep=period}
+
+
+
+\ifx\byn\undefined
+    \definecolor{my_blue}{HTML}{C2D5FF}
+    \definecolor{my_red}{HTML}{FFC2C2}
+    \definecolor{my_yellow}{HTML}{FFFFE0}
+\else
+    \definecolor{my_blue}{HTML}{FFFFFF}
+    \definecolor{my_red}{HTML}{FFFFFF}
+    \definecolor{my_yellow}{HTML}{FFFFFF}
+\fi
+
+
+\usepackage[framemethod=TikZ]{mdframed}
+\mdfdefinestyle{discusion}{%
+    %linecolor=black,
+    %outerlinewidth=0pt,
+    roundcorner=0pt,
+    innertopmargin=5pt,
+    innerbottommargin=5pt,
+    innerrightmargin=20pt,
+    innerleftmargin=20pt,
+    backgroundcolor=my_blue}
+
+\colorlet{Green}{green!90}
+
+
+\mdfdefinestyle{ejemplo}{%
+    %linecolor=black,
+    %outerlinewidth=0pt,
+    roundcorner=0pt,
+    innertopmargin=5pt,
+    innerbottommargin=5pt,
+    innerrightmargin=20pt,
+    innerleftmargin=20pt,
+    backgroundcolor=my_yellow}
+
+
+\mdfdefinestyle{pendiente}{%
+    style = discusion, 
+    backgroundcolor=my_red}
+
+
+\RequirePackage{url}
+
+
+
+%definitions
+\def\td{{\text d}}
+\def\cN{{\mathcal N}}
+\def\cX{{\mathcal X}} 
+\def\cC{{\mathcal C}} 
+\def\N{{\mathbb N}}
+\def\d{{\text d}}
+\def\datos{{\mathcal D}}
+\def\eye{{\mathbb I}}
+\def\ssum{{\scriptstyle\sum}}
+\def\bepsilon{{\bm \epsilon}}
+\def\tx{\tilde{x}}
+\def\tX{\tilde{X}}
+\def\thetaMAP{\theta_\text{MAP}}
+\newcommand{\gp}{\ensuremath{\mathcal{GP}}}
+\newcommand{\pr}{\ensuremath{\mathbb{P}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\z}{\ensuremath{\mathbf{z}}}
+\newcommand{\cvector}{\ensuremath{\mathbf{c}}}
+\newcommand{\e}{\ensuremath{\mathbf{e}}}
+\newcommand{\y}{\ensuremath{\mathbf{y}}}
+\newcommand{\bx}{\ensuremath{\textcolor{blue}{X}}}
+\newcommand{\by}{\ensuremath{\textcolor{blue}{Y}}}
+\newcommand{\rx}{\ensuremath{\textcolor{red}{X_*}}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+
+
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\DeclareMathOperator{\V}{\mathbb{V}}
+\DeclareMathOperator{\KL}{\text{KL}}
+\DeclareMathOperator{\MVN}{\text{MVN}}
+\newcommand\deq{\stackrel{\mathclap{\normalfont\mbox{\tiny def}}}{=}}
+%\newcommand{\E}[1]{\mathbb E \left[#1\right]}
+\newcommand{\trace}[1]{\text{Tr} \left[#1\right]}
+
+
+\usepackage{amsthm}
+
+%-------------------------------------------
+% Newtheorem
+%-------------------------------------------
+\newtheorem{axioma}{\textcolor{red}{Axioma}}
+\newtheorem{definicion}{Definición}
+\newtheorem*{notacion}{Notación}
+\newtheorem{teorema}{Teorema}
+\newtheorem{corolario}{Corolario}
+\newtheorem{lema}{Lema}
+\newtheorem{lemaZ}{\textcolor{red}{Lema}}
+\newtheorem{propiedad}{Propiedad:}
+\newtheorem{proposicion}{Proposición:}
+\newtheorem*{observacion}{Observación}
+\newtheorem*{comentario}{Comentario}
+\newtheorem*{ejemplo}{Ejemplo}
+\newtheorem*{resultado}{Resultado}
+\newtheorem*{propuesto}{Ejercicio propuesto}
+\newtheorem*{demostracion}{Demostración} % No se usa, usar \begin{proof}\end{proof} que son por default.
+
+%listing paackage para código
+\usepackage{listings}
+\usepackage{xcolor}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    xleftmargin=0.15\textwidth,
+    linewidth=0.8\textwidth,
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=true,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\numberwithin{equation}{section}
