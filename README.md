@@ -1,4 +1,4 @@
-# Aprendizaje de Máquinas 2023
+# Aprendizaje de Máquinas 2024
 
 Este repositorio contiene el material del curso MDS7104 (ex MA5204, MA5203) Aprendizaje de Máquinas del programa de Master of Data Science de la Universidad de Chile.
 
@@ -23,11 +23,9 @@ Este repositorio contiene el material del curso MDS7104 (ex MA5204, MA5203) Apre
 
 
 
-
-
 **Demos y tareas**: A medida el curso se va desarrollando, iremos publicando ejemplos en Jupyter notebooks en la carpeta [demos][demos-JN] y también las tareas en la carpeta [tareas][tareas-f]
 
-### Cuerpo Docente 2023
+### Cuerpo Docente 2024
 
 **Profesor**:  
 
@@ -38,18 +36,21 @@ Universidad de Chile
 
 **Ayudantes:** 
 
-- Camila Bergasa
-- Catherine Benavides
 - Camilo Carvajal
-- Diego Cortéz
-- Stefano Schiappacasse
-- Víctor Caro
+- Fernando Fetis
+- Juan Cuevas
 
 ### Agradecimentos
 El diseño de este curso, producción de material implementación de este curso ha sido posible gracias al [Centro de Modelamiento Matemático][CMM-link], Universidad de Chile, y a los proyectos ANID PAI-82140061, Fondecyt-11171165.  
 
 Además, todos los ayudantes desde 2016 han hecho posible este curso. Gracias:
 
+- Camila Bergasa
+- Catherine Benavides
+- Camilo Carvajal
+- Diego Cortéz
+- Stefano Schiappacasse
+- Víctor Caro
 - Arie Wortsman
 - Gonzalo Ríos
 - Cristóbal Silva
