@@ -1,0 +1,226 @@
+\documentclass[handout, 9pt]{beamer}
+
+\input{preambuloBeamer}
+\usetheme{simple}
+
+\title{Clase 17: Redes neuronales (parte 1)}
+\subtitle{MDS7104 Aprendizaje de Máquinas}
+\date{31 mayo 2024}
+\author{Felipe Tobar} 
+\titlegraphic{
+\begin{figure}[htp] 
+    \centering
+        \includegraphics[width=0.15\textwidth]{../../img/Uchile.pdf}% 
+\end{figure}
+}
+\institute{Iniciativa de Datos e Inteligencia Artificial\\Universidad de Chile}
+
+\begin{document}
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Redes Neuronales - Introducción y Arquitectura}
+\begin{frame}{Redes Neuronales - Introducción}
+Una \textit{Red Neuronal} es un modelo computacional basado en la conexión de múltiples unidades (neuronas) cuyo objetivo* es aproximar una función $x\mapsto y=f(x)$.
+\pause
+
+\begin{columns}
+
+  \begin{column}{0.5\textwidth}
+
+  Su principal ventaja radica en la posibilidad de ser entrenarla con datos \emph{crudos}, es decir, de forma agnóstica con respecto de las características relevantes de los datos, con lo que la red \emph{aprende} las características. \pause
+
+  \vspace{0.1cm}
+  Los modelos escenciales de redes neuronales se conocen como \textbf{feedforward neural networks}, o \textbf{multilayer perceptrons} (MLPs), Una red feedforward define un mapa $\bm{y}=f(\bm{x}; \bm{\theta})$, donde los parámetros $\bm{\theta}$ se aprenden para tener la \emph{mejor} aproximación posible. \pause
+
+  \vspace{0.1cm}
+
+  Estos modelos se conocen como redes ya que tiene estructura composicional es decir, son típicamente el resultado de composiciones sucesivas de varios tipos de funciones $f^{(1)}$, $f^{(2)}$, $f^{(3)}, \dots$. \pause
+
+  \end{column}
+  \begin{column}{0.5\textwidth}
+  \begin{figure}[H]
+  \centering
+  \visible<1->{\includegraphics[scale=.4]{../../img/cap7_F1NN1L.png}}
+  \caption{Ejemplo de una red neuronal de 1 capa: (\textit{izquierda}). \\  Representación vectorial de las capas. (\textit{derecha})}
+  \label{fig:NN}
+  \end{figure}
+
+  \end{column}
+
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Redes Neuronales - El perceptrón}
+
+El \textit{perceptrón} corresponde a la forma más básica de una red neuronal, esta recibe un input numérico $x = (x_i)_{i=1}^n \in \R^n$ y computa la suma ponderada $u = x_1w_1 + x_2w_2 + \dots + w_nx_n + b$ donde $W = (w_i)_{i=1}^n \in \R^n$ corresponden a los \textbf{pesos} (weights) y $b \in \R$ el \textbf{sesgo} (bias). \pause 
+
+Luego, se aplica una \textbf{función de activación} $f$ y se entrega una salida $h = f(u)$. \pause 
+\begin{figure}[H]
+  \centering
+  \visible<3->{\includegraphics[scale=.3]{../../img/cap5_activaciones}}
+  \caption{Algunos ejemplos de funciones de activación}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Redes Neuronales - El perceptrón}
+
+Veamos el siguiente ejemplo: \pause
+
+\begin{columns}
+
+  \begin{column}{0.7\textwidth}
+
+  \begin{figure}[H]
+    \centering
+    \visible<2->{\includegraphics[scale=.3]{../../img/cap7_xor}}
+    \caption{Red Neuronal de 2 perceptrones para XOR}
+  \end{figure}
+
+  \end{column}
+
+  \begin{column}{0.3\textwidth}
+  
+  \hspace{0.4cm} XOR operator
+
+  \scalebox{1.3}{
+  \begin{tabular}{| c  c | c |}
+    \hline
+    $x_1$ & $x_2$ & $y$ \\ \hline
+    0 & 0 & 0 \\
+    1 & 0 & 1 \\
+    0 & 1 & 1 \\ 
+    1 & 1 & 0 \\ \hline
+  \end{tabular}
+  }
+
+  
+
+  \end{column}
+
+\end{columns} \pause
+
+En su forma matricial 
+$$
+(h_1 , h_2) = \text{Relu} \left ( \begin{pmatrix}
+x_1 & x_2  
+\end{pmatrix} \begin{pmatrix}
+1 &1 \\ 
+ 1 & 1
+\end{pmatrix} + \begin{pmatrix}
+0 & -1 
+\end{pmatrix}\right) \hspace{0.5cm} h = \text{Relu}(xW + b)
+$$
+\pause
+$$
+y = \begin{pmatrix}
+h_1 & h_2 
+\end{pmatrix}\begin{pmatrix}
+1 \\ 
+-2 
+\end{pmatrix} + (0) \hspace{0.5cm} y = hU + c
+$$
+Donde $U$ y $c$ corresponden al peso y bias de la última capa respectivamente. 
+\textbf{¿Cómo construir el resto de operadores lógicos?}
+\end{frame}
+
+\begin{frame}{Teorema de Aproximación Universal\footnote{(Horniket al., 1989; Cybenko, 1989)} }
+
+Un conjunto de perceptrones conectados unos con otros en secuencia forman arquitecturas capaces de replicar funciones más complejas.  \pause
+
+En el contexto de una red de múltiples perceptrones con una sola capa escondida, se tiene el siguiente resultado \pause
+
+\begin{theorem}[UAT - Ancho arbitrario]
+
+Sea $f^{*}$ una función objetivo Borel Medible (por ejemplo $f^{*}:[0,1]^k \rightarrow [0,1]$ continua con $k \in \N$) y sea f una función de activación no polinomial acotada, entonces para todo $\epsilon > 0$ existen $W,b,U$ definidas como antes tales que 
+\[
+F(x) = f(xW+b)U, \quad 
+|F(x)-f^{*}(x)|<\epsilon \quad \forall x \in Dom(f^{*}) 
+\]
+\end{theorem} \pause
+En palabras simples, con una cantidad suficiente de perceptrones (i.e., con una red lo suficientemente \emph{ancha}), es posible aproximar una función objetivo razonable tan finamente como se desee. 
+\end{frame}
+
+\begin{frame}{Redes Neuronales - Arquitectura}
+
+Si bien el UAT establece que es posible aproximar funciones con precisión arbitraria, tenemos dos problemas: 
+\begin{itemize}
+\item no es claro que los pesos se pueden \emph{aprender}, 
+\item no tenemos una cota para la cantidad de neuronas necesarias.
+\end{itemize} 
+Es por esto que surge la necesidad de arquitecturas más complejas, es decir, con mayor cantidad de capas (mayor profundidad) y no solo neuronas (mayor ancho). \pause
+
+\begin{figure}[H]
+  \centering
+  \visible<2->{\includegraphics[scale=.3]{../../img/cap7_red}}
+  \caption{Una red con mayor profundidad}
+\end{figure}
+
+\pause 
+
+Utilizaremos la siguiente notación 
+\begin{equation}
+h^{(k)} = f^{(k)}(h^{(k-1)}W^{(k)} + b^{(k)}) \hspace{0.3cm} \forall k \in \{1 ,\dots, l\}, \quad h^{(0)}=x
+\end{equation}
+\begin{equation}
+\hat{y} = g(h^{(l)}U + c)
+\end{equation}
+
+Donde $g$ es la función de la capa de salida y define la $\textbf{unidad de salida}$
+
+\end{frame}
+
+\section{Función de costos y unidades de output}
+
+\begin{frame}{Función de costo}
+Principales diferencias entre los modelos lineales antes vistos y una red neuronal:
+\begin{itemize}
+\item el uso de ciertas funciones de activación hacen que la función de costos \textbf{no sea convexa}
+\item SGD no garantiza optimalidad global
+\item SGD no garantiza ni siquiera buena solución
+\end{itemize}
+
+Interpretando la red neuronal como un \emph{modelo generativo}, y denotando su ley mediante $p(y|\bm{x}; \bm{\theta})$, podemos considerar el costo de entrenamiento de la red como la log-verosimilitud negativa del modelo inducido por la red, y estimar sus parámetros mediante máxima verosimilitud. \pause
+
+La \textbf{función de costo} que utilizaremos entonces será: 
+
+\begin{equation*}
+J(\bm{\theta}) = -\log p(y_1,\ldots,y_n|\bm{x}_1,\ldots,\bm{x}_n; \bm{\theta})
+\end{equation*}
+
+
+\end{frame}
+     
+\begin{frame}{Unidad de salida}
+
+Considerando el procesamiento de la red hasta antes de la capa de salida, es posible interpretar que la red está produciendo \emph{características} que luego son combinadas en la última capa para formar una salida. En este sentido, la elección de la \textbf{unidad de salida} definirá, en gran parte,  la forma que toma la función de costo. \\Algunos ejemplos 
+\begin{enumerate}
+  \item Salida lineal $\hat{\bm{y}} = h^{(l)}U + c$ \pause
+
+  Útil en problemas de regresión. En particular, $\hat{\bm{y}}$ puede ser la media del modelo propuesto con distrbución Gaussiana condicional $p(\bm{y}|\bm{x}) = \mathcal{N}(\bm{y}|\hat{\bm{y}};\bm{I})$. En dicho caso, la log-verosimilitud será equivalente minimizar el error cuadrático medio. \pause
+
+  \item Unidad de salida sigmoidal $\hat{{y}} = \text{sig}(h^{(l)}U + c)$ \pause
+
+  Se utiliza para escenarios de clasificación binaria, cuyo output es $P(y=1|\bm{x})$ o la probabilidad de pertenecer a la clase 1. \pause
+
+  \item Unidad de output softmax $\hat{{y}} = \text{softmax}(h^{(l)}U + c)$ \pause 
+
+  Es una generalización de la función sigmoidal definida como 
+  \begin{equation*}
+  \text{softmax}(z)_i = \frac{e^{z_i}}{\sum_{j}e^{z_j}},
+  \end{equation*}
+  y es útil para el caso de clasificación multiclase. 
+  %Se podrían agregar propiedades como estabilidad numérica producto de invarianza a la adición 
+\end{enumerate}
+
+\end{frame}
+
+
+
+%Quitar de comentarios apenas se agregue alguna referencia 
+%\bibliography{../../capitulos/referencias} %Bibliografía
+%\bibliographystyle{apacite}
+\end{document} 
